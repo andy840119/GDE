@@ -3,4 +3,4 @@
 ![Discord](https://discordapp.com/api/guilds/467885469108142100/widget.png?style=shield)
 
 ---
-[Official server](https://discord.gg/cq2FKbb)
+![aa](https://discordapp.com/api/guilds/467885469108142100/widget.png?style=banner2)
