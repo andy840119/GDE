@@ -13,7 +13,7 @@ build:
   verbosity: minimal
 notifications:
 - provider: Webhook
-  url: https://discordapp.com/api/webhooks/491321918259986452/2Nh00ywiOq1Vv7qeQNDldtMhIvNPt0TpphRfAXmyx4g8kxe6vbpLo7q8v5dxmReoFbW_
+  url: https://discordapp.com/api/webhooks/491321918259986452/2Nh00ywiOq1Vv7qeQNDldtMhIvNPt0TpphRfAXmyx4g8kxe6vbpLo7q8v5dxmReoFbW_/github
   method: POST
   on_build_success: true
   on_build_failure: true
