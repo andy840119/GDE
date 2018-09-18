@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
+{
+    /// <summary>This enumeration provides values for the Target Type of a Pulse trigger.</summary>
+    public enum PulseTargetType
+    {
+        /// <summary>Represents the value of the Color Channel Target Type.</summary>
+        ColorChannel,
+        /// <summary>Represents the value of the Group Target Type.</summary>
+        Group
+    }
+}
