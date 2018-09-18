@@ -1,64 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
-using static GDEdit.Application.Database;
-using static GDEdit.Application.Status;
-using static GDEdit.Utilities.Objects.GeometryDash.LevelObject;
-using static System.Convert;
+using System.Linq;
+using System.Text;
+using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
+using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash;
+using static GDEdit.Application.Database;
+using static GDEdit.Application.Status;
+using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
+using static System.Convert;
 
 namespace GDEdit.Utilities.Functions.GeometryDash
 {
     public static class Gamesave
     {
-        public static readonly int[] triggerList = { 29, 30, 32, 33, 105, 744, 899, 900, 901, 915, 1006, 1007, 1049, 1268, 1346, 1347, 1520, 1585, 1595, 1611, 1612, 1613, 1616, 1811, 1812, 1814, 1815, 1817, 1818, 1819 };
-        public static readonly int[] manipulationPortalList = { 13, 47, 111, 1331 };
-        public static readonly int[] speedPortalList = { 200, 201, 202, 203, 1334 };
-        public static readonly int[] orbList = { 36, 84, 141, 1022, 1330, 1333, 1704, 1751 };
-        public static readonly int[] pickupItemList = { 1275, 1587, 1589, 1598, 1614 };
-        public static readonly int[] pulsatingObjectList = { 1839, 1840, 1841, 1842 };
-        public static readonly int[] rotatingObjectList = { 85, 86, 87, 97, 137, 138, 139, 154, 155, 156, 180, 181, 182, 183, 184, 185, 186, 187, 188, 222, 223, 224, 375, 376, 377, 378, 394, 395, 396, 678, 679, 680, 740, 741, 742, 997, 998, 999, 1000, 1019, 1020, 1021, 1055, 1056, 1057, 1058, 1059, 1060, 1061, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1582, 1619, 1620, 1705, 1706, 1707, 1708, 1709, 1710, 1734, 1735, 1736, 1752, 1831, 1832, 1833, 1834 };
-        public static readonly int[] notGeneralObjectList = { 13, 29, 30, 32, 33, 36, 47, 84, 85, 86, 87, 97, 105, 111, 137, 138, 139, 141, 154, 155, 156, 180, 181, 182, 183, 184, 185, 186, 187, 188, 200, 201, 202, 203, 222, 223, 224, 375, 376, 377, 378, 394, 395, 396, 678, 679, 680, 740, 741, 742, 744, 899, 900, 901, 915, 997, 998, 999, 1000, 1006, 1007, 1019, 1020, 1021, 1022, 1049, 1055, 1056, 1057, 1058, 1059, 1060, 1061, 1268, 1275, 1330, 1331, 1333, 1334, 1346, 1347, 1520, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1582, 1585, 1587, 1589, 1595, 1598, 1611, 1612, 1613, 1614, 1616, 1619, 1620, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1734, 1735, 1736, 1751, 1752, 1811, 1812, 1814, 1815, 1817, 1818, 1819, 1831, 1832, 1833, 1834, 1839, 1840, 1841, 1842 };
-        public const int totalDifferentObjectCount = 1607;
-        public static readonly int[] versionObjectIDLimits = { 41, 46, 47, 75, 105, 141, 199, 285, 505, 744, 1329, 1911 };
-        public static readonly int[] versionParameterIDLimits = { 10, 10, 10, 10, 10, 11, 13, 17, 17, 20, 66, 107 };
-        public static readonly int[] levelStringkALimits = { 1, 1, 1, 1, 1, 1, 1, 7, 10, 16, 18, 18 };
-        public const string defaultLevelString = "kS38,1_40_2_125_3_255_11_255_12_255_13_255_4_-1_6_1000_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1001_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1009_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1002_5_1_7_1_15_1_18_0_8_1|1_255_2_0_3_0_11_255_12_255_13_255_4_-1_6_1005_5_1_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1006_5_1_7_1_15_1_18_0_8_1|,kA13,0,kA15,0,kA16,0,kA14,,kA6,0,kA7,0,kA17,0,kA18,0,kS39,0,kA2,0,kA3,0,kA8,0,kA4,0,kA9,0,kA10,0,kA11,0;";
-        public const string levelDataStart = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t />";
-        public const string levelDataEnd = "</d><k>LLM_02</k><i>33</i></dict></plist>";
-        public const string defaultLevelData = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t /></d><k>LLM_02</k><i>33</i></dict></plist>";
-        public static readonly string[] levelLengthNames = { "Tiny", "Small", "Medium", "Long", "XL" };
-        public static readonly int[] intParameters = { 1, 7, 8, 9, 12, 20, 21, 22, 23, 24, 25, 30, 49, 50, 51, 52, 61, 68, 69, 71, 76, 77, 79, 80, 81, 82, 88, 95, 97, 101, 108 };
-        public static readonly int[] doubleParameters = { 2, 3, 6, 10, 28, 29, 32, 35, 45, 46, 47, 54, 60, 63, 72, 73, 75, 84, 85, 90, 91, 92, 105, 107 };
-        public static readonly int[] boolParameters = { 4, 5, 11, 13, 15, 16, 17, 34, 36, 41, 42, 56, 58, 59, 62, 64, 65, 66, 67, 70, 78, 86, 87, 89, 93, 94, 96, 98, 99, 100, 102, 103 };
-        public static readonly int[] stringParameters = { 31 };
-        public static readonly int[] intArrayParameters = { 57 };
-        public static readonly int[] HSVParameters = { 43, 44, 49 };
-        public const double unitsPerSecond = 360; // The units per second a player moves at a speed with 1.0 speed multiplier - Still under testing
-        public static readonly double[] speedMultipliers = { 0.7, 0.9, 1.1, 1.3, 1.6 };
-        /// <summary>This enumeration provides values representing the length of a level.</summary>
-        public enum LevelLength
-        {
-            /// <summary>Represents the Tiny length of a level. Levels with Tiny length are less than 10 seconds long.</summary>
-            Tiny,
-            /// <summary>Represents the Small length of a level. Levels with Small length are 10 to 29 seconds long.</summary>
-            Small,
-            /// <summary>Represents the Medium length of a level. Levels with Medium length are 30 to 59 seconds long.</summary>
-            Medium,
-            /// <summary>Represents the Long length of a level. Levels with Long length are 60 to 119 seconds long.</summary>
-            Long,
-            /// <summary>Represents the XL length of a level. Levels with XL length are at least 120 seconds long.</summary>
-            XL
-        }
+        public const string DefaultLevelString = "kS38,1_40_2_125_3_255_11_255_12_255_13_255_4_-1_6_1000_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1001_7_1_15_1_18_0_8_1|1_0_2_102_3_255_11_255_12_255_13_255_4_-1_6_1009_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1002_5_1_7_1_15_1_18_0_8_1|1_255_2_0_3_0_11_255_12_255_13_255_4_-1_6_1005_5_1_7_1_15_1_18_0_8_1|1_255_2_255_3_255_11_255_12_255_13_255_4_-1_6_1006_5_1_7_1_15_1_18_0_8_1|,kA13,0,kA15,0,kA16,0,kA14,,kA6,0,kA7,0,kA17,0,kA18,0,kS39,0,kA2,0,kA3,0,kA8,0,kA4,0,kA9,0,kA10,0,kA11,0;";
+        public const string LevelDataStart = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t />";
+        public const string LevelDataEnd = "</d><k>LLM_02</k><i>33</i></dict></plist>";
+        public const string DefaultLevelData = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t /></d><k>LLM_02</k><i>33</i></dict></plist>";
+        public static readonly string[] LevelLengthNames = { "Tiny", "Small", "Medium", "Long", "XL" };
 
         /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not. Returns true if the gamesave is encrypted; otherwise false.</summary>
         /// <param name="decrypted">The string to return the decrypted gamesave.</param>
@@ -209,11 +174,11 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                             try
                             {
                                 int currentParameterID = ToInt32(objectParameters[i, j - 1]);
-                                if (intParameters.Contains(currentParameterID))
+                                if (IntParameters.Contains(currentParameterID))
                                     objects[objects.Count - 1].Parameters[currentParameterID] = ToInt32(objectParameters[i, j]);
-                                else if (doubleParameters.Contains(currentParameterID))
+                                else if (DoubleParameters.Contains(currentParameterID))
                                     objects[objects.Count - 1].Parameters[currentParameterID] = ToDouble(objectParameters[i, j]);
-                                else if (boolParameters.Contains(currentParameterID))
+                                else if (BoolParameters.Contains(currentParameterID))
                                     objects[objects.Count - 1].Parameters[currentParameterID] = ToBoolean(ToInt32(objectParameters[i, j]));
                                 else if (HSVParameters.Contains(currentParameterID))
                                 {
@@ -223,7 +188,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                                 }
                                 else if (currentParameterID == 31)
                                     objects[objects.Count - 1].Parameters[currentParameterID] = Encoding.ASCII.GetString(Base64Decrypt(objectParameters[i, j]));
-                                else if (intArrayParameters.Contains(currentParameterID))
+                                else if (IntArrayParameters.Contains(currentParameterID))
                                     objects[objects.Count - 1].Parameters[currentParameterID] = objectParameters[i, j].ToString().Split('.').ToInt32Array();
                             }
                             catch (FormatException) // If the parameter is not just a number; most likely a Start Pos object
@@ -326,7 +291,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             int count = 0;
             for (int i = 0; i < l.Count; i++)
-                if (triggerList.Contains((int)(l[i][LevelObject.ObjectParameter.ID])))
+                if (ObjectLists.TriggerList.Contains((int)(l[i][ObjectParameter.ID])))
                     count++;
             return count;
         }
@@ -334,8 +299,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             List<int> diffObjIDs = new List<int>();
             for (int i = 0; i < l.Count; i++)
-                if (!diffObjIDs.Contains((int)(l[i][LevelObject.ObjectParameter.ID])))
-                    diffObjIDs.Add((int)(l[i][LevelObject.ObjectParameter.ID]));
+                if (!diffObjIDs.Contains((int)(l[i][ObjectParameter.ID])))
+                    diffObjIDs.Add((int)(l[i][ObjectParameter.ID]));
             return diffObjIDs.Count;
         }
         public static int GetUsedGroupCounts(List<LevelObject> l)
@@ -343,7 +308,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             List<int> usedGroupIDs = new List<int>();
             for (int i = 0; i < l.Count; i++)
             {
-                int[] GroupIDs = (int[])(l[i][LevelObject.ObjectParameter.GroupIDs]);
+                int[] GroupIDs = (int[])(l[i][ObjectParameter.GroupIDs]);
                 for (int j = 0; j < GroupIDs.Length; j++)
                     if (!usedGroupIDs.Contains(GroupIDs[j]))
                         usedGroupIDs.Add(GroupIDs[j]);
@@ -354,7 +319,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             int lvls = 0;
             for (int i = 0; i < UserLevelCount; i++)
-                if (UserLevels[i].LevelString == "") { AddLevelStringParameter(defaultLevelString, i); lvls++; }
+                if (UserLevels[i].LevelString == "") { AddLevelStringParameter(DefaultLevelString, i); lvls++; }
             UpdateLevelData();
             return lvls;
         }
@@ -369,8 +334,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             List<int> diffObjIDs = new List<int>();
             for (int i = 0; i < l.Count; i++)
-                if (!diffObjIDs.Contains((int)(l[i][LevelObject.ObjectParameter.ID])))
-                    diffObjIDs.Add((int)(l[i][LevelObject.ObjectParameter.ID]));
+                if (!diffObjIDs.Contains((int)(l[i][ObjectParameter.ID])))
+                    diffObjIDs.Add((int)(l[i][ObjectParameter.ID]));
             return diffObjIDs.ToArray();
         }
         public static int[] GetUsedGroupCounts()
@@ -421,7 +386,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             List<int> usedGroupIDs = new List<int>();
             for (int i = 0; i < l.Count; i++)
             {
-                int[] GroupIDs = (int[])(l[i][LevelObject.ObjectParameter.GroupIDs]);
+                int[] GroupIDs = (int[])(l[i][ObjectParameter.GroupIDs]);
                 if (GroupIDs != null)
                     for (int j = 0; j < GroupIDs.Length; j++)
                         if (!usedGroupIDs.Contains(GroupIDs[j]))
@@ -654,7 +619,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int[] lengths = GetLevelLengths();
             string[] levelLengthStrings = new string[lengths.Length];
             for (int i = 0; i < lengths.Length; i++)
-                levelLengthStrings[i] = levelLengthNames[lengths[i]];
+                levelLengthStrings[i] = LevelLengthNames[lengths[i]];
             return levelLengthStrings;
         }
         public static string[] GetLevelNames()
@@ -832,7 +797,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 if (levelRevision != revisionsOfLevelsWithSameName[i]) break; // If the level revision is not used in the levels, then stop looking
                 levelRevision++; // Increase the level revision
             }
-            string level = "<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>" + name + "</s><k>k4</k><s>" + defaultLevelString + "</s>" + (desc.Length > 0 ? "<k>k3</k><s>" + ToBase64String(Encoding.ASCII.GetBytes(desc)) + "</s>" : "") + "<k>k46</k><i>" + levelRevision.ToString() + "</i><k>k5</k><s>" + UserName + "</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
+            string level = "<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>" + name + "</s><k>k4</k><s>" + DefaultLevelString + "</s>" + (desc.Length > 0 ? "<k>k3</k><s>" + ToBase64String(Encoding.ASCII.GetBytes(desc)) + "</s>" : "") + "<k>k46</k><i>" + levelRevision.ToString() + "</i><k>k5</k><s>" + UserName + "</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
             // Insert the cloned level's parameters
             UserLevels.Insert(0, new Level(level));
             GetLevelInfo(0);
@@ -874,7 +839,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void DeleteAllLevels()
         {
-            DecryptedLevelData = defaultLevelData; // Set the level data to the default
+            DecryptedLevelData = DefaultLevelData; // Set the level data to the default
             UpdateLevelData(); // Write the new data
 
             // Delete all the level info from the prorgam's memory3
@@ -1347,14 +1312,14 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         public static void UpdateMemoryLevelData()
         {
             LevelKeyStartIndices = new List<int>();
-            StringBuilder lvlDat = new StringBuilder(levelDataStart);
+            StringBuilder lvlDat = new StringBuilder(LevelDataStart);
             for (int i = 0; i < UserLevelCount; i++)
             {
                 lvlDat = lvlDat.Append("<k>k_" + i + "</k>");
                 LevelKeyStartIndices.Add(lvlDat.Length);
                 lvlDat = lvlDat.Append(UserLevels[i].RawLevel);
             }
-            lvlDat = lvlDat.Append(levelDataEnd);
+            lvlDat = lvlDat.Append(LevelDataEnd);
             DecryptedLevelData = lvlDat.ToString();
         }
 

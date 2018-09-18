@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Enumerations;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Functions.GeometryDash;
 
@@ -51,7 +52,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     {
                         foreach (var kvp in ObjectCounts)
                             levelObjectCount += kvp.Value;
-                        levelObjectCount -= ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.StartPos);
+                        levelObjectCount -= ObjectCounts.ValueOrDefault((int)Trigger.StartPos);
                     }
                 }
                 return levelObjectCount;
@@ -68,9 +69,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     if (ObjectCounts != null)
                     {
                         foreach (var kvp in ObjectCounts)
-                            if (Enum.GetValues(typeof(LevelObject.Trigger)).Cast<int>().Contains(kvp.Key))
+                            if (Enum.GetValues(typeof(Trigger)).Cast<int>().Contains(kvp.Key))
                                 levelTriggerCount += kvp.Value;
-                        levelTriggerCount -= ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.StartPos);
+                        levelTriggerCount -= ObjectCounts.ValueOrDefault((int)Trigger.StartPos);
                     }
                 }
                 return levelTriggerCount;
@@ -132,50 +133,50 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
         public Dictionary<int, int> ObjectCounts;
         #region Trigger info
-        public int MoveTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Move);
-        public int StopTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Stop);
-        public int PulseTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Pulse);
-        public int AlphaTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Alpha);
-        public int ToggleTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Toggle);
-        public int SpawnTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Spawn);
-        public int CountTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Count);
-        public int InstantCountTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.InstantCount);
-        public int PickupTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Pickup);
-        public int FollowTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Follow);
-        public int FollowPlayerYTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.FollowPlayerY);
-        public int TouchTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Touch);
-        public int AnimateTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Animate);
-        public int RotateTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Rotate);
-        public int ShakeTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Shake);
-        public int CollisionTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Collision);
-        public int OnDeathTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.OnDeath);
+        public int MoveTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Move);
+        public int StopTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Stop);
+        public int PulseTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Pulse);
+        public int AlphaTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Alpha);
+        public int ToggleTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Toggle);
+        public int SpawnTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Spawn);
+        public int CountTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Count);
+        public int InstantCountTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.InstantCount);
+        public int PickupTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Pickup);
+        public int FollowTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Follow);
+        public int FollowPlayerYTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.FollowPlayerY);
+        public int TouchTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Touch);
+        public int AnimateTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Animate);
+        public int RotateTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Rotate);
+        public int ShakeTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Shake);
+        public int CollisionTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.Collision);
+        public int OnDeathTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.OnDeath);
         public int ColorTriggersCount
         {
             get
             {
                 if (colorTriggerCount == -1)
                 {
-                    colorTriggerCount = ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Color);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.BG);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.GRND);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.GRND2);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Line);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Obj);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.ThreeDL);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Color1);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Color2);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Color3);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.Color4);
+                    colorTriggerCount = ObjectCounts.ValueOrDefault((int)Trigger.Color);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.BG);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.GRND);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.GRND2);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.Line);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.Obj);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.ThreeDL);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.Color1);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.Color2);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.Color3);
+                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)Trigger.Color4);
                 }
                 return colorTriggerCount;
             }
         }
-        public int HidePlayerTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.HidePlayer);
-        public int ShowPlayerTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.ShowPlayer);
-        public int DisableTrailTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.DisableTrail);
-        public int EnableTrailTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.EnableTrail);
-        public int BGEffectOnTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.BGEffectOn);
-        public int BGEffectOffTriggersCount => ObjectCounts.ValueOrDefault((int)LevelObject.Trigger.BGEffectOff);
+        public int HidePlayerTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.HidePlayer);
+        public int ShowPlayerTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.ShowPlayer);
+        public int DisableTrailTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.DisableTrail);
+        public int EnableTrailTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.EnableTrail);
+        public int BGEffectOnTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.BGEffectOn);
+        public int BGEffectOffTriggersCount => ObjectCounts.ValueOrDefault((int)Trigger.BGEffectOff);
         #endregion
         private int levelObjectCount = -1;
         private int levelTriggerCount = -1;
