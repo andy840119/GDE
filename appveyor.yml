@@ -11,25 +11,13 @@ build:
   publish_core_console: true
   parallel: true
   verbosity: minimal
-notifications:
-- provider: Webhook
-  url: https://discordapp.com/api/webhooks/491321918259986452/2Nh00ywiOq1Vv7qeQNDldtMhIvNPt0TpphRfAXmyx4g8kxe6vbpLo7q8v5dxmReoFbW_/github
-  method: POST
-  body: >-
-    {
-        "name": "AppVeyor CI",
-        "channel_id": "476057854625972224",
-        "token": "3d89bb7572e0fb30d8128367b3b1b44fecd1726de135cbe28a41f8b2f777c372ba2939e72279b94526ff5d1bd4358d65cf11",
-        "avatar": null,
-        "guild_id": "199737254929760256",
-        "id": "223704706495545344",
-        "user": {
-            "username": "aa",
-            "discriminator": "3589",
-            "id": "190320984123768832",
-            "avatar": "b004ec1740a63ca06ae2e14c5cee11f3"
-        }
-    }
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true
+on_success:
+- ps: >-
+    Invoke-RestMethod https://raw.githubusercontent.com/k3rn31p4nic/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+
+    ./send.ps1 success $env:WEBHOOK_URL
+on_failure:
+- ps: >-
+    Invoke-RestMethod https://raw.githubusercontent.com/k3rn31p4nic/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+
+    ./send.ps1 failure $env:WEBHOOK_URL
