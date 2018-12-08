@@ -4,10 +4,10 @@ using osu.Framework.Platform;
 
 namespace GDE.Tests
 {
-    class Program
+    public static class Program
     {
         [STAThread]
-        public void Main(string[] args)
+        public static void Main()
         {
             using (DesktopGameHost host = Host.GetSuitableHost(@"GDE Tests", true))
             {
