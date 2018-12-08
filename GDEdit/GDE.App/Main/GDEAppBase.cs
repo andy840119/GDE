@@ -1,16 +1,16 @@
 ﻿using osuTK;
+using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Configuration;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
 using System.Drawing;
-using osu.Framework;
 
 namespace GDE.App.Main
 {
     public class GDEAppBase : Game
     {
-        private string mainResourceFile = "GDE.Resources.dll";
+        private const string mainResourceFile = "GDE.Resources.dll";
 
         private DependencyContainer dependencies;
         private Storage storage;
