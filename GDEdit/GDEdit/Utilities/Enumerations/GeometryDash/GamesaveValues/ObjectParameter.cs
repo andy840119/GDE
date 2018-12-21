@@ -192,7 +192,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         Exclusive = 86,
         /// <summary>Represents the Multi Trigger property of the trigger.</summary>
         MultiTrigger = 87,
-        /// <summary>Represents the Comarison value of the Instant Count trigger.</summary>
+        /// <summary>Represents the Comparison value of the Instant Count trigger.</summary>
         Comparison = 88,
         /// <summary>Represents the Dual Mode property of the Touch trigger.</summary>
         DualMode = 89,
@@ -220,7 +220,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         EnableUseTarget = 100,
         /// <summary>Represents the coordinates that the <see cref="LevelObject"/> will follow the <see cref="LevelObject"/> in the Target Pos Group ID.</summary>
         TargetPosCoordinates = 101,
-        /// <summary>Determines whether the Spawn trigger will be disabled while playtesting in the editor. (Currently unfunctional as of 2.103)</summary>
+        /// <summary>Determines whether the Spawn trigger will be disabled while playtesting in the editor. (Currently dysfunctional as of 2.103)</summary>
         EditorDisable = 102,
         /// <summary>Determines whether the <see cref="LevelObject"/> is only enabled in High Detail Mode.</summary>
         HighDetail = 103,
