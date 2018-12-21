@@ -644,9 +644,19 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             string[] ls = new string[UserLevelCount];
             for (int i = 0; i < UserLevelCount; i++)
             {
-                try { TryDecryptLevelString(i, out ls[i]); }
-                catch (Exception ex) when (ex.GetType() == typeof(ArgumentException) || ex.GetType() == typeof(KeyNotFoundException) || ex.GetType() == typeof(FormatException)) { ls[i] = ""; }
-                catch (Exception e) { string type = e.GetType().ToString(); new DataException("An unknown error has occured. Contact us immediately about this occurence and provide us with details. Your level data file may be asked for debugging and examination."); }
+                ls[i] = "";
+                try
+                {
+                    TryDecryptLevelString(i, out ls[i]);
+                }
+                catch (ArgumentException) { }
+                catch (KeyNotFoundException) { }
+                catch (FormatException) { }
+                catch (Exception e)
+                {
+                    string type = e.GetType().ToString();
+                    throw new DataException("An unknown error has occured. Contact us immediately about this occurence and provide us with details. Your level data file may be asked for debugging and examination.");
+                }
             }
             return ls;
         }
