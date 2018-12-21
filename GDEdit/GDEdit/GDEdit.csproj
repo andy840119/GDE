@@ -74,7 +74,11 @@
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasEasing.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasSecondaryBlockID.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasPrimaryBlockID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasSecondaryGroupID.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasPrimaryItemID.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasTargetItemID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasTargetGroupID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasTargetColorID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasDuration.cs" />
