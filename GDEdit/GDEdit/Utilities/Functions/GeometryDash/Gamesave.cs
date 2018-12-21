@@ -319,7 +319,11 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             int lvls = 0;
             for (int i = 0; i < UserLevelCount; i++)
-                if (UserLevels[i].LevelString == "") { AddLevelStringParameter(DefaultLevelString, i); lvls++; }
+                if (UserLevels[i].LevelString == "")
+                {
+                    AddLevelStringParameter(DefaultLevelString, i);
+                    lvls++;
+                }
             UpdateLevelData();
             return lvls;
         }
