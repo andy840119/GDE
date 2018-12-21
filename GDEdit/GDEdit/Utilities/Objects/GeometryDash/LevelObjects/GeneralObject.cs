@@ -13,52 +13,52 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     public class GeneralObject
     {
         /// <summary>The Object ID of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.ID)]
+        [ObjectStringMappable(ObjectParameter.ID)]
         public int ObjectID;
         /// <summary>The X position of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.X)]
+        [ObjectStringMappable(ObjectParameter.X)]
         public float X;
         /// <summary>The Y position of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.Y)]
+        [ObjectStringMappable(ObjectParameter.Y)]
         public float Y;
         /// <summary>Determines whether this object is flipped horizontally or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.FlippedHorizontally)]
+        [ObjectStringMappable(ObjectParameter.FlippedHorizontally)]
         public bool FlippedHorizontally;
         /// <summary>Determines whether this object is flipped vertically or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.FlippedVertically)]
+        [ObjectStringMappable(ObjectParameter.FlippedVertically)]
         public bool FlippedVertically;
         /// <summary>The rotation of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.Rotation)]
+        [ObjectStringMappable(ObjectParameter.Rotation)]
         public float Rotation;
         /// <summary>The Editor Layer 1 of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.EL1)]
+        [ObjectStringMappable(ObjectParameter.EL1)]
         public int EL1;
         /// <summary>The Editor Layer 2 of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.EL2)]
+        [ObjectStringMappable(ObjectParameter.EL2)]
         public int EL2;
         /// <summary>The Z Layer of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.ZLayer)]
+        [ObjectStringMappable(ObjectParameter.ZLayer)]
         public int ZLayer;
         /// <summary>The Z Order of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.ZOrder)]
+        [ObjectStringMappable(ObjectParameter.ZOrder)]
         public int ZOrder;
         /// <summary>The linked group ID of this object.</summary>
-        [ObjectStringMappable((int)ObjectParameter.LinkedGroupID)]
+        [ObjectStringMappable(ObjectParameter.LinkedGroupID)]
         public int LinkedGroupID;
         /// <summary>Determines whether this object is the group parent or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.GroupParent)]
+        [ObjectStringMappable(ObjectParameter.GroupParent)]
         public bool GroupParent;
         /// <summary>Determines whether this object is for high detail or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.HighDetail)]
+        [ObjectStringMappable(ObjectParameter.HighDetail)]
         public bool HighDetail;
         /// <summary>Determines whether this object should have an entrance effect or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.DontEnter)]
+        [ObjectStringMappable(ObjectParameter.DontEnter)]
         public bool DontEnter;
         /// <summary>Determines whether this object should have the fade in and out disabled or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.DontFade)]
+        [ObjectStringMappable(ObjectParameter.DontFade)]
         public bool DontFade;
         /// <summary>Determines whether this object should have its glow disabled or not.</summary>
-        [ObjectStringMappable((int)ObjectParameter.DisableGlow)]
+        [ObjectStringMappable(ObjectParameter.DisableGlow)]
         public bool DisableGlow;
 
         /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class with the object ID parameter set to 1.</summary>

@@ -152,10 +152,12 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         LockObjectRotation = 70,
         /// <summary>Represents the Follow Group ID value of the Follow Trigger.</summary>
         FollowGroupID = 71,
-        /// <summary>Represents the Target Pos Group ID value of the Follow Trigger.</summary>
+        /// <summary>Represents the Target Pos Group ID value of the Move Trigger.</summary>
         TargetPosGroupID = 71,
-        /// <summary>Represents the Center Group ID value of the Follow Trigger.</summary>
+        /// <summary>Represents the Center Group ID value of the Rotate Trigger.</summary>
         CenterGroupID = 71,
+        /// <summary>Represents the secondary Group ID value of some triggers.</summary>
+        SecondaryGroupID = 71,
         /// <summary>Represents the X Mod of value the Follow Trigger.</summary>
         XMod = 72,
         /// <summary>Represents the Y Mod of value the Follow Trigger.</summary>
