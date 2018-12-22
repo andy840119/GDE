@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Objects.General;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -12,15 +13,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
+        private double rotation;
+
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.ID)]
         public int ObjectID;
         /// <summary>The X position of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.X)]
-        public float X;
+        public double X;
         /// <summary>The Y position of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.Y)]
-        public float Y;
+        public double Y;
         /// <summary>Determines whether this object is flipped horizontally or not.</summary>
         [ObjectStringMappable((int)ObjectParameter.FlippedHorizontally)]
         public bool FlippedHorizontally;
@@ -29,7 +32,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         public bool FlippedVertically;
         /// <summary>The rotation of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.Rotation)]
-        public float Rotation;
+        public double Rotation
+        {
+            get => rotation;
+            set
+            {
+                rotation = value;
+                if (rotation > 360 || rotation < -360)
+                    rotation %= 360;
+            }
+        }
+        /// <summary>The scaling of this object.</summary>
+        [ObjectStringMappable((int)ObjectParameter.Scaling)]
+        public double Scaling;
         /// <summary>The Editor Layer 1 of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.EL1)]
         public int EL1;
@@ -61,6 +76,29 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         [ObjectStringMappable((int)ObjectParameter.DisableGlow)]
         public bool DisableGlow;
 
+        /// <summary>Gets or sets a <seealso cref="Point"/> instance with the location of the object.</summary>
+        public Point Location
+        {
+            get => new Point(X, Y);
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
+        }
+        /// <summary>The rotation of this object in degrees according to math.</summary>
+        public double MathRotationDegrees
+        {
+            get => -Rotation;
+            set => Rotation = -value;
+        }
+        /// <summary>The rotation of this object in radians according to math.</summary>
+        public double MathRotationRadians
+        {
+            get => MathRotationDegrees * Math.PI / 180;
+            set => MathRotationDegrees = value * 180 / Math.PI;
+        }
+
         /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class with the object ID parameter set to 1.</summary>
         public GeneralObject()
         {
@@ -76,7 +114,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="objectID">The object ID of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="x">The X position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="y">The Y position of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(int objectID, float x, float y)
+        public GeneralObject(int objectID, double x, double y)
         {
             ObjectID = objectID;
             X = x;
@@ -87,12 +125,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="x">The X position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="y">The Y position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="rotation">The rotation of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(int objectID, float x, float y, float rotation)
+        public GeneralObject(int objectID, double x, double y, double rotation)
         {
             ObjectID = objectID;
             X = x;
             Y = y;
             Rotation = rotation;
         }
+
+        /// <summary>Determines whether the object's location is within a rectangle.</summary>
+        /// <param name="startingX">The starting X position of the rectangle.</param>
+        /// <param name="startingY">The starting Y position of the rectangle.</param>
+        /// <param name="endingX">The ending X position of the rectangle.</param>
+        /// <param name="endingY">The ending Y position of the rectangle.</param>
+        public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
     }
 }

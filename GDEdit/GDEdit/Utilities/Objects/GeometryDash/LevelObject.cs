@@ -300,6 +300,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set { Parameters[(int)p] = value; }
         }
 
+        public bool IsWithinRange(float startingX, float startingY, float endingX, float endingY)
+        {
+            var x = (float)this[ObjectParameter.X];
+            var y = (float)this[ObjectParameter.Y];
+            return startingX <= x && endingX >= x && startingY <= y && endingY <= y;
+        }
+
         /// <summary>Converts the <see cref="LevelObject"/> to its string representation in the gamesave.</summary>
         public override string ToString()
         {
