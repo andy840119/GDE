@@ -90,13 +90,13 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         UnknownFeature39 = 39,
         /// <summary>Unknown feature with ID 40.</summary>
         UnknownFeature40 = 40,
-        /// <summary>Represents the Color 1 HSV enabled value of the trigger.</summary>
+        /// <summary>Represents the Color 1 HSV enabled value of the object.</summary>
         Color1HSVEnabled = 41,
-        /// <summary>Represents the Color 2 HSV enabled value of the trigger.</summary>
+        /// <summary>Represents the Color 2 HSV enabled value of the object.</summary>
         Color2HSVEnabled = 42,
-        /// <summary>Represents the Color 1 HSV values of the trigger.</summary>
+        /// <summary>Represents the Color 1 HSV values of the object.</summary>
         Color1HSVValues = 43,
-        /// <summary>Represents the Color 2 HSV values of the trigger.</summary>
+        /// <summary>Represents the Color 2 HSV values of the object.</summary>
         Color2HSVValues = 44,
         /// <summary>Represents the Fade In value of the Pulse trigger.</summary>
         FadeIn = 45,
@@ -152,10 +152,12 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         LockObjectRotation = 70,
         /// <summary>Represents the Follow Group ID value of the Follow Trigger.</summary>
         FollowGroupID = 71,
-        /// <summary>Represents the Target Pos Group ID value of the Follow Trigger.</summary>
+        /// <summary>Represents the Target Pos Group ID value of the Move Trigger.</summary>
         TargetPosGroupID = 71,
-        /// <summary>Represents the Center Group ID value of the Follow Trigger.</summary>
+        /// <summary>Represents the Center Group ID value of the Rotate Trigger.</summary>
         CenterGroupID = 71,
+        /// <summary>Represents the secondary Group ID value of some triggers.</summary>
+        SecondaryGroupID = 71,
         /// <summary>Represents the X Mod of value the Follow Trigger.</summary>
         XMod = 72,
         /// <summary>Represents the Y Mod of value the Follow Trigger.</summary>

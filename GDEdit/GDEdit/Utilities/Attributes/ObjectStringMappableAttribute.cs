@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 
 namespace GDEdit.Utilities.Attributes
 {
@@ -13,6 +14,10 @@ namespace GDEdit.Utilities.Attributes
         public ObjectStringMappableAttribute(int key)
         {
             Key = key;
+        }
+        public ObjectStringMappableAttribute(ObjectParameter key)
+        {
+            Key = (int)key;
         }
 
         public int Key;

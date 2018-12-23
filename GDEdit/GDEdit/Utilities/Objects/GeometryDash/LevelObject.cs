@@ -15,6 +15,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 {
     public class LevelObject
     {
+        // TODO: Remove this fucking shit when properties are completely and properly refactored.
+
         public object[] Parameters = new object[ParameterCount + 1];
         
         #region Constructors

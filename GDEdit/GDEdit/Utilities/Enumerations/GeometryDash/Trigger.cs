@@ -1,5 +1,6 @@
-﻿namespace GDEdit.Utilities.Enumerations
+﻿namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
+    // TODO: Rename to avoid collisions?
     /// <summary>This enumeration provides the Object ID values for the triggers.</summary>
     public enum Trigger
     {
