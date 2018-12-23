@@ -69,8 +69,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        /// <param name="moveX">The Move X of the trigger.</param>
-        /// <param name="moveY">The Move Y of the trigger.</param>
+        /// <param name="degrees">The Degrees property of the trigger.</param>
+        /// <param name="times360">The Times 360 property of the trigger.</param>
         /// <param name="easing">The easing of the trigger.</param>
         /// <param name="easingRate">The easing rate of the trigger.</param>
         /// <param name="lockObjectRotation">The Lock Object Rotation property of the trigger.</param>
