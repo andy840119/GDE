@@ -86,6 +86,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasTargetGroupID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasTargetColorID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasDuration.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\FollowTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\RotateTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
