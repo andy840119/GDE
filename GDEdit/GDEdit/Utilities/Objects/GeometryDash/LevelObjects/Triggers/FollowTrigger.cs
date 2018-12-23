@@ -30,7 +30,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Y Mod property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.YMod)]
         public float YMod { get; set; }
-        /// <summary>The Target Pos Group ID property of the trigger.</summary>
+        /// <summary>The Follow Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.FollowGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
         public int FollowGroupID;
