@@ -20,7 +20,7 @@ namespace GDEdit.Application.Editor
         /// <summary>The currently selected objects.</summary>
         public List<GeneralObject> SelectedObjects = new List<GeneralObject>();
 
-        /// <summary>Indicates whether the editor is in dual layer mode.</summary>
+        /// <summary>Gets or sets indicating whether the editor is in dual layer mode.</summary>
         public bool DualLayerMode
         {
             get => dualLayerMode;
@@ -155,7 +155,7 @@ namespace GDEdit.Application.Editor
         }
         /// <summary>Rotates the selected objects by an amount based on a specific central point.</summary>
         /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
-        /// <param name="median">The central point to take into account while rotating all objects.</param>
+        /// <param name="center">The central point to take into account while rotating all objects.</param>
         public void Rotate(double rotation, Point center)
         {
             foreach (var o in Level.LevelObjects)
@@ -172,7 +172,7 @@ namespace GDEdit.Application.Editor
         #endregion
         #region Object Scaling
         /// <summary>Scales the selected objects by an amount.</summary>
-        /// <param name="rotation">The scaling to apply to all the objects.</param>
+        /// <param name="scaling">The scaling to apply to all the objects.</param>
         /// <param name="individually">Determines whether the objects will be only scaled individually.</param>
         public void Scale(double scaling, bool individually)
         {
@@ -186,14 +186,62 @@ namespace GDEdit.Application.Editor
             }
         }
         /// <summary>Scales the selected objects by an amount based on a specific central point.</summary>
-        /// <param name="rotation">The scaling to apply to all the objects.</param>
-        /// <param name="median">The central point to take into account while scaling all objects.</param>
+        /// <param name="scaling">The scaling to apply to all the objects.</param>
+        /// <param name="center">The central point to take into account while scaling all objects.</param>
         public void Scale(double scaling, Point center)
         {
             foreach (var o in Level.LevelObjects)
             {
                 o.Scaling *= scaling;
                 o.Location = (center - o.Location) * scaling + center;
+            }
+        }
+        #endregion
+        #region Object Flipping
+        /// <summary>Flips the selected objects horizontally.</summary>
+        /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
+        public void FlipHorizontally(bool individually)
+        {
+            foreach (var o in Level.LevelObjects)
+                o.FlippedHorizontally = !o.FlippedHorizontally;
+            if (!individually)
+            {
+                var median = GetMedianPoint();
+                foreach (var o in Level.LevelObjects)
+                    o.X = 2 * median.X - o.X;
+            }
+        }
+        /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
+        /// <param name="center">The central point to take into account while flipping all objects.</param>
+        public void FlipHorizontally(Point center)
+        {
+            foreach (var o in Level.LevelObjects)
+            {
+                o.FlippedHorizontally = !o.FlippedHorizontally;
+                o.X = 2 * center.X - o.X;
+            }
+        }
+        /// <summary>Flips the selected objects vertically.</summary>
+        /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
+        public void FlipVertically(bool individually)
+        {
+            foreach (var o in Level.LevelObjects)
+                o.FlippedVertically = !o.FlippedVertically;
+            if (!individually)
+            {
+                var median = GetMedianPoint();
+                foreach (var o in Level.LevelObjects)
+                    o.Y = 2 * median.Y - o.Y;
+            }
+        }
+        /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
+        /// <param name="center">The central point to take into account while flipping all objects.</param>
+        public void FlipVertically(Point center)
+        {
+            foreach (var o in Level.LevelObjects)
+            {
+                o.FlippedVertically = !o.FlippedVertically;
+                o.Y = 2 * center.Y - o.Y;
             }
         }
         #endregion
