@@ -14,11 +14,28 @@ namespace GDEdit.Application.Editor
     {
         private bool dualLayerMode;
 
+        #region Level
         /// <summary>The currently edited level.</summary>
         public Level Level;
         // TODO: Change all implementations of type List<GeneralObject> to LevelObjectList
         /// <summary>The currently selected objects.</summary>
         public List<GeneralObject> SelectedObjects = new List<GeneralObject>();
+        #endregion
+
+        #region Functions
+        /// <summary>Indicates whether the Swipe option is enabled or not.</summary>
+        public bool Swipe;
+        /// <summary>Indicates whether the Grid Snap option is enabled or not.</summary>
+        public bool GridSnap;
+        /// <summary>Indicates whether the Free Move option is enabled or not.</summary>
+        public bool FreeMove;
+        #endregion
+
+        #region Camera
+        /// <summary>The size of each grid block in the editor.</summary>
+        public double GridSize { get; private set; } = 30;
+        /// <summary>The size of each grid block in the editor.</summary>
+        public double Zoom { get; set; } = 1;
 
         /// <summary>Gets or sets indicating whether the editor is in dual layer mode.</summary>
         public bool DualLayerMode
@@ -32,7 +49,9 @@ namespace GDEdit.Application.Editor
                 DualLayerModeChanged?.Invoke(value);
             }
         }
+        #endregion
 
+        #region Events
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
         public event Action<bool> DualLayerModeChanged;
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
@@ -41,19 +60,24 @@ namespace GDEdit.Application.Editor
         public event Action<List<GeneralObject>> SelectedObjectsRemoved;
         /// <summary>Occurs when all objects have been deselected.</summary>
         public event Action AllObjectsDeselected;
+        #endregion
 
+        #region Constructors
         /// <summary>Initializes a new instance of the <seealso cref="Editor"/> class.</summary>
         /// <param name="level">The level to edit.</param>
         public Editor(Level level)
         {
             Level = level;
         }
+        #endregion
 
         #region Object Selection
         /// <summary>Selects a number of objects.</summary>
         /// <param name="objects">The objects to add to the selection.</param>
         public void SelectObjects(List<GeneralObject> objects)
         {
+            if (!Swipe)
+                DeselectAll();
             SelectedObjects.AddRange(objects);
             SelectedObjectsAdded?.Invoke(objects);
         }
@@ -245,6 +269,25 @@ namespace GDEdit.Application.Editor
             }
         }
         #endregion
+        #endregion
+
+        #region Editor Camera
+        /// <summary>Reduces the grid size by setting it to half the original amount.</summary>
+        public void ReduceGridSize() => GridSize /= 2;
+        /// <summary>Increases the grid size by setting it to double the original amount.</summary>
+        public void IncreaseGridSize() => GridSize *= 2;
+        /// <summary>Reduces the camera zoom in the editor by 0.1x.</summary>
+        public void ReduceZoom()
+        {
+            if (Zoom > 0.1)
+                Zoom -= 0.1;
+        }
+        /// <summary>Increases the camera zoom in the editor by 0.1x.</summary>
+        public void IncreaseZoom()
+        {
+            if (Zoom < 4.9) // Good threshold?
+                Zoom += 0.1;
+        }
         #endregion
 
         // TODO: Add functions to do lots of stuff
