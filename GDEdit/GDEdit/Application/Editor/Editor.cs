@@ -31,6 +31,8 @@ namespace GDEdit.Application.Editor
         // TODO: Change all implementations of type List<GeneralObject> to LevelObjectList
         /// <summary>The currently selected objects.</summary>
         public List<GeneralObject> SelectedObjects = new List<GeneralObject>();
+        /// <summary>The objects that are copied into the clipboard and can be pasted.</summary>
+        public List<GeneralObject> ObjectClipboard = new List<GeneralObject>();
         #endregion
 
         #region Functions
@@ -311,6 +313,29 @@ namespace GDEdit.Application.Editor
         #endregion
         #endregion
 
+        #region Editor Functions
+        /// <summary>Copy the selected objects and add them to the clipboard.</summary>
+        public void Copy()
+        {
+            ObjectClipboard.Clear();
+            ObjectClipboard.AddRange(SelectedObjects);
+        }
+        /// <summary>Pastes the copied objects on the clipboard provided a central position to place them.</summary>
+        /// <param name="center">The central position which will determine the position of the pasted objects.</param>
+        public void Paste(Point center)
+        {
+            if (ObjectClipboard.Count == 0)
+                return;
+            var distance = center - GetMedianPoint(ObjectClipboard);
+            var newObjects = Clone(ObjectClipboard);
+            foreach (var o in newObjects)
+                o.Location += distance;
+            Level.LevelObjects.AddRange(newObjects);
+        }
+        /// <summary>ViPriNizes all the selected objects.</summary>
+        public void CopyPaste() => Level.LevelObjects.AddRange(Clone(SelectedObjects));
+        #endregion
+
         #region Editor Camera
         /// <summary>Reduces the grid size by setting it to half the original amount.</summary>
         public void ReduceGridSize() => GridSize /= 2;
@@ -341,11 +366,26 @@ namespace GDEdit.Application.Editor
                 result += o.Location;
             return result / SelectedObjects.Count;
         }
+        /// <summary>Gets the median point of the specified objects.</summary>
+        private Point GetMedianPoint(List<GeneralObject> objects)
+        {
+            Point result = new Point();
+            foreach (var o in objects)
+                result += o.Location;
+            return result / objects.Count;
+        }
         private void Swap<T>(ref T a, ref T b)
         {
             T t = a;
             a = b;
             b = t;
+        }
+        private List<GeneralObject> Clone(List<GeneralObject> l)
+        {
+            List<GeneralObject> result = new List<GeneralObject>();
+            for (int i = 0; i < l.Count; i++)
+                result.Add(l[i].Clone());
+            return result;
         }
         #endregion
     }

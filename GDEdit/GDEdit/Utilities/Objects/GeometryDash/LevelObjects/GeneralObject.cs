@@ -133,6 +133,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             Rotation = rotation;
         }
 
+        /// <summary>Returns a clone of this object.</summary>
+        public GeneralObject Clone() => (GeneralObject)MemberwiseClone();
+
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
         /// <param name="startingX">The starting X position of the rectangle.</param>
         /// <param name="startingY">The starting Y position of the rectangle.</param>
