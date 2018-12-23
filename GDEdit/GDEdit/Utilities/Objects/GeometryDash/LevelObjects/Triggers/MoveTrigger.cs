@@ -18,9 +18,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID { get; set; }
-        /// <summary>The Move X of the trigger.</summary>
+        /// <summary>The Move X property of the trigger.</summary>
         public float MoveX { get; set; }
-        /// <summary>The Move Y of the trigger.</summary>
+        /// <summary>The Move Y property of the trigger.</summary>
         public float MoveY { get; set; }
         /// <summary>The easing of the trigger.</summary>
         public Easing Easing { get; set; }
