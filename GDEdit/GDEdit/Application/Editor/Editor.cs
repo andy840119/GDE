@@ -116,9 +116,31 @@ namespace GDEdit.Application.Editor
                 Swap(ref startingX, ref endingX);
             if (startingY > endingY)
                 Swap(ref startingY, ref endingY);
-            List<GeneralObject> result = new List<GeneralObject>();
+            var result = new List<GeneralObject>();
             foreach (var o in Level.LevelObjects)
                 if (o.IsWithinRange(startingX, startingY, endingX, endingY))
+                    result.Add(o);
+            return result;
+        }
+        /// <summary>Returns all the objects that are in a specific layer.</summary>
+        /// <param name="EL">The editor layer which contains the objects to retrieve.</param>
+        public List<GeneralObject> GetObjectsByLayer(int EL)
+        {
+            if (EL == -1) // Indicates the All layer
+                return Level.LevelObjects;
+            var result = new List<GeneralObject>();
+            foreach (var o in Level.LevelObjects)
+                if (o.EL1 == EL || o.EL2 == EL)
+                    result.Add(o);
+            return result;
+        }
+        /// <summary>Returns a collection of objects based on a predicate.</summary>
+        /// <param name="predicate">The predicate to determine the resulting object collection.</param>
+        public List<GeneralObject> GetObjects(Predicate<GeneralObject> predicate)
+        {
+            var result = new List<GeneralObject>();
+            foreach (var o in Level.LevelObjects)
+                if (predicate(o))
                     result.Add(o);
             return result;
         }
