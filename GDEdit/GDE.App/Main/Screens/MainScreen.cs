@@ -6,8 +6,7 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
-using GDEdit.Utilities.Functions.GeometryDash;
-using GDEdit.Utilities.Information.GeometryDash;
+using GDE.App.Main.Colours;
 
 namespace GDE.App.Main.Screens
 {
@@ -21,8 +20,6 @@ namespace GDE.App.Main.Screens
         {
             ts = texStore;
 
-            Gamesave.DecryptGamesave();
-
             Add(new DrawSizePreservingFillContainer
             {
                 Strategy = DrawSizePreservationStrategy.Average,
@@ -30,14 +27,10 @@ namespace GDE.App.Main.Screens
                 {
                     box = new Box
                     {
-                        Size = new Vector2(50, 50),
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre
-                    },
-                    new SpriteText
-                    {
-                        Text = ObjectLists.OrbList[0].ToString(),
                         RelativeSizeAxes = Axes.Both,
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre,
+                        Colour = GDEColours.FromHex(@"151515")
                     }
                 }
             });
