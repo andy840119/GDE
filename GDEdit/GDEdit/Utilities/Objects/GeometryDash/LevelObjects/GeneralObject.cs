@@ -57,6 +57,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <summary>The Z Order of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ZOrder)]
         public int ZOrder;
+        /// <summary>The Color 1 ID of this object.</summary>
+        [ObjectStringMappable(ObjectParameter.Color1)]
+        public int Color1ID;
+        /// <summary>The Color 2 ID of this object.</summary>
+        [ObjectStringMappable(ObjectParameter.Color2)]
+        public int Color2ID;
+        /// <summary>The Group IDs of this object.</summary>
+        [ObjectStringMappable(ObjectParameter.GroupIDs)]
+        public int[] GroupIDs;
         /// <summary>The linked group ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.LinkedGroupID)]
         public int LinkedGroupID;
@@ -135,6 +144,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         /// <summary>Returns a clone of this object.</summary>
         public GeneralObject Clone() => (GeneralObject)MemberwiseClone();
+
+        public T GetParameterWithID<T>(int ID)
+        {
+            var properties = typeof(GeneralObject).GetProperties();
+            foreach (var p in properties)
+                if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).First()).Key == ID)
+                    return (T)p.GetValue(this);
+            throw new KeyNotFoundException("The requested ID was not found.");
+        }
+        public void SetParameterWithID<T>(int ID, T newValue)
+        {
+            // Reflection is FUN
+            var properties = typeof(GeneralObject).GetProperties();
+            foreach (var p in properties)
+                if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).First()).Key == ID)
+                    p.SetValue(this, newValue);
+        }
 
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
         /// <param name="startingX">The starting X position of the rectangle.</param>
