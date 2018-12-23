@@ -10,6 +10,7 @@ using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Information.GeometryDash;
 using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
+using GDEdit.Utilities.Functions.Extensions;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
