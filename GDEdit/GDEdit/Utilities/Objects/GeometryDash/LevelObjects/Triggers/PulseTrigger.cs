@@ -10,7 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
-    /// <summary>Represents a move trigger.</summary>
+    /// <summary>Represents a Pulse trigger.</summary>
     public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
     {
         public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Pulse;

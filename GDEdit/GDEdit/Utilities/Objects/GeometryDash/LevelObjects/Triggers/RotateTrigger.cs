@@ -9,7 +9,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
-    /// <summary>Represents a rotate trigger.</summary>
+    /// <summary>Represents a Rotate trigger.</summary>
     public class RotateTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
         public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Move;
@@ -18,10 +18,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID { get; set; }
-        /// <summary>The Degrees property of the trigger.</summary>
-        public int Degrees { get; set; }
-        /// <summary>The Times 360 property of the trigger.</summary>
-        public int Times360 { get; set; }
         /// <summary>The easing of the trigger.</summary>
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
@@ -32,6 +28,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => CenterGroupID;
             set => CenterGroupID = value;
         }
+        /// <summary>The Degrees property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Degrees)]
+        public int Degrees { get; set; }
+        /// <summary>The Times 360 property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Times360)]
+        public int Times360 { get; set; }
         /// <summary>The Lock Object Rotation property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockObjectRotation)]
         public bool LockObjectRotation;

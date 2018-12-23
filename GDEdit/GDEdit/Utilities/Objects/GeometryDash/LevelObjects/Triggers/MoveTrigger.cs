@@ -9,7 +9,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
-    /// <summary>Represents a move trigger.</summary>
+    /// <summary>Represents a Move trigger.</summary>
     public class MoveTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
         public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Move;
@@ -18,10 +18,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID { get; set; }
-        /// <summary>The Move X property of the trigger.</summary>
-        public float MoveX { get; set; }
-        /// <summary>The Move Y property of the trigger.</summary>
-        public float MoveY { get; set; }
         /// <summary>The easing of the trigger.</summary>
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
@@ -32,6 +28,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => TargetPosGroupID;
             set => TargetPosGroupID = value;
         }
+        /// <summary>The Move X property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.MoveX)]
+        public float MoveX { get; set; }
+        /// <summary>The Move Y property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.MoveY)]
+        public float MoveY { get; set; }
         /// <summary>The Lock to Player X property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToPlayerX)]
         public bool LockToPlayerX;
