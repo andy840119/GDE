@@ -228,6 +228,10 @@ namespace GDEdit.Utilities.Functions.Extensions
             result = result.Insert(startIndex, stringToReplaceWith);
             return result;
         }
+        /// <summary>Replaces a whole word of the original string and returns the new one.</summary>
+        /// <param name="originalString">The original string which will be replaced.</param>
+        /// <param name="oldString">The old part of the string in the original string to replace.</param>
+        /// <param name="newString">The new part of the string which will be contained in the returned string.</param>
         public static string ReplaceWholeWord(this string originalString, string oldString, string newString)
         {
             for (int i = originalString.Length - oldString.Length; i >= 0; i--)
@@ -297,36 +301,53 @@ namespace GDEdit.Utilities.Functions.Extensions
         #endregion
 
         #region String[]
-        public static int[] FindOccurences(this string[] a, string match)
+        /// <summary>Finds the occurrences of a string in a string array and returns an array containing the indices of each occurrence in the original array.</summary>
+        /// <param name="a">The array containing the strings which will be evaluated.</param>
+        /// <param name="match">The string to match.</param>
+        public static int[] FindOccurrences(this string[] a, string match)
         {
             if (a != null)
             {
-                List<int> occurences = new List<int>();
+                List<int> occurrences = new List<int>();
                 for (int i = 0; i < a.Length; i++)
                     if (a[i] == match)
-                        occurences.Add(i);
-                return occurences.ToArray();
+                        occurrences.Add(i);
+                return occurrences.ToArray();
             }
             else return new int[0];
         }
+        /// <summary>Replaces the characters of an array of strings and returns the new array.</summary>
+        /// <param name="a">The array containing the strings which will be replaced.</param>
+        /// <param name="oldChar">The old character.</param>
+        /// <param name="newChar">The new character.</param>
         public static string[] Replace(this string[] a, char oldChar, char newChar)
         {
             for (int i = 0; i < a.Length; i++)
                 a[i] = a[i].Replace(oldChar, newChar);
             return a;
         }
+        /// <summary>Replaces the strings of an array of strings and returns the new array.</summary>
+        /// <param name="a">The array containing the strings which will be replaced.</param>
+        /// <param name="oldString">The old string.</param>
+        /// <param name="newString">The new string.</param>
         public static string[] Replace(this string[] a, string oldString, string newString)
         {
             for (int i = 0; i < a.Length; i++)
                 a[i] = a[i].Replace(oldString, newString);
             return a;
         }
+        /// <summary>Replaces whole words of the strings of an array of strings and returns the new array.</summary>
+        /// <param name="a">The array containing the strings which will be replaced.</param>
+        /// <param name="oldString">The old string.</param>
+        /// <param name="newString">The new string.</param>
         public static string[] ReplaceWholeWord(this string[] a, string oldString, string newString)
         {
             for (int i = 0; i < a.Length; i++)
                 a[i] = a[i].ReplaceWholeWord(oldString, newString);
             return a;
         }
+        /// <summary>Removes the empty elements of a string array and returns the new array.</summary>
+        /// <param name="a">The array of strings.</param>
         public static string[] RemoveEmptyElements(this string[] a)
         {
             List<string> result = new List<string>();
@@ -335,28 +356,32 @@ namespace GDEdit.Utilities.Functions.Extensions
                     result.Add(a[i]);
             return result.ToArray();
         }
+        /// <summary>Determines whether there is at least one occurrence of a string in a string of the string array.</summary>
+        /// <param name="a">The array of strings.</param>
+        /// <param name="match">The string to match.</param>
         public static bool ContainsAtLeast(this string[] a, string match)
         {
-            if (a != null)
-            {
-                for (int i = 0; i < a.Length; i++)
-                    if (a[i].Contains(match))
-                        return true;
+            if (a == null)
                 return false;
-            }
+            for (int i = 0; i < a.Length; i++)
+                if (a[i].Contains(match))
+                    return true;
             return false;
         }
+        /// <summary>Determines whether there is at least one occurrence of a string as a whole word in a string of the string array.</summary>
+        /// <param name="a">The array of strings.</param>
+        /// <param name="match">The string to match.</param>
         public static bool ContainsAtLeastWholeWord(this string[] a, string match)
         {
             if (a != null)
-            {
-                for (int i = 0; i < a.Length; i++)
-                    if (a[i].ContainsWholeWord(match))
-                        return true;
                 return false;
-            }
+            for (int i = 0; i < a.Length; i++)
+                if (a[i].ContainsWholeWord(match))
+                    return true;
             return false;
         }
+        /// <summary>Combines the strings of a string array and returns the new string.</summary>
+        /// <param name="s">The array of strings.</param>
         public static string Combine(this string[] s)
         {
             StringBuilder str = new StringBuilder();
@@ -364,18 +389,22 @@ namespace GDEdit.Utilities.Functions.Extensions
                 str = str.Append(s[i]);
             return str.ToString();
         }
+        /// <summary>Combines the strings of a string array with a separator and returns the new string.</summary>
+        /// <param name="s">The array of strings.</param>
+        /// <param name="separator">The separator of the strings.</param>
         public static string Combine(this string[] s, string separator)
         {
-            if (s.Length > 0)
-            {
-                StringBuilder str = new StringBuilder();
-                str = str.Append(s[0]);
-                for (int i = 1; i < s.Length; i++)
-                    str = str.Append(separator + s[i]);
-                return str.ToString();
-            }
-            else return "";
+            if (s.Length == 0)
+                return "";
+            StringBuilder str = new StringBuilder();
+            for (int i = 0; i < s.Length; i++)
+                str = str.Append(s[i] + separator);
+            str = str.Remove(str.Length - separator.Length, separator.Length);
+            return str.ToString();
         }
+        /// <summary>Splits an array of strings and returns a new two-dimensiional array containing the split strings. With indexing [i, j], i is the index of the string in the original array and j is the index of the split string.</summary>
+        /// <param name="s">The array of strings.</param>
+        /// <param name="separator">The separator of the strings.</param>
         public static string[,] Split(this string[] s, char separator)
         {
             List<string[]> separated = new List<string[]>();

@@ -10,6 +10,9 @@ namespace GDEdit.Utilities.Functions.Extensions
     public static class GenericListExtensions
     {
         #region Cloning
+        /// <summary>Clones a list.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list to clone.</param>
         public static List<T> Clone<T>(this List<T> l)
         {
             List<T> result = new List<T>();
@@ -17,6 +20,9 @@ namespace GDEdit.Utilities.Functions.Extensions
                 result.Add(l[i]);
             return result;
         }
+        /// <summary>Clones a list of lists.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list of lists to clone.</param>
         public static List<List<T>> Clone<T>(this List<List<T>> l)
         {
             List<List<T>> result = new List<List<T>>();
@@ -31,6 +37,10 @@ namespace GDEdit.Utilities.Functions.Extensions
         #endregion
 
         #region Contain Checks
+        /// <summary>Determines whether the list contains all the elements of an other list.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list whose elements have to be contained on the other list.</param>
+        /// <param name="containedList">The list other list to check.</param>
         public static bool ContainsAll<T>(this List<T> list, List<T> containedList)
         {
             if (containedList.Count != list.Count)
@@ -38,9 +48,14 @@ namespace GDEdit.Utilities.Functions.Extensions
             List<T> tempList = list.Clone();
             List<T> tempContained = containedList.Clone();
             for (int i = 0; i < tempContained.Count; i++)
-                tempList.Remove(tempContained[i]);
-            return tempList.Count == 0;
+                if (!tempList.Remove(tempContained[i]))
+                    return false;
+            return true;
         }
+        /// <summary>Determines whether the list contains all the elements of an other list in any order.</summary>
+        /// <typeparam name="T">The type of the list elements.</typeparam>
+        /// <param name="l">The list whose elements have to be contained on the other list.</param>
+        /// <param name="containedList">The list other list to check.</param>
         public static bool ContainsUnordered<T>(this List<T> list, List<T> containedList)
         {
             List<T> tempList = containedList.Clone();
@@ -52,6 +67,9 @@ namespace GDEdit.Utilities.Functions.Extensions
         #endregion
 
         #region Intradimensional
+        /// <summary>Gets the lengths of the list of arrays.</summary>
+        /// <typeparam name="T">The type of the array elements.</typeparam>
+        /// <param name="l">The list of arrays to get the lengths of.</param>
         public static int[] GetLengths<T>(this List<T[]> l)
         {
             int[] lengths = new int[l.Count];
@@ -59,6 +77,9 @@ namespace GDEdit.Utilities.Functions.Extensions
                 lengths[i] = l[i].Length;
             return lengths;
         }
+        /// <summary>Converts the list of arrays to a two-dimensional array.</summary>
+        /// <typeparam name="T">The type of the array elements.</typeparam>
+        /// <param name="l">The list of arrays to convert.</param>
         public static T[,] ToTwoDimensionalArray<T>(this List<T[]> l)
         {
             T[,] ar = new T[l.Count, l.GetLengths().Max()];
