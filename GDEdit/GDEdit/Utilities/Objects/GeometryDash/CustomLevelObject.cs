@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 using GDEdit.Utilities.Functions.General;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDEdit.Utilities.Functions.Extensions;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
@@ -12,11 +14,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     public class CustomLevelObject
     {
         /// <summary>The objects of the custom object.</summary>
-        public List<LevelObject> LevelObjects;
+        public List<GeneralObject> LevelObjects;
         
         /// <summary>Creates a new instance of the <seealso cref="CustomLevelObject"/> class from the specified list of objects.</summary>
         /// <param name="levelObjects">The objects this custom object has.</param>
-        public CustomLevelObject(List<LevelObject> levelObjects)
+        public CustomLevelObject(List<GeneralObject> levelObjects)
         {
             LevelObjects = levelObjects.Clone();
             if (LevelObjects.Count > 0)
@@ -25,15 +27,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 double avgY = 0;
                 for (int i = 0; i < LevelObjects.Count; i++)
                 {
-                    avgX += (double)LevelObjects[i][ObjectParameter.X];
-                    avgY += (double)LevelObjects[i][ObjectParameter.Y];
+                    avgX += LevelObjects[i].X;
+                    avgY += LevelObjects[i].Y;
                 }
                 avgX /= LevelObjects.Count;
                 avgY /= LevelObjects.Count;
                 for (int i = 0; i < LevelObjects.Count; i++)
                 {
-                    LevelObjects[i][ObjectParameter.X] = (double)LevelObjects[i][ObjectParameter.X] - avgX;
-                    LevelObjects[i][ObjectParameter.Y] = (double)LevelObjects[i][ObjectParameter.Y] - avgY;
+                    LevelObjects[i].X -= avgX;
+                    LevelObjects[i].Y -= avgY;
                 }
             }
         }
