@@ -62,7 +62,12 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ZLayer.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\LevelLength.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\Trigger.cs" />
+    <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\GenericListExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GuidelineExtensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
     <Compile Include="Utilities\Functions\General\Extensions.cs" />
     <Compile Include="Utilities\Functions\General\UsefulFunctions.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Easing.cs" />
