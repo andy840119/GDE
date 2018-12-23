@@ -90,13 +90,13 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         UnknownFeature39 = 39,
         /// <summary>Unknown feature with ID 40.</summary>
         UnknownFeature40 = 40,
-        /// <summary>Represents the Color 1 HSV enabled value of the trigger.</summary>
+        /// <summary>Represents the Color 1 HSV enabled value of the object.</summary>
         Color1HSVEnabled = 41,
-        /// <summary>Represents the Color 2 HSV enabled value of the trigger.</summary>
+        /// <summary>Represents the Color 2 HSV enabled value of the object.</summary>
         Color2HSVEnabled = 42,
-        /// <summary>Represents the Color 1 HSV values of the trigger.</summary>
+        /// <summary>Represents the Color 1 HSV values of the object.</summary>
         Color1HSVValues = 43,
-        /// <summary>Represents the Color 2 HSV values of the trigger.</summary>
+        /// <summary>Represents the Color 2 HSV values of the object.</summary>
         Color2HSVValues = 44,
         /// <summary>Represents the Fade In value of the Pulse trigger.</summary>
         FadeIn = 45,
