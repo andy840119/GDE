@@ -10,6 +10,8 @@ namespace GDEdit.Application
     public static class Database
     {
         public static readonly string GDLocalData = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\GeometryDash";
+        public static readonly string GDGameManager = $@"{GDLocalData}\CCGameManager.dat";
+        public static readonly string GDLocalLevels = $@"{GDLocalData}\CCLocalLevels.dat";
 
         public static List<Level> UserLevels;
         public static List<string> FolderNames;
