@@ -45,11 +45,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
         public MoveTargetPosCoordinates TargetPosCoordinates;
-        
-        public MoveTrigger()
-        {
 
-        }
+        /// <summary>Initializes a new instance of the <seealso cref="MoveTrigger"/> class.</summary>
+        public MoveTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="MoveTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
