@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GDEdit.Utilities.Enumerations;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Functions.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
@@ -99,8 +100,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public bool LevelVerifiedStatus;
         /// <summary>Determines whether the level has been uploaded or not.</summary>
         public bool LevelUploadedStatus;
+        // Changing this to List<GeneralObject> caused errors, fix in another PR
         /// <summary>The level's objects.</summary>
-        public List<LevelObject> LevelObjects
+        public List<GeneralObject> LevelObjects
         {
             get => levelObjects;
             set
@@ -181,7 +183,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         private int levelObjectCount = -1;
         private int levelTriggerCount = -1;
         private int colorTriggerCount = -1;
-        private List<LevelObject> levelObjects;
+        private List<GeneralObject> levelObjects;
         private List<Guideline> levelGuidelines;
         private string levelGuidelinesString;
         #endregion

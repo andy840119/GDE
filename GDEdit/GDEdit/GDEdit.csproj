@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Database.cs" />
+    <Compile Include="Application\Editor\Editor.cs" />
     <Compile Include="Application\Status.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Utilities\Information\GeometryDash\ObjectLists.cs" />
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
+    <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
@@ -81,6 +83,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Application\Editor\Functions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
