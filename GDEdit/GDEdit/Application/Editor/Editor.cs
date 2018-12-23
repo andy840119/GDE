@@ -14,6 +14,17 @@ namespace GDEdit.Application.Editor
     {
         private bool dualLayerMode;
 
+        #region Constants
+        /// <summary>The big movement step in units.</summary>
+        public const double BigMovementStep = 150;
+        /// <summary>The normal movement step in units.</summary>
+        public const double NormalMovementStep = 30;
+        /// <summary>The small movement step in units.</summary>
+        public const double SmallMovementStep = 2;
+        /// <summary>The tiny movement step in units.</summary>
+        public const double TinyMovementStep = 0.5;
+        #endregion
+
         #region Level
         /// <summary>The currently edited level.</summary>
         public Level Level;
@@ -31,10 +42,17 @@ namespace GDEdit.Application.Editor
         public bool FreeMove;
         #endregion
 
+        #region Editor Preferences
+        /// <summary>The customly defined movement steps in the editor.</summary>
+        public List<double> CustomMovementSteps;
+        /// <summary>The customly defined rotation steps in the editor.</summary>
+        public List<double> CustomRotationSteps;
+        #endregion
+
         #region Camera
         /// <summary>The size of each grid block in the editor.</summary>
         public double GridSize { get; private set; } = 30;
-        /// <summary>The size of each grid block in the editor.</summary>
+        /// <summary>The camera zoom in the editor.</summary>
         public double Zoom { get; set; } = 1;
 
         /// <summary>Gets or sets indicating whether the editor is in dual layer mode.</summary>
