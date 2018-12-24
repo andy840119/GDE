@@ -36,8 +36,8 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         SecretCoinID = 12,
         /// <summary>Represents the checked property of the portal.</summary>
         PortalChecked = 13,
-        /// <summary>Unknown feature with ID 14.</summary>
-        UnknownFeature14 = 14,
+        /// <summary>Represents the Tint Ground property of the BG Color trigger (discarded from 2.1 onwards).</summary>
+        TintGround = 14,
         /// <summary>Represents the Player Color 1 property of the Color trigger.</summary>
         SetColorToPlayerColor1 = 15,
         /// <summary>Represents the Player Color 2 property of the Color trigger.</summary>
