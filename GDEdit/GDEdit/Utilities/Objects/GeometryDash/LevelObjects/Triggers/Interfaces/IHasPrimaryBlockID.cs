@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     /// <summary>Represents a trigger which contains a definition for a primary Block ID.</summary>
     public interface IHasPrimaryBlockID
     {
+        /// <summary>The primary Block ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.BlockAID)]
         int PrimaryBlockID { get; set; }
     }

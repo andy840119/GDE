@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     /// <summary>Represents a trigger which contains a definition for a target Color ID.</summary>
     public interface IHasTargetColorID
     {
+        /// <summary>The target Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetColorID)]
         int TargetColorID { get; set; }
     }

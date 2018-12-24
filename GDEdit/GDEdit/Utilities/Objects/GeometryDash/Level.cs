@@ -11,6 +11,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
+    /// <summary>Represents a level in the game.</summary>
     public class Level
     {
         private List<Guideline> levelGuidelines;
@@ -104,6 +105,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        /// <summary>Returns the guideline string of a list of guidelines.</summary>
+        /// <param name="guidelines">The list of guidelines to get the guideline string of.</param>
         public static string GetGuidelineString(List<Guideline> guidelines)
         {
             StringBuilder result = new StringBuilder();
