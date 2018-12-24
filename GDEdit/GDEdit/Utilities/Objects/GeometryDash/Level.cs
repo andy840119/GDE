@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
+    /// <summary>Represents a level in the game.</summary>
     public class Level
     {
         #region Properties
