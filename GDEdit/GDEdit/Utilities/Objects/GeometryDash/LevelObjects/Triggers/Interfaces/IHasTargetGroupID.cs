@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     /// <summary>Represents a trigger which contains a definition for a target Group ID.</summary>
     public interface IHasTargetGroupID
     {
+        /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         int TargetGroupID { get; set; }
     }

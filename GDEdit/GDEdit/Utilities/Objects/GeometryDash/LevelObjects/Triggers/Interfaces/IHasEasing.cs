@@ -11,8 +11,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     /// <summary>Represents a trigger which contains a definition for movement easing.</summary>
     public interface IHasEasing
     {
+        /// <summary>The easing of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.Easing)]
         Easing Easing { get; set; }
+        /// <summary>The easing rate of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.EasingRate)]
         float EasingRate { get; set; }
     }
