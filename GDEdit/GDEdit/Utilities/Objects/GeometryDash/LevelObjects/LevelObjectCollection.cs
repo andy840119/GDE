@@ -4,6 +4,7 @@ using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,15 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
     /// <summary>Represents a collection of level objects.</summary>
-    public class LevelObjectCollection
+    public class LevelObjectCollection : IEnumerable<GeneralObject>
     {
         private int triggerCount = -1;
         private int colorTriggerCount = -1;
 
         private List<GeneralObject> objects;
+
+        /// <summary>The count of the level objects in the collection.</summary>
+        public int Count => objects.Count;
 
         /// <summary>The list of objects in the collection.</summary>
         public List<GeneralObject> Objects
@@ -72,6 +76,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         public Dictionary<int, int> ObjectCounts { get; private set; }
         /// <summary>Contains the count of groups per object ID in the collection.</summary>
         public Dictionary<int, int> GroupCounts { get; private set; }
+        /// <summary>The different object IDs in the collection.</summary>
+        public int DifferentObjectIDCount => ObjectCounts.Keys.Count;
         /// <summary>The different object IDs in the collection.</summary>
         public int[] DifferentObjectIDs => ObjectCounts.Keys.ToArray();
         /// <summary>The group IDs in the collection.</summary>
@@ -183,6 +189,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             result.GroupCounts = GroupCounts.Clone();
             result.objects = objects.Clone();
             return result;
+        }
+
+        public GeneralObject this[int index]
+        {
+            get => objects[index];
+            set => objects[index] = value;
+        }
+
+        public IEnumerator<GeneralObject> GetEnumerator()
+        {
+            foreach (GeneralObject guest in objects)
+            {
+                yield return guest;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         private void AddToCounters(GeneralObject o)

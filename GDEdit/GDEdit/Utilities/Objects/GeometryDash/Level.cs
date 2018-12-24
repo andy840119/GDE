@@ -13,6 +13,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 {
     public class Level
     {
+        private List<Guideline> levelGuidelines;
+        private string levelGuidelinesString;
+
         #region Properties
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
         public string LevelNameWithRevision => $"{LevelName}{(LevelRevision > 0 ? $" (Rev. {LevelRevision})" : "")}";
@@ -45,24 +48,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The level object count.</summary>
         public int LevelObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
         /// <summary>The level trigger count.</summary>
-        public int LevelTriggerCount
-        {
-            get
-            {
-                if (levelTriggerCount == -1)
-                {
-                    levelTriggerCount = 0;
-                    if (ObjectCounts != null)
-                    {
-                        foreach (var kvp in ObjectCounts)
-                            if (Enum.GetValues(typeof(TriggerType)).Cast<int>().Contains(kvp.Key))
-                                levelTriggerCount += kvp.Value;
-                        levelTriggerCount -= ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
-                    }
-                }
-                return levelTriggerCount;
-            }
-        }
+        public int LevelTriggerCount => LevelObjects.TriggerCount;
         /// <summary>The attempts made in the level.</summary>
         public int LevelAttempts;
         /// <summary>The ID of the level.</summary>
@@ -86,17 +72,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>Determines whether the level has been uploaded or not.</summary>
         public bool LevelUploadedStatus;
         /// <summary>The level's objects.</summary>
-        public List<GeneralObject> LevelObjects
-        {
-            get => levelObjects;
-            set
-            {
-                levelObjects = value;
-                levelObjectCount = -1;
-                levelTriggerCount = -1;
-                colorTriggerCount = -1;
-            }
-        }
+        public LevelObjectCollection LevelObjects { get; set; }
         /// <summary>The level's guidelines.</summary>
         public List<Guideline> LevelGuidelines
         {
@@ -118,58 +94,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int[] LevelUsedGroupIDs = new int[0];
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
         public Dictionary<int, int> ObjectCounts;
-        #region Trigger info
-        public int MoveTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Move);
-        public int StopTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Stop);
-        public int PulseTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Pulse);
-        public int AlphaTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Alpha);
-        public int ToggleTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Toggle);
-        public int SpawnTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Spawn);
-        public int CountTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Count);
-        public int InstantCountTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.InstantCount);
-        public int PickupTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Pickup);
-        public int FollowTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Follow);
-        public int FollowPlayerYTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.FollowPlayerY);
-        public int TouchTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Touch);
-        public int AnimateTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Animate);
-        public int RotateTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Rotate);
-        public int ShakeTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Shake);
-        public int CollisionTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.Collision);
-        public int OnDeathTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.OnDeath);
-        public int ColorTriggersCount
-        {
-            get
-            {
-                if (colorTriggerCount == -1)
-                {
-                    colorTriggerCount = ObjectCounts.ValueOrDefault((int)TriggerType.Color);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.BG);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.GRND);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.GRND2);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.Line);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.Obj);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.ThreeDL);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.Color1);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.Color2);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.Color3);
-                    colorTriggerCount += ObjectCounts.ValueOrDefault((int)TriggerType.Color4);
-                }
-                return colorTriggerCount;
-            }
-        }
-        public int HidePlayerTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.HidePlayer);
-        public int ShowPlayerTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.ShowPlayer);
-        public int DisableTrailTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.DisableTrail);
-        public int EnableTrailTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.EnableTrail);
-        public int BGEffectOnTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.BGEffectOn);
-        public int BGEffectOffTriggersCount => ObjectCounts.ValueOrDefault((int)TriggerType.BGEffectOff);
-        #endregion
-        private int levelObjectCount = -1;
-        private int levelTriggerCount = -1;
-        private int colorTriggerCount = -1;
-        private List<GeneralObject> levelObjects;
-        private List<Guideline> levelGuidelines;
-        private string levelGuidelinesString;
         #endregion
 
         #region Constructors
