@@ -15,7 +15,7 @@ namespace GDE.App.Main.UI.Tabs
 {
     public class LevelTab : TabbableContainer
     {
-        public string Text = "ttest";
+        public string Text;
         public Action clickAction;
 
         private ColourInfo colours;
