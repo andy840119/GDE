@@ -7,6 +7,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using GDE.App.Main.Colours;
+using GDE.App.Main.UI.Tabs;
 
 namespace GDE.App.Main.Screens
 {
@@ -31,6 +32,12 @@ namespace GDE.App.Main.Screens
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
                         Colour = GDEColours.FromHex(@"151515")
+                    },
+                    new LevelTab
+                    {
+                        Size = new Vector2(0.08f, 0.04f),
+                        Origin = Anchor.TopLeft,
+                        Anchor = Anchor.TopLeft,
                     }
                 }
             });
