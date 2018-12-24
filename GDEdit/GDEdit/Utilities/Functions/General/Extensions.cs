@@ -247,7 +247,6 @@ namespace GDEdit.Utilities.Functions.General
             }
             return false;
         }
-        public static TValue ValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> d, TKey key) => d.ContainsKey(key) ? d[key] : default;
 
         public static int[] GetIndicesOfMatchingValues(this bool[] a, bool value)
         {

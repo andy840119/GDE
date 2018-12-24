@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Stop trigger.</summary>
     public class StopTrigger : Trigger, IHasTargetGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Stop;
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Stop;
         
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID { get; set; }
