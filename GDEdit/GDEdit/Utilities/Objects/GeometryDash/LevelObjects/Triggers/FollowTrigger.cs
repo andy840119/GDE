@@ -33,7 +33,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Follow Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.FollowGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
-        public int FollowGroupID;
+        public int FollowGroupID { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowTrigger"/> class.</summary>
         public FollowTrigger() { }

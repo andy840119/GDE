@@ -36,11 +36,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int Times360 { get; set; }
         /// <summary>The Lock Object Rotation property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockObjectRotation)]
-        public bool LockObjectRotation;
+        public bool LockObjectRotation { get; set; }
         /// <summary>The Center Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.CenterGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
-        public int CenterGroupID;
+        public int CenterGroupID { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
         public RotateTrigger() { }
