@@ -88,10 +88,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 LevelGuidelinesString = GetGuidelineString(levelGuidelines);
             }
         }
-        /// <summary>The different object IDs that have been used in the level.</summary>
-        public int[] LevelDifferentObjectIDs = new int[0];
-        /// <summary>The group IDs that have been used in the level.</summary>
-        public int[] LevelUsedGroupIDs = new int[0];
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
         public Dictionary<int, int> ObjectCounts;
         #endregion

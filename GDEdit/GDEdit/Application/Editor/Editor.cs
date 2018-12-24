@@ -75,9 +75,9 @@ namespace GDEdit.Application.Editor
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
         public event Action<bool> DualLayerModeChanged;
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
-        public event Action<List<GeneralObject>> SelectedObjectsAdded;
+        public event Action<LevelObjectCollection> SelectedObjectsAdded;
         /// <summary>Occurs when new objects have been removed from the selection list.</summary>
-        public event Action<List<GeneralObject>> SelectedObjectsRemoved;
+        public event Action<LevelObjectCollection> SelectedObjectsRemoved;
         /// <summary>Occurs when all objects have been deselected.</summary>
         public event Action AllObjectsDeselected;
         #endregion
@@ -94,7 +94,7 @@ namespace GDEdit.Application.Editor
         #region Object Selection
         /// <summary>Selects a number of objects.</summary>
         /// <param name="objects">The objects to add to the selection.</param>
-        public void SelectObjects(List<GeneralObject> objects)
+        public void SelectObjects(LevelObjectCollection objects)
         {
             if (!Swipe)
                 DeselectAll();
@@ -103,7 +103,7 @@ namespace GDEdit.Application.Editor
         }
         /// <summary>Deselects a number of objects.</summary>
         /// <param name="objects">The objects to remove from the selection.</param>
-        public void DeselectObjects(List<GeneralObject> objects)
+        public void DeselectObjects(LevelObjectCollection objects)
         {
             foreach (var o in objects)
                 SelectedObjects.Remove(o);
@@ -144,11 +144,11 @@ namespace GDEdit.Application.Editor
         }
         /// <summary>Returns all the objects that are in a specific layer.</summary>
         /// <param name="EL">The editor layer which contains the objects to retrieve.</param>
-        public List<GeneralObject> GetObjectsByLayer(int EL)
+        public LevelObjectCollection GetObjectsByLayer(int EL)
         {
             if (EL == -1) // Indicates the All layer
                 return Level.LevelObjects;
-            var result = new List<GeneralObject>();
+            var result = new LevelObjectCollection();
             foreach (var o in Level.LevelObjects)
                 if (o.EL1 == EL || o.EL2 == EL)
                     result.Add(o);
