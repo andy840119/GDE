@@ -36,25 +36,36 @@ namespace GDE.App.Main.UI.Tabs
 
             Children = new Drawable[]
             {
-                tab = new Box
+                new Container
                 {
+                    Masking = true,
+                    CornerRadius = 5,
                     RelativeSizeAxes = Axes.Both,
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.Centre,
-                    Colour = colours
-                },
-                hoverLayer = new Box
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.Centre,
-                    Alpha = 0
-                },
-                new SpriteText
-                {
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.Centre,
-                    Text = Text,
+                    Scale = new Vector2(1f, 1.1f),
+                    Position = new Vector2(1f, -5f),
+                    Children = new Drawable[]
+                    {
+                        tab = new Box
+                        {
+                            RelativeSizeAxes = Axes.Both,
+                            Origin = Anchor.Centre,
+                            Anchor = Anchor.Centre,
+                            Colour = colours
+                        },
+                        hoverLayer = new Box
+                        {
+                            RelativeSizeAxes = Axes.Both,
+                            Origin = Anchor.Centre,
+                            Anchor = Anchor.Centre,
+                            Alpha = 0
+                        },
+                        new SpriteText
+                        {
+                            Origin = Anchor.Centre,
+                            Anchor = Anchor.Centre,
+                            Text = Text,
+                        }
+                    }
                 }
             };
         }
