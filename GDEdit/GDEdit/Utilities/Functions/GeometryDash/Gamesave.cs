@@ -16,6 +16,7 @@ using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.General;
+using GDEdit.Utilities.Attributes;
 
 namespace GDEdit.Utilities.Functions.GeometryDash
 {
@@ -200,30 +201,33 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             }
             return objects;
         }
-        public static LevelObject GetCommonAttributes(List<LevelObject> list, int objectID)
+        public static GeneralObject GetCommonAttributes(List<GeneralObject> list, int objectID)
         {
-            LevelObject commonAttributes = new LevelObject(objectID);
+            GeneralObject common = GeneralObject.GetNewObjectInstance(objectID);
+
             for (int i = list.Count; i >= 0; i--)
-                if ((int)list[i][ObjectParameter.ID] != objectID)
+                if (list[i].ObjectID != objectID)
                     list.RemoveAt(i);
             if (list.Count > 1)
             {
-                for (int i = 1; i < ParameterCount; i++)
-                {
-                    object commonAttribute = list[0].Parameters[i];
-                    for (int j = 1; j < list.Count; j++)
-                        if (commonAttribute != list[j].Parameters[i])
-                        {
-                            commonAttribute = null;
-                            break;
-                        }
-                    commonAttributes.Parameters[i] = commonAttribute;
-                }
-                return commonAttributes;
+                var properties = common.GetType().GetProperties();
+                foreach (var p in properties)
+                    if (p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).Count() > 0)
+                    {
+                        var v = p.GetValue(list[0]);
+                        bool isCommon = true;
+                        foreach (var o in list)
+                            if (isCommon = (p.GetValue(o) != v))
+                                break;
+                        if (isCommon)
+                            p.SetValue(common, v);
+                    }
+                return common;
             }
             else if (list.Count == 1)
                 return list[0];
-            else return null;
+            else
+                return null;
         }
         public static bool GetBoolKeyValue(int index, int key)
         {

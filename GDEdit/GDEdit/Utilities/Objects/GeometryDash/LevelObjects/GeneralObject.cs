@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -168,5 +170,57 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingX">The ending X position of the rectangle.</param>
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
+
+        public static GeneralObject GetNewObjectInstance(int objectID)
+        {
+            switch (objectID)
+            {
+                case (int)Enumerations.GeometryDash.Trigger.Alpha:
+                    return new AlphaTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Animate:
+                    return new AnimateTrigger();
+                // TODO: Create the appropriate Color trigger class
+                case (int)Enumerations.GeometryDash.Trigger.BG:
+                case (int)Enumerations.GeometryDash.Trigger.GRND:
+                case (int)Enumerations.GeometryDash.Trigger.GRND2:
+                case (int)Enumerations.GeometryDash.Trigger.ThreeDL:
+                case (int)Enumerations.GeometryDash.Trigger.Obj:
+                case (int)Enumerations.GeometryDash.Trigger.Line:
+                case (int)Enumerations.GeometryDash.Trigger.Color:
+                    return new GeneralObject();
+                case (int)Enumerations.GeometryDash.Trigger.Collision:
+                    return new CollisionTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Count:
+                    return new GeneralObject();
+                case (int)Enumerations.GeometryDash.Trigger.Follow:
+                    return new FollowTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.FollowPlayerY:
+                    return new FollowPlayerYTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.InstantCount:
+                    return new InstantCountTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Move:
+                    return new MoveTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.OnDeath:
+                    return new OnDeathTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Pickup:
+                    return new PickupTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Pulse:
+                    return new PulseTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Rotate:
+                    return new RotateTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Shake:
+                    return new ShakeTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Spawn:
+                    return new SpawnTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Stop:
+                    return new StopTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Toggle:
+                    return new ToggleTrigger();
+                case (int)Enumerations.GeometryDash.Trigger.Touch:
+                    return new TouchTrigger();
+                default:
+                    return new GeneralObject(objectID);
+            }
+        }
     }
 }
