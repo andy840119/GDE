@@ -100,7 +100,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public bool LevelVerifiedStatus;
         /// <summary>Determines whether the level has been uploaded or not.</summary>
         public bool LevelUploadedStatus;
-        // Changing this to List<GeneralObject> caused errors, fix in another PR
         /// <summary>The level's objects.</summary>
         public List<GeneralObject> LevelObjects
         {
@@ -200,6 +199,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        /// <summary>Returns the guideline string of a list of guidelines.</summary>
+        /// <param name="guidelines">The list of guidelines to get the guideline string of.</param>
         public static string GetGuidelineString(List<Guideline> guidelines)
         {
             StringBuilder result = new StringBuilder();

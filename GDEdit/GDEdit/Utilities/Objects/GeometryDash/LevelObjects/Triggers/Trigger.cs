@@ -16,6 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         [ObjectStringMappable(ObjectParameter.Duration)]
         public new virtual int ObjectID { get; }
         
+        /// <summary>The Touch Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TouchTriggered)]
         public bool TouchTriggered
         {
@@ -27,6 +28,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 touchTriggered = value;
             }
         }
+        /// <summary>The Spawn Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SpawnTriggered)]
         public bool SpawnTriggered
         {
@@ -38,17 +40,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 spawnTriggered = value;
             }
         }
+        /// <summary>The Multi Trigger property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.MultiTrigger)]
         public bool MultiTrigger { get; set; }
 
-        public Trigger()
-        {
-
-        }
+        /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
+        public Trigger() { }
+        /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
+        /// <param name="touchTriggered">The Touch Triggered property of the trigger.</param>
         public Trigger(bool touchTriggered)
         {
             TouchTriggered = touchTriggered;
         }
+        /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
+        /// <param name="spawnTriggered">The Spawn Triggered property of the trigger.</param>
+        /// <param name="multiTrigger">The Multi Trigger property of the trigger.</param>
         public Trigger(bool spawnTriggered, bool multiTrigger)
         {
             SpawnTriggered = spawnTriggered;
