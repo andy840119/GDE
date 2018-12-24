@@ -28,10 +28,10 @@ namespace GDE.App.Main.UI.Tabs
 
             colours = new ColourInfo
             {
-                TopLeft = GDEColours.FromHex(@"353535"),
-                TopRight = GDEColours.FromHex(@"353535"),
-                BottomLeft = GDEColours.FromHex(@"272727"),
-                BottomRight = GDEColours.FromHex(@"272727")
+                TopLeft = GDEColours.FromHex("353535"),
+                TopRight = GDEColours.FromHex("353535"),
+                BottomLeft = GDEColours.FromHex("272727"),
+                BottomRight = GDEColours.FromHex("272727")
             };
 
             Children = new Drawable[]

@@ -31,7 +31,7 @@ namespace GDE.App.Main.Screens
                         RelativeSizeAxes = Axes.Both,
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
-                        Colour = GDEColours.FromHex(@"151515")
+                        Colour = GDEColours.FromHex("151515")
                     },
                     new LevelTab
                     {

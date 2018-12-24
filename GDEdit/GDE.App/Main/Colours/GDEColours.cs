@@ -6,9 +6,9 @@ namespace GDE.App.Main.Colours
     public class GDEColours
     {
         /// <summary>
-        /// Returns a Color4 value from a Hex strinhgdefk;joiu 67n5jiyrt;l'fp
+        /// Returns a Color4 value from a Hex String
         /// </summary>
-        /// <param name="hex">Hex value (pretty self explanitory)</param>
+        /// <param name="hex">Hex value (pretty self explanatory)</param>
         /// <returns><see cref="Color4"/> from Hex</returns>
         public static Color4 FromHex(string hex)
         {
