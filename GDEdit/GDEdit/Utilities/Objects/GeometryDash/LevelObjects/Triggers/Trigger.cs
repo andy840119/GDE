@@ -39,7 +39,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             }
         }
         [ObjectStringMappable(ObjectParameter.MultiTrigger)]
-        public bool MultiTrigger;
+        public bool MultiTrigger { get; set; }
 
         public Trigger()
         {
