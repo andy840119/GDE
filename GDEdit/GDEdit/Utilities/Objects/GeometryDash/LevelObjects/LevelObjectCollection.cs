@@ -55,6 +55,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         {
             get
             {
+                // TODO: Simplify this like the TriggerCount property
                 if (colorTriggerCount == -1)
                 {
                     colorTriggerCount = ObjectCounts.ValueOrDefault((int)TriggerType.Color);

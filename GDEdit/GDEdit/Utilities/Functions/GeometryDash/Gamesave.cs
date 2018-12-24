@@ -306,14 +306,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 objCounts[i] = GetObjects(GetObjectString(UserLevels[i].LevelString)).DifferentObjectIDCount;
             return objCounts;
         }
-        public static int[] GetDifferentObjectIDs(List<GeneralObject> l)
-        {
-            List<int> diffObjIDs = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-                if (!diffObjIDs.Contains(l[i].ObjectID))
-                    diffObjIDs.Add(l[i].ObjectID);
-            return diffObjIDs.ToArray();
-        }
         public static int[] GetLevelAttempts()
         {
             return TryGetKeyValues(18, "i", "0").ToInt32Array();
@@ -349,33 +341,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         public static int[] GetLevelVersions()
         {
             return TryGetKeyValues(16, "i", "0").ToInt32Array();
-        }
-        public static int[] GetUsedGroupIDs(List<GeneralObject> l)
-        {
-            List<int> usedGroupIDs = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-            {
-                int[] GroupIDs = l[i].GroupIDs;
-                if (GroupIDs != null)
-                    for (int j = 0; j < GroupIDs.Length; j++)
-                        if (!usedGroupIDs.Contains(GroupIDs[j]))
-                            usedGroupIDs.Add(GroupIDs[j]);
-            }
-            return usedGroupIDs.ToArray();
-        }
-        public static string CreateGuidelineString(List<double> timeStamps, List<double> colors)
-        {
-            string guidelineString = "";
-            for (int i = 0; i < timeStamps.Count; i++)
-                guidelineString += timeStamps[i].ToString() + "~" + colors[i].ToString() + "~";
-            return guidelineString;
-        }
-        public static string CreateGuidelineString(List<Guideline> guidelines)
-        {
-            string guidelineString = "";
-            for (int i = 0; i < guidelines.Count; i++)
-                guidelineString += guidelines[i].TimeStamp.ToString() + "~" + guidelines[i].Color.ToString() + "~";
-            return guidelineString;
         }
         public static string GetCustomSongLocation(int index)
         {
@@ -960,7 +925,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     bool isEncrypted = TryDecryptLevelString(index, out UserLevels[index].DecryptedLevelString);
                     if (isEncrypted)
                     {
-                        UserLevels[index].RawLevel.Replace(UserLevels[index].LevelString, UserLevels[index].DecryptedLevelString);
+                        UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace(UserLevels[index].LevelString, UserLevels[index].DecryptedLevelString);
                         // TODO: Probably refactor
                         UserLevels[index].LevelString = UserLevels[index].DecryptedLevelString;
                     }
@@ -975,41 +940,9 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 }
                 UserLevels[index].LevelGuidelinesString = GetGuidelineString(index);
                 UserLevels[index].LevelObjects = GetObjects(GetObjectString(UserLevels[index].DecryptedLevelString));
-                GetObjectCounts(index);
             }
         }
-
-        public static void GetObjectCounts(int index)
-        {
-            if (UserLevels[index].LevelObjects.Count > 0)
-            {
-                for (int i = 0; i < UserLevels[index].LevelObjects.Count; i++)
-                {
-                    int ID = (int)UserLevels[index].LevelObjects[i].ObjectID;
-                    if (!UserLevels[index].ObjectCounts.ContainsKey(ID))
-                        UserLevels[index].ObjectCounts.Add(ID, 1);
-                    else
-                        UserLevels[index].ObjectCounts[ID]++;
-                }
-            }
-        }
-        public static Dictionary<int, int> GetObjectCounts(string level)
-        {
-            Dictionary<int, int> result = new Dictionary<int, int>();
-            string[,] objects = GetObjectString(GetLevelString(level)).Split(';').Split(',');
-            if (objects.GetLength(1) > 1)
-            {
-                for (int i = 0; i < objects.GetLength(0); i++)
-                {
-                    int ID = ToInt32(objects[i, 1]);
-                    if (!result.ContainsKey(ID))
-                        result.Add(ID, 1);
-                    else
-                        result[ID]++;
-                }
-            }
-            return result;
-        }
+        
         public static void ImportLevel(string level)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
