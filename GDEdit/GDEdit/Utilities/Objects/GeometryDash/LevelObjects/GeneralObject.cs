@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
@@ -175,48 +176,53 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         {
             switch (objectID)
             {
-                case (int)Enumerations.GeometryDash.TriggerType.Alpha:
+                case (int)TriggerType.Alpha:
                     return new AlphaTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Animate:
+                case (int)TriggerType.Animate:
                     return new AnimateTrigger();
-                // TODO: Create the appropriate Color trigger class
-                case (int)Enumerations.GeometryDash.TriggerType.BG:
-                case (int)Enumerations.GeometryDash.TriggerType.GRND:
-                case (int)Enumerations.GeometryDash.TriggerType.GRND2:
-                case (int)Enumerations.GeometryDash.TriggerType.ThreeDL:
-                case (int)Enumerations.GeometryDash.TriggerType.Obj:
-                case (int)Enumerations.GeometryDash.TriggerType.Line:
-                case (int)Enumerations.GeometryDash.TriggerType.Color:
-                    return new GeneralObject();
-                case (int)Enumerations.GeometryDash.TriggerType.Collision:
+                case (int)TriggerType.BG:
+                case (int)TriggerType.GRND:
+                case (int)TriggerType.GRND2:
+                case (int)TriggerType.ThreeDL:
+                case (int)TriggerType.Obj:
+                case (int)TriggerType.Line:
+                    return new ColorTrigger((int)ColorTriggerTypes.ConvertToSpecialColorID((TriggerType)objectID));
+                case (int)TriggerType.Color1:
+                case (int)TriggerType.Color2:
+                case (int)TriggerType.Color3:
+                case (int)TriggerType.Color4:
+                    return new ColorTrigger(ColorTriggerTypes.ConvertToColorID((TriggerType)objectID));
+                case (int)TriggerType.Color:
+                    return new ColorTrigger();
+                case (int)TriggerType.Collision:
                     return new CollisionTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Count:
+                case (int)TriggerType.Count:
                     return new GeneralObject();
-                case (int)Enumerations.GeometryDash.TriggerType.Follow:
+                case (int)TriggerType.Follow:
                     return new FollowTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.FollowPlayerY:
+                case (int)TriggerType.FollowPlayerY:
                     return new FollowPlayerYTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.InstantCount:
+                case (int)TriggerType.InstantCount:
                     return new InstantCountTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Move:
+                case (int)TriggerType.Move:
                     return new MoveTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.OnDeath:
+                case (int)TriggerType.OnDeath:
                     return new OnDeathTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Pickup:
+                case (int)TriggerType.Pickup:
                     return new PickupTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Pulse:
+                case (int)TriggerType.Pulse:
                     return new PulseTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Rotate:
+                case (int)TriggerType.Rotate:
                     return new RotateTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Shake:
+                case (int)TriggerType.Shake:
                     return new ShakeTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Spawn:
+                case (int)TriggerType.Spawn:
                     return new SpawnTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Stop:
+                case (int)TriggerType.Stop:
                     return new StopTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Toggle:
+                case (int)TriggerType.Toggle:
                     return new ToggleTrigger();
-                case (int)Enumerations.GeometryDash.TriggerType.Touch:
+                case (int)TriggerType.Touch:
                     return new TouchTrigger();
                 default:
                     return new GeneralObject(objectID);

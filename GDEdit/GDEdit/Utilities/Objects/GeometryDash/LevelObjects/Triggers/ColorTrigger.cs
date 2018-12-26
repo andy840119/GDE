@@ -51,11 +51,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
         public ColorTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
+        /// <param name="targetID">The target ID of the trigger.</param>
+        public ColorTrigger(int targetID)
+        {
+            TargetColorID = targetID;
+        }
+        /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetID">The target ID of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public ColorTrigger(float duration, int targetID, bool copyOpacity = false, bool tintGround = false)
+            : this(targetID)
         {
             Duration = duration;
             TargetColorID = targetID;
