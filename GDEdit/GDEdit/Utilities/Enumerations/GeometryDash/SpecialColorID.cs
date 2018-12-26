@@ -25,7 +25,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         P2 = 1006,
         /// <summary>The LBG Color Channel.</summary>
         LBG = 1007,
-        /// <summary>The BG Color Channel.</summary>
+        /// <summary>The GRND2 Color Channel.</summary>
         GRND2 = 1009,
         /// <summary>The Black Color Channel.</summary>
         Black = 1010,
