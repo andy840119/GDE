@@ -227,10 +227,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         private void AdjustCounters(GeneralObject o, int adjustment)
         {
-#line 16707565
             switch (o)
             {
-                // Add ColorTrigger case
+                case ColorTrigger _:
+                    if (colorTriggerCount > -1)
+                        colorTriggerCount += adjustment;
+                    break;
                 case Trigger _:
                     if (triggerCount > -1)
                         triggerCount += adjustment;
