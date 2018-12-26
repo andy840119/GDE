@@ -65,6 +65,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\TouchToggleMode.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ZLayer.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\LevelLength.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\SpecialColorID.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\TriggerType.cs" />
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
     <Compile Include="Utilities\Functions\General\Extensions.cs" />
     <Compile Include="Utilities\Functions\General\UsefulFunctions.cs" />
+    <Compile Include="Utilities\Functions\GeometryDash\ColorTriggerTypes.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Easing.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Gamesave.cs" />
     <Compile Include="Utilities\Information\GeometryDash\LevelObjectInformation.cs" />
@@ -89,6 +91,17 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color4ColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color3ColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color2ColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\LineColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color1ColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\ThreeDLColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\ObjColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\GRND2ColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\GRNDColorTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\BGColorTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ShakeTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\InstantCountTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\CountTrigger.cs" />
