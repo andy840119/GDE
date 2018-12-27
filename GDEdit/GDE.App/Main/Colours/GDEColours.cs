@@ -20,17 +20,28 @@ namespace GDE.App.Main.Colours
                 default:
                     throw new ArgumentException(@"Invalid hex string length!");
                 case 3:
-                    return new Color4(
-                        (byte)(Convert.ToByte(hex.Substring(0, 1), 16) * 17),
-                        (byte)(Convert.ToByte(hex.Substring(1, 1), 16) * 17),
-                        (byte)(Convert.ToByte(hex.Substring(2, 1), 16) * 17),
-                        255);
+                    return convertToHex3(hex);
                 case 6:
-                    return new Color4(
-                        Convert.ToByte(hex.Substring(0, 2), 16),
-                        Convert.ToByte(hex.Substring(2, 2), 16),
-                        Convert.ToByte(hex.Substring(4, 2), 16),
-                        255);
+                    return convertToHex6(hex);
+                     
+            }
+
+            Color4 convertToHex6(string _hex)
+            {
+                return new Color4(
+                    Convert.ToByte(_hex.Substring(0, 2), 16),
+                    Convert.ToByte(_hex.Substring(2, 2), 16),
+                    Convert.ToByte(_hex.Substring(4, 2), 16),
+                    255);
+            }
+
+            Color4 convertToHex3(string _hex)
+            {
+                return new Color4(
+                    (byte)(Convert.ToByte(_hex.Substring(0, 1), 16) * 17),
+                    (byte)(Convert.ToByte(_hex.Substring(1, 1), 16) * 17),
+                    (byte)(Convert.ToByte(_hex.Substring(2, 1), 16) * 17),
+                    255);
             }
         }
 
