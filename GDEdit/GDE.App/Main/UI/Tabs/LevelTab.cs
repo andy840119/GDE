@@ -15,7 +15,7 @@ namespace GDE.App.Main.UI.Tabs
 {
     public class LevelTab : TabbableContainer
     {
-        public string Text;
+        public SpriteText Text;
         public Action clickAction;
 
         private ColourInfo colours;
@@ -59,11 +59,10 @@ namespace GDE.App.Main.UI.Tabs
                             Anchor = Anchor.Centre,
                             Alpha = 0
                         },
-                        new SpriteText
+                        Text = new SpriteText
                         {
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre,
-                            Text = Text,
                         }
                     }
                 }

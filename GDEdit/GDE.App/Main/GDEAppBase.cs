@@ -20,8 +20,6 @@ namespace GDE.App.Main
 
         public GDEAppBase()
         {
-            Name = @"GD Edit";
-
             storage = new DesktopStorage("GD Edit", Host);
         }
 
@@ -32,6 +30,11 @@ namespace GDE.App.Main
             dependencies.Cache(storage);
 
             Resources.AddStore(new DllResourceStore(mainResourceFile));
+
+            Fonts = new FontStore(new GlyphStore(Resources, @"Fonts/Arial"));
+            Fonts.AddStore(new GlyphStore(Resources, @"Fonts/FontAwesome"));
+
+            dependencies.Cache(Fonts);
         }
 
         public override void SetHost(GameHost host)
