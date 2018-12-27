@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Shake trigger.</summary>
     public class ShakeTrigger : Trigger, IHasDuration
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Shake;
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Shake;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;

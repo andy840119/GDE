@@ -16,6 +16,7 @@ using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.General;
+using GDEdit.Utilities.Attributes;
 
 namespace GDEdit.Utilities.Functions.GeometryDash
 {
@@ -150,7 +151,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     g.Add(guidelines[i]);
             return g;
         }
-        public static List<GeneralObject> GetObjects(string objectString)
+        public static LevelObjectCollection GetObjects(string objectString)
         {
             List<GeneralObject> objects = new List<GeneralObject>();
             while (objectString.Length > 0 && objectString[objectString.Length - 1] == ';')
@@ -198,32 +199,35 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 objectParameters = null;
                 //GC.Collect();
             }
-            return objects;
+            return new LevelObjectCollection(objects);
         }
-        public static LevelObject GetCommonAttributes(List<LevelObject> list, int objectID)
+        public static GeneralObject GetCommonAttributes(List<GeneralObject> list, int objectID)
         {
-            LevelObject commonAttributes = new LevelObject(objectID);
+            GeneralObject common = GeneralObject.GetNewObjectInstance(objectID);
+
             for (int i = list.Count; i >= 0; i--)
-                if ((int)list[i][ObjectParameter.ID] != objectID)
+                if (list[i].ObjectID != objectID)
                     list.RemoveAt(i);
             if (list.Count > 1)
             {
-                for (int i = 1; i < ParameterCount; i++)
-                {
-                    object commonAttribute = list[0].Parameters[i];
-                    for (int j = 1; j < list.Count; j++)
-                        if (commonAttribute != list[j].Parameters[i])
-                        {
-                            commonAttribute = null;
-                            break;
-                        }
-                    commonAttributes.Parameters[i] = commonAttribute;
-                }
-                return commonAttributes;
+                var properties = common.GetType().GetProperties();
+                foreach (var p in properties)
+                    if (p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).Count() > 0)
+                    {
+                        var v = p.GetValue(list[0]);
+                        bool isCommon = true;
+                        foreach (var o in list)
+                            if (isCommon = (p.GetValue(o) != v))
+                                break;
+                        if (isCommon)
+                            p.SetValue(common, v);
+                    }
+                return common;
             }
             else if (list.Count == 1)
                 return list[0];
-            else return null;
+            else
+                return null;
         }
         public static bool GetBoolKeyValue(int index, int key)
         {
@@ -283,34 +287,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             return GetNumberOfGuidelines(GetGuidelineString(index));
         }
-        public static int GetTriggerCount(List<GeneralObject> l)
-        {
-            int count = 0;
-            for (int i = 0; i < l.Count; i++)
-                if (ObjectLists.TriggerList.Contains(l[i].ObjectID))
-                    count++;
-            return count;
-        }
-        public static int GetDifferentObjectCount(List<GeneralObject> l)
-        {
-            List<int> diffObjIDs = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-                if (!diffObjIDs.Contains(l[i].ObjectID))
-                    diffObjIDs.Add(l[i].ObjectID);
-            return diffObjIDs.Count;
-        }
-        public static int GetUsedGroupCounts(List<GeneralObject> l)
-        {
-            List<int> usedGroupIDs = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-            {
-                int[] GroupIDs = l[i].GroupIDs;
-                for (int j = 0; j < GroupIDs.Length; j++)
-                    if (!usedGroupIDs.Contains(GroupIDs[j]))
-                        usedGroupIDs.Add(GroupIDs[j]);
-            }
-            return usedGroupIDs.Count;
-        }
         public static int SetLevelStringsForEmptyLevels()
         {
             int lvls = 0;
@@ -327,23 +303,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             int[] objCounts = new int[UserLevelCount];
             for (int i = 0; i < UserLevelCount; i++)
-                objCounts[i] = GetDifferentObjectCount(GetObjects(GetObjectString(UserLevels[i].LevelString)));
+                objCounts[i] = GetObjects(GetObjectString(UserLevels[i].LevelString)).DifferentObjectIDCount;
             return objCounts;
-        }
-        public static int[] GetDifferentObjectIDs(List<GeneralObject> l)
-        {
-            List<int> diffObjIDs = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-                if (!diffObjIDs.Contains(l[i].ObjectID))
-                    diffObjIDs.Add(l[i].ObjectID);
-            return diffObjIDs.ToArray();
-        }
-        public static int[] GetUsedGroupCounts()
-        {
-            int[] usedGroupIDs = new int[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-                usedGroupIDs[i] = GetUsedGroupCounts(GetObjects(GetObjectString(UserLevels[i].LevelString)));
-            return usedGroupIDs;
         }
         public static int[] GetLevelAttempts()
         {
@@ -380,47 +341,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         public static int[] GetLevelVersions()
         {
             return TryGetKeyValues(16, "i", "0").ToInt32Array();
-        }
-        public static int[] GetUsedGroupIDs(List<GeneralObject> l)
-        {
-            List<int> usedGroupIDs = new List<int>();
-            for (int i = 0; i < l.Count; i++)
-            {
-                int[] GroupIDs = l[i].GroupIDs;
-                if (GroupIDs != null)
-                    for (int j = 0; j < GroupIDs.Length; j++)
-                        if (!usedGroupIDs.Contains(GroupIDs[j]))
-                            usedGroupIDs.Add(GroupIDs[j]);
-            }
-            return usedGroupIDs.ToArray();
-        }
-        public static List<int[]> GetDifferentLevelObjectIDs()
-        {
-            List<int[]> objCounts = new List<int[]>();
-            for (int i = 0; i < UserLevelCount; i++)
-                objCounts.Add(GetDifferentObjectIDs(GetObjects(GetObjectString(UserLevels[i].DecryptedLevelString))));
-            return objCounts;
-        }
-        public static List<int[]> GetUsedGroupIDs()
-        {
-            List<int[]> usedGroupIDs = new List<int[]>();
-            for (int i = 0; i < UserLevelCount; i++)
-                usedGroupIDs.Add(GetUsedGroupIDs(GetObjects(GetObjectString(UserLevels[i].DecryptedLevelString))));
-            return usedGroupIDs;
-        }
-        public static string CreateGuidelineString(List<double> timeStamps, List<double> colors)
-        {
-            string guidelineString = "";
-            for (int i = 0; i < timeStamps.Count; i++)
-                guidelineString += timeStamps[i].ToString() + "~" + colors[i].ToString() + "~";
-            return guidelineString;
-        }
-        public static string CreateGuidelineString(List<Guideline> guidelines)
-        {
-            string guidelineString = "";
-            for (int i = 0; i < guidelines.Count; i++)
-                guidelineString += guidelines[i].TimeStamp.ToString() + "~" + guidelines[i].Color.ToString() + "~";
-            return guidelineString;
         }
         public static string GetCustomSongLocation(int index)
         {
@@ -505,8 +425,11 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static string GetLevelKeyEntry(string levelString, string name, string desc)
         {
-            List<GeneralObject> objects = GetObjects(levelString);
-            return $"<d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>0</i><k>k48</k><i>{objects.Count}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
+            int objectCount = -1;
+            for (int i = 0; i < levelString.Length; i++)
+                if (levelString[i] == ';')
+                    objectCount++;
+            return $"<d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>0</i><k>k48</k><i>{objectCount}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
         }
         public static string GetLevelLengthString(int index)
         {
@@ -1002,7 +925,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     bool isEncrypted = TryDecryptLevelString(index, out UserLevels[index].DecryptedLevelString);
                     if (isEncrypted)
                     {
-                        UserLevels[index].RawLevel.Replace(UserLevels[index].LevelString, UserLevels[index].DecryptedLevelString);
+                        UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace(UserLevels[index].LevelString, UserLevels[index].DecryptedLevelString);
                         // TODO: Probably refactor
                         UserLevels[index].LevelString = UserLevels[index].DecryptedLevelString;
                     }
@@ -1017,43 +940,9 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 }
                 UserLevels[index].LevelGuidelinesString = GetGuidelineString(index);
                 UserLevels[index].LevelObjects = GetObjects(GetObjectString(UserLevels[index].DecryptedLevelString));
-                UserLevels[index].LevelDifferentObjectIDs = GetDifferentObjectIDs(UserLevels[index].LevelObjects);
-                UserLevels[index].LevelUsedGroupIDs = GetUsedGroupIDs(UserLevels[index].LevelObjects);
-                GetObjectCounts(index);
             }
         }
-
-        public static void GetObjectCounts(int index)
-        {
-            if (UserLevels[index].LevelObjects.Count > 0)
-            {
-                for (int i = 0; i < UserLevels[index].LevelObjects.Count; i++)
-                {
-                    int ID = (int)UserLevels[index].LevelObjects[i].ObjectID;
-                    if (!UserLevels[index].ObjectCounts.ContainsKey(ID))
-                        UserLevels[index].ObjectCounts.Add(ID, 1);
-                    else
-                        UserLevels[index].ObjectCounts[ID]++;
-                }
-            }
-        }
-        public static Dictionary<int, int> GetObjectCounts(string level)
-        {
-            Dictionary<int, int> result = new Dictionary<int, int>();
-            string[,] objects = GetObjectString(GetLevelString(level)).Split(';').Split(',');
-            if (objects.GetLength(1) > 1)
-            {
-                for (int i = 0; i < objects.GetLength(0); i++)
-                {
-                    int ID = ToInt32(objects[i, 1]);
-                    if (!result.ContainsKey(ID))
-                        result.Add(ID, 1);
-                    else
-                        result[ID]++;
-                }
-            }
-            return result;
-        }
+        
         public static void ImportLevel(string level)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start

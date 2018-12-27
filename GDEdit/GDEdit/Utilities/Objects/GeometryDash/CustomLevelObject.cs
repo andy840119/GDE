@@ -14,11 +14,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     public class CustomLevelObject
     {
         /// <summary>The objects of the custom object.</summary>
-        public List<GeneralObject> LevelObjects;
+        public LevelObjectCollection LevelObjects;
         
         /// <summary>Creates a new instance of the <seealso cref="CustomLevelObject"/> class from the specified list of objects.</summary>
         /// <param name="levelObjects">The objects this custom object has.</param>
-        public CustomLevelObject(List<GeneralObject> levelObjects)
+        public CustomLevelObject(LevelObjectCollection levelObjects)
         {
             LevelObjects = levelObjects.Clone();
             if (LevelObjects.Count > 0)

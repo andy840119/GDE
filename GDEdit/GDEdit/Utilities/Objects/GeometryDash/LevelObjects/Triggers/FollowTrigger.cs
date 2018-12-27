@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Follow trigger.</summary>
     public class FollowTrigger : Trigger, IHasDuration, IHasTargetGroupID, IHasSecondaryGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Follow;
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Follow;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
@@ -33,7 +33,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Follow Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.FollowGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
-        public int FollowGroupID;
+        public int FollowGroupID { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowTrigger"/> class.</summary>
         public FollowTrigger() { }

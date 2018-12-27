@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Touch trigger.</summary>
     public class TouchTrigger : Trigger, IHasTargetGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Touch;
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Touch;
         
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID { get; set; }

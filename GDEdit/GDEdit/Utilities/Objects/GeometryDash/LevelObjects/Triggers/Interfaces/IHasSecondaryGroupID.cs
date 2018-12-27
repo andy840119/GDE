@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     /// <summary>Represents a trigger which contains a definition for a secondary Group ID.</summary>
     public interface IHasSecondaryGroupID
     {
+        /// <summary>The secondary Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         int SecondaryGroupID { get; }
     }

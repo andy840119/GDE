@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Move trigger.</summary>
     public class MoveTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Move;
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
@@ -36,17 +36,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public float MoveY { get; set; }
         /// <summary>The Lock to Player X property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToPlayerX)]
-        public bool LockToPlayerX;
+        public bool LockToPlayerX { get; set; }
         /// <summary>The Lock to Player Y property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToPlayerY)]
-        public bool LockToPlayerY;
+        public bool LockToPlayerY { get; set; }
         /// <summary>The Target Pos Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.TargetPosGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
-        public int TargetPosGroupID;
+        public int TargetPosGroupID { get; set; }
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
-        public MoveTargetPosCoordinates TargetPosCoordinates;
+        public MoveTargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="MoveTrigger"/> class.</summary>
         public MoveTrigger() { }

@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Alpha trigger.</summary>
     public class AlphaTrigger : Trigger, IHasDuration, IHasTargetGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.Trigger.Alpha;
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Alpha;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;

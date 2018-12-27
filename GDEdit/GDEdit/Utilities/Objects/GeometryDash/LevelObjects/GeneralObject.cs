@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -17,19 +20,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
-        public int ObjectID;
+        public int ObjectID { get; set; }
         /// <summary>The X position of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.X)]
-        public double X;
+        public double X { get; set; }
         /// <summary>The Y position of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.Y)]
-        public double Y;
+        public double Y { get; set; }
         /// <summary>Determines whether this object is flipped horizontally or not.</summary>
         [ObjectStringMappable(ObjectParameter.FlippedHorizontally)]
-        public bool FlippedHorizontally;
+        public bool FlippedHorizontally { get; set; }
         /// <summary>Determines whether this object is flipped vertically or not.</summary>
         [ObjectStringMappable(ObjectParameter.FlippedVertically)]
-        public bool FlippedVertically;
+        public bool FlippedVertically { get; set; }
         /// <summary>The rotation of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.Rotation)]
         public double Rotation
@@ -44,46 +47,46 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The scaling of this object.</summary>
         [ObjectStringMappable((int)ObjectParameter.Scaling)]
-        public double Scaling;
+        public double Scaling { get; set; }
         /// <summary>The Editor Layer 1 of this object.</summary>
         [ObjectStringMappable(ObjectParameter.EL1)]
-        public int EL1;
+        public int EL1 { get; set; }
         /// <summary>The Editor Layer 2 of this object.</summary>
         [ObjectStringMappable(ObjectParameter.EL2)]
-        public int EL2;
+        public int EL2 { get; set; }
         /// <summary>The Z Layer of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ZLayer)]
-        public int ZLayer;
+        public int ZLayer { get; set; }
         /// <summary>The Z Order of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ZOrder)]
-        public int ZOrder;
+        public int ZOrder { get; set; }
         /// <summary>The Color 1 ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.Color1)]
-        public int Color1ID;
+        public int Color1ID { get; set; }
         /// <summary>The Color 2 ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.Color2)]
-        public int Color2ID;
+        public int Color2ID { get; set; }
         /// <summary>The Group IDs of this object.</summary>
         [ObjectStringMappable(ObjectParameter.GroupIDs)]
-        public int[] GroupIDs;
+        public int[] GroupIDs { get; set; }
         /// <summary>The linked group ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.LinkedGroupID)]
-        public int LinkedGroupID;
+        public int LinkedGroupID { get; set; }
         /// <summary>Determines whether this object is the group parent or not.</summary>
         [ObjectStringMappable(ObjectParameter.GroupParent)]
-        public bool GroupParent;
+        public bool GroupParent { get; set; }
         /// <summary>Determines whether this object is for high detail or not.</summary>
         [ObjectStringMappable(ObjectParameter.HighDetail)]
-        public bool HighDetail;
+        public bool HighDetail { get; set; }
         /// <summary>Determines whether this object should have an entrance effect or not.</summary>
         [ObjectStringMappable(ObjectParameter.DontEnter)]
-        public bool DontEnter;
+        public bool DontEnter { get; set; }
         /// <summary>Determines whether this object should have the fade in and out disabled or not.</summary>
         [ObjectStringMappable(ObjectParameter.DontFade)]
-        public bool DontFade;
+        public bool DontFade { get; set; }
         /// <summary>Determines whether this object should have its glow disabled or not.</summary>
         [ObjectStringMappable(ObjectParameter.DisableGlow)]
-        public bool DisableGlow;
+        public bool DisableGlow { get; set; }
 
         /// <summary>Gets or sets a <seealso cref="Point"/> instance with the location of the object.</summary>
         public Point Location
@@ -168,5 +171,62 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingX">The ending X position of the rectangle.</param>
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
+
+        public static GeneralObject GetNewObjectInstance(int objectID)
+        {
+            switch (objectID)
+            {
+                case (int)TriggerType.Alpha:
+                    return new AlphaTrigger();
+                case (int)TriggerType.Animate:
+                    return new AnimateTrigger();
+                case (int)TriggerType.BG:
+                case (int)TriggerType.GRND:
+                case (int)TriggerType.GRND2:
+                case (int)TriggerType.ThreeDL:
+                case (int)TriggerType.Obj:
+                case (int)TriggerType.Line:
+                    return new ColorTrigger((int)ColorTriggerTypes.ConvertToSpecialColorID((TriggerType)objectID));
+                case (int)TriggerType.Color1:
+                case (int)TriggerType.Color2:
+                case (int)TriggerType.Color3:
+                case (int)TriggerType.Color4:
+                    return new ColorTrigger(ColorTriggerTypes.ConvertToColorID((TriggerType)objectID));
+                case (int)TriggerType.Color:
+                    return new ColorTrigger();
+                case (int)TriggerType.Collision:
+                    return new CollisionTrigger();
+                case (int)TriggerType.Count:
+                    return new GeneralObject();
+                case (int)TriggerType.Follow:
+                    return new FollowTrigger();
+                case (int)TriggerType.FollowPlayerY:
+                    return new FollowPlayerYTrigger();
+                case (int)TriggerType.InstantCount:
+                    return new InstantCountTrigger();
+                case (int)TriggerType.Move:
+                    return new MoveTrigger();
+                case (int)TriggerType.OnDeath:
+                    return new OnDeathTrigger();
+                case (int)TriggerType.Pickup:
+                    return new PickupTrigger();
+                case (int)TriggerType.Pulse:
+                    return new PulseTrigger();
+                case (int)TriggerType.Rotate:
+                    return new RotateTrigger();
+                case (int)TriggerType.Shake:
+                    return new ShakeTrigger();
+                case (int)TriggerType.Spawn:
+                    return new SpawnTrigger();
+                case (int)TriggerType.Stop:
+                    return new StopTrigger();
+                case (int)TriggerType.Toggle:
+                    return new ToggleTrigger();
+                case (int)TriggerType.Touch:
+                    return new TouchTrigger();
+                default:
+                    return new GeneralObject(objectID);
+            }
+        }
     }
 }
