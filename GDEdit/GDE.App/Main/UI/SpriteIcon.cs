@@ -104,10 +104,7 @@ namespace GDE.App.Main.UI
         private bool shadow;
         public bool Shadow
         {
-            get
-            {
-                return shadow;
-            }
+            get => shadow;
             set
             {
                 shadow = value;
