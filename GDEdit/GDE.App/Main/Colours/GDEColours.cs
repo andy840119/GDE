@@ -17,25 +17,17 @@ namespace GDE.App.Main.Colours
 
             switch (hex.Length)
             {
+                case 3:
+                    return new Color4(getByte(hex, 0, 2), getByte(hex, 2, 2), getByte(hex, 4, 2), 255);
+                case 6:
+                    return new Color4(getByte(hex, 0, 1) * 17, getByte(hex, 1, 1) * 17, getByte(hex, 2, 1) * 17, 255);
                 default:
                     throw new ArgumentException(@"Invalid hex string length!");
-                case 3:
-                    return new Color4(
-                        convertToHex(hex, 0, 2),
-                        convertToHex(hex, 2, 2),
-                        convertToHex(hex, 4, 2),
-                    255);
-                case 6:
-                    return new Color4(
-                        convertToHex(hex, 0, 1) * 17,
-                        convertToHex(hex, 1, 1) * 17,
-                        convertToHex(hex, 2, 1) * 17,
-                    255);
             }
 
-            Byte convertToHex(string _hex, int n, int k)
+            byte getByte(string Hex, int n, int k)
             {
-                return Convert.ToByte(hex.Substring(n, k), 16);
+                return Convert.ToByte(Hex.Substring(n, k), 16);
             }
         }
 
