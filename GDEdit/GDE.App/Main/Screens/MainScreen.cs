@@ -30,7 +30,7 @@ namespace GDE.App.Main.Screens
                             RelativeSizeAxes = Axes.Both,
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre,
-                            Colour = GDEColours.FromHex("151515")
+                            Colour = new Color4(25, 25, 25, 255)
                         },
                         new FillFlowContainer
                         {
