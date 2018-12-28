@@ -27,8 +27,7 @@ namespace GDE.App.Main.Colours
                     throw new ArgumentException(@"Invalid hex string length!");
             }
 
-            byte getByte(int n, int k)
-                => Convert.ToByte(hex.Substring(n, k), 16);
+            byte getByte(int n, int k) => Convert.ToByte(hex.Substring(n, k), 16);
         }
 
         // TODO: Add official colours here:
