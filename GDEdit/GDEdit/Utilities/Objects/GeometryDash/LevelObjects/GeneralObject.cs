@@ -174,6 +174,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         public static GeneralObject GetNewObjectInstance(int objectID)
         {
+            // TODO: Consider using reflection within this namespace
             switch (objectID)
             {
                 // Triggers
