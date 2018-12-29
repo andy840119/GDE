@@ -57,6 +57,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\Easing.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\InstantCountComparison.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\PadType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\MoveTargetPosCoordinates.cs" />
@@ -104,6 +105,11 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\RedOrb.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\TriggerOrb.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\Orb.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\MagentaPad.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\BluePad.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\RedPad.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\YellowPad.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\Pad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\TextObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowDualPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueDualPortal.cs" />
