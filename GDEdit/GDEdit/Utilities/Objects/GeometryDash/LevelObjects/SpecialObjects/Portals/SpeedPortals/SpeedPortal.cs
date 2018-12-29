@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals
 {
     /// <summary>Represents a speed portal in the game</summary>
-    public abstract class SpeedPortal : Portal
+    public abstract class SpeedPortal : Portal, IHasCheckedProperty
     {
         /// <summary>The gamemode the manipulation portal transforms the player into.</summary>
         public abstract Speed Speed { get; }
