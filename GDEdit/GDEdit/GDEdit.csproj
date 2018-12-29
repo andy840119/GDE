@@ -57,6 +57,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\Easing.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\InstantCountComparison.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\MoveTargetPosCoordinates.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ObjectParameter.cs" />
