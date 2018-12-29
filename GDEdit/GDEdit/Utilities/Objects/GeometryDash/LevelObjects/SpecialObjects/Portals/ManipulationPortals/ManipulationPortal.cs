@@ -5,14 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.ManipulationPortals
+namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.ManipulationPortals
 {
     /// <summary>Represents a manipulation portal (a portal that changes the player's gamemode).</summary>
-    public abstract class ManipulationPortal : SpecialObject
+    public abstract class ManipulationPortal : Portal
     {
-        /// <summary>The object ID of the manipulation portal.</summary>
-        public new abstract int ObjectID { get; }
-
         /// <summary>The gamemode the manipulation portal transforms the player into.</summary>
         public abstract Gamemode Gamemode { get; }
 
