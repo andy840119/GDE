@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 using GDEdit.Utilities.Functions.GeometryDash;
 using System;
@@ -13,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class SpiderPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the spider portal.</summary>
-        public override int ObjectID => (int)ManipulationPortalType.Spider;
+        public override int ObjectID => (int)PortalType.Spider;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Spider;
 

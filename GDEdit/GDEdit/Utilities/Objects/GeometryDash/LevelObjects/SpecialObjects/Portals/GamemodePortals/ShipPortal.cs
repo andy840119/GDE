@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 using GDEdit.Utilities.Functions.GeometryDash;
 using System;
@@ -13,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class ShipPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the ship portal.</summary>
-        public override int ObjectID => (int)ManipulationPortalType.Ship;
+        public override int ObjectID => (int)PortalType.Ship;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Ship;
 
