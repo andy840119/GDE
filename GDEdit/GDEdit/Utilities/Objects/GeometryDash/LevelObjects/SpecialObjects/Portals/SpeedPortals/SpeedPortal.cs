@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.ManipulationPortals
+namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals
 {
-    /// <summary>Represents a manipulation portal (a portal that changes the player's gamemode).</summary>
-    public abstract class ManipulationPortal : Portal
+    /// <summary>Represents a speed portal in the game</summary>
+    public abstract class SpeedPortal : Portal
     {
         /// <summary>The gamemode the manipulation portal transforms the player into.</summary>
-        public abstract Gamemode Gamemode { get; }
+        public abstract Speed Speed { get; }
 
-        /// <summary>The checked property of the manipulation portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
+        /// <summary>The checked property of the manipulation portal that determines whether the speed portal will be taken into account when converting X position to time.</summary>
         [ObjectStringMappable(ObjectParameter.PortalChecked)]
         public bool Checked { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ManipulationPortal"/> class.</summary>
-        public ManipulationPortal() : base() { }
+        public SpeedPortal() : base() { }
     }
 }

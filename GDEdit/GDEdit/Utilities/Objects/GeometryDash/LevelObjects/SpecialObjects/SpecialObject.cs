@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     {
         /// <summary>The valid object IDs of the special object. Only override if the class does not represent a single object.</summary>
         protected virtual int[] ValidObjectIDs => null;
+        /// <summary>The name as a string of the special object. Only override if the class does not represent a single object.</summary>
         protected virtual string SpecialObjectType => "special object";
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialObject"/> class.</summary>
