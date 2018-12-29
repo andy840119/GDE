@@ -15,11 +15,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         /// <summary>The gamemode the manipulation portal transforms the player into.</summary>
         public abstract Gamemode Gamemode { get; }
 
-        // TODO: Move that to individual manipulation portals that do have the property, unlike others
-        /// <summary>The checked property of the manipulation portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
-        [ObjectStringMappable(ObjectParameter.PortalChecked)]
-        public bool Checked { get; set; }
-
         /// <summary>Initializes a new instance of the <seealso cref="ManipulationPortal"/> class.</summary>
         public ManipulationPortal() : base() { }
     }
