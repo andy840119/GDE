@@ -57,6 +57,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\Easing.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\InstantCountComparison.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ManipulationPortalType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\MoveTargetPosCoordinates.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ObjectParameter.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\PickupItemPickupMode.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\IHasCheckedProperty.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\ManipulationPortals\CubePortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\ManipulationPortals\ManipulationPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\Portal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\SpeedPortal.cs" />
