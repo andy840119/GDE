@@ -90,6 +90,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color4ColorTrigger.cs" />
