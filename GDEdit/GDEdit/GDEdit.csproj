@@ -93,6 +93,8 @@
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\TriggerOrb.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\Orb.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\TextObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowDualPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueDualPortal.cs" />
@@ -120,7 +122,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\GamemodePortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\Portal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\SpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItemObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItem.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\RotatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
