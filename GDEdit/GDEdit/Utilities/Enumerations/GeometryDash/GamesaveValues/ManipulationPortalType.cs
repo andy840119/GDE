@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
-    /// <summary>Contains the object IDs of the manipulation portals.</summary>
+    /// <summary>Contains the object IDs of the gamemode portals.</summary>
     public enum ManipulationPortalType
     {
         // TODO: Retrieve the IDs of these objects

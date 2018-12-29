@@ -12,10 +12,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     /// <summary>Represents a speed portal in the game</summary>
     public abstract class SpeedPortal : Portal, IHasCheckedProperty
     {
-        /// <summary>The gamemode the manipulation portal transforms the player into.</summary>
+        /// <summary>The speed this speed portal sets.</summary>
         public abstract Speed Speed { get; }
 
-        /// <summary>The checked property of the manipulation portal that determines whether the speed portal will be taken into account when converting X position to time.</summary>
+        /// <summary>The checked property of the speed portal that determines whether the speed portal will be taken into account when converting X position to time.</summary>
         [ObjectStringMappable(ObjectParameter.PortalChecked)]
         public bool Checked { get; set; }
 
