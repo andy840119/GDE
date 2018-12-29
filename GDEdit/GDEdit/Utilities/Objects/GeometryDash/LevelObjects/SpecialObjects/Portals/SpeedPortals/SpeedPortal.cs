@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals
 {
-    /// <summary>Represents a speed portal in the game</summary>
+    /// <summary>Represents a speed portal in the game.</summary>
     public abstract class SpeedPortal : Portal, IHasCheckedProperty
     {
         /// <summary>The speed this speed portal sets.</summary>
@@ -19,7 +19,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         [ObjectStringMappable(ObjectParameter.PortalChecked)]
         public bool Checked { get; set; }
 
-        /// <summary>Initializes a new instance of the <seealso cref="ManipulationPortal"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="SpeedPortal"/> class.</summary>
         public SpeedPortal() : base() { }
     }
 }
