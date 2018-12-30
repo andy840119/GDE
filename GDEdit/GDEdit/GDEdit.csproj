@@ -69,6 +69,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ZLayer.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\LevelLength.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialColorID.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\SpecialBlockType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialObjectType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\TriggerType.cs" />
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
@@ -115,6 +116,11 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\YellowPad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\Pad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\AnimatedObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\HSpecialBlock.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\JSpecialBlock.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\SSpecialBlock.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\SpecialBlock.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\DSpecialBlock.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\TextObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowDualPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueDualPortal.cs" />
