@@ -96,6 +96,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CollisionBlock.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CountTextObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\MagentaDashOrb.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\RedPad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\YellowPad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\Pad.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\AnimatedObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\TextObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowDualPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueDualPortal.cs" />
