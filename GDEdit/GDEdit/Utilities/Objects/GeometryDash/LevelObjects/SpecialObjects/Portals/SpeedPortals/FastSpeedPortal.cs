@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     /// <summary>Represents a fast speed portal in the game.</summary>
     public class FastSpeedPortal : SpeedPortal, IHasCheckedProperty
     {
-        /// <summary>The object ID of the fast speed portal</summary>
+        /// <summary>The object ID of the fast speed portal.</summary>
         public override int ObjectID => (int)PortalType.FastSpeed;
 
         /// <summary>The speed this speed portal sets.</summary>
