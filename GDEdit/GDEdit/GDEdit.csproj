@@ -69,6 +69,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ZLayer.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\LevelLength.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialColorID.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\SpecialObjectType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\TriggerType.cs" />
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />

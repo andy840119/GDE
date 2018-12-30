@@ -13,6 +13,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a text object.</summary>
     public class TextObject : SpecialObject
     {
+        /// <summary>The object ID of the text object.</summary>
+        public new int ObjectID => (int)Enumerations.GeometryDash.SpecialObjectType.TextObject;
+
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
         [ObjectStringMappable(ObjectParameter.TextObjectText)]
         public string Base64Text => Convert.ToBase64String(Encoding.UTF8.GetBytes(Text));
