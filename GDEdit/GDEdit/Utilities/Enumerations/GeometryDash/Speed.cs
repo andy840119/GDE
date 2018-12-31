@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Functions.GeometryDash
+namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Represents the player speed.</summary>
     public enum Speed

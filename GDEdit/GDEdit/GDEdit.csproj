@@ -83,9 +83,9 @@
     <Compile Include="Utilities\Functions\General\UsefulFunctions.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\ColorTriggerTypes.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Easing.cs" />
-    <Compile Include="Utilities\Functions\GeometryDash\Gamemode.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\Gamemode.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Gamesave.cs" />
-    <Compile Include="Utilities\Functions\GeometryDash\Speed.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\Speed.cs" />
     <Compile Include="Utilities\Information\GeometryDash\LevelObjectInformation.cs" />
     <Compile Include="Utilities\Information\GeometryDash\ObjectLists.cs" />
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
