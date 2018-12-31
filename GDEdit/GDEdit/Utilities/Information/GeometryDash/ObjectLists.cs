@@ -32,10 +32,9 @@ namespace GDEdit.Utilities.Information.GeometryDash
         /// <summary>The object IDs of all the objects that are not general objects (includes all the other categories).</summary>
         public static int[] GetNotGeneralObjectList()
         {
-            var fields = typeof(ObjectLists).GetFields().Where(f => f.FieldType == typeof(int[]) && f.IsStatic);
             List<int> objects = new List<int>();
-            foreach (var p in fields)
-                objects.AddRange((int[])p.GetRawConstantValue());
+            foreach (var f in typeof(ObjectLists).GetFields().Where(f => f.FieldType == typeof(int[]) && f.IsStatic))
+                objects.AddRange((int[])f.GetRawConstantValue());
             objects.Sort();
             return objects.ToArray();
         }
