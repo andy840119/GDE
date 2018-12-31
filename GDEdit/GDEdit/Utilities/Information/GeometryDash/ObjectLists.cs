@@ -9,7 +9,7 @@ namespace GDEdit.Utilities.Information.GeometryDash
     /// <summary>Contains information about the objects in the game.</summary>
     public static class ObjectLists
     {
-        /// <summary>The total count of different objects in the game.</summary>
+        /// <summary>The total count of different objects in the game (not including the different color triggers that have been deprecated).</summary>
         public const int TotalDifferentObjectCount = 1607;
 
         /// <summary>The object IDs of all the triggers.</summary>
@@ -24,7 +24,6 @@ namespace GDEdit.Utilities.Information.GeometryDash
         public static readonly int[] PickupItemList = { 1275, 1587, 1589, 1598, 1614 };
         /// <summary>The object IDs of all the pulsating objects.</summary>
         public static readonly int[] PulsatingObjectList = { 1839, 1840, 1841, 1842 };
-        // TODO: Retrieve the animated objects' IDs
         /// <summary>The object IDs of all the animated objects.</summary>
         public static readonly int[] AnimatedObjectList = { 919, 920, 921, 923, 924, 1050, 1051, 1052, 1053, 1054, 1516, 1517, 1518, 1519, 1582, 1583, 1586, 1591, 1592, 1593, 1618, 1697, 1698, 1699, 1700, 1849, 1850, 1851, 1852, 1853, 1854, 1855, 1856, 1857, 1858, 1860 };
         /// <summary>The object IDs of all the rotating objects.</summary>
