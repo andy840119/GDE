@@ -9,52 +9,51 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
     /// <summary>Contains the object IDs of the portals.</summary>
     public enum PortalType
     {
-        // TODO: Retrieve the IDs of these objects
         /// <summary>The cube portal.</summary>
-        Cube = -1,
+        Cube = 12,
         /// <summary>The ship portal.</summary>
-        Ship = -1,
+        Ship = 13,
         /// <summary>The ball portal.</summary>
-        Ball = -1,
+        Ball = 47,
         /// <summary>The UFO portal.</summary>
-        UFO = -1,
+        UFO = 111,
         /// <summary>The wave portal.</summary>
-        Wave = -1,
+        Wave = 660,
         /// <summary>The robot portal.</summary>
-        Robot = -1,
+        Robot = 745,
         /// <summary>The spider portal.</summary>
-        Spider = -1,
+        Spider = 1331,
 
         /// <summary>The yellow gravity portal.</summary>
-        YellowGravity = -1,
+        YellowGravity = 11,
         /// <summary>The blue gravity portal.</summary>
-        BlueGravity = -1,
+        BlueGravity = 10,
         /// <summary>The yellow mirror portal.</summary>
-        YellowMirror = -1,
+        YellowMirror = 45,
         /// <summary>The blue mirror portal.</summary>
-        BlueMirror = -1,
+        BlueMirror = 46,
         /// <summary>The magenta size portal.</summary>
-        MagentaSize = -1,
+        MagentaSize = 101,
         /// <summary>The green size portal.</summary>
-        GreenSize = -1,
+        GreenSize = 99,
         /// <summary>The yellow dual portal.</summary>
-        YellowDual = -1,
+        YellowDual = 286,
         /// <summary>The blue dual portal.</summary>
-        BlueDual = -1,
+        BlueDual = 287,
         /// <summary>The blue teleportation portal.</summary>
-        BlueTeleportation = -1,
+        BlueTeleportation = 747,
         /// <summary>The yellow teleportation portal.</summary>
-        YellowTeleportation = -1,
+        YellowTeleportation = 749,
 
         /// <summary>The slow speed portal.</summary>
-        SlowSpeed = -1,
+        SlowSpeed = 200,
         /// <summary>The normal speed portal.</summary>
-        NormalSpeed = -1,
+        NormalSpeed = 201,
         /// <summary>The fast speed portal.</summary>
-        FastSpeed = -1,
+        FastSpeed = 202,
         /// <summary>The faster speed portal.</summary>
-        FasterSpeed = -1,
+        FasterSpeed = 203,
         /// <summary>The fastest speed portal.</summary>
-        FastestSpeed = -1,
+        FastestSpeed = 1334,
     }
 }

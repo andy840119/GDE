@@ -9,13 +9,12 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
     /// <summary>Provides the object IDs of the special objects. Also contains values equal to -2 to declare that there are multiple objects of that special object type.</summary>
     public enum SpecialObjectType
     {
-        // TODO: Retrieve the object IDs of these objects
         /// <summary>The object ID of the collision block.</summary>
-        CollisionBlock = -1,
+        CollisionBlock = 1816,
         /// <summary>The object ID of the count text object.</summary>
-        CountTextObject = -1,
+        CountTextObject = 1615,
         /// <summary>The object ID of the text object.</summary>
-        TextObject = -1,
+        TextObject = 914,
 
         // General special object types
         /// <summary>Represents a rotating object (not a particular one).</summary>

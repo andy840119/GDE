@@ -9,14 +9,13 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
     /// <summary>Contains the object IDs of the pads.</summary>
     public enum PadType
     {
-        // TODO: Add the pads' IDs
         /// <summary>The yellow pad.</summary>
-        YellowPad = -1,
+        YellowPad = 35,
         /// <summary>The magenta pad.</summary>
-        MagentaPad = -1,
+        MagentaPad = 140,
         /// <summary>The red pad.</summary>
-        RedPad = -1,
+        RedPad = 1332,
         /// <summary>The blue pad.</summary>
-        BluePad = -1,
+        BluePad = 67,
     }
 }
