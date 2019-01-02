@@ -190,6 +190,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\Presets\GuidelineEditorPreset.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Level.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObject.cs" />
