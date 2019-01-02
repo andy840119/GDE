@@ -174,8 +174,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         public static GeneralObject GetNewObjectInstance(int objectID)
         {
+            // TODO: Consider using reflection within this namespace
             switch (objectID)
             {
+                // Triggers
                 case (int)TriggerType.Alpha:
                     return new AlphaTrigger();
                 case (int)TriggerType.Animate:
@@ -224,6 +226,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return new ToggleTrigger();
                 case (int)TriggerType.Touch:
                     return new TouchTrigger();
+                // TODO: Take care of other special types of objects
                 default:
                     return new GeneralObject(objectID);
             }

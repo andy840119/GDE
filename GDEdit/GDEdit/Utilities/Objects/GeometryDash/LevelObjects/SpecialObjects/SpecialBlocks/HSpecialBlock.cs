@@ -1,0 +1,19 @@
+﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.SpecialBlocks
+{
+    /// <summary>Represents the H special block.</summary>
+    public class HSpecialBlock : SpecialBlock
+    {
+        /// <summary>The object ID of the H special block.</summary>
+        public override int ObjectID => (int)SpecialBlockType.H;
+
+        /// <summary>Initializes a new instance of the <seealso cref="HSpecialBlock"/> class.</summary>
+        public HSpecialBlock() : base() { }
+    }
+}
