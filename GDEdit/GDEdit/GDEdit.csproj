@@ -93,7 +93,9 @@
     <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\BoundedDouble.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
