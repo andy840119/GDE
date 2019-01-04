@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The Speed property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Speed)]
         public float Speed { get; set; }
@@ -36,7 +36,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>Initializes a new instance of the <seealso cref="FollowPlayerYTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        public FollowPlayerYTrigger(float duration, int targetGroupID)
+        public FollowPlayerYTrigger(float duration, short targetGroupID)
         {
             Duration = duration;
             TargetGroupID = targetGroupID;
@@ -48,7 +48,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="delay">The Delay property of the trigger.</param>
         /// <param name="maxSpeed">The Max Speed property of the trigger.</param>
         /// <param name="offset">The Offset property of the trigger.</param>
-        public FollowPlayerYTrigger(float duration, int targetGroupID, float speed, float delay, float maxSpeed, int offset)
+        public FollowPlayerYTrigger(float duration, short targetGroupID, float speed, float delay, float maxSpeed, int offset)
             : this(duration, targetGroupID)
         {
             Speed = speed;
