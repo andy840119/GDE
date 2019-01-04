@@ -66,7 +66,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetID">The target ID of the trigger.</param>
         /// <param name="pulseTargetType">The Pulse Target Type of the trigger.</param>
         /// <param name="pulseMode">The Pulse Mode of the trigger.</param>
-        public PulseTrigger(float fadeIn, float hold, float fadeOut, int targetID, PulseTargetType pulseTargetType = PulseTargetType.ColorChannel, PulseMode pulseMode = PulseMode.Color)
+        public PulseTrigger(float fadeIn, float hold, float fadeOut, short targetID, PulseTargetType pulseTargetType = PulseTargetType.ColorChannel, PulseMode pulseMode = PulseMode.Color)
         {
             FadeIn = fadeIn;
             Hold = hold;
