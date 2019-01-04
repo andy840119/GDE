@@ -15,17 +15,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Collision;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The primary Block ID of the trigger.</summary>
-        public int PrimaryBlockID { get; set; }
+        public short PrimaryBlockID { get; set; }
         /// <summary>The secondary Block ID of the trigger.</summary>
-        public int SecondaryBlockID { get; set; }
+        public short SecondaryBlockID { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool ActivateGroup { get; set; }
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Trigger On Exit property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TriggerOnExit)]
-        public bool TriggerOnExit { get; set; }
+        public bool TriggerOnExit
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionTrigger"/> class.</summary>
         public CollisionTrigger() { }
