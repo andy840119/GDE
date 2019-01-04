@@ -16,31 +16,43 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public int TargetColorID { get; set; }
+        public short TargetColorID { get; set; }
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
         /// <summary>The red part of the color.</summary>
-        public int Red { get; set; }
+        public byte Red { get; set; }
         /// <summary>The green part of the color.</summary>
-        public int Green { get; set; }
+        public byte Green { get; set; }
         /// <summary>The blue part of the color.</summary>
-        public int Blue { get; set; }
+        public byte Blue { get; set; }
         /// <summary>The Opacity property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Opacity)]
         public float Opacity { get; set; } = 1;
-        /// <summary>The Blending property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Blending)]
-        public bool Blending { get; set; }
         // IMPORTANT: The Player 1 and Player 2 properties are ignored because the Copied Color ID serves that purpose well
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
-        public int CopiedColorID { get; set; }
+        public short CopiedColorID { get; set; }
+        /// <summary>The Blending property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Blending)]
+        public bool Blending
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Copy Opacity property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopyOpacity)]
-        public bool CopyOpacity { get; set; }
+        public bool CopyOpacity
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
         /// <summary>The Tint Ground property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TintGround)]
-        public bool TintGround { get; set; }
+        public bool TintGround
+        {
+            get => TriggerBools[5];
+            set => TriggerBools[5] = value;
+        }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
         public string HSV => HSVAdjustment.ToString();
