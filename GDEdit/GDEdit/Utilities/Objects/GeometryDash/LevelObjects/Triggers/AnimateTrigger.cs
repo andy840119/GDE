@@ -25,7 +25,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>Initializes a new instance of the <seealso cref="AnimateTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="animationID">The Animation ID property of the trigger.</summary>
-        public AnimateTrigger(int targetGroupID, int animationID)
+        public AnimateTrigger(short targetGroupID, byte animationID)
         {
             TargetGroupID = targetGroupID;
             AnimationID = animationID;
