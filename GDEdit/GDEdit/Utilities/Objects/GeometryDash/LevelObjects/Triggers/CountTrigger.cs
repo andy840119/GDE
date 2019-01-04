@@ -15,12 +15,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Count;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The Item ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ItemID)]
-        public int ItemID { get; set; }
+        public short ItemID { get; set; }
         /// <summary>The primary Item ID of the trigger.</summary>
-        public int PrimaryItemID
+        public short PrimaryItemID
         {
             get => ItemID;
             set => ItemID = value;
@@ -30,11 +30,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int TargetCount { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool ActivateGroup { get; set; }
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Multi Activate property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.MultiActivate)]
-        public bool MultiActivate { get; set; }
-
+        public bool MultiActivate
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
+        
         /// <summary>Initializes a new instance of the <seealso cref="CountTrigger"/> class.</summary>
         public CountTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="CountTrigger"/> class.</summary>
@@ -43,7 +51,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="count">The Target Count property of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</param>
         /// <param name="multiActivate">The Multi Activate property of the trigger.</param>
-        public CountTrigger(int targetGroupID, int itemID, int targetCount, bool activateGroup = false, bool multiActivate = false)
+        public CountTrigger(short targetGroupID, short itemID, short targetCount, bool activateGroup = false, bool multiActivate = false)
         {
             TargetGroupID = targetGroupID;
             ItemID = itemID;
