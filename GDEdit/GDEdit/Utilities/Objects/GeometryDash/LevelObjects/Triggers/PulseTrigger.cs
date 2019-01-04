@@ -16,15 +16,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The target Color ID of the trigger.</summary>
-        public int TargetColorID { get; set; }
+        public short TargetColorID { get; set; }
         /// <summary>The red part of the color.</summary>
-        public int Red { get; set; }
+        public byte Red { get; set; }
         /// <summary>The green part of the color.</summary>
-        public int Green { get; set; }
+        public byte Green { get; set; }
         /// <summary>The blue part of the color.</summary>
-        public int Blue { get; set; }
+        public byte Blue { get; set; }
         /// <summary>The Fade In property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.FadeIn)]
         public float FadeIn { get; set; }
@@ -36,7 +36,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public float FadeOut { get; set; }
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
-        public int CopiedColorID { get; set; }
+        public short CopiedColorID { get; set; }
         /// <summary>The Pulse Mode of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.PulseMode)]
         public PulseMode PulseMode { get; set; }
@@ -45,7 +45,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public PulseTargetType PulseTargetType { get; set; }
         /// <summary>The Exclusive property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Exclusive)]
-        public bool Exclusive { get; set; }
+        public bool Exclusive
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
         public string HSV => HSVAdjustment.ToString();
