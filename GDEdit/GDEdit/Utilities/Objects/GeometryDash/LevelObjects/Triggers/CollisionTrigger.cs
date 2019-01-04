@@ -43,7 +43,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="activateGroup">The Activate Group of the trigger.</param>
         /// <param name="triggerOnExit">The Trigger On Exit of the trigger.</param>
-        public CollisionTrigger(int primaryBlockID, int secondaryBlockID, int targetGroupID, bool activateGroup = false, bool triggerOnExit = false)
+        public CollisionTrigger(short primaryBlockID, short secondaryBlockID, short targetGroupID, bool activateGroup = false, bool triggerOnExit = false)
         {
             PrimaryBlockID = primaryBlockID;
             SecondaryBlockID = secondaryBlockID;
