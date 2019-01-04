@@ -17,9 +17,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The secondary Group ID of the trigger.</summary>
-        public int SecondaryGroupID
+        public short SecondaryGroupID
         {
             get => FollowGroupID;
             set => FollowGroupID = value;
@@ -33,14 +33,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Follow Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.FollowGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
-        public int FollowGroupID { get; set; }
+        public short FollowGroupID { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowTrigger"/> class.</summary>
         public FollowTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="FollowTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        public FollowTrigger(float duration, int targetGroupID)
+        public FollowTrigger(float duration, short targetGroupID)
         {
             Duration = duration;
             TargetGroupID = targetGroupID;
@@ -50,7 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="xMod">The X Mod of the trigger.</param>
         /// <param name="yMod">The Y Mod of the trigger.</param>
-        public FollowTrigger(float duration, int targetGroupID, float xMod, float yMod)
+        public FollowTrigger(float duration, short targetGroupID, float xMod, float yMod)
             : this(duration, targetGroupID)
         {
             XMod = xMod;
