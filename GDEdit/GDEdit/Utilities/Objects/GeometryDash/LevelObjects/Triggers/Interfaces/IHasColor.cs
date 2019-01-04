@@ -13,12 +13,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     {
         /// <summary>The red part of the color.</summary>
         [ObjectStringMappable(ObjectParameter.Red)]
-        int Red { get; set; }
+        byte Red { get; set; }
         /// <summary>The green part of the color.</summary>
         [ObjectStringMappable(ObjectParameter.Green)]
-        int Green { get; set; }
+        byte Green { get; set; }
         /// <summary>The blue part of the color.</summary>
         [ObjectStringMappable(ObjectParameter.Blue)]
-        int Blue { get; set; }
+        byte Blue { get; set; }
     }
 }
