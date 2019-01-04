@@ -28,7 +28,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="opacity">The Opacity property of the trigger.</param>
-        public AlphaTrigger(float duration, int targetGroupID, float opacity)
+        public AlphaTrigger(float duration, short targetGroupID, float opacity)
         {
             Duration = duration;
             TargetGroupID = targetGroupID;
