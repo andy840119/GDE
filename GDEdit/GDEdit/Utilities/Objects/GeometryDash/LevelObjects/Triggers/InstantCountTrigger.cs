@@ -15,12 +15,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.InstantCount;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The Item ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ItemID)]
-        public int ItemID { get; set; }
+        public short ItemID { get; set; }
         /// <summary>The primary Item ID of the trigger.</summary>
-        public int PrimaryItemID
+        public short PrimaryItemID
         {
             get => ItemID;
             set => ItemID = value;
@@ -30,7 +30,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int TargetCount { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool ActivateGroup { get; set; }
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Comparison property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Comparison)]
         public InstantCountComparison Comparison { get; set; }
@@ -43,7 +47,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="count">The Target Count property of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</param>
         /// <param name="comparison">The Comparison property of the trigger.</param>
-        public InstantCountTrigger(int targetGroupID, int itemID, int targetCount, bool activateGroup = false, InstantCountComparison comparison = InstantCountComparison.Equals)
+        public InstantCountTrigger(short targetGroupID, short itemID, int targetCount, bool activateGroup = false, InstantCountComparison comparison = InstantCountComparison.Equals)
         {
             TargetGroupID = targetGroupID;
             ItemID = itemID;
