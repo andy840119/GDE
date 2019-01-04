@@ -15,13 +15,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Stop;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="StopTrigger"/> class.</summary>
         public StopTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="StopTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        public StopTrigger(int targetGroupID)
+        public StopTrigger(short targetGroupID)
         {
             TargetGroupID = targetGroupID;
         }
