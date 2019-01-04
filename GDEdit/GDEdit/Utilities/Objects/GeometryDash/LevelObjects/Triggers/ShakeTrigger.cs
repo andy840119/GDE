@@ -29,7 +29,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="strength">The Strength property of the trigger.</param>
         /// <param name="interval">The Interval property of the trigger.</param>
-        public ShakeTrigger(int duration, int strength, int interval)
+        public ShakeTrigger(float duration, float strength, float interval)
         {
             Duration = duration;
             Strength = strength;
