@@ -17,13 +17,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The easing of the trigger.</summary>
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
         public float EasingRate { get; set; }
         /// <summary>The secondary Group ID of the trigger.</summary>
-        public int SecondaryGroupID
+        public short SecondaryGroupID
         {
             get => TargetPosGroupID;
             set => TargetPosGroupID = value;
@@ -36,14 +36,22 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public float MoveY { get; set; }
         /// <summary>The Lock to Player X property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToPlayerX)]
-        public bool LockToPlayerX { get; set; }
+        public bool LockToPlayerX
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Lock to Player Y property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToPlayerY)]
-        public bool LockToPlayerY { get; set; }
+        public bool LockToPlayerY
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
         /// <summary>The Target Pos Group ID property of the trigger.</summary>
         //[ObjectStringMappable(ObjectParameter.TargetPosGroupID)]
         // Do not also map this property, the interface provides the definition for the one already.
-        public int TargetPosGroupID { get; set; }
+        public short TargetPosGroupID { get; set; }
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
         public MoveTargetPosCoordinates TargetPosCoordinates { get; set; }
@@ -55,7 +63,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="lockToPlayerX">The Lock to Player X property of the trigger.</param>
         /// <param name="lockToPlayerY">The Lock to Player Y property of the trigger.</param>
-        public MoveTrigger(float duration, int targetGroupID, bool lockToPlayerX = false, bool lockToPlayerY = false)
+        public MoveTrigger(float duration, short targetGroupID, bool lockToPlayerX = false, bool lockToPlayerY = false)
         {
             Duration = duration;
             TargetGroupID = targetGroupID;
@@ -69,7 +77,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="moveY">The Move Y of the trigger.</param>
         /// <param name="lockToPlayerX">The Lock to Player X property of the trigger.</param>
         /// <param name="lockToPlayerY">The Lock to Player Y property of the trigger.</param>
-        public MoveTrigger(float duration, int targetGroupID, float moveX, float moveY, bool lockToPlayerX = false, bool lockToPlayerY = false)
+        public MoveTrigger(float duration, short targetGroupID, float moveX, float moveY, bool lockToPlayerX = false, bool lockToPlayerY = false)
             : this(duration, targetGroupID, lockToPlayerX, lockToPlayerY)
         {
             MoveX = moveX;
@@ -84,7 +92,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="easingRate">The easing rate of the trigger.</param>
         /// <param name="lockToPlayerX">The Lock to Player X property of the trigger.</param>
         /// <param name="lockToPlayerY">The Lock to Player Y property of the trigger.</param>
-        public MoveTrigger(float duration, int targetGroupID, Easing easing, float easingRate, float moveX, float moveY, bool lockToPlayerX = false, bool lockToPlayerY = false)
+        public MoveTrigger(float duration, short targetGroupID, Easing easing, float easingRate, float moveX, float moveY, bool lockToPlayerX = false, bool lockToPlayerY = false)
             : this(duration, targetGroupID, moveX, moveY, lockToPlayerX, lockToPlayerY)
         {
             Easing = easing;
