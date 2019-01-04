@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public short TargetGroupID { get; set; }
         /// <summary>The Opacity property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Opacity)]
         public float Opacity { get; set; }
