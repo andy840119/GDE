@@ -13,6 +13,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     {
         /// <summary>The secondary Block ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.BlockBID)]
-        int SecondaryBlockID { get; set; }
+        short SecondaryBlockID { get; set; }
     }
 }
