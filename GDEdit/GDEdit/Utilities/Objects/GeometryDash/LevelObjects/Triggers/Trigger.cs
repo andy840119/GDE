@@ -11,10 +11,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     public abstract class Trigger : GeneralObject
     {
-        private BitArray8 triggerBools = new BitArray8();
-        
         /// <summary>Contains the <seealso cref="bool"/> values of the trigger. Indices 0, 1, 2 are reserved for Touch Triggered, Spawn Triggered and Multi Trigger respectively.</summary>
-        protected BitArray8 TriggerBools => triggerBools;
+        protected BitArray8 TriggerBools = new BitArray8();
         
         /// <summary>The Object ID of the trigger.</summary>
         // IMPORTANT: If we want to change the object IDs of objects through some function, this has to be reworked
