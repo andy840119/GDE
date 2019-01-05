@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
     public class RedPad : Pad
     {
         /// <summary>The object ID of the red pad.</summary>
-        public override int ObjectID => (int)PadType.RedPad;
+        public override short ObjectID => (short)(int)PadType.RedPad;
 
         /// <summary>Initializes a new instance of the <seealso cref="RedPad"/> class.</summary>
         public RedPad() : base() { }

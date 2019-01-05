@@ -10,10 +10,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     /// <summary>Represents a GRND Color trigger.</summary>
     public class GRNDColorTrigger : ColorTrigger
     {
-        public override int ObjectID => (int)TriggerType.GRND;
+        public override short ObjectID => (short)(int)TriggerType.GRND;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new int TargetColorID => (int)SpecialColorID.GRND;
+        public new short TargetColorID => (short)(int)SpecialColorID.GRND;
 
         /// <summary>Initializes a new instance of the <seealso cref="GRNDColorTrigger"/> class.</summary>
         public GRNDColorTrigger() { }
@@ -21,6 +21,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public GRNDColorTrigger(float duration, bool tintGround = false)
-            : base(duration, (int)SpecialColorID.BG, false, tintGround) { }
+            : base(duration, (short)(int)SpecialColorID.GRND, false, tintGround) { }
     }
 }

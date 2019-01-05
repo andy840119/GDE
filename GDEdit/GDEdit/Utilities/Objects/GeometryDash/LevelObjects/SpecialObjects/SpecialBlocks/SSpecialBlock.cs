@@ -11,7 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Spec
     public class SSpecialBlock : SpecialBlock
     {
         /// <summary>The object ID of the S special block.</summary>
-        public override int ObjectID => (int)SpecialBlockType.S;
+        public override short ObjectID => (short)(int)SpecialBlockType.S;
 
         /// <summary>Initializes a new instance of the <seealso cref="SSpecialBlock"/> class.</summary>
         public SSpecialBlock() : base() { }

@@ -26,7 +26,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         }
 
         /// <summary>The object ID of the blue teleportation portal.</summary>
-        public override int ObjectID => (int)PortalType.BlueTeleportation;
+        public override short ObjectID => (short)(int)PortalType.BlueTeleportation;
 
         /// <summary>The distance of the Y location between the yellow and this teleportation portals.</summary>
         [ObjectStringMappable(ObjectParameter.YellowTeleportationPortalDistance)]

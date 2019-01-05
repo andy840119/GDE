@@ -10,10 +10,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     /// <summary>Represents a 3DL Color trigger.</summary>
     public class ThreeDLColorTrigger : ColorTrigger
     {
-        public override int ObjectID => (int)TriggerType.ThreeDL;
+        public override short ObjectID => (short)(int)TriggerType.ThreeDL;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new int TargetColorID => (int)SpecialColorID.ThreeDL;
+        public new short TargetColorID => (short)(int)SpecialColorID.ThreeDL;
 
         /// <summary>Initializes a new instance of the <seealso cref="ThreeDLColorTrigger"/> class.</summary>
         public ThreeDLColorTrigger() { }
@@ -22,6 +22,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public ThreeDLColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
-            : base(duration, (int)SpecialColorID.BG, copyOpacity, tintGround) { }
+            : base(duration, (short)(int)SpecialColorID.ThreeDL, copyOpacity, tintGround) { }
     }
 }

@@ -18,15 +18,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     {
         private BitArray8 bools = new BitArray8();
         private float rotation;
-        private short objectID;
         
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
-        public int ObjectID
-        {
-            get => objectID;
-            set => objectID = (short)value;
-        }
+        public short ObjectID { get; set; }
         /// <summary>The X position of this object.</summary>
         [ObjectStringMappable(ObjectParameter.X)]
         public double X { get; set; }
@@ -154,7 +149,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class.</summary>
         /// <param name="objectID">The object ID of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(int objectID)
+        public GeneralObject(short objectID)
         {
             ObjectID = objectID;
         }
@@ -162,7 +157,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="objectID">The object ID of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="x">The X position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="y">The Y position of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(int objectID, double x, double y)
+        public GeneralObject(short objectID, double x, double y)
         {
             ObjectID = objectID;
             X = x;
@@ -173,7 +168,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="x">The X position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="y">The Y position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="rotation">The rotation of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(int objectID, double x, double y, double rotation)
+        public GeneralObject(short objectID, double x, double y, double rotation)
         {
             ObjectID = objectID;
             X = x;

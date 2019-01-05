@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
     public abstract class Pad : SpecialObject
     {
         /// <summary>The object ID of the pad.</summary>
-        public new abstract int ObjectID { get; }
+        public new abstract short ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="Pad"/> class.</summary>
         public Pad() : base() { }

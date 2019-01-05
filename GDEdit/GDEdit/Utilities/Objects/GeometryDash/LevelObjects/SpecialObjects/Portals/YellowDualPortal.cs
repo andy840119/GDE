@@ -11,7 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class YellowDualPortal : Portal
     {
         /// <summary>The object ID of the yellow dual portal.</summary>
-        public override int ObjectID => (int)PortalType.YellowDual;
+        public override short ObjectID => (short)(int)PortalType.YellowDual;
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowDualPortal"/> class.</summary>
         public YellowDualPortal() : base() { }

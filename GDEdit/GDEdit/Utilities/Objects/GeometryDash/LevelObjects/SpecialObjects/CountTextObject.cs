@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class CountTextObject : SpecialObject, IHasPrimaryItemID
     {
         /// <summary>The object ID of the count text block.</summary>
-        public new int ObjectID => (int)Enumerations.GeometryDash.SpecialObjectType.CountTextObject;
+        public new short ObjectID => (short)(int)SpecialObjectType.CountTextObject;
 
         /// <summary>The Item ID the count text object displays.</summary>
-        public int PrimaryItemID { get; set; }
+        public short PrimaryItemID { get; set; }
         /// <summary>The Item ID the count text object displays.</summary>
-        public int ItemID
+        public short ItemID
         {
             get => PrimaryItemID;
             set => PrimaryItemID = value;

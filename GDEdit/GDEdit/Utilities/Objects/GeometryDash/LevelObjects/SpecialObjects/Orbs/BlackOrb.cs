@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     public class BlackOrb : Orb
     {
         /// <summary>The object ID of the black orb.</summary>
-        public override int ObjectID => (int)OrbType.BlackOrb;
+        public override short ObjectID => (short)(int)OrbType.BlackOrb;
 
         /// <summary>Initializes a new instance of the <seealso cref="BlackOrb"/> class.</summary>
         public BlackOrb() : base() { }

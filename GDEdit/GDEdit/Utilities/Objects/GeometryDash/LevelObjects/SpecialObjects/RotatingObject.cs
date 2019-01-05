@@ -17,13 +17,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Represents the Disable Rotation property of the rotating object.</summary>
         [ObjectStringMappable(ObjectParameter.DisableRotation)]
-        public bool DisableRotation;
+        public bool DisableRotation
+		{
+			get => SpecialObjectBools[0];
+			set => SpecialObjectBools[0] = value;
+		}
 
         /// <summary>Initializes a new instance of the <seealso cref="RotatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the rotating object.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
-        public RotatingObject(int objectID, double x, double y)
+        public RotatingObject(short objectID, double x, double y)
             : base(objectID, x, y) { }
     }
 }
