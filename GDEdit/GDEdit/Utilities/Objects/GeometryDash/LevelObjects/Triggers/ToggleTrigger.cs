@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Toggle trigger.</summary>
     public class ToggleTrigger : Trigger, IHasTargetGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Toggle;
+        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Toggle;
         
         /// <summary>The target Group ID of the trigger.</summary>
         public short TargetGroupID { get; set; }

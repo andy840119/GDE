@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Move trigger.</summary>
     public class MoveTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Move;
+        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public float Duration { get; set; } = 0.5f;

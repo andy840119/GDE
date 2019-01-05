@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Color trigger.</summary>
     public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
+        public override short ObjectID => (short)(short)(int)Enumerations.GeometryDash.TriggerType.Color;
         
         /// <summary>The target Color ID of the trigger.</summary>
         public short TargetColorID { get; set; }

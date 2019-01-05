@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Pulse trigger.</summary>
     public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pulse;
+        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
         public short TargetGroupID { get; set; }

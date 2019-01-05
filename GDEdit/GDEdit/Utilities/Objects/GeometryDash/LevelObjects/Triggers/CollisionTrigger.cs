@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Collision trigger.</summary>
     public class CollisionTrigger : Trigger, IHasTargetGroupID, IHasPrimaryBlockID, IHasSecondaryBlockID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Collision;
+        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Collision;
         
         /// <summary>The target Group ID of the trigger.</summary>
         public short TargetGroupID { get; set; }

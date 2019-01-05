@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents an Animate trigger.</summary>
     public class AnimateTrigger : Trigger, IHasTargetGroupID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Animate;
+        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Animate;
         
         /// <summary>The target Group ID of the trigger.</summary>
         public short TargetGroupID { get; set; }

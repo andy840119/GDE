@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Count trigger.</summary>
     public class CountTrigger : Trigger, IHasTargetGroupID, IHasPrimaryItemID
     {
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Count;
+        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Count;
         
         /// <summary>The target Group ID of the trigger.</summary>
         public short TargetGroupID { get; set; }
