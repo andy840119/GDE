@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GDEdit.Utilities.Objects.General;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class TextObject : SpecialObject
     {
         /// <summary>The object ID of the text object.</summary>
-        public new short ObjectID => (int)SpecialObjectType.TextObject;
+        public new short ObjectID => (short)(int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
         [ObjectStringMappable(ObjectParameter.TextObjectText)]
