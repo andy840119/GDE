@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class AnimatedObject : SpecialObject
     {
         protected override int[] ValidObjectIDs => ObjectLists.AnimatedObjectList;
-        protected override string SpecialObjectType => "animated object";
+        protected override string SpecialObjectTypeName => "animated object";
 
         /// <summary>Initializes a new instance of the <seealso cref="AnimatedObject"/> class.</summary>
         /// <param name="objectID">The object ID of the animated object.</param>

@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class PickupItem : SpecialObject, IHasTargetGroupID
     {
         protected override int[] ValidObjectIDs => ObjectLists.PickupItemList;
-        protected override string SpecialObjectType => "pickup item";
+        protected override string SpecialObjectTypeName => "pickup item";
 
         /// <summary>Represents the Pickup Mode property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.PickupMode)]

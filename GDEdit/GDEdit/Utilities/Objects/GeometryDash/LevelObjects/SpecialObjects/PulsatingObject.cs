@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class PulsatingObject : SpecialObject
     {
         protected override int[] ValidObjectIDs => ObjectLists.PulsatingObjectList;
-        protected override string SpecialObjectType => "pulsating object";
+        protected override string SpecialObjectTypeName => "pulsating object";
 
         /// <summary>The animation speed of the pulsating object as a ratio.</summary>
         [ObjectStringMappable(ObjectParameter.AnimationSpeed)]

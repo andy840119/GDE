@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <summary>The valid object IDs of the special object. Only override if the class does not represent a single object.</summary>
         protected virtual int[] ValidObjectIDs => null;
         /// <summary>The name as a string of the special object. Only override if the class does not represent a single object.</summary>
-        protected virtual string SpecialObjectType => "special object";
+        protected virtual string SpecialObjectTypeName => "special object";
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialObject"/> class.</summary>
         public SpecialObject() { }
@@ -28,7 +28,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             // Since this constructor must be only used by general object classes that may have different object IDs, assume the property is overriden
             if (!ValidObjectIDs.Contains(objectID))
-                throw new InvalidCastException($"This object ID does not represent a valid {SpecialObjectType}.");
+                throw new InvalidCastException($"This object ID does not represent a valid {SpecialObjectTypeName}.");
         }
     }
 }
