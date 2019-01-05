@@ -203,59 +203,59 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
         
-        public static GeneralObject GetNewObjectInstance(int objectID)
+        public static GeneralObject GetNewObjectInstance(short objectID)
         {
             // TODO: Consider using reflection within this namespace
             switch (objectID)
             {
                 // Triggers
-                case (int)TriggerType.Alpha:
+                case (short)(int)TriggerType.Alpha:
                     return new AlphaTrigger();
-                case (int)TriggerType.Animate:
+                case (short)(int)TriggerType.Animate:
                     return new AnimateTrigger();
-                case (int)TriggerType.BG:
-                case (int)TriggerType.GRND:
-                case (int)TriggerType.GRND2:
-                case (int)TriggerType.ThreeDL:
-                case (int)TriggerType.Obj:
-                case (int)TriggerType.Line:
-                    return new ColorTrigger((int)ColorTriggerTypes.ConvertToSpecialColorID((TriggerType)objectID));
-                case (int)TriggerType.Color1:
-                case (int)TriggerType.Color2:
-                case (int)TriggerType.Color3:
-                case (int)TriggerType.Color4:
+                case (short)(int)TriggerType.BG:
+                case (short)(int)TriggerType.GRND:
+                case (short)(int)TriggerType.GRND2:
+                case (short)(int)TriggerType.ThreeDL:
+                case (short)(int)TriggerType.Obj:
+                case (short)(int)TriggerType.Line:
+                    return new ColorTrigger((short)(int)ColorTriggerTypes.ConvertToSpecialColorID((TriggerType)objectID));
+                case (short)(int)TriggerType.Color1:
+                case (short)(int)TriggerType.Color2:
+                case (short)(int)TriggerType.Color3:
+                case (short)(int)TriggerType.Color4:
                     return new ColorTrigger(ColorTriggerTypes.ConvertToColorID((TriggerType)objectID));
-                case (int)TriggerType.Color:
+                case (short)(int)TriggerType.Color:
                     return new ColorTrigger();
-                case (int)TriggerType.Collision:
+                case (short)(int)TriggerType.Collision:
                     return new CollisionTrigger();
-                case (int)TriggerType.Count:
+                case (short)(int)TriggerType.Count:
                     return new GeneralObject();
-                case (int)TriggerType.Follow:
+                case (short)(int)TriggerType.Follow:
                     return new FollowTrigger();
-                case (int)TriggerType.FollowPlayerY:
+                case (short)(int)TriggerType.FollowPlayerY:
                     return new FollowPlayerYTrigger();
-                case (int)TriggerType.InstantCount:
+                case (short)(int)TriggerType.InstantCount:
                     return new InstantCountTrigger();
-                case (int)TriggerType.Move:
+                case (short)(int)TriggerType.Move:
                     return new MoveTrigger();
-                case (int)TriggerType.OnDeath:
+                case (short)(int)TriggerType.OnDeath:
                     return new OnDeathTrigger();
-                case (int)TriggerType.Pickup:
+                case (short)(int)TriggerType.Pickup:
                     return new PickupTrigger();
-                case (int)TriggerType.Pulse:
+                case (short)(int)TriggerType.Pulse:
                     return new PulseTrigger();
-                case (int)TriggerType.Rotate:
+                case (short)(int)TriggerType.Rotate:
                     return new RotateTrigger();
-                case (int)TriggerType.Shake:
+                case (short)(int)TriggerType.Shake:
                     return new ShakeTrigger();
-                case (int)TriggerType.Spawn:
+                case (short)(int)TriggerType.Spawn:
                     return new SpawnTrigger();
-                case (int)TriggerType.Stop:
+                case (short)(int)TriggerType.Stop:
                     return new StopTrigger();
-                case (int)TriggerType.Toggle:
+                case (short)(int)TriggerType.Toggle:
                     return new ToggleTrigger();
-                case (int)TriggerType.Touch:
+                case (short)(int)TriggerType.Touch:
                     return new TouchTrigger();
                 // TODO: Take care of other special types of objects
                 default:
