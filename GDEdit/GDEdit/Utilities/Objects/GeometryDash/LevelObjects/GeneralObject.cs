@@ -246,7 +246,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return new CountTextObject();
                 // Orbs
                 case (int)OrbType.YellowOrb:
-                    return new BlueOrb();
+                    return new YellowOrb();
                 case (int)OrbType.MagentaOrb:
                     return new MagentaOrb();
                 case (int)OrbType.RedOrb:
@@ -265,7 +265,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return new TriggerOrb();
                 // Pads
                 case (int)PadType.YellowPad:
-                    return new BluePad();
+                    return new YellowPad();
                 case (int)PadType.MagentaPad:
                     return new MagentaPad();
                 case (int)PadType.RedPad:
