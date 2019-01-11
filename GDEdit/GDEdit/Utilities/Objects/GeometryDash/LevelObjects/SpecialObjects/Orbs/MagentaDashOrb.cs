@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     public class MagentaDashOrb : Orb
     {
         /// <summary>The object ID of the magenta dash orb.</summary>
-        public override short ObjectID => (short)(int)OrbType.MagentaDashOrb;
+        public override int ObjectID => (int)OrbType.MagentaDashOrb;
 
         /// <summary>Initializes a new instance of the <seealso cref="MagentaDashOrb"/> class.</summary>
         public MagentaDashOrb() : base() { }

@@ -27,7 +27,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="objectID">The object ID of the rotating object.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
-        public RotatingObject(short objectID, double x, double y)
+        public RotatingObject(int objectID, double x, double y)
             : base(objectID, x, y) { }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Provides the object IDs of the special blocks.</summary>
-    public enum SpecialBlockType
+    public enum SpecialBlockType : short
     {
         /// <summary>The object ID of the D special block.</summary>
         D = 1755,

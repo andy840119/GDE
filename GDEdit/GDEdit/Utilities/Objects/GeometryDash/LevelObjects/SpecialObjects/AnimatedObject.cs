@@ -20,7 +20,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="objectID">The object ID of the animated object.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
-        public AnimatedObject(short objectID, double x, double y)
+        public AnimatedObject(int objectID, double x, double y)
             : base(objectID, x, y) { }
     }
 }

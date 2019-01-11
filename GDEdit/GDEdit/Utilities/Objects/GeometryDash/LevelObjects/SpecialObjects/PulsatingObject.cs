@@ -31,7 +31,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="objectID">The object ID of the pulsating object.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
-        public PulsatingObject(short objectID, double x, double y)
+        public PulsatingObject(int objectID, double x, double y)
             : base(objectID, x, y) { }
     }
 }

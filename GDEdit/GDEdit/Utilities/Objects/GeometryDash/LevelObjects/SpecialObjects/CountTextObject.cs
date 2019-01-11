@@ -11,16 +11,22 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a count text object.</summary>
     public class CountTextObject : SpecialObject, IHasPrimaryItemID
     {
+        private short itemID;
+
         /// <summary>The object ID of the count text block.</summary>
-        public new short ObjectID => (short)(int)SpecialObjectType.CountTextObject;
+        public new int ObjectID => (int)SpecialObjectType.CountTextObject;
 
         /// <summary>The Item ID the count text object displays.</summary>
-        public short PrimaryItemID { get; set; }
-        /// <summary>The Item ID the count text object displays.</summary>
-        public short ItemID
+        public int ItemID
         {
-            get => PrimaryItemID;
-            set => PrimaryItemID = value;
+            get => itemID;
+            set => itemID = (short)value;
+        }
+        /// <summary>The Item ID the count text object displays.</summary>
+        public int PrimaryItemID
+        {
+            get => ItemID;
+            set => ItemID = value;
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="CountTextObject"/> class.</summary>

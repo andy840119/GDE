@@ -13,6 +13,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     {
         /// <summary>The secondary Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
-        short SecondaryGroupID { get; }
+        int SecondaryGroupID { get; }
     }
 }

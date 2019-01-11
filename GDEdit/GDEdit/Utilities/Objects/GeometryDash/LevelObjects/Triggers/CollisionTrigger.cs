@@ -12,14 +12,28 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Collision trigger.</summary>
     public class CollisionTrigger : Trigger, IHasTargetGroupID, IHasPrimaryBlockID, IHasSecondaryBlockID
     {
-        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Collision;
+        private short targetGroupID, primaryBlockID, secondaryBlockID;
+
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Collision;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public short TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The primary Block ID of the trigger.</summary>
-        public short PrimaryBlockID { get; set; }
+        public int PrimaryBlockID
+        {
+            get => primaryBlockID;
+            set => primaryBlockID = (short)value;
+        }
         /// <summary>The secondary Block ID of the trigger.</summary>
-        public short SecondaryBlockID { get; set; }
+        public int SecondaryBlockID
+        {
+            get => secondaryBlockID;
+            set => secondaryBlockID = (short)value;
+        }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
         public bool ActivateGroup
@@ -43,7 +57,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="activateGroup">The Activate Group of the trigger.</param>
         /// <param name="triggerOnExit">The Trigger On Exit of the trigger.</param>
-        public CollisionTrigger(short primaryBlockID, short secondaryBlockID, short targetGroupID, bool activateGroup = false, bool triggerOnExit = false)
+        public CollisionTrigger(int primaryBlockID, int secondaryBlockID, int targetGroupID, bool activateGroup = false, bool triggerOnExit = false)
         {
             PrimaryBlockID = primaryBlockID;
             SecondaryBlockID = secondaryBlockID;

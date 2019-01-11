@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class FastSpeedPortal : SpeedPortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the fast speed portal.</summary>
-        public override short ObjectID => (short)(int)PortalType.FastSpeed;
+        public override int ObjectID => (int)PortalType.FastSpeed;
 
         /// <summary>The speed this speed portal sets.</summary>
         public override Speed Speed => Speed.Fast;

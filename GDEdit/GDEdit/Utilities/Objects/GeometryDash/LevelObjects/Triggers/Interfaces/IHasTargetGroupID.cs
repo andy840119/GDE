@@ -13,6 +13,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     {
         /// <summary>The target Group ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetGroupID)]
-        short TargetGroupID { get; set; }
+        int TargetGroupID { get; set; }
     }
 }

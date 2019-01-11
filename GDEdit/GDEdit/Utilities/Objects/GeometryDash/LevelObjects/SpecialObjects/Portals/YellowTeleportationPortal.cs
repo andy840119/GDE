@@ -19,7 +19,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         public readonly BlueTeleportationPortal LinkedTeleportationPortal;
 
         /// <summary>The object ID of the yellow teleportation portal.</summary>
-        public override short ObjectID => (short)(int)PortalType.YellowTeleportation;
+        public override int ObjectID => (int)PortalType.YellowTeleportation;
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowTeleportationPortal"/> class.</summary>
         public YellowTeleportationPortal(BlueTeleportationPortal p)

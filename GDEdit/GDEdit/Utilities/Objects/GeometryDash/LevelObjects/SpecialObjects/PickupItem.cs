@@ -13,6 +13,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a pickup item.</summary>
     public class PickupItem : SpecialObject, IHasTargetGroupID
     {
+        private short targetGroupID;
+
         protected override int[] ValidObjectIDs => ObjectLists.PickupItemList;
         protected override string SpecialObjectTypeName => "pickup item";
 
@@ -21,7 +23,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public PickupItemPickupMode PickupMode { get; set; }
         /// <summary>Represents the Count property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.Count)]
-        public short Count { get; set; }
+        public int Count { get; set; }
         /// <summary>Represents the Subtract Count property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.SubtractCount)]
         public bool SubtractCount
@@ -31,7 +33,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 		}
         /// <summary>Represents the Target Group ID property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.TargetGroupID)]
-        public short TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>Represents the Enable Group property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
         public bool EnableGroup
@@ -44,7 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="objectID">The object ID of the pickup item.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
-        public PickupItem(short objectID, double x, double y)
+        public PickupItem(int objectID, double x, double y)
             : base(objectID, x, y) { }
     }
 }

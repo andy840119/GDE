@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Contains the object IDs of the portals.</summary>
-    public enum PortalType
+    public enum PortalType : short
     {
         /// <summary>The cube portal.</summary>
         Cube = 12,

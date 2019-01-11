@@ -12,10 +12,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents an On Death trigger.</summary>
     public class OnDeathTrigger : Trigger, IHasTargetGroupID
     {
-        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.OnDeath;
-        
+        private short targetGroupID;
+
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.OnDeath;
+
         /// <summary>The target Group ID of the trigger.</summary>
-        public short TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
         public bool ActivateGroup
@@ -29,7 +35,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>Initializes a new instance of the <seealso cref="OnDeathTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</summary>
-        public OnDeathTrigger(short targetGroupID, bool activateGroup = false)
+        public OnDeathTrigger(int targetGroupID, bool activateGroup = false)
         {
             TargetGroupID = targetGroupID;
             ActivateGroup = activateGroup;

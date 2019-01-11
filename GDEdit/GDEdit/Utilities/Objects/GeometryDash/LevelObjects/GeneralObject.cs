@@ -17,11 +17,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     public class GeneralObject
     {
         private BitArray8 bools = new BitArray8();
-        private float rotation;
+        private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
+        private float rotation, scaling;
         
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
-        public short ObjectID { get; set; }
+        public int ObjectID
+        {
+            get => objectID;
+            set => objectID = (short)value;
+        }
         /// <summary>The X position of this object.</summary>
         [ObjectStringMappable(ObjectParameter.X)]
         public double X { get; set; }
@@ -58,25 +63,53 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The scaling of this object.</summary>
         [ObjectStringMappable(ObjectParameter.Scaling)]
-        public float Scaling { get; set; }
+        public double Scaling
+        {
+            get => scaling;
+            set => scaling = (float)value;
+        }
         /// <summary>The Editor Layer 1 of this object.</summary>
         [ObjectStringMappable(ObjectParameter.EL1)]
-        public short EL1 { get; set; }
+        public int EL1
+        {
+            get => el1;
+            set => el1 = (short)value;
+        }
         /// <summary>The Editor Layer 2 of this object.</summary>
         [ObjectStringMappable(ObjectParameter.EL2)]
-        public short EL2 { get; set; }
+        public int EL2
+        {
+            get => el2;
+            set => el2 = (short)value;
+        }
         /// <summary>The Z Layer of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ZLayer)]
-        public short ZLayer { get; set; }
+        public int ZLayer
+        {
+            get => zLayer;
+            set => zLayer = (short)value;
+        }
         /// <summary>The Z Order of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ZOrder)]
-        public short ZOrder { get; set; }
+        public int ZOrder
+        {
+            get => zOrder;
+            set => zOrder = (short)value;
+        }
         /// <summary>The Color 1 ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.Color1)]
-        public short Color1ID { get; set; }
+        public int Color1ID
+        {
+            get => color1ID;
+            set => color1ID = (short)value;
+        }
         /// <summary>The Color 2 ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.Color2)]
-        public short Color2ID { get; set; }
+        public int Color2ID
+        {
+            get => color2ID;
+            set => color2ID = (short)value;
+        }
         /// <summary>The Group IDs of this object.</summary>
         [ObjectStringMappable(ObjectParameter.GroupIDs)]
         public short[] GroupIDs { get; set; }
@@ -149,7 +182,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>Creates a new instance of the <seealso cref="GeneralObject"/> class.</summary>
         /// <param name="objectID">The object ID of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(short objectID)
+        public GeneralObject(int objectID)
         {
             ObjectID = objectID;
         }
@@ -157,7 +190,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="objectID">The object ID of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="x">The X position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="y">The Y position of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(short objectID, double x, double y)
+        public GeneralObject(int objectID, double x, double y)
         {
             ObjectID = objectID;
             X = x;
@@ -168,7 +201,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="x">The X position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="y">The Y position of this <seealso cref="GeneralObject"/>.</param>
         /// <param name="rotation">The rotation of this <seealso cref="GeneralObject"/>.</param>
-        public GeneralObject(short objectID, double x, double y, double rotation)
+        public GeneralObject(int objectID, double x, double y, double rotation)
         {
             ObjectID = objectID;
             X = x;
@@ -209,53 +242,53 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             switch (objectID)
             {
                 // Triggers
-                case (short)(int)TriggerType.Alpha:
+                case (int)TriggerType.Alpha:
                     return new AlphaTrigger();
-                case (short)(int)TriggerType.Animate:
+                case (int)TriggerType.Animate:
                     return new AnimateTrigger();
-                case (short)(int)TriggerType.BG:
-                case (short)(int)TriggerType.GRND:
-                case (short)(int)TriggerType.GRND2:
-                case (short)(int)TriggerType.ThreeDL:
-                case (short)(int)TriggerType.Obj:
-                case (short)(int)TriggerType.Line:
-                    return new ColorTrigger((short)(int)ColorTriggerTypes.ConvertToSpecialColorID((TriggerType)objectID));
-                case (short)(int)TriggerType.Color1:
-                case (short)(int)TriggerType.Color2:
-                case (short)(int)TriggerType.Color3:
-                case (short)(int)TriggerType.Color4:
+                case (int)TriggerType.BG:
+                case (int)TriggerType.GRND:
+                case (int)TriggerType.GRND2:
+                case (int)TriggerType.ThreeDL:
+                case (int)TriggerType.Obj:
+                case (int)TriggerType.Line:
+                    return new ColorTrigger((int)ColorTriggerTypes.ConvertToSpecialColorID((TriggerType)objectID));
+                case (int)TriggerType.Color1:
+                case (int)TriggerType.Color2:
+                case (int)TriggerType.Color3:
+                case (int)TriggerType.Color4:
                     return new ColorTrigger(ColorTriggerTypes.ConvertToColorID((TriggerType)objectID));
-                case (short)(int)TriggerType.Color:
+                case (int)TriggerType.Color:
                     return new ColorTrigger();
-                case (short)(int)TriggerType.Collision:
+                case (int)TriggerType.Collision:
                     return new CollisionTrigger();
-                case (short)(int)TriggerType.Count:
+                case (int)TriggerType.Count:
                     return new GeneralObject();
-                case (short)(int)TriggerType.Follow:
+                case (int)TriggerType.Follow:
                     return new FollowTrigger();
-                case (short)(int)TriggerType.FollowPlayerY:
+                case (int)TriggerType.FollowPlayerY:
                     return new FollowPlayerYTrigger();
-                case (short)(int)TriggerType.InstantCount:
+                case (int)TriggerType.InstantCount:
                     return new InstantCountTrigger();
-                case (short)(int)TriggerType.Move:
+                case (int)TriggerType.Move:
                     return new MoveTrigger();
-                case (short)(int)TriggerType.OnDeath:
+                case (int)TriggerType.OnDeath:
                     return new OnDeathTrigger();
-                case (short)(int)TriggerType.Pickup:
+                case (int)TriggerType.Pickup:
                     return new PickupTrigger();
-                case (short)(int)TriggerType.Pulse:
+                case (int)TriggerType.Pulse:
                     return new PulseTrigger();
-                case (short)(int)TriggerType.Rotate:
+                case (int)TriggerType.Rotate:
                     return new RotateTrigger();
-                case (short)(int)TriggerType.Shake:
+                case (int)TriggerType.Shake:
                     return new ShakeTrigger();
-                case (short)(int)TriggerType.Spawn:
+                case (int)TriggerType.Spawn:
                     return new SpawnTrigger();
-                case (short)(int)TriggerType.Stop:
+                case (int)TriggerType.Stop:
                     return new StopTrigger();
-                case (short)(int)TriggerType.Toggle:
+                case (int)TriggerType.Toggle:
                     return new ToggleTrigger();
-                case (short)(int)TriggerType.Touch:
+                case (int)TriggerType.Touch:
                     return new TouchTrigger();
                 // TODO: Take care of other special types of objects
                 default:

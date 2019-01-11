@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class ShipPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the ship portal.</summary>
-        public override short ObjectID => (short)(int)PortalType.Ship;
+        public override int ObjectID => (int)PortalType.Ship;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Ship;
 

@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class CubePortal : GamemodePortal
     {
         /// <summary>The object ID of the cube portal.</summary>
-        public override short ObjectID => (short)(int)PortalType.Cube;
+        public override int ObjectID => (int)PortalType.Cube;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Cube;
 

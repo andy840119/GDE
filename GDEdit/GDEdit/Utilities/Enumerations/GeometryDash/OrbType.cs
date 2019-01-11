@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Contains the object IDs of the orbs.</summary>
-    public enum OrbType
+    public enum OrbType : short
     {
         /// <summary>The yellow orb.</summary>
         YellowOrb = 36,

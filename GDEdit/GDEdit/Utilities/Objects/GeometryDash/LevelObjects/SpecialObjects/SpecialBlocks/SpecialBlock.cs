@@ -10,7 +10,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Spec
     public abstract class SpecialBlock : SpecialObject
     {
         /// <summary>The object ID of the special block.</summary>
-        public new abstract short ObjectID { get; }
+        public new abstract int ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialBlock"/> class.</summary>
         public SpecialBlock() : base() { }

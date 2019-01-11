@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Object ID of the trigger.</summary>
         // IMPORTANT: If we want to change the object IDs of objects through some function, this has to be reworked
         [ObjectStringMappable(ObjectParameter.Duration)]
-        public new virtual short ObjectID { get; }
+        public new virtual int ObjectID { get; }
         
         /// <summary>The Touch Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TouchTriggered)]

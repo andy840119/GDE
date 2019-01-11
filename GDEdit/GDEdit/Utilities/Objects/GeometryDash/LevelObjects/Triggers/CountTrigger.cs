@@ -12,15 +12,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Count trigger.</summary>
     public class CountTrigger : Trigger, IHasTargetGroupID, IHasPrimaryItemID
     {
-        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Count;
+        private short targetGroupID, itemID;
+
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Count;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public short TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The Item ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ItemID)]
-        public short ItemID { get; set; }
+        public int ItemID
+        {
+            get => itemID;
+            set => itemID = (short)value;
+        }
         /// <summary>The primary Item ID of the trigger.</summary>
-        public short PrimaryItemID
+        public int PrimaryItemID
         {
             get => ItemID;
             set => ItemID = value;
@@ -51,7 +61,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="count">The Target Count property of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</param>
         /// <param name="multiActivate">The Multi Activate property of the trigger.</param>
-        public CountTrigger(short targetGroupID, short itemID, short targetCount, bool activateGroup = false, bool multiActivate = false)
+        public CountTrigger(int targetGroupID, int itemID, int targetCount, bool activateGroup = false, bool multiActivate = false)
         {
             TargetGroupID = targetGroupID;
             ItemID = itemID;

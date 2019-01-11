@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     public abstract class Orb : SpecialObject
     {
         /// <summary>The object ID of the orb.</summary>
-        public new abstract short ObjectID { get; }
+        public new abstract int ObjectID { get; }
 
         /// <summary>Represents the Multi Activate property of the orb.</summary>
         [ObjectStringMappable(ObjectParameter.MultiActivate)]

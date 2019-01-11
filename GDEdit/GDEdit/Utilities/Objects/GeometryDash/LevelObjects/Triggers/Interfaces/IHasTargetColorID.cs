@@ -13,6 +13,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     {
         /// <summary>The target Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetColorID)]
-        short TargetColorID { get; set; }
+        int TargetColorID { get; set; }
     }
 }

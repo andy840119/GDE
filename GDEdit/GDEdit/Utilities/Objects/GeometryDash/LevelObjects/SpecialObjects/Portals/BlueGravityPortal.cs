@@ -11,7 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class BlueGravityPortal : Portal
     {
         /// <summary>The object ID of the blue gravity portal.</summary>
-        public override short ObjectID => (short)(int)PortalType.BlueGravity;
+        public override int ObjectID => (int)PortalType.BlueGravity;
 
         /// <summary>Initializes a new instance of the <seealso cref="BlueGravityPortal"/> class.</summary>
         public BlueGravityPortal() : base() { }

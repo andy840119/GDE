@@ -10,7 +10,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     /// <summary>Represents a Line Color trigger.</summary>
     public class LineColorTrigger : ColorTrigger
     {
-        public override short ObjectID => (short)(int)TriggerType.Line;
+        public override int ObjectID => (int)TriggerType.Line;
         
         /// <summary>The target Color ID of the trigger.</summary>
         public new short TargetColorID => (short)(int)SpecialColorID.Line;

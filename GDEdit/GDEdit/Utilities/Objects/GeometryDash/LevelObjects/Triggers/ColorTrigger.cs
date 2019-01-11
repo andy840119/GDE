@@ -13,25 +13,57 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Color trigger.</summary>
     public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
     {
-        public override short ObjectID => (short)(short)(int)Enumerations.GeometryDash.TriggerType.Color;
+        private byte red, green, blue;
+        private short targetColorID;
+        private float duration = 0.5f, opacity = 1;
+
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public short TargetColorID { get; set; }
+        public int TargetColorID
+        {
+            get => targetColorID;
+            set => targetColorID = (short)value;
+        }
         /// <summary>The duration of the trigger's effect.</summary>
-        public float Duration { get; set; } = 0.5f;
+        public double Duration
+        {
+            get => duration;
+            set => duration = (float)value;
+        }
         /// <summary>The red part of the color.</summary>
-        public byte Red { get; set; }
+        public int Red
+        {
+            get => red;
+            set => red = (byte)value;
+        }
         /// <summary>The green part of the color.</summary>
-        public byte Green { get; set; }
+        public int Green
+        {
+            get => green;
+            set => green = (byte)value;
+        }
         /// <summary>The blue part of the color.</summary>
-        public byte Blue { get; set; }
+        public int Blue
+        {
+            get => blue;
+            set => blue = (byte)value;
+        }
         /// <summary>The Opacity property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Opacity)]
-        public float Opacity { get; set; } = 1;
+        public double Opacity
+        {
+            get => opacity;
+            set => opacity = (float)value;
+        }
         // IMPORTANT: The Player 1 and Player 2 properties are ignored because the Copied Color ID serves that purpose well
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
-        public short CopiedColorID { get; set; }
+        public int CopiedColorID
+        {
+            get => TargetColorID;
+            set => TargetColorID = value;
+        }
         /// <summary>The Blending property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Blending)]
         public bool Blending
@@ -64,7 +96,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public ColorTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
         /// <param name="targetID">The target ID of the trigger.</param>
-        public ColorTrigger(short targetID)
+        public ColorTrigger(int targetID)
         {
             TargetColorID = targetID;
         }
@@ -73,7 +105,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetID">The target ID of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
-        public ColorTrigger(float duration, short targetID, bool copyOpacity = false, bool tintGround = false)
+        public ColorTrigger(double duration, int targetID, bool copyOpacity = false, bool tintGround = false)
             : this(targetID)
         {
             Duration = duration;

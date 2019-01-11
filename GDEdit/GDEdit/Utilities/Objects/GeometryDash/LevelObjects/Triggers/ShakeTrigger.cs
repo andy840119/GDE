@@ -12,16 +12,30 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Shake trigger.</summary>
     public class ShakeTrigger : Trigger, IHasDuration
     {
-        public override short ObjectID => (short)(int)Enumerations.GeometryDash.TriggerType.Shake;
+        private float duration = 0.5f, strength, interval;
+
+        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Shake;
 
         /// <summary>The duration of the trigger's effect.</summary>
-        public float Duration { get; set; } = 0.5f;
+        public double Duration
+        {
+            get => duration;
+            set => duration = (float)value;
+        }
         /// <summary>The Strength property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Strength)]
-        public float Strength { get; set; }
+        public double Strength
+        {
+            get => strength;
+            set => strength = (float)value;
+        }
         /// <summary>The Interval property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Interval)]
-        public float Interval { get; set; }
+        public double Interval
+        {
+            get => interval;
+            set => interval = (float)value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="ShakeTrigger"/> class.</summary>
         public ShakeTrigger() { }
@@ -29,7 +43,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="strength">The Strength property of the trigger.</param>
         /// <param name="interval">The Interval property of the trigger.</param>
-        public ShakeTrigger(float duration, float strength, float interval)
+        public ShakeTrigger(double duration, double strength, double interval)
         {
             Duration = duration;
             Strength = strength;
