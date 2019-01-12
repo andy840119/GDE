@@ -2,19 +2,18 @@
 using DiscordRPC;
 using osu.Framework.Logging;
 
-//533431726463123458
 namespace GDE.App.Main.Tools
 {
+    /// <summary>This class will represnt Discord's RPC Functions (more to be added soon though)</summary>
     public class RPC
     {
-        public DiscordRpcClient client = new DiscordRpcClient("533431726463123458"); // LEAVE THIS BLANK WHEN COMMITING
+        /// <summary>Represents the application from Discord's dev portal</summary>
+        public DiscordRpcClient client = new DiscordRpcClient(""); // LEAVE THIS BLANK WHEN COMMITING
 
-        #region UpdateRPC
-        /// <summary>
-        /// Initializes and changes the Rich Presence in discord
-        /// </summary>
-        /// <param name="Status">The Status text that will appear in discord</param>
-        /// <param name="Details">The Details text that will appear in discord</param>
+        #region Update RPC
+        /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
+        /// <param name="Status">The Status text that will appear in Discord.</param>
+        /// <param name="Details">The Details text that will appear in Discord.</param>
         public void UpdatePresence(string Status, string Details)
         {
             client.Initialize();
@@ -30,12 +29,10 @@ namespace GDE.App.Main.Tools
             client.Invoke();
         }
 
-        /// <summary>
-        /// Initializes and changes the Rich Presence in discord
-        /// </summary>
-        /// <param name="Status">The Status text that will appear in discord</param>
-        /// <param name="Details">The Details text that will appear in discord</param>
-        /// <param name="Assets">The Assets images that will appear in discord</param>
+        /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
+        /// <param name="Status">The Status text that will appear in Discord.</param>
+        /// <param name="Details">The Details text that will appear in Discord.</param>
+        /// <param name="Assets">The Assets images that will appear in Discord.</param>
         public void UpdatePresence(string Status, string Details, Assets Assets)
         {
             client.Initialize();
@@ -52,13 +49,11 @@ namespace GDE.App.Main.Tools
             client.Invoke();
         }
 
-        /// <summary>
-        /// Initializes and changes the Rich Presence in discord
-        /// </summary>
-        /// <param name="Status">The Status text that will appear in discord</param>
-        /// <param name="Details">The Details text that will appear in discord</param>
-        /// <param name="Assets">The Assets images that will appear in discord</param>
-        /// <param name="timestamp">The Timestamp time that will appear in discord</param>
+        /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
+        /// <param name="Status">The Status text that will appear in Discord.</param>
+        /// <param name="Details">The Details text that will appear in Discord.</param>
+        /// <param name="Assets">The Assets images that will appear in Discord.</param>
+        /// <param name="timestamp">The Timestamp time that will appear in Discord.</param>
         public void UpdatePresence(string Status, string Details, Assets Assets, Timestamps timestamp)
         {
             client.Initialize();
