@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
     /// <summary>This enumeration provides values for the Pickup Mode of a Pickup item.</summary>
-    public enum PickupItemPickupMode
+    public enum PickupItemPickupMode : byte
     {
         /// <summary>Represents the value of no selected mode.</summary>
         None = 0,

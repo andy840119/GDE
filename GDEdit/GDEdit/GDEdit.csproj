@@ -91,8 +91,8 @@
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
+    <Compile Include="Utilities\Objects\General\BitArray8.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\General\BoundedDouble.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />

@@ -12,16 +12,31 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Spawn trigger.</summary>
     public class SpawnTrigger : Trigger, IHasTargetGroupID
     {
+        private short targetGroupID;
+        private float delay;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Spawn;
-        
+
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The Delay property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SpawnDelay)]
-        public float Delay { get; set; }
+        public double Delay
+        {
+            get => delay;
+            set => delay = (float)value;
+        }
         /// <summary>The Editor Disable property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.EditorDisable)]
-        public bool EditorDisable { get; set; }
+        public bool EditorDisable
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpawnTrigger"/> class.</summary>
         public SpawnTrigger() { }
@@ -29,7 +44,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="delay">The Delay property of the trigger.</param>
         /// <param name="editorDisable">The Editor Disable property of the trigger.</param>
-        public SpawnTrigger(int targetGroupID, float delay, bool editorDisable = false)
+        public SpawnTrigger(int targetGroupID, double delay, bool editorDisable = false)
         {
             TargetGroupID = targetGroupID;
             Delay = delay;

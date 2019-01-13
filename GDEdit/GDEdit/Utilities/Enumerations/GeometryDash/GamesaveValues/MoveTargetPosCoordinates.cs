@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
     /// <summary>This enumeration provides values for the coordinates to rely on the object in the Target Pos Group ID of a Move trigger.</summary>
-    public enum MoveTargetPosCoordinates
+    public enum MoveTargetPosCoordinates : byte
     {
         /// <summary>Represents the value for both coordinates.</summary>
         Both,

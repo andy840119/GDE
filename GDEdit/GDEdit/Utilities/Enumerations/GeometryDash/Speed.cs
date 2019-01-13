@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Represents the player speed.</summary>
-    public enum Speed
+    public enum Speed : byte
     {
         /// <summary>Represents the slow speed (&lt;).</summary>
         Slow,

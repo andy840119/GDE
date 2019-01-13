@@ -13,8 +13,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a pickup item.</summary>
     public class PickupItem : SpecialObject, IHasTargetGroupID
     {
+        private short targetGroupID;
+
         protected override int[] ValidObjectIDs => ObjectLists.PickupItemList;
-        protected override string SpecialObjectType => "pickup item";
+        protected override string SpecialObjectTypeName => "pickup item";
 
         /// <summary>Represents the Pickup Mode property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.PickupMode)]
@@ -24,13 +26,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public int Count { get; set; }
         /// <summary>Represents the Subtract Count property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.SubtractCount)]
-        public bool SubtractCount { get; set; }
+        public bool SubtractCount
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
         /// <summary>Represents the Target Group ID property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.TargetGroupID)]
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>Represents the Enable Group property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool EnableGroup { get; set; }
+        public bool EnableGroup
+        {
+            get => SpecialObjectBools[1];
+            set => SpecialObjectBools[1] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="PickupItem"/> class.</summary>
         /// <param name="objectID">The object ID of the pickup item.</param>

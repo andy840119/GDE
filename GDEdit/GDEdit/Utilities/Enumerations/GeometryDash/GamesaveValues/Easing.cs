@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
     /// <summary>This enumeration provides values for the Easing of a movement command of a trigger.</summary>
-    public enum Easing
+    public enum Easing : byte
     {
         /// <summary>Represents no easing.</summary>
         None,

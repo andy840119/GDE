@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
     /// <summary>This enumeration provides values for the Target Type of a Pulse trigger.</summary>
-    public enum PulseTargetType
+    public enum PulseTargetType : byte
     {
         /// <summary>Represents the value of the Color Channel Target Type.</summary>
         ColorChannel,
