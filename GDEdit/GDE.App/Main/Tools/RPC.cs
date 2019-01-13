@@ -4,11 +4,11 @@ using osu.Framework.Logging;
 
 namespace GDE.App.Main.Tools
 {
-    /// <summary>This class will represnt Discord's RPC Functions (more to be added soon though)</summary>
+    /// <summary>This class will represnt Discord's RPC Functions (more to be added soon though).</summary>
     public class RPC
     {
-        /// <summary>Represents the application from Discord's dev portal</summary>
-        public DiscordRpcClient client = new DiscordRpcClient(""); // LEAVE THIS BLANK WHEN COMMITING
+        /// <summary>Represents the application from Discord's dev portal.</summary>
+        public DiscordRpcClient client = new DiscordRpcClient("533431726463123458");
 
         #region Update RPC
         /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
