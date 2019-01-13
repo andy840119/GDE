@@ -12,71 +12,64 @@ namespace GDE.App.Main.Tools
 
         #region Update RPC
         /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
-        /// <param name="Status">The Status text that will appear in Discord.</param>
-        /// <param name="Details">The Details text that will appear in Discord.</param>
-        public void UpdatePresence(string Status, string Details)
+        /// <param name="status">The Status text that will appear in Discord.</param>
+        /// <param name="details">The Details text that will appear in Discord.</param>
+        public void updatePresence(string status, string details)
         {
             client.Initialize();
 
             client.SetPresence(new RichPresence()
             {
-                State = Status,
-                Details = Details
+                State = status,
+                Details = details
             });
 
-            Logger.Error(new Exception().InnerException, $"Changed RPC to {Status}", LoggingTarget.Information);
+            Logger.Error(new Exception().InnerException, $"Changed RPC to {status}", LoggingTarget.Information);
 
             client.Invoke();
         }
 
         /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
-        /// <param name="Status">The Status text that will appear in Discord.</param>
-        /// <param name="Details">The Details text that will appear in Discord.</param>
-        /// <param name="Assets">The Assets images that will appear in Discord.</param>
-        public void UpdatePresence(string Status, string Details, Assets Assets)
+        /// <param name="status">The Status text that will appear in Discord.</param>
+        /// <param name="details">The Details text that will appear in Discord.</param>
+        /// <param name="assets">The Assets images that will appear in Discord.</param>
+        public void updatePresence(string status, string details, Assets assets)
         {
             client.Initialize();
 
             client.SetPresence(new RichPresence()
             {
-                State = Status,
-                Details = Details,
-                Assets = Assets
+                State = status,
+                Details = details,
+                Assets = assets
             });
 
-            Logger.Error(new Exception().InnerException, $"Changed RPC to {Status}", LoggingTarget.Information);
+            Logger.Error(new Exception().InnerException, $"Changed RPC to {status}", LoggingTarget.Information);
 
             client.Invoke();
         }
 
         /// <summary>Initializes and changes the Rich Presence in Discord.</summary>
-        /// <param name="Status">The Status text that will appear in Discord.</param>
-        /// <param name="Details">The Details text that will appear in Discord.</param>
-        /// <param name="Assets">The Assets images that will appear in Discord.</param>
+        /// <param name="status">The Status text that will appear in Discord.</param>
+        /// <param name="details">The Details text that will appear in Discord.</param>
+        /// <param name="assets">The Assets images that will appear in Discord.</param>
         /// <param name="timestamp">The Timestamp time that will appear in Discord.</param>
-        public void UpdatePresence(string Status, string Details, Assets Assets, Timestamps timestamp)
+        public void updatePresence(string status, string details, Assets assets, Timestamps timestamp)
         {
             client.Initialize();
 
             client.SetPresence(new RichPresence()
             {
-                State = Status,
-                Details = Details,
+                State = status,
+                Details = details,
                 Timestamps = timestamp,
-                Assets = Assets
+                Assets = assets
             });
 
-            Logger.Error(new Exception().InnerException, $"Changed RPC to {Status}", LoggingTarget.Information);
+            Logger.Error(new Exception().InnerException, $"Changed RPC to {status}", LoggingTarget.Information);
 
             client.Invoke();
         }
         #endregion
-
-        public void Update()
-        {
-            var timer = new System.Timers.Timer(1);
-            timer.Elapsed += (sender, args) => { client.Invoke(); };
-            timer.Start();
-        }
     }
 }
