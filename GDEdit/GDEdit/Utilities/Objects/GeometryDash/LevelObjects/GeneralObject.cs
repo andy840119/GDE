@@ -236,7 +236,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
         
-        public static GeneralObject GetNewObjectInstance(short objectID)
+        public static GeneralObject GetNewObjectInstance(int objectID)
         {
             // TODO: Consider using reflection within this namespace
             switch (objectID)
