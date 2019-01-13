@@ -240,7 +240,7 @@ namespace GDEdit.Application.Editor
         /// <summary>Scales the selected objects by an amount.</summary>
         /// <param name="scaling">The scaling to apply to all the objects.</param>
         /// <param name="individually">Determines whether the objects will be only scaled individually.</param>
-        public void Scale(float scaling, bool individually)
+        public void Scale(double scaling, bool individually)
         {
             foreach (var o in Level.LevelObjects)
                 o.Scaling *= scaling;
@@ -254,7 +254,7 @@ namespace GDEdit.Application.Editor
         /// <summary>Scales the selected objects by an amount based on a specific central point.</summary>
         /// <param name="scaling">The scaling to apply to all the objects.</param>
         /// <param name="center">The central point to take into account while scaling all objects.</param>
-        public void Scale(float scaling, Point center)
+        public void Scale(double scaling, Point center)
         {
             foreach (var o in Level.LevelObjects)
             {
