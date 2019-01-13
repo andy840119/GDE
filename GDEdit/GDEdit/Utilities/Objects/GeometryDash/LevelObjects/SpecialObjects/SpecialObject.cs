@@ -11,7 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public abstract class SpecialObject : GeneralObject
     {
         /// <summary>The <seealso cref="bool"/>s of the special objects.</summary>
-		protected BitArray8 SpecialObjectBools = new BitArray8();
+        protected BitArray8 SpecialObjectBools = new BitArray8();
         /// <summary>The valid object IDs of the special object. Only override if the class does not represent a single object.</summary>
         protected virtual int[] ValidObjectIDs => null;
         /// <summary>The name as a string of the special object. Only override if the class does not represent a single object.</summary>

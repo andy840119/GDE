@@ -22,10 +22,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <summary>The Randomize Start property of the pulsating object.</summary>
         [ObjectStringMappable(ObjectParameter.RandomizeStart)]
         public bool RandomizeStart
-		{
-			get => SpecialObjectBools[0];
-			set => SpecialObjectBools[0] = value;
-		}
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="PulsatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the pulsating object.</param>

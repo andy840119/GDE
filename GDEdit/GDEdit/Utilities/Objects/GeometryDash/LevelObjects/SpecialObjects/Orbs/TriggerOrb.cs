@@ -29,10 +29,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         /// <summary>Represents the Activate Group property of the trigger orb.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
         public bool ActivateGroup
-		{
-			get => SpecialObjectBools[1];
-			set => SpecialObjectBools[1] = value;
-		}
+        {
+            get => SpecialObjectBools[1];
+            set => SpecialObjectBools[1] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="TriggerOrb"/> class.</summary>
         public TriggerOrb() : base() { }

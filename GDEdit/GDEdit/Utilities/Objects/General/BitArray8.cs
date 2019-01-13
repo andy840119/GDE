@@ -1,4 +1,4 @@
-namespace GDEdit.Utilities.Objects.General
+﻿namespace GDEdit.Utilities.Objects.General
 {
     /// <summary>Represents an array of 8 bits compactly stored in a <seealso cref="byte"/>.</summary>
     public struct BitArray8
