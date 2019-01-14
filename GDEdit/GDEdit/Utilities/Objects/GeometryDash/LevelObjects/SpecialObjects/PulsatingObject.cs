@@ -14,14 +14,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class PulsatingObject : SpecialObject
     {
         protected override int[] ValidObjectIDs => ObjectLists.PulsatingObjectList;
-        protected override string SpecialObjectType => "pulsating object";
+        protected override string SpecialObjectTypeName => "pulsating object";
 
         /// <summary>The animation speed of the pulsating object as a ratio.</summary>
         [ObjectStringMappable(ObjectParameter.AnimationSpeed)]
         public float AnimationSpeed { get; set; }
         /// <summary>The Randomize Start property of the pulsating object.</summary>
         [ObjectStringMappable(ObjectParameter.RandomizeStart)]
-        public bool RandomizeStart { get; set; }
+        public bool RandomizeStart
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="PulsatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the pulsating object.</param>

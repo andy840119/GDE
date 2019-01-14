@@ -20,7 +20,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
 
         /// <summary>The checked property of the spider portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
         [ObjectStringMappable(ObjectParameter.PortalChecked)]
-        public bool Checked { get; set; }
+        public bool Checked
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpiderPortal"/> class.</summary>
         public SpiderPortal() : base() { }

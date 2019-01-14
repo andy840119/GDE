@@ -12,13 +12,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents an Instant Count trigger.</summary>
     public class InstantCountTrigger : Trigger, IHasTargetGroupID, IHasPrimaryItemID
     {
+        private short targetGroupID, itemID;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.InstantCount;
-        
+
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The Item ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ItemID)]
-        public int ItemID { get; set; }
+        public int ItemID
+        {
+            get => itemID;
+            set => itemID = (short)value;
+        }
         /// <summary>The primary Item ID of the trigger.</summary>
         public int PrimaryItemID
         {
@@ -30,7 +40,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int TargetCount { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool ActivateGroup { get; set; }
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Comparison property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Comparison)]
         public InstantCountComparison Comparison { get; set; }
