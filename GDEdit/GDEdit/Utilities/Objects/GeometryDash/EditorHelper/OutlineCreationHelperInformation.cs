@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.EditorHelper
 {
-    // TODO: Find a better naming for these
     /// <summary>Represents an object which contains information about the objects to create from an original object that are the outline decoration in the object set.</summary>
     public class OutlineCreationHelperInformation
     {
