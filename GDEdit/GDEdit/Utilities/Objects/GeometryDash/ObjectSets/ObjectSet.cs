@@ -10,24 +10,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectSets
     /// <summary>Represents an object set, which consists of a number of objects for specific purposes.</summary>
     public class ObjectSet
     {
-        // TODO: Implement this to support neighboring objects
+        // TODO: Implement slope support too
 
         /// <summary>The dictionary containing the objects mapped per the points in the <seealso cref="ObjectSet"/>.</summary>
-        public Dictionary<SquarePoints, List<GeneralObject>> Objects { get; set; }
+        public Dictionary<SquarePoints, ObjectGrid> Objects { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectSet"/> class.</summary>
         public ObjectSet() { }
         /// <summary>Initializes a new instance of the <seealso cref="ObjectSet"/> class.</summary>
         /// <param name="objects">The dictionary containing the set of objects.</param>
-        public ObjectSet(Dictionary<SquarePoints, List<GeneralObject>> objects)
+        public ObjectSet(Dictionary<SquarePoints, ObjectGrid> objects)
         {
             Objects = objects;
         }
 
         /// <summary>Gets or sets the list of general objects in the object set.</summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public List<GeneralObject> this[SquarePoints s]
+        /// <param name="s">The points of the square in the object that will be considered</param>
+        public ObjectGrid this[SquarePoints s]
         {
             get => Objects[s];
             set => Objects[s] = value;
