@@ -31,47 +31,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.Toolbars
             SampleImageObjectID = sampleImageObjectID;
             Pages = pages;
         }
-
-        /// <summary>Represents a page in the <seealso cref="ObjectSelectionToolbarTab"/>.</summary>
-        public class ObjectSelectionToolbarTabPage
-        {
-            /// <summary>The items of the page.</summary>
-            public List<ObjectSelectionToolbarTabItem> Items { get; set; }
-
-            /// <summary>Initializes a new instance of the <seealso cref="ObjectSelectionToolbarTabPage"/> class.</summary>
-            public ObjectSelectionToolbarTabPage()
-            {
-                Items = new List<ObjectSelectionToolbarTabItem>();
-            }
-            /// <summary>Initializes a new instance of the <seealso cref="ObjectSelectionToolbarTabPage"/> class.</summary>
-            /// <param name="items">The items this <seealso cref="ObjectSelectionToolbarTabPage"/> will have.</param>
-            public ObjectSelectionToolbarTabPage(List<ObjectSelectionToolbarTabItem> items)
-            {
-                Items = items;
-            }
-        }
-        /// <summary>Represents an item in the <seealso cref="ObjectSelectionToolbarTabPage"/>.</summary>
-        public class ObjectSelectionToolbarTabItem
-        {
-            /// <summary>The object that this item refers to, with all the properties it contains.</summary>
-            public GeneralObject Object { get; set; }
-            /// <summary>The background color of the tab item.</summary>
-            public Color BackgroundColor { get; set; } = Color.Silver;
-            
-            /// <summary>Initializes a new instance of the <seealso cref="ObjectSelectionToolbarTabItem"/> class.</summary>
-            /// <param name="obj">The object of this <seealso cref="ObjectSelectionToolbarTabItem"/>.</param>
-            public ObjectSelectionToolbarTabItem(GeneralObject obj)
-            {
-                Object = obj;
-            }
-            /// <summary>Initializes a new instance of the <seealso cref="ObjectSelectionToolbarTabItem"/> class.</summary>
-            /// <param name="obj">The object of this <seealso cref="ObjectSelectionToolbarTabItem"/>.</param>
-            /// <param name="backgroundColor">The background color of this <seealso cref="ObjectSelectionToolbarTabItem"/>.</param>
-            public ObjectSelectionToolbarTabItem(GeneralObject obj, Color backgroundColor)
-            {
-                Object = obj;
-                BackgroundColor = backgroundColor;
-            }
-        }
     }
 }
