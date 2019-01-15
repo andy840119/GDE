@@ -10,31 +10,33 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectSets
     /// <summary>Represents an object set, which consists of a number of objects for specific purposes.</summary>
     public class ObjectSet
     {
-        // TODO: Implement slope support too
+        /// <summary>The dictionary containing the object grids mapped per the points in the <seealso cref="ObjectSet"/>.</summary>
+        public Dictionary<RectanglePoints, ObjectGrid> Rectangles { get; set; }
 
-        /// <summary>The dictionary containing the objects mapped per the points in the <seealso cref="ObjectSet"/>.</summary>
-        public Dictionary<SquarePoints, ObjectGrid> Objects { get; set; }
+        // TODO: Support multiple slope point combinations
+        /// <summary>The dictionary containing the object grids mappes per the slopes in the <seealso cref="ObjectSet"/>.</summary>
+        public Dictionary<SlopeType, ObjectGrid> Slopes { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectSet"/> class.</summary>
         public ObjectSet() { }
         /// <summary>Initializes a new instance of the <seealso cref="ObjectSet"/> class.</summary>
-        /// <param name="objects">The dictionary containing the set of objects.</param>
-        public ObjectSet(Dictionary<SquarePoints, ObjectGrid> objects)
+        /// <param name="rectangles">The dictionary containing the set of objects.</param>
+        public ObjectSet(Dictionary<RectanglePoints, ObjectGrid> rectangles)
         {
-            Objects = objects;
+            Rectangles = rectangles;
         }
 
-        /// <summary>Gets or sets the list of general objects in the object set.</summary>
-        /// <param name="s">The points of the square in the object that will be considered</param>
-        public ObjectGrid this[SquarePoints s]
+        /// <summary>Gets or sets the object grid in the object set.</summary>
+        /// <param name="s">The points of the rectangle in the object set.</param>
+        public ObjectGrid this[RectanglePoints s]
         {
-            get => Objects[s];
-            set => Objects[s] = value;
+            get => Rectangles[s];
+            set => Rectangles[s] = value;
         }
     }
     
-    /// <summary>Represents the points of a square.</summary>
-    public enum SquarePoints
+    /// <summary>Represents the points of a rectangle.</summary>
+    public enum RectanglePoints
     {
         /// <summary>No points.</summary>
         None = 0,
@@ -64,5 +66,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectSets
 
         /// <summary>All the points.</summary>
         All = VerticalSides | HorizontalSides,
+    }
+
+    /// <summary>Represents a slope type.</summary>
+    public enum SlopeType
+    {
+        /// <summary>Represents the 45-degree slope (1:1).</summary>
+        Slope45 = 1,
+        /// <summary>Represents the ~26-degree slope (2:1).</summary>
+        Slope26 = 2,
     }
 }
