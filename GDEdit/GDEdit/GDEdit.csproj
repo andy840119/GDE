@@ -194,6 +194,8 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbar.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbar.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbar.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTab.cs" />
     <Compile Include="Utilities\Objects\Presets\GuidelineEditorPreset.cs" />
