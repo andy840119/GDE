@@ -955,6 +955,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
             UserLevels = UserLevels.InsertAtStart(new Level());
+            UserLevels[0].RawLevel = level;
             GetLevelInfo(0);
             UpdateLevelData(); // Write the new data
         }
