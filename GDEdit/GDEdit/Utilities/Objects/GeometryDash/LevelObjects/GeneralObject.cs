@@ -24,6 +24,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
+        private short[] groupIDs;
         private BitArray8 bools = new BitArray8();
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
         private float rotation, scaling;
@@ -120,7 +121,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The Group IDs of this object.</summary>
         [ObjectStringMappable(ObjectParameter.GroupIDs)]
-        public int[] GroupIDs { get; set; }
+        public int[] GroupIDs
+        {
+            get => groupIDs.Cast<int>() as int[];
+            set => groupIDs = value.Cast<short>() as short[];
+        }
         /// <summary>The linked group ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.LinkedGroupID)]
         public int LinkedGroupID { get; set; }
