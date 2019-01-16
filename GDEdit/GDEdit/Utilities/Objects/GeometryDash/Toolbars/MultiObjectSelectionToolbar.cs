@@ -22,7 +22,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.Toolbars
                 selectedTabIndices = value;
             }
         }
-        /// <summary>Gets the currently selected tabs.</summary>
+        /// <summary>Gets or sets the currently selected tabs.</summary>
         public List<ObjectSelectionToolbarTab> SelectedTabs
         {
             get
@@ -31,6 +31,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.Toolbars
                 foreach (var i in selectedTabIndices)
                     result.Add(Tabs[i]);
                 return result;
+            }
+            set
+            {
+                var result = new List<int>();
+                foreach (var s in value)
+                    result.Add(Tabs.IndexOf(s));
+                selectedTabIndices = result;
             }
         }
 
