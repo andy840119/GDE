@@ -197,6 +197,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\IMultiSelectionToolbar.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTabItem.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTabPage.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbarTabPage.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbarTab.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbar.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbar.cs" />
