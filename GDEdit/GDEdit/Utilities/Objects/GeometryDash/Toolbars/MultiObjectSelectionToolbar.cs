@@ -41,6 +41,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.Toolbars
             }
         }
 
+        /// <summary>Initializes a new instance of the <seealso cref="MultiObjectSelectionToolbar"/> class.</summary>
+        /// <param name="tabs">The tabs this <seealso cref="MultiObjectSelectionToolbar"/> will have.</param>
+        public MultiObjectSelectionToolbar(List<ObjectSelectionToolbarTab> tabs) : base(tabs) { }
+
         /// <summary>Adds the selected index to the selected tabs list.</summary>
         /// <param name="index">The index of the tab to add to the list.</param>
         public void AddIndex(int index)

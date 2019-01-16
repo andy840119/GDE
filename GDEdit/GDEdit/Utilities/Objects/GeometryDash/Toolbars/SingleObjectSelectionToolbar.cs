@@ -33,5 +33,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.Toolbars
                 selectedTabIndex = index;
             }
         }
+        
+        /// <summary>Initializes a new instance of the <seealso cref="SingleObjectSelectionToolbar"/> class.</summary>
+        /// <param name="tabs">The tabs this <seealso cref="SingleObjectSelectionToolbar"/> will have.</param>
+        public SingleObjectSelectionToolbar(List<ObjectSelectionToolbarTab> tabs) : base(tabs) { }
     }
 }
