@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.Toolbars
 {
-    public class SingleObjectSelectionToolbar : ObjectSelectionToolbar
+    public class SingleObjectSelectionToolbar : ObjectSelectionToolbar, ISingleSelection
     {
         private int selectedTabIndex;
 
