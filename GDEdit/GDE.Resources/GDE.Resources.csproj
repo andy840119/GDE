@@ -17,6 +17,7 @@
     <None Remove="Fonts\Venera.bin" />
     <None Remove="Fonts\Venera_0.png" />
     <None Remove="Fonts\Venera_1.png" />
+    <None Remove="Textures\Objects\square_01_001.png" />
     <None Remove="Textures\Untitled.png" />
   </ItemGroup>
 
@@ -30,6 +31,7 @@
     <EmbeddedResource Include="Fonts\FontAwesome_3.png" />
     <EmbeddedResource Include="Fonts\FontAwesome_4.png" />
     <EmbeddedResource Include="Fonts\FontAwesome_5.png" />
+    <EmbeddedResource Include="Textures\Objects\square_01_001.png" />
     <EmbeddedResource Include="Textures\Untitled.png" />
   </ItemGroup>
 
