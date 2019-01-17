@@ -1,11 +1,7 @@
-﻿using osu.Framework.Graphics;
+﻿using GDE.App.Main.Objects;
+using osu.Framework.Graphics;
 using osu.Framework.Testing;
-using osu.Framework.Graphics.Sprites;
-using System.ComponentModel;
-using GDE.App.Main.Screens.Edit;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
-using GDEdit.Application;
-using GDE.App.Main.Objects;
+using osuTK;
 
 namespace GDE.Tests.Visual
 {
@@ -22,7 +18,7 @@ namespace GDE.Tests.Visual
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
                     ID = 1,
-                    Size = new osuTK.Vector2(100)
+                    Size = new Vector2(100)
                 }
             };
         }

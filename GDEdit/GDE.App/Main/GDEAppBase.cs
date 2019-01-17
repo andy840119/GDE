@@ -1,13 +1,13 @@
-﻿using osuTK;
-using osu.Framework;
+﻿using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Configuration;
-using osu.Framework.IO.Stores;
-using osu.Framework.Platform;
-using System.Drawing;
 using osu.Framework.Development;
-using System.Threading;
+using osu.Framework.IO.Stores;
 using osu.Framework.Logging;
+using osu.Framework.Platform;
+using osuTK;
+using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GDE.App.Main

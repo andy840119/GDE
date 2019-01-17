@@ -37,11 +37,8 @@ namespace GDE.App.Main.Tools
                     }
 
                     // since we let unhandled exceptions go ignored at times, we want to ensure they don't get submitted on subsequent reports.
-                    if (lastException != null &&
-                        lastException.Message == exception.Message && exception.StackTrace.StartsWith(lastException.StackTrace))
-                    {
+                    if (lastException != null && lastException.Message == exception.Message && exception.StackTrace.StartsWith(lastException.StackTrace))
                         return;
-                    }
 
                     lastException = exception;
                     queuePendingTask(raven.CaptureAsync(new SentryEvent(exception)));
@@ -53,7 +50,8 @@ namespace GDE.App.Main.Tools
 
         private void queuePendingTask(Task<string> task)
         {
-            lock (tasks) tasks.Add(task);
+            lock (tasks)
+                tasks.Add(task);
             task.ContinueWith(_ =>
             {
                 lock (tasks)
@@ -82,7 +80,8 @@ namespace GDE.App.Main.Tools
                 return;
 
             isDisposed = true;
-            lock (tasks) Task.WaitAll(tasks.ToArray(), 5000);
+            lock 
+                (tasks) Task.WaitAll(tasks.ToArray(), 5000);
         }
 
         #endregion

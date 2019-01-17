@@ -1,5 +1,5 @@
 ﻿using GDEdit.Utilities.Information.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -14,35 +14,35 @@ namespace GDE.App.Main.Objects
     ///<summary>Displays an object of any <see cref="ObjectLists"/></summary>
     public class ObjectBase : Container
     {
-        private LevelObject lvlObj;
+        private GeneralObject lvlObj;
         private Box Object;
 
         #region Level Object Variables
         ///<summary>Tells what Object ID it is. you can switch this id for other object</summary>
         public int ID;
         ///<summary>Position X of the object</summary>
-        public double x;
+        public double X;
         ///<summary>Position Y of the object</summary>
-        public double y;
+        public double Y;
         ///<summary>Weither it is flipped horizontally</summary>
-        public bool flippedHorizontally;
+        public bool FlippedHorizontally;
         ///<summary>Weither it is flipped horizontally</summary>
-        public bool flippedVertically;
+        public bool FlippedVertically;
         ///<summary>Rotation of the object</summary>
-        public double rotation;
+        public double Rotation;
         ///<summary>Scale of the object</summary>
-        public double scale;
+        public double Scale;
         ///<summary>Editor layer 1 of the object</summary>
         public int EL1;
         ///<summary>Editor layer 2 of the object</summary>
         public int EL2;
         ///<summary>What and how many groups are in the object</summary>
-        public int[] groupID;
+        public int[] GroupID;
         #endregion
 
         public ObjectBase()
         {
-            lvlObj = new LevelObject(ID, x, y);
+            lvlObj = new GeneralObject(ID, x, y);
 
             Children = new Drawable[]
             {

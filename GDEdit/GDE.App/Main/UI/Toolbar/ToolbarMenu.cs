@@ -1,15 +1,14 @@
-﻿using osu.Framework.Allocation;
+﻿using GDE.App.Main.Colours;
+using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Audio.Sample;
-using osuTK.Graphics;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
-using GDE.App.Main.Colours;
 using osuTK;
+using osuTK.Graphics;
 
 namespace GDE.App.Main.UI.Toolbar
 {
@@ -75,7 +74,6 @@ namespace GDE.App.Main.UI.Toolbar
             {
                 switch ((Item as ToolbarMenuItem)?.Type)
                 {
-                    default:
                     case MenuItemType.Standard:
                         text.Colour = Color4.White;
                         break;
@@ -84,6 +82,9 @@ namespace GDE.App.Main.UI.Toolbar
                         break;
                     case MenuItemType.Highlighted:
                         text.Colour = GDEColours.FromHex(@"ffcc22");
+                        break;
+                    default:
+                        text.Colour = Color4.White;
                         break;
                 }
             }
@@ -109,7 +110,7 @@ namespace GDE.App.Main.UI.Toolbar
             {
                 public string Text
                 {
-                    get { return NormalText.Text; }
+                    get => NormalText.Text;
                     set
                     {
                         NormalText.Text = value;
