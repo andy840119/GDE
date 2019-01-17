@@ -42,7 +42,7 @@ namespace GDE.App.Main.Objects
 
         public ObjectBase()
         {
-            lvlObj = new GeneralObject(ID, x, y);
+            lvlObj = new GeneralObject(ID, X, Y);
 
             Children = new Drawable[]
             {

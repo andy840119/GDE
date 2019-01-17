@@ -1,4 +1,6 @@
 ﻿using GDE.App.Main;
+using osu.Framework.Graphics;
+using osu.Framework.Graphics.Shapes;
 using osu.Framework.Platform;
 using osu.Framework.Testing;
 using osuTK.Graphics;
@@ -11,7 +13,15 @@ namespace GDE.Tests
         {
             base.LoadComplete();
 
-            Add(new TestBrowser("GDE.Tests"));
+            AddRange(new Drawable[]
+            {
+                new Box
+                {
+                    Colour = new Color4(95, 95, 95, 255),
+                    Depth = float.MaxValue
+                },
+                new TestBrowser("GDE.Tests")
+            });
         }
 
         public override void SetHost(GameHost host)
