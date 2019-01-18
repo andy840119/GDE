@@ -13,15 +13,7 @@ namespace GDE.Tests
         {
             base.LoadComplete();
 
-            AddRange(new Drawable[]
-            {
-                new Box
-                {
-                    Colour = new Color4(95, 95, 95, 255),
-                    Depth = float.MaxValue
-                },
-                new TestBrowser("GDE.Tests")
-            });
+            Add(new TestBrowser("GDE.Tests"));
         }
 
         public override void SetHost(GameHost host)

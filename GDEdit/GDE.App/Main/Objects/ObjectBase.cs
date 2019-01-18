@@ -25,24 +25,52 @@ namespace GDE.App.Main.Objects
         ///<summary>Position Y of the object</summary>
         public double Y;
         ///<summary>Weither it is flipped horizontally</summary>
-        public bool FlippedHorizontally;
+        public bool FlippedHorizontally
+        {
+            get => lvlObj.FlippedHorizontally;
+            set => lvlObj.FlippedHorizontally = value;
+        }
         ///<summary>Weither it is flipped horizontally</summary>
-        public bool FlippedVertically;
+        public bool FlippedVertically
+        {
+            get => lvlObj.FlippedVertically;
+            set => lvlObj.FlippedVertically = value;
+        }
         ///<summary>Rotation of the object</summary>
-        public double Rotation;
+        public double Rotation
+        {
+            get => lvlObj.Rotation;
+            set => lvlObj.Rotation = value;
+        }
         ///<summary>Scale of the object</summary>
-        public double Scale;
+        public double Scale
+        {
+            get => lvlObj.Scaling;
+            set => lvlObj.Scaling = value;
+        }
         ///<summary>Editor layer 1 of the object</summary>
-        public int EL1;
+        public int EL1
+        {
+            get => lvlObj.EL1;
+            set => lvlObj.EL1 = value;
+        }
         ///<summary>Editor layer 2 of the object</summary>
-        public int EL2;
+        public int EL2
+        {
+            get => lvlObj.EL2;
+            set => lvlObj.EL2 = value;
+        }
         ///<summary>What and how many groups are in the object</summary>
-        public int[] GroupID;
+        public int[] GroupID
+        {
+            get => lvlObj.GroupIDs;
+            set => lvlObj.GroupIDs = value;
+        }
         #endregion
 
         public ObjectBase()
         {
-            lvlObj = new GeneralObject(ID, X, Y);
+            lvlObj = new GeneralObject(ID);
 
             Children = new Drawable[]
             {
@@ -58,14 +86,7 @@ namespace GDE.App.Main.Objects
         [BackgroundDependencyLoader]
         private void load(TextureStore texStore)
         {
-            switch(ID)
-            {
-                case 1:
-                    Console.WriteLine(Object.Texture = texStore.Get("Objects/square_01_001.png"));
-                    break;
-                default:
-                    throw new Exception("Rest hasnt been done yet");
-            }
+            Object.Texture = texStore.Get($"Objects/{ID}.png");
         }
     }
 }
