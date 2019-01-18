@@ -208,10 +208,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         public IEnumerator<GeneralObject> GetEnumerator()
         {
-            foreach (GeneralObject guest in objects)
-            {
-                yield return guest;
-            }
+            foreach (var o in objects)
+                yield return o;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
