@@ -94,9 +94,13 @@
     <Compile Include="Utilities\Information\GeometryDash\ObjectLists.cs" />
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
+    <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\General\BitArray8.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
