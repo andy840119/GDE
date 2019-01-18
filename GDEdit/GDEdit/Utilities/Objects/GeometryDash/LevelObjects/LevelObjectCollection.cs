@@ -138,6 +138,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             objects.AddRange(objects);
             return this;
         }
+        /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objects">The objects to add.</param>
+        public LevelObjectCollection AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
         /// <summary>Inserts an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index to insert the object at.</param>
         /// <param name="o">The object to insert.</param>
@@ -174,6 +177,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             }
             return this;
         }
+        /// <summary>Removes a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objects">The objects to remove.</param>
+        public LevelObjectCollection RemoveRange(LevelObjectCollection objects) => RemoveRange(objects.Objects);
         /// <summary>Clears the <seealso cref="LevelObjectCollection"/>.</summary>
         public LevelObjectCollection Clear()
         {
@@ -192,6 +198,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             return result;
         }
 
+        /// <summary>Gets or sets the level object at the specified index.</summary>
+        /// <param name="index">The index of the level object.</param>
         public GeneralObject this[int index]
         {
             get => objects[index];
