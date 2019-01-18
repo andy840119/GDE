@@ -9,6 +9,9 @@ using osuTK;
 using osuTK.Graphics;
 using GDE.App.Main.Colours;
 using GDE.App.Main.UI;
+using GDEdit.Application;
+using GDEdit.Application.Editor;
+using GDEdit.Utilities.Functions.GeometryDash;
 
 namespace GDE.App.Main.Screens
 {
@@ -80,6 +83,10 @@ namespace GDE.App.Main.Screens
                                             Origin = Anchor.Centre,
                                             Anchor = Anchor.Centre,
                                         }
+                                    },
+                                    Action = () =>
+                                    {
+                                        Push(new LevelCreation());
                                     }
                                 },
                                 new Button
