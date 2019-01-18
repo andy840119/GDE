@@ -31,7 +31,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             {
                 ResetCounters();
                 objects = value;
-
+                ObjectCounts.Clear();
+                GroupCounts.Clear();
             }
         }
 
