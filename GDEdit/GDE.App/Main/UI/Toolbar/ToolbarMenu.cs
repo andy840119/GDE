@@ -74,15 +74,13 @@ namespace GDE.App.Main.UI.Toolbar
             {
                 switch ((Item as ToolbarMenuItem)?.Type)
                 {
-                    case MenuItemType.Standard:
-                        text.Colour = Color4.White;
-                        break;
                     case MenuItemType.Destructive:
                         text.Colour = Color4.Red;
                         break;
                     case MenuItemType.Highlighted:
                         text.Colour = GDEColours.FromHex(@"ffcc22");
                         break;
+                    case MenuItemType.Standard:
                     default:
                         text.Colour = Color4.White;
                         break;
