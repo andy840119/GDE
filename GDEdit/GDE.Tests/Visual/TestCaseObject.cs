@@ -24,7 +24,6 @@ namespace GDE.Tests.Visual
                 {
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
-                    ObjectID = 1,
                     Size = new Vector2(100)
                 }
             };

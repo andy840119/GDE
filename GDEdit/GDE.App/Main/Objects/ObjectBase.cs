@@ -85,9 +85,9 @@ namespace GDE.App.Main.Objects
         #endregion
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
-        public ObjectBase()
+        public ObjectBase(int objectID = 1)
         {
-            lvlObj = new GeneralObject(ObjectID);
+            lvlObj = new GeneralObject(objectID);
 
             Children = new Drawable[]
             {
