@@ -211,11 +211,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             foreach (var o in objects)
                 yield return o;
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private void AddToCounters(GeneralObject o)
         {
