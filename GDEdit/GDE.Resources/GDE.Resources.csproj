@@ -18,6 +18,14 @@
     <None Remove="Fonts\Venera_0.png" />
     <None Remove="Fonts\Venera_1.png" />
     <None Remove="Textures\Objects\1.png" />
+    <None Remove="Textures\Objects\2.png" />
+    <None Remove="Textures\Objects\3.png" />
+    <None Remove="Textures\Objects\4.png" />
+    <None Remove="Textures\Objects\5.png" />
+    <None Remove="Textures\Objects\6.png" />
+    <None Remove="Textures\Objects\7.png" />
+    <None Remove="Textures\Objects\8.png" />
+    <None Remove="Textures\Objects\9.png" />
     <None Remove="Textures\Untitled.png" />
   </ItemGroup>
 
@@ -32,6 +40,14 @@
     <EmbeddedResource Include="Fonts\FontAwesome_4.png" />
     <EmbeddedResource Include="Fonts\FontAwesome_5.png" />
     <EmbeddedResource Include="Textures\Objects\1.png" />
+    <EmbeddedResource Include="Textures\Objects\2.png" />
+    <EmbeddedResource Include="Textures\Objects\3.png" />
+    <EmbeddedResource Include="Textures\Objects\4.png" />
+    <EmbeddedResource Include="Textures\Objects\5.png" />
+    <EmbeddedResource Include="Textures\Objects\6.png" />
+    <EmbeddedResource Include="Textures\Objects\7.png" />
+    <EmbeddedResource Include="Textures\Objects\8.png" />
+    <EmbeddedResource Include="Textures\Objects\9.png" />
     <EmbeddedResource Include="Textures\Untitled.png" />
   </ItemGroup>
 

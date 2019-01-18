@@ -27,6 +27,10 @@ namespace GDE.Tests.Visual
                     Size = new Vector2(100)
                 }
             };
+
+            AddSliderStep("Object ID", 1, 1600, 1, v => Obj.ObjectID = v);
+            AddStep("Move 1", () => Obj.ObjectID += 1);
+            AddStep("Move -1", () => Obj.ObjectID -= 1);
         }
     }
 }
