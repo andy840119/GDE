@@ -39,7 +39,7 @@ namespace GDE.App.Main.Panels
                                 Horizontal = 5,
                                 Vertical = 7
                             },
-                            Action = () => Hide()
+                            Action = Hide
                         },
                         Pin = new PinButton
                         {
