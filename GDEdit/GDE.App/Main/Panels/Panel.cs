@@ -1,15 +1,9 @@
-﻿using osu.Framework.Graphics.Containers;
+﻿using GDE.App.Main.Colours;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Colour;
-using osu.Framework.Graphics.Sprites;
-using osu.Framework.Testing;
-using osuTK;
-using osuTK.Graphics;
-using GDE.App.Main.Colours;
 using osu.Framework.Input.Events;
-using System;
+using osuTK;
 
 namespace GDE.App.Main.Panels
 {
@@ -60,16 +54,11 @@ namespace GDE.App.Main.Panels
                             },
                             Action = () => 
                             {
-                                if(AllowDrag)
-                                {
-                                    AllowDrag = false;
+                                if (AllowDrag)
                                     Pin.Rotation = 45;
-                                }
                                 else
-                                {
-                                    AllowDrag = true;
                                     Pin.Rotation = 0;
-                                }
+                                AllowDrag = !AllowDrag;
                             }
                         },
                     }
@@ -79,16 +68,14 @@ namespace GDE.App.Main.Panels
 
         protected override bool OnDrag(DragEvent e)
         {
-            if (!AllowDrag) return false;
+            if (!AllowDrag)
+                return false;
 
             Position += e.Delta;
             return true;
         }
 
-        protected override bool OnDragEnd(DragEndEvent e)
-        {
-            return true;
-        }
+        protected override bool OnDragEnd(DragEndEvent e) => true;
 
         protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
     }

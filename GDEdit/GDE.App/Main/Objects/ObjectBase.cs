@@ -102,9 +102,9 @@ namespace GDE.App.Main.Objects
         }
 
         [BackgroundDependencyLoader]
-        private void load(TextureStore TS)
+        private void load(TextureStore ts)
         {
-            TexStore = TS;
+            TexStore = ts;
         }
 
         protected override void Update()

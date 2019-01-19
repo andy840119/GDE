@@ -29,8 +29,8 @@ namespace GDE.Tests.Visual
             };
 
             AddSliderStep("Object ID", 1, 1600, 1, v => Obj.ObjectID = v);
-            AddStep("Move 1", () => Obj.ObjectID += 1);
-            AddStep("Move -1", () => Obj.ObjectID -= 1);
+            AddStep("Move 1", () => Obj.ObjectID++);
+            AddStep("Move -1", () => Obj.ObjectID--);
         }
     }
 }

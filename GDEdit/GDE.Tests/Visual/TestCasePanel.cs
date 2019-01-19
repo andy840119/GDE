@@ -1,6 +1,7 @@
-﻿using osu.Framework.Graphics;
+﻿using GDE.App.Main.Panels;
+using osu.Framework.Graphics;
 using osu.Framework.Testing;
-using GDE.App.Main.Panels;
+using osuTK;
 
 namespace GDE.Tests.Visual
 {
@@ -14,7 +15,7 @@ namespace GDE.Tests.Visual
             {
                 panel = new Panel
                 {
-                    Size = new osuTK.Vector2(335, 557)
+                    Size = new Vector2(335, 557)
                 }
             };
 
