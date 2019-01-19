@@ -8,6 +8,8 @@ using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using static System.Convert;
+using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
@@ -31,7 +33,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (levelString == null)
-                    levelString = Gamesave.GetLevelString(RawLevel);
+                    levelString = GetLevelString(RawLevel);
                 return levelString;
             }
             set
@@ -46,7 +48,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (decryptedLevelString == null)
-                    Gamesave.TryDecryptLevelString(LevelString, out decryptedLevelString);
+                    TryDecryptLevelString(LevelString, out decryptedLevelString);
                 return decryptedLevelString;
             }
             set => LevelString = decryptedLevelString = value;
@@ -57,13 +59,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (guidelineString == null)
-                    guidelineString = Gamesave.GetGuidelineString(DecryptedLevelString);
+                    guidelineString = GetGuidelineString(DecryptedLevelString);
                 return guidelineString;
             }
             set
             {
                 guidelines = null; // Reset and only analyze if requested
-                int gsStartIndex = Gamesave.GetGuidelineStringStartIndex(DecryptedLevelString);
+                int gsStartIndex = GetGuidelineStringStartIndex(DecryptedLevelString);
                 if (guidelineString.Length == 0)
                     DecryptedLevelString = DecryptedLevelString.Insert(gsStartIndex, value);
                 else
@@ -115,10 +117,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (guidelines == null)
-                    guidelines = Gamesave.GetGuidelines(GuidelineString);
+                    guidelines = GetGuidelines(GuidelineString);
                 return guidelines;
             }
-            set => GuidelineString = GetGuidelineString(guidelines = value);
+            set => GuidelineString = (guidelines = value).GetGuidelineString();
         }
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
         public Dictionary<int, int> ObjectCounts
@@ -148,15 +150,105 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        #endregion
+
+        private void GetInformation(string raw)
+        {
+            string startKeyString = "<k>k";
+            string endKeyString = "</k><";
+            // TODO: Shorten variable names
+            int parameterIDStartIndex;
+            int parameterIDEndIndex;
+            int parameterValueTypeStartIndex;
+            int parameterValueTypeEndIndex;
+            int parameterValueStartIndex;
+            int parameterValueEndIndex;
+            int parameterID;
+            string parameterValueType;
+            string parameterValue;
+            for (int i = 0; i < raw.Length;)
+            {
+                parameterIDStartIndex = raw.Find(startKeyString, i, raw.Length) + startKeyString.Length;
+                if (parameterIDStartIndex <= startKeyString.Length)
+                    break;
+                parameterIDEndIndex = raw.Find(endKeyString, parameterIDStartIndex);
+                parameterValueTypeStartIndex = parameterIDEndIndex + endKeyString.Length;
+                parameterValueTypeEndIndex = raw.Find(">", parameterValueTypeStartIndex, raw.Length);
+                parameterValueType = raw.Substring(parameterValueTypeStartIndex, parameterValueTypeEndIndex - parameterValueTypeStartIndex);
+                parameterValueStartIndex = parameterValueTypeEndIndex + 1;
+                parameterValueEndIndex = parameterValueType[parameterValueType.Length - 1] != '/' ? raw.Find($"</{parameterValueType}>", parameterValueStartIndex, raw.Length) : parameterValueStartIndex;
+                parameterValue = raw.Substring(parameterValueStartIndex, parameterValueEndIndex - parameterValueStartIndex);
+                string s = raw.Substring(parameterIDStartIndex, parameterIDEndIndex - parameterIDStartIndex);
+                if (s != "CEK" && !s.StartsWith("I"))
+                {
+                    parameterID = ToInt32(s);
+                    switch (parameterID)
+                    {
+                        case 1: // Level ID
+                            LevelID = ToInt32(parameterValue);
+                            break;
+                        case 2: // Level Name
+                            Name = parameterValue;
+                            break;
+                        case 3: // Level Description
+                            Description = Encoding.UTF8.GetString(Base64Decrypt(parameterValue));
+                            break;
+                        case 4: // Level String
+                            LevelString = parameterValue;
+                            break;
+                        case 8: // Official Song ID
+                            OfficialSongID = ToInt32(parameterValue);
+                            break;
+                        case 14: // Level Verified Status
+                            VerifiedStatus = parameterValueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
+                            break;
+                        case 15: // Level Uploaded Status
+                            UploadedStatus = parameterValueType == "t /";
+                            break;
+                        case 16: // Level Version
+                            Version = ToInt32(parameterValue);
+                            break;
+                        case 18: // Level Attempts
+                            Attempts = ToInt32(parameterValue);
+                            break;
+                        case 23: // Level Length
+                            Length = ToInt32(parameterValue);
+                            break;
+                        case 45: // Custom Song ID
+                            CustomSongID = ToInt32(parameterValue);
+                            break;
+                        case 46: // Level Revision
+                            Revision = ToInt32(parameterValue);
+                            break;
+                        case 80: // Time Spent
+                            BuildTime = ToInt32(parameterValue);
+                            break;
+                        case 84: // Level Folder
+                            Folder = ToInt32(parameterValue);
+                            break;
+                        default: // Not something we care about
+                            break;
+                    }
+                }
+                i = parameterValueEndIndex;
+            }
+
+            if (DecryptedLevelString != null) // If there is a level string
+            {
+                LevelObjects = GetObjects(GetObjectString(DecryptedLevelString));
+            }
+        }
+    }
+    public static class GuidelineFunctions
+    {
         /// <summary>Returns the guideline string of a list of guidelines.</summary>
         /// <param name="guidelines">The list of guidelines to get the guideline string of.</param>
-        public static string GetGuidelineString(List<Guideline> guidelines)
+        public static string GetGuidelineString(this List<Guideline> guidelines)
         {
             StringBuilder result = new StringBuilder();
             foreach (var g in guidelines)
                 result.Append($"{g}~");
             return result.ToString();
         }
-        #endregion
     }
 }
