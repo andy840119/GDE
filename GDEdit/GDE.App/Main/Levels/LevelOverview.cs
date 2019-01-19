@@ -4,7 +4,7 @@ using System;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 using static GDEdit.Application.Database;
 
-namespace GDE.App.Main.lvl
+namespace GDE.App.Main.Levels
 {
     public class LevelOverview : Screen
     {

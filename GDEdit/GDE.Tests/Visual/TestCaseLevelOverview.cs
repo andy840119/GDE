@@ -1,8 +1,6 @@
-﻿using osu.Framework.Graphics;
+﻿using GDE.App.Main.Levels;
+using osu.Framework.Graphics;
 using osu.Framework.Testing;
-using osu.Framework.Graphics.Sprites;
-using System.ComponentModel;
-using GDE.App.Main.lvl;
 
 namespace GDE.Tests.Visual
 {
