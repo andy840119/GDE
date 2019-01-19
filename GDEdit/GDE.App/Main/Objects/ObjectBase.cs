@@ -90,7 +90,7 @@ namespace GDE.App.Main.Objects
             {
                 obj = new Box
                 {
-                    Size = new Vector2(100),
+                    RelativeSizeAxes = Axes.Both,
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
                 }
