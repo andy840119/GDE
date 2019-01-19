@@ -30,7 +30,7 @@ namespace GDE.App.Main.lvl
             Database.UserLevels[0].LevelString = GetLevelString(0);
             TryDecryptLevelString(0, out Database.UserLevels[0].DecryptedLevelString);
 
-            System.Console.WriteLine(Database.UserLevels[0].LevelObjects);
+            System.Console.WriteLine(Database.UserLevels[0].LevelObjects[0]);
         }
     }
 }
