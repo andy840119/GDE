@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Main\Panels\ObjSelection\**" />
+    <EmbeddedResource Remove="Main\Panels\ObjSelection\**" />
+    <None Remove="Main\Panels\ObjSelection\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ppy.osu.Framework" Version="2019.108.0" />
     <PackageReference Include="SharpRaven" Version="2.4.0" />
     <PackageReference Include="SixLabors.Core" Version="1.0.0-beta0006" />
@@ -18,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Main\Panels\ObjSelection\" />
     <Reference Include="DiscordRPC">
       <HintPath>..\RPC\DiscordRPC.dll</HintPath>
     </Reference>
