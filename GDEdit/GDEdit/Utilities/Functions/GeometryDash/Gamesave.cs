@@ -209,7 +209,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             {
                 var properties = common.GetType().GetProperties();
                 foreach (var p in properties)
-                    if (p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).Count() > 0)
+                    if (Attribute.GetCustomAttributes(p, typeof(ObjectStringMappableAttribute), false).Count() > 0)
                     {
                         var v = p.GetValue(list[0]);
                         bool isCommon = true;
