@@ -35,7 +35,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
             set
             {
-                RawLevel = RawLevel.Replace(levelString, value);
+                RawLevel = RawLevel.Replace($"<k>k4</k><s>{levelString}</s>", $"<k>k4</k><s>{value}</s>");
                 levelString = value;
             }
         }
@@ -62,7 +62,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set
             {
                 guidelines = null; // Reset and only analyze if requested
-                DecryptedLevelString = DecryptedLevelString.Replace(guidelineString, value);
+                int gsStartIndex = Gamesave.GetGuidelineStringStartIndex(DecryptedLevelString);
+                if (guidelineString.Length == 0)
+                    DecryptedLevelString = DecryptedLevelString.Insert(gsStartIndex, value);
+                else
+                    DecryptedLevelString = DecryptedLevelString.Replace(guidelineString, value);
                 guidelineString = value;
             }
         }

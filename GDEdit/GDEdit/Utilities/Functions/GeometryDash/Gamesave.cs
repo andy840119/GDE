@@ -1,22 +1,20 @@
-﻿using System;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Functions.Extensions;
+using GDEdit.Utilities.Functions.General;
+using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.General;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
-using GDEdit.Utilities.Functions.Extensions;
-using GDEdit.Utilities.Functions.General;
-using GDEdit.Utilities.Information.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash;
 using static GDEdit.Application.Database;
 using static GDEdit.Application.Status;
 using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
-using GDEdit.Utilities.Objects.GeometryDash.General;
-using GDEdit.Utilities.Attributes;
 
 namespace GDEdit.Utilities.Functions.GeometryDash
 {
@@ -231,17 +229,17 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static bool GetBoolKeyValue(int index, int key)
         {
-            return DecryptedLevelData.Find("<k>k" + key.ToString() + "</k>", LevelKeyStartIndices[index], (index < UserLevelCount - 1) ? LevelKeyStartIndices[index + 1] : DecryptedLevelData.Find("</d></d></d>")) > -1;
+            return DecryptedLevelData.Find($"<k>k{key}</k>", LevelKeyStartIndices[index], (index < UserLevelCount - 1) ? LevelKeyStartIndices[index + 1] : DecryptedLevelData.Find("</d></d></d>")) > -1;
         }
         public static bool GetBoolKeyValue(string level, int key)
         {
-            return level.Find("<k>k" + key.ToString() + "</k>") > -1;
+            return level.Find($"<k>k{key}</k>") > -1;
         }
         public static bool[] GetBoolKeyValues(int key)
         {
             bool[] result = new bool[UserLevelCount];
             for (int i = 0; i < UserLevelCount; i++)
-                result[i] = DecryptedLevelData.Find("<k>k" + key.ToString() + "</k>", LevelKeyStartIndices[i], (i < UserLevelCount - 1) ? LevelKeyStartIndices[i + 1] : DecryptedLevelData.Find("</d></d></d>")) > -1;
+                result[i] = DecryptedLevelData.Find($"<k>k{key}</k>", LevelKeyStartIndices[i], (i < UserLevelCount - 1) ? LevelKeyStartIndices[i + 1] : DecryptedLevelData.Find("</d></d></d>")) > -1;
             return result;
         }
         public static bool[] GetLevelVerifiedStatus()
@@ -299,57 +297,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             UpdateLevelData();
             return lvls;
         }
-        public static int[] GetDifferentLevelObjectCounts()
-        {
-            int[] objCounts = new int[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-                objCounts[i] = GetObjects(GetObjectString(UserLevels[i].LevelString)).DifferentObjectIDCount;
-            return objCounts;
-        }
-        public static int[] GetLevelAttempts()
-        {
-            return TryGetKeyValues(18, "i", "0").ToInt32Array();
-        }
-        public static int[] GetLevelFolders()
-        {
-            return TryGetKeyValues(84, "i", "0").ToInt32Array();
-        }
-        public static int[] GetLevelIDs()
-        {
-            return TryGetKeyValues(1, "i", "0").ToInt32Array();
-        }
-        public static int[] GetLevelLengths()
-        {
-            return TryGetKeyValues(23, "i", "0").ToInt32Array();
-        }
-        public static int[] GetLevelObjectCounts()
-        {
-            int[] objCounts = new int[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-            {
-                string[] objs = GetObjectString(UserLevels[i].LevelString).Split(';');
-                for (int j = 0; j < objs.Length; j++)
-                    if (objs[j].Length > 0 && !objs[j].StartsWith("1,31,2"))
-                        objCounts[i]++;
-            }
-            return objCounts;
-        }
-        public static int[] GetLevelRevisions()
-        {
-            return TryGetKeyValues(46, "i", "0").ToInt32Array();
-        }
-        public static int[] GetLevelVersions()
-        {
-            return TryGetKeyValues(16, "i", "0").ToInt32Array();
-        }
-        public static string GetCustomSongLocation(int index)
-        {
-            return GDLocalData + "\\" + GetCustomSongID(index) + ".mp3";
-        }
-        public static string GetCustomSongID(int index)
-        {
-            return GetKeyValue(index, 45, "i");
-        }
+        public static string GetCustomSongLocation(int index) => $@"{GDLocalData}\{UserLevels[index]}.mp3";
         public static string GetDecryptedLevelString(int index)
         {
             TryDecryptLevelString(index, out string decrypted);
@@ -520,67 +468,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 return defaultValueOnException;
             else
                 return level.Substring(parameterStartIndex, parameterLength);
-        }
-        public static string[] GetGuidelineStrings()
-        {
-            string[] gs = new string[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-                if (UserLevels[i].LevelString != "" && UserLevels[i].LevelString != null)
-                    gs[i] = GetGuidelineString(i);
-            return gs;
-        }
-        public static string[] GetLevelDescriptions()
-        {
-            string[] descs = new string[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-                descs[i] = GetLevelDescription(i);
-            return descs;
-        }
-        public static string[] GetLevelLengthStrings()
-        {
-            int[] lengths = GetLevelLengths();
-            string[] levelLengthStrings = new string[lengths.Length];
-            for (int i = 0; i < lengths.Length; i++)
-                levelLengthStrings[i] = LevelLengthNames[lengths[i]];
-            return levelLengthStrings;
-        }
-        public static string[] GetLevelNames()
-        {
-            return GetKeyValues(2, "s");
-        }
-        public static string[] GetLevelNamesWithRevisions()
-        {
-            try
-            {
-                string[] lvlNames = GetLevelNames();
-                int[] lvlRevs = GetLevelRevisions();
-                string[] final = new string[lvlNames.Length];
-                for (int i = 0; i < lvlNames.Length; i++)
-                    final[i] = $"{lvlNames[i]}{(lvlRevs[i] > 0 ? $" (Rev. {lvlRevs[i]})" : "")}";
-                return final;
-            }
-            catch { return null; }
-        }
-        public static string[] GetLevelStrings()
-        {
-            string[] ls = new string[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-            {
-                ls[i] = "";
-                try
-                {
-                    TryDecryptLevelString(i, out ls[i]);
-                }
-                catch (ArgumentException) { }
-                catch (KeyNotFoundException) { }
-                catch (FormatException) { }
-                catch (Exception e)
-                {
-                    string type = e.GetType().ToString();
-                    throw new DataException("An unknown error has occured. Contact us immediately about this occurence and provide us with details. Your level data file may be asked for debugging and examination.");
-                }
-            }
-            return ls;
         }
         public static string[] GetKeyValues(int key, string valueType)
         {
@@ -919,7 +806,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
 
             if (UserLevels[index].DecryptedLevelString != null) // If there is a level string
             {
-                UserLevels[index].GuidelineString = GetGuidelineString(index);
                 UserLevels[index].LevelObjects = GetObjects(GetObjectString(UserLevels[index].DecryptedLevelString));
             }
         }
@@ -927,16 +813,15 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         public static void ImportLevel(string level)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
-                DecryptedLevelData = DecryptedLevelData.Replace("<k>k_" + i.ToString() + "</k>", "<k>k_" + (i + 1).ToString() + "</k>");
+                DecryptedLevelData = DecryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
             level = RemoveLevelIndexKey(level); // Remove the index key of the level
-            DecryptedLevelData = DecryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, "<k>k_0</k>" + level); // Insert the new level
+            DecryptedLevelData = DecryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
             int clonedLevelLength = level.Length + 10; // The length of the inserted level
             LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
-            UserLevels = UserLevels.InsertAtStart(new Level());
-            UserLevels[0].RawLevel = level;
+            UserLevels = UserLevels.InsertAtStart(new Level(level));
             GetLevelInfo(0);
             UpdateLevelData(); // Write the new data
         }
@@ -997,58 +882,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData(); // Write the new data
         }
-        public static void SetGuidelineString(string newGuidelines, int levelIndex)
-        {
-            string oldGS = UserLevels[levelIndex].GuidelineString;
-            int gsStartIndex = GetGuidelineStringStartIndex(levelIndex);
-            string newLS;
-            if (oldGS.Length == 0)
-                newLS = UserLevels[levelIndex].LevelString.Insert(gsStartIndex, newGuidelines);
-            else
-                newLS = UserLevels[levelIndex].LevelString.Replace(oldGS, newGuidelines);
-            UserLevels[levelIndex].GuidelineString = newGuidelines;
-            SetLevelString(newLS, levelIndex);
-        }
-        public static void SetGuidelineStrings(string[] newGuidelineStrings, int[] levelIndices)
-        {
-            string[] oldGS = new string[levelIndices.Length];
-            string[] newLS = new string[levelIndices.Length];
-            int[] gsStartIndices = new int[levelIndices.Length];
-            for (int i = 0; i < levelIndices.Length; i++)
-            {
-                oldGS[i] = UserLevels[levelIndices[i]].GuidelineString;
-                gsStartIndices[i] = GetGuidelineStringStartIndex(levelIndices[i]);
-            }
-            for (int i = 0; i < levelIndices.Length; i++)
-            {
-                if (oldGS[i].Length == 0)
-                    newLS[i] = UserLevels[levelIndices[i]].LevelString.Insert(gsStartIndices[i], newGuidelineStrings[i]);
-                else
-                    newLS[i] = UserLevels[levelIndices[i]].LevelString.Replace(oldGS[i], newGuidelineStrings[i]);
-                UserLevels[levelIndices[i]].GuidelineString = newGuidelineStrings[i];
-            }
-            SetLevelStrings(newLS, levelIndices);
-        }
-        public static void SetGuidelineStrings(string newGuidelines, int[] levelIndices)
-        {
-            string[] oldGS = new string[levelIndices.Length];
-            string[] newLS = new string[levelIndices.Length];
-            int[] gsStartIndices = new int[levelIndices.Length];
-            for (int i = 0; i < levelIndices.Length; i++)
-            {
-                oldGS[i] = UserLevels[levelIndices[i]].GuidelineString;
-                gsStartIndices[i] = GetGuidelineStringStartIndex(levelIndices[i]);
-            }
-            for (int i = 0; i < levelIndices.Length; i++)
-            {
-                if (oldGS[i].Length == 0)
-                    newLS[i] = UserLevels[levelIndices[i]].LevelString.Insert(gsStartIndices[i], newGuidelines);
-                else
-                    newLS[i] = UserLevels[levelIndices[i]].LevelString.Replace(oldGS[i], newGuidelines);
-                UserLevels[levelIndices[i]].GuidelineString = newGuidelines;
-            }
-            SetLevelStrings(newLS, levelIndices);
-        }
         public static void SetKeyValue(int index, int keyValue, string keyType, string newValue)
         {
             TemporarilySetKeyValue(index, keyValue, keyType, newValue);
@@ -1070,25 +903,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 UserLevels[levelIndices[i]].RawLevel = newLevels[i];
             }
             UpdateLevelData(); // Write the new data
-        }
-        public static void SetLevelString(string newLS, int levelIndex)
-        {
-            string oldLS = GetLevelString(levelIndex);
-            UserLevels[levelIndex].LevelString = newLS; // Set the new level strings in the memory
-
-            string newLevel = UserLevels[levelIndex].RawLevel.Replace($"<k>k4</k><s>{GetLevelString(levelIndex)}</s>", $"<k>k4</k><s>{newLS}</s>");
-            SetLevel(newLevel, levelIndex);
-        }
-        public static void SetLevelStrings(string[] newLS, int[] levelIndices)
-        {
-            string[] newLevels = new string[levelIndices.Length];
-            for (int i = 0; i < levelIndices.Length; i++)
-            {
-                string oldLS = GetLevelString(levelIndices[i]);
-                UserLevels[levelIndices[i]].LevelString = newLS[i]; // Set the new level strings in the memory
-                newLevels[i] = UserLevels[levelIndices[i]].RawLevel.Replace($"<k>k4</k><s>{GetLevelString(levelIndices[i])}</s>", $"<k>k4</k><s>{newLS[i]}</s>");
-            }
-            SetLevels(newLevels, levelIndices);
         }
         public static void SwapLevels(int levelIndexA, int levelIndexB)
         {
@@ -1176,7 +990,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             StringBuilder lvlDat = new StringBuilder(LevelDataStart);
             for (int i = 0; i < UserLevelCount; i++)
             {
-                lvlDat = lvlDat.Append("<k>k_{i}</k>");
+                lvlDat = lvlDat.Append($"<k>k_{i}</k>");
                 LevelKeyStartIndices.Add(lvlDat.Length);
                 lvlDat = lvlDat.Append(UserLevels[i].RawLevel);
             }
