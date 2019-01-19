@@ -28,6 +28,73 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string LevelNameWithRevision => $"{Name}{(Revision > 0 ? $" (Rev. {Revision})" : "")}";
         /// <summary>The name of the level.</summary>
         public string Name { get; set; }
+        /// <summary>The description of the level.</summary>
+        public string Description { get; set; }
+        /// <summary>The revision of the level.</summary>
+        public int Revision { get; set; }
+        /// <summary>The official song ID used in the level.</summary>
+        public int OfficialSongID { get; set; }
+        /// <summary>The custom song ID used in the level.</summary>
+        public int CustomSongID { get; set; }
+        /// <summary>The level object count.</summary>
+        public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
+        /// <summary>The level trigger count.</summary>
+        public int TriggerCount => LevelObjects.TriggerCount;
+        /// <summary>The attempts made in the level.</summary>
+        public int Attempts { get; set; }
+        /// <summary>The ID of the level.</summary>
+        public int LevelID { get; set; }
+        /// <summary>The version of the level.</summary>
+        public int Version { get; set; }
+        /// <summary>The length of the level.</summary>
+        public int Length { get; set; }
+        /// <summary>The folder of the level.</summary>
+        public int Folder { get; set; }
+        /// <summary>The time spent in the editor building the level in seconds.</summary>
+        public int BuildTime { get; set; }
+        /// <summary>The time spent in the editor building the level.</summary>
+        public TimeSpan TotalBuildTime
+        {
+            get => new TimeSpan(0, 0, BuildTime);
+            set => BuildTime = (int)value.TotalSeconds;
+        }
+        /// <summary>Determines whether the level has been verified or not.</summary>
+        public bool VerifiedStatus { get; set; }
+        /// <summary>Determines whether the level has been uploaded or not.</summary>
+        public bool UploadedStatus { get; set; }
+        /// <summary>The level's objects.</summary>
+        public LevelObjectCollection LevelObjects
+        {
+            get
+            {
+                if (levelObjects == null)
+                    levelObjects = GetObjects(GetObjectString(DecryptedLevelString));
+                return levelObjects;
+            }
+            set => rawLevel = $"{rawLevel.Substring(0, rawLevel.IndexOf(';') + 1)}{levelObjects = value}";
+        }
+        /// <summary>The level's guidelines.</summary>
+        public List<Guideline> Guidelines
+        {
+            get
+            {
+                if (guidelines == null)
+                    guidelines = GetGuidelines(GuidelineString);
+                return guidelines;
+            }
+            set => GuidelineString = (guidelines = value).GetGuidelineString();
+        }
+        /// <summary>Contains the count of objects per object ID in the collection.</summary>
+        public Dictionary<int, int> ObjectCounts => LevelObjects.ObjectCounts;
+        /// <summary>Contains the count of groups per object ID in the collection.</summary>
+        public Dictionary<int, int> GroupCounts => LevelObjects.GroupCounts;
+        /// <summary>The different object IDs in the collection.</summary>
+        public int DifferentObjectIDCount => ObjectCounts.Keys.Count;
+        /// <summary>The different object IDs in the collection.</summary>
+        public int[] DifferentObjectIDs => ObjectCounts.Keys.ToArray();
+        /// <summary>The group IDs in the collection.</summary>
+        public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
+
         /// <summary>The level string.</summary>
         public string LevelString
         {
@@ -74,8 +141,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 guidelineString = value;
             }
         }
-        /// <summary>The description of the level.</summary>
-        public string Description { get; set; }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel
         {
@@ -86,71 +151,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 GetInformation(rawLevel);
             }
         }
-        /// <summary>The revision of the level.</summary>
-        public int Revision { get; set; }
-        /// <summary>The official song ID used in the level.</summary>
-        public int OfficialSongID { get; set; }
-        /// <summary>The custom song ID used in the level.</summary>
-        public int CustomSongID { get; set; }
-        /// <summary>The level object count.</summary>
-        public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
-        /// <summary>The level trigger count.</summary>
-        public int TriggerCount => LevelObjects.TriggerCount;
-        /// <summary>The attempts made in the level.</summary>
-        public int Attempts { get; set; }
-        /// <summary>The ID of the level.</summary>
-        public int LevelID { get; set; }
-        /// <summary>The version of the level.</summary>
-        public int Version { get; set; }
-        /// <summary>The length of the level.</summary>
-        public int Length { get; set; }
-        /// <summary>The folder of the level.</summary>
-        public int Folder { get; set; }
-        /// <summary>The time spent in the editor building the level in seconds.</summary>
-        public int BuildTime { get; set; }
-        /// <summary>The time spent in the editor building the level.</summary>
-        public TimeSpan TotalBuildTime
-        {
-            get => new TimeSpan(0, 0, BuildTime);
-            set => BuildTime = (int)value.TotalSeconds;
-        }
-        /// <summary>Determines whether the level has been verified or not.</summary>
-        public bool VerifiedStatus { get; set; }
-        /// <summary>Determines whether the level has been uploaded or not.</summary>
-        public bool UploadedStatus { get; set; }
-        /// <summary>The level's objects.</summary>
-        public LevelObjectCollection LevelObjects
-        {
-            get
-            {
-                if (levelObjects == null)
-                    levelObjects = GetObjects(GetObjectString(DecryptedLevelString));
-                return levelObjects;
-            }
-            set => rawLevel = $"{rawLevel.Substring(0, rawLevel.IndexOf(';') + 1)}{levelObjects = value}";
-        }
-
-        /// <summary>The level's guidelines.</summary>
-        public List<Guideline> Guidelines
-        {
-            get
-            {
-                if (guidelines == null)
-                    guidelines = GetGuidelines(GuidelineString);
-                return guidelines;
-            }
-            set => GuidelineString = (guidelines = value).GetGuidelineString();
-        }
-        /// <summary>Contains the count of objects per object ID in the collection.</summary>
-        public Dictionary<int, int> ObjectCounts => LevelObjects.ObjectCounts;
-        /// <summary>Contains the count of groups per object ID in the collection.</summary>
-        public Dictionary<int, int> GroupCounts => LevelObjects.GroupCounts;
-        /// <summary>The different object IDs in the collection.</summary>
-        public int DifferentObjectIDCount => ObjectCounts.Keys.Count;
-        /// <summary>The different object IDs in the collection.</summary>
-        public int[] DifferentObjectIDs => ObjectCounts.Keys.ToArray();
-        /// <summary>The group IDs in the collection.</summary>
-        public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
         #endregion
 
         #region Constructors
