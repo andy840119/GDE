@@ -156,7 +156,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Constructors
         /// <summary>Creates a new empty instance of the <see cref="Level"/> class.</summary>
         public Level() { }
-        /// <summary>Creates a new instance of the <see cref="Level"/> class from a raw string containing a level without getting its info.</summary>
+        /// <summary>Creates a new instance of the <see cref="Level"/> class from a raw string containing a level and gets its info.</summary>
         /// <param name="level">The raw string containing the level.</param>
         public Level(string level)
         {
@@ -167,6 +167,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Functions
         #endregion
 
+        /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>
         public override string ToString() => RawLevel;
 
         private void GetInformation(string raw)
@@ -249,19 +250,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 default: // Not something we care about
                     break;
             }
-        }
-    }
-
-    public static class GuidelineFunctions
-    {
-        /// <summary>Returns the guideline string of a list of guidelines.</summary>
-        /// <param name="guidelines">The list of guidelines to get the guideline string of.</param>
-        public static string GetGuidelineString(this List<Guideline> guidelines)
-        {
-            StringBuilder result = new StringBuilder();
-            foreach (var g in guidelines)
-                result.Append($"{g}~");
-            return result.ToString();
         }
     }
 }

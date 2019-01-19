@@ -41,5 +41,14 @@ namespace GDEdit.Utilities.Functions.Extensions
                     return i;
             return l.Count;
         }
+        /// <summary>Returns the guideline string of a list of guidelines.</summary>
+        /// <param name="guidelines">The list of guidelines to get the guideline string of.</param>
+        public static string GetGuidelineString(this List<Guideline> guidelines)
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (var g in guidelines)
+                result.Append($"{g}~");
+            return result.ToString();
+        }
     }
 }
