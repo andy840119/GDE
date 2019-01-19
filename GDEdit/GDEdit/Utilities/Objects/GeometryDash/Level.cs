@@ -15,6 +15,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     public class Level
     {
         private List<Guideline> levelGuidelines;
+        private string levelString;
+        private string decryptedLevelString;
         private string levelGuidelinesString;
 
         #region Properties
@@ -23,9 +25,31 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The name of the level.</summary>
         public string Name;
         /// <summary>The level string.</summary>
-        public string LevelString; // TODO: Change to property which uses RawLevel
+        public string LevelString
+        {
+            get
+            {
+                if (levelString == null)
+                    levelString = Gamesave.GetLevelString(RawLevel);
+                return levelString;
+            }
+            set
+            {
+                RawLevel = RawLevel.Replace(levelString, value);
+                levelString = value;
+            }
+        }
         /// <summary>The decrypted form of the level string.</summary>
-        public string DecryptedLevelString;
+        public string DecryptedLevelString
+        {
+            get
+            {
+                if (decryptedLevelString == null)
+                    Gamesave.TryDecryptLevelString(LevelString, out decryptedLevelString);
+                return decryptedLevelString;
+            }
+            set => LevelString = decryptedLevelString = value;
+        }
         /// <summary>The guideline string of the level.</summary>
         public string LevelGuidelinesString
         {
