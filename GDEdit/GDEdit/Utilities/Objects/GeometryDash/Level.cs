@@ -19,11 +19,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 
         #region Properties
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
-        public string LevelNameWithRevision => $"{LevelName}{(LevelRevision > 0 ? $" (Rev. {LevelRevision})" : "")}";
+        public string LevelNameWithRevision => $"{Name}{(Revision > 0 ? $" (Rev. {Revision})" : "")}";
         /// <summary>The name of the level.</summary>
-        public string LevelName;
+        public string Name;
         /// <summary>The level string.</summary>
-        public string LevelString;
+        public string LevelString; // TODO: Change to property which uses RawLevel
         /// <summary>The decrypted form of the level string.</summary>
         public string DecryptedLevelString;
         /// <summary>The guideline string of the level.</summary>
@@ -41,25 +41,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel;
         /// <summary>The revision of the level.</summary>
-        public int LevelRevision;
+        public int Revision;
         /// <summary>The official song ID used in the level.</summary>
-        public int LevelOfficialSongID;
+        public int OfficialSongID;
         /// <summary>The custom song ID used in the level.</summary>
-        public int LevelCustomSongID;
+        public int CustomSongID;
         /// <summary>The level object count.</summary>
-        public int LevelObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
+        public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
         /// <summary>The level trigger count.</summary>
-        public int LevelTriggerCount => LevelObjects.TriggerCount;
+        public int TriggerCount => LevelObjects.TriggerCount;
         /// <summary>The attempts made in the level.</summary>
-        public int LevelAttempts;
+        public int Attempts;
         /// <summary>The ID of the level.</summary>
         public int LevelID;
         /// <summary>The version of the level.</summary>
-        public int LevelVersion;
+        public int Version;
         /// <summary>The length of the level.</summary>
-        public int LevelLength;
+        public int Length;
         /// <summary>The folder of the level.</summary>
-        public int LevelFolder;
+        public int Folder;
         /// <summary>The time spent in the editor building the level in seconds.</summary>
         public int BuildTime;
         /// <summary>The time spent in the editor building the level.</summary>
@@ -69,13 +69,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set => BuildTime = (int)value.TotalSeconds;
         }
         /// <summary>Determines whether the level has been verified or not.</summary>
-        public bool LevelVerifiedStatus;
+        public bool VerifiedStatus;
         /// <summary>Determines whether the level has been uploaded or not.</summary>
-        public bool LevelUploadedStatus;
+        public bool UploadedStatus;
         /// <summary>The level's objects.</summary>
         public LevelObjectCollection LevelObjects { get; set; }
         /// <summary>The level's guidelines.</summary>
-        public List<Guideline> LevelGuidelines
+        public List<Guideline> Guidelines
         {
             get
             {

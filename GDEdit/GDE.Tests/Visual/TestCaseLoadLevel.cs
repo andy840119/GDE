@@ -25,7 +25,7 @@ namespace GDE.Tests.Visual
                     RelativeSizeAxes = Axes.Both,
                     AllowMultiline = true,
                     TextSize = 40,
-                    Text = "Loaded: " + Database.UserLevels[0].LevelName
+                    Text = "Loaded: " + Database.UserLevels[0].Name
                 }
             };
         }

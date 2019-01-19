@@ -657,10 +657,10 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void AddLevelStringParameter(string newLS, int levelIndex)
         {
-            string nameKey = $"<k>k2</k><s>{UserLevels[levelIndex].LevelName}</s>";
+            string nameKey = $"<k>k2</k><s>{UserLevels[levelIndex].Name}</s>";
             int nameKeyOccurence = 0;
             for (int i = 0; i < levelIndex; i++)
-                if (UserLevels[i].LevelName == UserLevels[levelIndex].LevelName)
+                if (UserLevels[i].Name == UserLevels[levelIndex].Name)
                     nameKeyOccurence++;
             int index = DecryptedLevelData.Find(nameKey, nameKeyOccurence + 1) + nameKey.Length;
             DecryptedLevelData = DecryptedLevelData.Insert(index, $"<k>k4</k><s>{newLS}</s>");
@@ -692,8 +692,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int n = 0;
             List<int> nums = new List<int>();
             for (int i = 0; i < UserLevelCount; i++) // Add the unnamed numbers to the list
-                if (UserLevels[i].LevelName.Contains("Unnamed ") && UserLevels[i].LevelName.Split(' ').Length == 2 && int.TryParse(UserLevels[i].LevelName.Split(' ')[1], out int _)) // Add the number to the list if the 
-                    nums.Add(UserLevels[i].LevelName.GetLastNumber());
+                if (UserLevels[i].Name.Contains("Unnamed ") && UserLevels[i].Name.Split(' ').Length == 2 && int.TryParse(UserLevels[i].Name.Split(' ')[1], out int _)) // Add the number to the list if the 
+                    nums.Add(UserLevels[i].Name.GetLastNumber());
             nums.Sort();
             while (n < nums.Count && n == nums[n])
                 n++;
@@ -708,11 +708,11 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int r = 0;
             List<int> levelsWithSameName = new List<int>();
             for (int i = 0; i < UserLevels.Count; i++)
-                if (name == UserLevels[i].LevelName)
+                if (name == UserLevels[i].Name)
                     levelsWithSameName.Add(i);
             List<int> revs = new List<int>(); // The revisions of the levels with the same name
             for (int i = 0; i < levelsWithSameName.Count; i++) // Add the revisions of the levels with the same name in the list
-                revs.Add(UserLevels[levelsWithSameName[i]].LevelRevision);
+                revs.Add(UserLevels[levelsWithSameName[i]].Revision);
             revs.Sort();
             while (r < revs.Count && r == revs[r])
                 r++;
@@ -729,11 +729,11 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int r = 0;
             List<int> levelsWithSameName = new List<int>();
             for (int i = 0; i < UserLevels.Count; i++)
-                if (name == UserLevels[i].LevelName)
+                if (name == UserLevels[i].Name)
                     levelsWithSameName.Add(i);
             List<int> revs = new List<int>(); // The revisions of the levels with the same name
             for (int i = 0; i < levelsWithSameName.Count; i++) // Add the revisions of the levels with the same name in the list
-                revs.Add(UserLevels[levelsWithSameName[i]].LevelRevision);
+                revs.Add(UserLevels[levelsWithSameName[i]].Revision);
             revs.Sort();
             while (r < revs.Count && r == revs[r])
                 r++;
@@ -871,7 +871,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                             UserLevels[index].LevelID = ToInt32(parameterValue);
                             break;
                         case 2: // Level Name
-                            UserLevels[index].LevelName = parameterValue;
+                            UserLevels[index].Name = parameterValue;
                             break;
                         case 3: // Level Description
                             UserLevels[index].LevelDescription = Encoding.UTF8.GetString(Base64Decrypt(parameterValue));
@@ -880,34 +880,34 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                             UserLevels[index].LevelString = parameterValue;
                             break;
                         case 8: // Official Song ID
-                            UserLevels[index].LevelOfficialSongID = ToInt32(parameterValue);
+                            UserLevels[index].OfficialSongID = ToInt32(parameterValue);
                             break;
                         case 14: // Level Verified Status
-                            UserLevels[index].LevelVerifiedStatus = parameterValueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
+                            UserLevels[index].VerifiedStatus = parameterValueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
                             break;
                         case 15: // Level Uploaded Status
-                            UserLevels[index].LevelUploadedStatus = parameterValueType == "t /";
+                            UserLevels[index].UploadedStatus = parameterValueType == "t /";
                             break;
                         case 16: // Level Version
-                            UserLevels[index].LevelVersion = ToInt32(parameterValue);
+                            UserLevels[index].Version = ToInt32(parameterValue);
                             break;
                         case 18: // Level Attempts
-                            UserLevels[index].LevelAttempts = ToInt32(parameterValue);
+                            UserLevels[index].Attempts = ToInt32(parameterValue);
                             break;
                         case 23: // Level Length
-                            UserLevels[index].LevelLength = ToInt32(parameterValue);
+                            UserLevels[index].Length = ToInt32(parameterValue);
                             break;
                         case 45: // Custom Song ID
-                            UserLevels[index].LevelCustomSongID = ToInt32(parameterValue);
+                            UserLevels[index].CustomSongID = ToInt32(parameterValue);
                             break;
                         case 46: // Level Revision
-                            UserLevels[index].LevelRevision = ToInt32(parameterValue);
+                            UserLevels[index].Revision = ToInt32(parameterValue);
                             break;
                         case 80: // Time Spent
                             UserLevels[index].BuildTime = ToInt32(parameterValue);
                             break;
                         case 84: // Level Folder
-                            UserLevels[index].LevelFolder = ToInt32(parameterValue);
+                            UserLevels[index].Folder = ToInt32(parameterValue);
                             break;
                         default: // Not something we care about
                             break;
@@ -1118,8 +1118,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         public static void TemporarilySetCustomSongID(int index, string newValue)
         {
             TemporarilySetKeyValue(index, 45, "i", newValue);
-            UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace($"<k>k45</k><i>{UserLevels[index].LevelCustomSongID}</i>", $"<k>k45</k><i>{newValue}</i>");
-            UserLevels[index].LevelCustomSongID = ToInt32(newValue);
+            UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace($"<k>k45</k><i>{UserLevels[index].CustomSongID}</i>", $"<k>k45</k><i>{newValue}</i>");
+            UserLevels[index].CustomSongID = ToInt32(newValue);
         }
         public static void TemporarilySetKeyValue(int index, int keyValue, string keyType, string newValue)
         {
@@ -1151,8 +1151,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void TemporarilySetLevelFolder(int index, string newValue)
         {
-            TemporarilySetLevelProperty(index, 84, "i", UserLevels[index].LevelFolder.ToString(), newValue);
-            UserLevels[index].LevelFolder = ToInt32(newValue);
+            TemporarilySetLevelProperty(index, 84, "i", UserLevels[index].Folder.ToString(), newValue);
+            UserLevels[index].Folder = ToInt32(newValue);
         }
         public static void TemporarilySetLevelID(int index, string newValue)
         {
@@ -1161,18 +1161,18 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void TemporarilySetLevelName(int index, string newValue)
         {
-            TemporarilySetLevelProperty(index, 2, "s", UserLevels[index].LevelName, newValue);
-            UserLevels[index].LevelName = newValue;
+            TemporarilySetLevelProperty(index, 2, "s", UserLevels[index].Name, newValue);
+            UserLevels[index].Name = newValue;
         }
         public static void TemporarilySetLevelRevision(int index, string newValue)
         {
-            TemporarilySetLevelProperty(index, 46, "i", UserLevels[index].LevelRevision.ToString(), newValue);
-            UserLevels[index].LevelRevision = ToInt32(newValue);
+            TemporarilySetLevelProperty(index, 46, "i", UserLevels[index].Revision.ToString(), newValue);
+            UserLevels[index].Revision = ToInt32(newValue);
         }
         public static void TemporarilySetLevelVersion(int index, string newValue)
         {
-            TemporarilySetLevelProperty(index, 16, "i", UserLevels[index].LevelVersion.ToString(), newValue);
-            UserLevels[index].LevelVersion = ToInt32(newValue);
+            TemporarilySetLevelProperty(index, 16, "i", UserLevels[index].Version.ToString(), newValue);
+            UserLevels[index].Version = ToInt32(newValue);
         }
         public static void TemporarilySetLevelProperty(int index, int key, string keyType, string oldValue, string newValue)
         {
