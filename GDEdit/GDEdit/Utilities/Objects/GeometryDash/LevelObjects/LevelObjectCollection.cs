@@ -247,5 +247,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             colorTriggerCount = -1;
             triggerCount = -1;
         }
+
+        /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>
+        public override string ToString()
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (var o in objects)
+                s.Append($"{o};");
+            return s.ToString();
+        }
     }
 }

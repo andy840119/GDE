@@ -16,17 +16,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
-        private Dictionary<int, int> objectCounts;
         private List<Guideline> guidelines;
+        private LevelObjectCollection levelObjects;
         private string levelString;
         private string decryptedLevelString;
         private string guidelineString;
+        private string rawLevel;
 
         #region Properties
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
         public string LevelNameWithRevision => $"{Name}{(Revision > 0 ? $" (Rev. {Revision})" : "")}";
         /// <summary>The name of the level.</summary>
-        public string Name;
+        public string Name { get; set; }
         /// <summary>The level string.</summary>
         public string LevelString
         {
@@ -74,31 +75,39 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
         }
         /// <summary>The description of the level.</summary>
-        public string Description = "";
+        public string Description { get; set; }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
-        public string RawLevel;
+        public string RawLevel
+        {
+            get => rawLevel;
+            set
+            {
+                rawLevel = value;
+                GetInformation(rawLevel);
+            }
+        }
         /// <summary>The revision of the level.</summary>
-        public int Revision;
+        public int Revision { get; set; }
         /// <summary>The official song ID used in the level.</summary>
-        public int OfficialSongID;
+        public int OfficialSongID { get; set; }
         /// <summary>The custom song ID used in the level.</summary>
-        public int CustomSongID;
+        public int CustomSongID { get; set; }
         /// <summary>The level object count.</summary>
         public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
         /// <summary>The level trigger count.</summary>
         public int TriggerCount => LevelObjects.TriggerCount;
         /// <summary>The attempts made in the level.</summary>
-        public int Attempts;
+        public int Attempts { get; set; }
         /// <summary>The ID of the level.</summary>
-        public int LevelID;
+        public int LevelID { get; set; }
         /// <summary>The version of the level.</summary>
-        public int Version;
+        public int Version { get; set; }
         /// <summary>The length of the level.</summary>
-        public int Length;
+        public int Length { get; set; }
         /// <summary>The folder of the level.</summary>
-        public int Folder;
+        public int Folder { get; set; }
         /// <summary>The time spent in the editor building the level in seconds.</summary>
-        public int BuildTime;
+        public int BuildTime { get; set; }
         /// <summary>The time spent in the editor building the level.</summary>
         public TimeSpan TotalBuildTime
         {
@@ -106,11 +115,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set => BuildTime = (int)value.TotalSeconds;
         }
         /// <summary>Determines whether the level has been verified or not.</summary>
-        public bool VerifiedStatus;
+        public bool VerifiedStatus { get; set; }
         /// <summary>Determines whether the level has been uploaded or not.</summary>
-        public bool UploadedStatus;
+        public bool UploadedStatus { get; set; }
         /// <summary>The level's objects.</summary>
-        public LevelObjectCollection LevelObjects { get; set; }
+        public LevelObjectCollection LevelObjects
+        {
+            get
+            {
+                if (levelObjects == null)
+                    levelObjects = GetObjects(GetObjectString(DecryptedLevelString));
+                return levelObjects;
+            }
+            set => rawLevel = $"{rawLevel.Substring(0, rawLevel.IndexOf(';') + 1)}{levelObjects = value}";
+        }
+
         /// <summary>The level's guidelines.</summary>
         public List<Guideline> Guidelines
         {
@@ -122,20 +141,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
             set => GuidelineString = (guidelines = value).GetGuidelineString();
         }
-        /// <summary>Contains the number of times each object ID has been used in the level.</summary>
-        public Dictionary<int, int> ObjectCounts
-        {
-            get
-            {
-                if (objectCounts == null)
-                {
-                    objectCounts = new Dictionary<int, int>();
-                    foreach (var l in LevelObjects)
-                        objectCounts.IncrementOrAddKeyValue(l.ObjectID);
-                }
-                return objectCounts;
-            }
-        }
+        /// <summary>Contains the count of objects per object ID in the collection.</summary>
+        public Dictionary<int, int> ObjectCounts => LevelObjects.ObjectCounts;
+        /// <summary>Contains the count of groups per object ID in the collection.</summary>
+        public Dictionary<int, int> GroupCounts => LevelObjects.GroupCounts;
+        /// <summary>The different object IDs in the collection.</summary>
+        public int DifferentObjectIDCount => ObjectCounts.Keys.Count;
+        /// <summary>The different object IDs in the collection.</summary>
+        public int[] DifferentObjectIDs => ObjectCounts.Keys.ToArray();
+        /// <summary>The group IDs in the collection.</summary>
+        public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
         #endregion
 
         #region Constructors
@@ -152,93 +167,91 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Functions
         #endregion
 
+        public override string ToString() => RawLevel;
+
         private void GetInformation(string raw)
         {
             string startKeyString = "<k>k";
             string endKeyString = "</k><";
-            // TODO: Shorten variable names
-            int parameterIDStartIndex;
-            int parameterIDEndIndex;
-            int parameterValueTypeStartIndex;
-            int parameterValueTypeEndIndex;
-            int parameterValueStartIndex;
-            int parameterValueEndIndex;
-            int parameterID;
-            string parameterValueType;
-            string parameterValue;
+            int IDStart;
+            int IDEnd;
+            int valueTypeStart;
+            int valueTypeEnd;
+            int valueStart;
+            int valueEnd;
+            string valueType;
+            string value;
             for (int i = 0; i < raw.Length;)
             {
-                parameterIDStartIndex = raw.Find(startKeyString, i, raw.Length) + startKeyString.Length;
-                if (parameterIDStartIndex <= startKeyString.Length)
+                IDStart = raw.Find(startKeyString, i, raw.Length) + startKeyString.Length;
+                if (IDStart <= startKeyString.Length)
                     break;
-                parameterIDEndIndex = raw.Find(endKeyString, parameterIDStartIndex);
-                parameterValueTypeStartIndex = parameterIDEndIndex + endKeyString.Length;
-                parameterValueTypeEndIndex = raw.Find(">", parameterValueTypeStartIndex, raw.Length);
-                parameterValueType = raw.Substring(parameterValueTypeStartIndex, parameterValueTypeEndIndex - parameterValueTypeStartIndex);
-                parameterValueStartIndex = parameterValueTypeEndIndex + 1;
-                parameterValueEndIndex = parameterValueType[parameterValueType.Length - 1] != '/' ? raw.Find($"</{parameterValueType}>", parameterValueStartIndex, raw.Length) : parameterValueStartIndex;
-                parameterValue = raw.Substring(parameterValueStartIndex, parameterValueEndIndex - parameterValueStartIndex);
-                string s = raw.Substring(parameterIDStartIndex, parameterIDEndIndex - parameterIDStartIndex);
+                IDEnd = raw.Find(endKeyString, IDStart);
+                valueTypeStart = IDEnd + endKeyString.Length;
+                valueTypeEnd = raw.Find(">", valueTypeStart, raw.Length);
+                valueType = raw.Substring(valueTypeStart, valueTypeEnd - valueTypeStart);
+                valueStart = valueTypeEnd + 1;
+                valueEnd = valueType[valueType.Length - 1] != '/' ? raw.Find($"</{valueType}>", valueStart, raw.Length) : valueStart;
+                value = raw.Substring(valueStart, valueEnd - valueStart);
+                string s = raw.Substring(IDStart, IDEnd - IDStart);
                 if (s != "CEK" && !s.StartsWith("I"))
-                {
-                    parameterID = ToInt32(s);
-                    switch (parameterID)
-                    {
-                        case 1: // Level ID
-                            LevelID = ToInt32(parameterValue);
-                            break;
-                        case 2: // Level Name
-                            Name = parameterValue;
-                            break;
-                        case 3: // Level Description
-                            Description = Encoding.UTF8.GetString(Base64Decrypt(parameterValue));
-                            break;
-                        case 4: // Level String
-                            LevelString = parameterValue;
-                            break;
-                        case 8: // Official Song ID
-                            OfficialSongID = ToInt32(parameterValue);
-                            break;
-                        case 14: // Level Verified Status
-                            VerifiedStatus = parameterValueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
-                            break;
-                        case 15: // Level Uploaded Status
-                            UploadedStatus = parameterValueType == "t /";
-                            break;
-                        case 16: // Level Version
-                            Version = ToInt32(parameterValue);
-                            break;
-                        case 18: // Level Attempts
-                            Attempts = ToInt32(parameterValue);
-                            break;
-                        case 23: // Level Length
-                            Length = ToInt32(parameterValue);
-                            break;
-                        case 45: // Custom Song ID
-                            CustomSongID = ToInt32(parameterValue);
-                            break;
-                        case 46: // Level Revision
-                            Revision = ToInt32(parameterValue);
-                            break;
-                        case 80: // Time Spent
-                            BuildTime = ToInt32(parameterValue);
-                            break;
-                        case 84: // Level Folder
-                            Folder = ToInt32(parameterValue);
-                            break;
-                        default: // Not something we care about
-                            break;
-                    }
-                }
-                i = parameterValueEndIndex;
+                    GetParameterInformation(ToInt32(s), value, valueType);
+                i = valueEnd;
             }
+        }
 
-            if (DecryptedLevelString != null) // If there is a level string
+        private void GetParameterInformation(int parameterID, string value, string valueType)
+        {
+            switch (parameterID)
             {
-                LevelObjects = GetObjects(GetObjectString(DecryptedLevelString));
+                case 1: // Level ID
+                    LevelID = ToInt32(value);
+                    break;
+                case 2: // Level Name
+                    Name = value;
+                    break;
+                case 3: // Level Description
+                    Description = Encoding.UTF8.GetString(Base64Decrypt(value));
+                    break;
+                case 4: // Level String
+                    LevelString = value;
+                    break;
+                case 8: // Official Song ID
+                    OfficialSongID = ToInt32(value);
+                    break;
+                case 14: // Level Verified Status
+                    VerifiedStatus = valueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
+                    break;
+                case 15: // Level Uploaded Status
+                    UploadedStatus = valueType == "t /";
+                    break;
+                case 16: // Level Version
+                    Version = ToInt32(value);
+                    break;
+                case 18: // Level Attempts
+                    Attempts = ToInt32(value);
+                    break;
+                case 23: // Level Length
+                    Length = ToInt32(value);
+                    break;
+                case 45: // Custom Song ID
+                    CustomSongID = ToInt32(value);
+                    break;
+                case 46: // Level Revision
+                    Revision = ToInt32(value);
+                    break;
+                case 80: // Time Spent
+                    BuildTime = ToInt32(value);
+                    break;
+                case 84: // Level Folder
+                    Folder = ToInt32(value);
+                    break;
+                default: // Not something we care about
+                    break;
             }
         }
     }
+
     public static class GuidelineFunctions
     {
         /// <summary>Returns the guideline string of a list of guidelines.</summary>
