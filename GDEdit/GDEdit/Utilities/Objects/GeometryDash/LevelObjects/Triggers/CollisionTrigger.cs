@@ -12,20 +12,42 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Collision trigger.</summary>
     public class CollisionTrigger : Trigger, IHasTargetGroupID, IHasPrimaryBlockID, IHasSecondaryBlockID
     {
+        private short targetGroupID, primaryBlockID, secondaryBlockID;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Collision;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The primary Block ID of the trigger.</summary>
-        public int PrimaryBlockID { get; set; }
+        public int PrimaryBlockID
+        {
+            get => primaryBlockID;
+            set => primaryBlockID = (short)value;
+        }
         /// <summary>The secondary Block ID of the trigger.</summary>
-        public int SecondaryBlockID { get; set; }
+        public int SecondaryBlockID
+        {
+            get => secondaryBlockID;
+            set => secondaryBlockID = (short)value;
+        }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool ActivateGroup { get; set; }
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Trigger On Exit property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TriggerOnExit)]
-        public bool TriggerOnExit { get; set; }
+        public bool TriggerOnExit
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionTrigger"/> class.</summary>
         public CollisionTrigger() { }

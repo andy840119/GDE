@@ -24,6 +24,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
         T2 = 7,
         /// <summary>Represents the value for the T3 Z Layer.</summary>
         T3 = 9,
+
         /// <summary>Represents the value for the Bot Z Layer. This has been renamed to B2 since 2.1.</summary>
         Bot = 1,
         /// <summary>Represents the value for the Mid Z Layer. This has been renamed to B1 since 2.1.</summary>

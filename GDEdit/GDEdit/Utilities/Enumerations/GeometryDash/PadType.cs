@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Contains the object IDs of the pads.</summary>
-    public enum PadType
+    public enum PadType : short
     {
         /// <summary>The yellow pad.</summary>
         YellowPad = 35,

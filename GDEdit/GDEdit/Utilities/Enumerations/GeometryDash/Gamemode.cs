@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Represents the player's gamemode.</summary>
-    public enum Gamemode
+    public enum Gamemode : byte
     {
         /// <summary>The cube gamemode.</summary>
         Cube,

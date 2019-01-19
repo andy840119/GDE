@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
     /// <summary>This enumeration provides values for the comparison of an Instant Count trigger.</summary>
-    public enum InstantCountComparison
+    public enum InstantCountComparison : byte
     {
         /// <summary>Represents Equals on the comparison of an Instant Count trigger.</summary>
         Equals,

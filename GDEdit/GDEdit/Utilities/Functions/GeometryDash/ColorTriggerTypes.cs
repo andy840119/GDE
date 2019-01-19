@@ -29,12 +29,12 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 case TriggerType.ThreeDL:
                     return SpecialColorID.ThreeDL;
                 default:
-                    throw new Exception("Invalid color trigger type");
+                    throw new ArgumentException("Invalid color trigger type");
             }
         }
         /// <summary>Returns the Color ID the color trigger represents.</summary>
         /// <param name="trigger">The color trigger whose target Color ID to retrieve.</param>
-        public static int ConvertToColorID(TriggerType trigger)
+        public static short ConvertToColorID(TriggerType trigger)
         {
             switch (trigger)
             {
@@ -47,7 +47,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 case TriggerType.Color4:
                     return 4;
                 default:
-                    throw new Exception("Invalid color trigger type");
+                    throw new ArgumentException("Invalid color trigger type");
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Provides the object IDs of the special objects. Also contains values equal to -2 to declare that there are multiple objects of that special object type.</summary>
-    public enum SpecialObjectType
+    public enum SpecialObjectType : short
     {
         /// <summary>The object ID of the collision block.</summary>
         CollisionBlock = 1816,

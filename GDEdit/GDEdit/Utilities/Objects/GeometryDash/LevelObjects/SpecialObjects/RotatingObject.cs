@@ -13,11 +13,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class RotatingObject : SpecialObject
     {
         protected override int[] ValidObjectIDs => ObjectLists.RotatingObjectList;
-        protected override string SpecialObjectType => "rotating object";
+        protected override string SpecialObjectTypeName => "rotating object";
 
         /// <summary>Represents the Disable Rotation property of the rotating object.</summary>
         [ObjectStringMappable(ObjectParameter.DisableRotation)]
-        public bool DisableRotation;
+        public bool DisableRotation
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="RotatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the rotating object.</param>

@@ -12,16 +12,30 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Touch trigger.</summary>
     public class TouchTrigger : Trigger, IHasTargetGroupID
     {
+        private short targetGroupID;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Touch;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The Hold Mode property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.HoldMode)]
-        public bool HoldMode { get; set; }
+        public bool HoldMode
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Dual Mode property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.DualMode)]
-        public bool DualMode { get; set; }
+        public bool DualMode
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
         /// <summary>The Toggle Mode property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ToggleMode)]
         public TouchToggleMode ToggleMode { get; set; }

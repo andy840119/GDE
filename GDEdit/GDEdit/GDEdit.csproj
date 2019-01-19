@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EB8A7023-4F5A-4994-877B-B7D293570727}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>GDEdit</RootNamespace>
     <AssemblyName>GDEdit</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -40,6 +40,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Primitives, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\System.Drawing.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -90,9 +94,13 @@
     <Compile Include="Utilities\Information\GeometryDash\ObjectLists.cs" />
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
+    <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
+    <Compile Include="Utilities\Objects\General\BitArray8.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\General\BoundedDouble.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
@@ -192,6 +200,18 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ISingleSelection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\IMultiSelection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbarTab.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbarTabPage.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTabItem.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTabPage.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbarTabPage.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbarTab.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbar.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbar.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbar.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTab.cs" />
     <Compile Include="Utilities\Objects\Presets\GuidelineEditorPreset.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Level.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObject.cs" />

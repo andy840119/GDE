@@ -31,7 +31,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             {
                 ResetCounters();
                 objects = value;
-
+                ObjectCounts.Clear();
+                GroupCounts.Clear();
             }
         }
 
@@ -74,9 +75,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             }
         }
         /// <summary>Contains the count of objects per object ID in the collection.</summary>
-        public Dictionary<int, int> ObjectCounts { get; private set; }
+        public Dictionary<int, int> ObjectCounts { get; private set; } = new Dictionary<int, int>();
         /// <summary>Contains the count of groups per object ID in the collection.</summary>
-        public Dictionary<int, int> GroupCounts { get; private set; }
+        public Dictionary<int, int> GroupCounts { get; private set; } = new Dictionary<int, int>();
         /// <summary>The different object IDs in the collection.</summary>
         public int DifferentObjectIDCount => ObjectCounts.Keys.Count;
         /// <summary>The different object IDs in the collection.</summary>
@@ -138,6 +139,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             objects.AddRange(objects);
             return this;
         }
+        /// <summary>Adds a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objects">The objects to add.</param>
+        public LevelObjectCollection AddRange(LevelObjectCollection objects) => AddRange(objects.Objects);
         /// <summary>Inserts an object to the <seealso cref="LevelObjectCollection"/>.</summary>
         /// <param name="index">The index to insert the object at.</param>
         /// <param name="o">The object to insert.</param>
@@ -174,6 +178,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             }
             return this;
         }
+        /// <summary>Removes a collection of objects from the <seealso cref="LevelObjectCollection"/>.</summary>
+        /// <param name="objects">The objects to remove.</param>
+        public LevelObjectCollection RemoveRange(LevelObjectCollection objects) => RemoveRange(objects.Objects);
         /// <summary>Clears the <seealso cref="LevelObjectCollection"/>.</summary>
         public LevelObjectCollection Clear()
         {
@@ -192,6 +199,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             return result;
         }
 
+        /// <summary>Gets or sets the level object at the specified index.</summary>
+        /// <param name="index">The index of the level object.</param>
         public GeneralObject this[int index]
         {
             get => objects[index];
@@ -200,16 +209,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         public IEnumerator<GeneralObject> GetEnumerator()
         {
-            foreach (GeneralObject guest in objects)
-            {
-                yield return guest;
-            }
+            foreach (var o in objects)
+                yield return o;
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private void AddToCounters(GeneralObject o)
         {

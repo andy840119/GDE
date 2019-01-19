@@ -11,16 +11,22 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a collision block.</summary>
     public class CollisionBlock : SpecialObject, IHasPrimaryBlockID
     {
-        /// <summary>The object ID of the collision block.</summary>
-        public new int ObjectID => (int)Enumerations.GeometryDash.SpecialObjectType.CollisionBlock;
+        private short blockID;
 
-        /// <summary>The Block ID of the collision block.</summary>
-        public int PrimaryBlockID { get; set; }
+        /// <summary>The object ID of the collision block.</summary>
+        public new int ObjectID => (int)SpecialObjectType.CollisionBlock;
+
         /// <summary>The Block ID of the collision block.</summary>
         public int BlockID
         {
-            get => PrimaryBlockID;
-            set => PrimaryBlockID = value;
+            get => blockID;
+            set => blockID = (short)value;
+        }
+        /// <summary>The Block ID of the collision block.</summary>
+        public int PrimaryBlockID
+        {
+            get => BlockID;
+            set => BlockID = value;
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionBlock"/> class.</summary>

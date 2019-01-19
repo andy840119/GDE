@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public override int ObjectID => (int)TriggerType.GRND2;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new int TargetColorID => (int)SpecialColorID.GRND2;
+        public new short TargetColorID => (short)(int)SpecialColorID.GRND2;
 
         /// <summary>Initializes a new instance of the <seealso cref="GRND2ColorTrigger"/> class.</summary>
         public GRND2ColorTrigger() { }
@@ -21,6 +21,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public GRND2ColorTrigger(float duration, bool tintGround = false)
-            : base(duration, (int)SpecialColorID.BG, false, tintGround) { }
+            : base(duration, (short)(int)SpecialColorID.GRND2, false, tintGround) { }
     }
 }
