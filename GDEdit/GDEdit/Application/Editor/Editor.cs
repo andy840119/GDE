@@ -173,7 +173,7 @@ namespace GDEdit.Application.Editor
         public void MoveX(double x)
         {
             if (x != 0)
-                foreach (var o in Level.LevelObjects)
+                foreach (var o in SelectedObjects)
                     o.X += x;
         }
         /// <summary>Moves the selected objects by an amount on the Y axis.</summary>
@@ -181,7 +181,7 @@ namespace GDEdit.Application.Editor
         public void MoveY(double y)
         {
             if (y != 0)
-                foreach (var o in Level.LevelObjects)
+                foreach (var o in SelectedObjects)
                     o.Y += y;
         }
         /// <summary>Moves the selected objects by an amount.</summary>
@@ -202,12 +202,12 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only rotated individually.</param>
         public void Rotate(double rotation, bool individually)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
                 o.Rotation += rotation;
             if (!individually)
             {
                 var median = GetMedianPoint();
-                foreach (var o in Level.LevelObjects)
+                foreach (var o in SelectedObjects)
                 {
                     double distance = o.Location.DistanceFrom(median);
                     double xDistance = o.X - median.X;
@@ -223,7 +223,7 @@ namespace GDEdit.Application.Editor
         /// <param name="center">The central point to take into account while rotating all objects.</param>
         public void Rotate(double rotation, Point center)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
             {
                 o.Rotation += rotation;
                 double distance = o.Location.DistanceFrom(center);
@@ -241,12 +241,12 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only scaled individually.</param>
         public void Scale(double scaling, bool individually)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
                 o.Scaling *= scaling;
             if (!individually)
             {
                 var median = GetMedianPoint();
-                foreach (var o in Level.LevelObjects)
+                foreach (var o in SelectedObjects)
                     o.Location = (median - o.Location) * scaling + median;
             }
         }
@@ -255,7 +255,7 @@ namespace GDEdit.Application.Editor
         /// <param name="center">The central point to take into account while scaling all objects.</param>
         public void Scale(double scaling, Point center)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
             {
                 o.Scaling *= scaling;
                 o.Location = (center - o.Location) * scaling + center;
@@ -267,12 +267,12 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
         public void FlipHorizontally(bool individually)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
                 o.FlippedHorizontally = !o.FlippedHorizontally;
             if (!individually)
             {
                 var median = GetMedianPoint();
-                foreach (var o in Level.LevelObjects)
+                foreach (var o in SelectedObjects)
                     o.X = 2 * median.X - o.X;
             }
         }
@@ -280,7 +280,7 @@ namespace GDEdit.Application.Editor
         /// <param name="center">The central point to take into account while flipping all objects.</param>
         public void FlipHorizontally(Point center)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
             {
                 o.FlippedHorizontally = !o.FlippedHorizontally;
                 o.X = 2 * center.X - o.X;
@@ -290,12 +290,12 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
         public void FlipVertically(bool individually)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
                 o.FlippedVertically = !o.FlippedVertically;
             if (!individually)
             {
                 var median = GetMedianPoint();
-                foreach (var o in Level.LevelObjects)
+                foreach (var o in SelectedObjects)
                     o.Y = 2 * median.Y - o.Y;
             }
         }
@@ -303,7 +303,7 @@ namespace GDEdit.Application.Editor
         /// <param name="center">The central point to take into account while flipping all objects.</param>
         public void FlipVertically(Point center)
         {
-            foreach (var o in Level.LevelObjects)
+            foreach (var o in SelectedObjects)
             {
                 o.FlippedVertically = !o.FlippedVertically;
                 o.Y = 2 * center.Y - o.Y;
