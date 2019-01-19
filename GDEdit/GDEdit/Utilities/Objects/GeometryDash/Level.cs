@@ -141,7 +141,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         {
             StringBuilder result = new StringBuilder();
             foreach (var g in guidelines)
-                result.Append(g.ToString() + "~");
+                result.Append($"{g}~");
             return result.ToString();
         }
         #endregion

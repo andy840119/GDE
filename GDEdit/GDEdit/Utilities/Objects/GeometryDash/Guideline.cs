@@ -60,6 +60,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         }
 
         /// <summary>Converts the <see cref="Guideline"/> to its string representation in the gamesave.</summary>
-        public override string ToString() => TimeStamp + "~" + Color;
+        public override string ToString() => $"{TimeStamp}~{Color}";
     }
 }
