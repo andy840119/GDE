@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <Folder Include="Main\Panels\ObjSelection\" />
+    <Reference Include="DiscordRPC">
+      <HintPath>..\RPC\DiscordRPC.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

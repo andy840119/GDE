@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
 {
     /// <summary>This enumeration provides values for the Toggle mode of a Touch trigger.</summary>
-    public enum TouchToggleMode
+    public enum TouchToggleMode : byte
     {
         /// <summary>Represents the default Toggle mode of a Touch Trigger.</summary>
         Default,

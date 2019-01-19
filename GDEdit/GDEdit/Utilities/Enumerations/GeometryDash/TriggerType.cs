@@ -1,7 +1,7 @@
 ﻿namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>This enumeration provides the Object ID values for the triggers.</summary>
-    public enum TriggerType
+    public enum TriggerType : short
     {
         /// <summary>Represents the Object ID value of the BG Color trigger.</summary>
         BG = 29,

@@ -16,6 +16,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
         Easing Easing { get; set; }
         /// <summary>The easing rate of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.EasingRate)]
-        float EasingRate { get; set; }
+        double EasingRate { get; set; }
     }
 }

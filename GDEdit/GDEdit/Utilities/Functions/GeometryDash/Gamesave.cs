@@ -163,7 +163,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 int length1 = objectParameters.GetLength(1);
                 for (int i = 0; i < length0; i++)
                 {
-                    objects.Add(new GeneralObject(ToInt32(objectParameters[i, 1]), ToDouble(objectParameters[i, 3]), ToDouble(objectParameters[i, 5]))); // Get IDs of the selected objects
+                    objects.Add(new GeneralObject(ToInt16(objectParameters[i, 1]), ToDouble(objectParameters[i, 3]), ToDouble(objectParameters[i, 5]))); // Get IDs of the selected objects
                     for (int j = 7; j < length1; j += 2)
                     {
                         if (objectParameters[i, j] != null)
@@ -201,7 +201,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             }
             return new LevelObjectCollection(objects);
         }
-        public static GeneralObject GetCommonAttributes(List<GeneralObject> list, int objectID)
+        public static GeneralObject GetCommonAttributes(List<GeneralObject> list, short objectID)
         {
             GeneralObject common = GeneralObject.GetNewObjectInstance(objectID);
 
@@ -955,6 +955,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
             UserLevels = UserLevels.InsertAtStart(new Level());
+            UserLevels[0].RawLevel = level;
             GetLevelInfo(0);
             UpdateLevelData(); // Write the new data
         }

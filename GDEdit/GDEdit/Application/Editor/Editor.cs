@@ -28,11 +28,10 @@ namespace GDEdit.Application.Editor
         #region Level
         /// <summary>The currently edited level.</summary>
         public Level Level;
-        // TODO: Change all implementations of type List<GeneralObject> to LevelObjectList
         /// <summary>The currently selected objects.</summary>
-        public List<GeneralObject> SelectedObjects = new List<GeneralObject>();
+        public LevelObjectCollection SelectedObjects = new LevelObjectCollection();
         /// <summary>The objects that are copied into the clipboard and can be pasted.</summary>
-        public List<GeneralObject> ObjectClipboard = new List<GeneralObject>();
+        public LevelObjectCollection ObjectClipboard = new LevelObjectCollection();
         #endregion
 
         #region Functions
@@ -129,14 +128,14 @@ namespace GDEdit.Application.Editor
         /// <param name="startingY">The Y of the starting point.</param>
         /// <param name="endingX">The X of the ending point.</param>
         /// <param name="endingY">The Y of the ending point.</param>
-        public List<GeneralObject> GetObjectsWithinRange(double startingX, double startingY, double endingX, double endingY)
+        public LevelObjectCollection GetObjectsWithinRange(double startingX, double startingY, double endingX, double endingY)
         {
             // Fix starting/ending points to avoid having to fix in the editor itself
             if (startingX > endingX)
                 Swap(ref startingX, ref endingX);
             if (startingY > endingY)
                 Swap(ref startingY, ref endingY);
-            var result = new List<GeneralObject>();
+            var result = new LevelObjectCollection();
             foreach (var o in Level.LevelObjects)
                 if (o.IsWithinRange(startingX, startingY, endingX, endingY))
                     result.Add(o);
@@ -156,9 +155,9 @@ namespace GDEdit.Application.Editor
         }
         /// <summary>Returns a collection of objects based on a predicate.</summary>
         /// <param name="predicate">The predicate to determine the resulting object collection.</param>
-        public List<GeneralObject> GetObjects(Predicate<GeneralObject> predicate)
+        public LevelObjectCollection GetObjects(Predicate<GeneralObject> predicate)
         {
-            var result = new List<GeneralObject>();
+            var result = new LevelObjectCollection();
             foreach (var o in Level.LevelObjects)
                 if (predicate(o))
                     result.Add(o);
@@ -327,13 +326,13 @@ namespace GDEdit.Application.Editor
             if (ObjectClipboard.Count == 0)
                 return;
             var distance = center - GetMedianPoint(ObjectClipboard);
-            var newObjects = Clone(ObjectClipboard);
+            var newObjects = ObjectClipboard.Clone();
             foreach (var o in newObjects)
                 o.Location += distance;
             Level.LevelObjects.AddRange(newObjects);
         }
         /// <summary>ViPriNizes all the selected objects.</summary>
-        public void CopyPaste() => Level.LevelObjects.AddRange(Clone(SelectedObjects));
+        public void CopyPaste() => Level.LevelObjects.AddRange(SelectedObjects.Clone());
         #endregion
 
         #region Editor Camera
@@ -367,7 +366,7 @@ namespace GDEdit.Application.Editor
             return result / SelectedObjects.Count;
         }
         /// <summary>Gets the median point of the specified objects.</summary>
-        private Point GetMedianPoint(List<GeneralObject> objects)
+        private Point GetMedianPoint(LevelObjectCollection objects)
         {
             Point result = new Point();
             foreach (var o in objects)
@@ -379,13 +378,6 @@ namespace GDEdit.Application.Editor
             T t = a;
             a = b;
             b = t;
-        }
-        private List<GeneralObject> Clone(List<GeneralObject> l)
-        {
-            List<GeneralObject> result = new List<GeneralObject>();
-            for (int i = 0; i < l.Count; i++)
-                result.Add(l[i].Clone());
-            return result;
         }
         #endregion
     }
