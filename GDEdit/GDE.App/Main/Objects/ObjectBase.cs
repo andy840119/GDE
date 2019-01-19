@@ -16,6 +16,7 @@ namespace GDE.App.Main.Objects
     {
         private GeneralObject lvlObj;
         private Box obj;
+        private TextureStore texStore;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
@@ -89,9 +90,9 @@ namespace GDE.App.Main.Objects
             {
                 obj = new Box
                 {
+                    RelativeSizeAxes = Axes.Both,
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
-                    RelativeSizeAxes = Axes.Both
                 }
             };
         }
@@ -99,7 +100,13 @@ namespace GDE.App.Main.Objects
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
-            obj.Texture = ts.Get($"Objects/{ObjectID}.png");
+            texStore = ts;
+        }
+
+        protected override void Update()
+        {
+            obj.Texture = texStore.Get($"Objects/{ObjectID}.png");
+            base.Update();
         }
     }
 }
