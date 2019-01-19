@@ -802,7 +802,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 }
                 i = parameterValueEndIndex;
             }
-            UserLevels[index].ObjectCounts = new Dictionary<int, int>();
 
             if (UserLevels[index].DecryptedLevelString != null) // If there is a level string
             {

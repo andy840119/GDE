@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
+        private Dictionary<int, int> objectCounts;
         private List<Guideline> guidelines;
         private string levelString;
         private string decryptedLevelString;
@@ -120,7 +121,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set => GuidelineString = GetGuidelineString(guidelines = value);
         }
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
-        public Dictionary<int, int> ObjectCounts;
+        public Dictionary<int, int> ObjectCounts
+        {
+            get
+            {
+                if (objectCounts == null)
+                {
+                    objectCounts = new Dictionary<int, int>();
+                    foreach (var l in LevelObjects)
+                        objectCounts.IncrementOrAddKeyValue(l.ObjectID);
+                }
+                return objectCounts;
+            }
+        }
         #endregion
 
         #region Constructors
