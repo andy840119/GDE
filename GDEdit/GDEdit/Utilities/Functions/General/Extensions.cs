@@ -21,7 +21,11 @@ namespace GDEdit.Utilities.Functions.General
                     if (Expression.Lambda<Func<bool>>(shit).Compile()())
                         return true;
                 }
-                catch { if (a[i].Equals(item)) return true; }
+                catch
+                {
+                    if (a[i].Equals(item))
+                        return true;
+                }
             }
             return false;
         }

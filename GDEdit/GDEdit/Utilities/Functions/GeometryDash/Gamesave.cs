@@ -195,7 +195,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     }
                 }
                 objectParameters = null;
-                //GC.Collect();
             }
             return new LevelObjectCollection(objects);
         }
@@ -264,8 +263,14 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static int GetLevelLength(int index)
         {
-            try { return ToInt32(GetKeyValue(index, 23, "i")); }
-            catch { return 0; }
+            try
+            {
+                return ToInt32(GetKeyValue(index, 23, "i"));
+            }
+            catch
+            {
+                return 0;
+            }
         }
         public static int GetLevelRevision(int index)
         {
@@ -362,15 +367,21 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             string levelKey = $"<k>k_{index}</k>"; // The key of the level that will be returned
             string level = ""; // The level that is being returned
             if (index < UserLevelCount - 1) // If the level is not the last level in the list
-                level = levelKey + DecryptedLevelData.Substring(LevelKeyStartIndices[index], DecryptedLevelData.Find($"<k>k_{(index + 1)}</k>") - LevelKeyStartIndices[index]);
+                level = levelKey + DecryptedLevelData.Substring(LevelKeyStartIndices[index], DecryptedLevelData.Find($"<k>k_{index + 1}</k>") - LevelKeyStartIndices[index]);
             else if (index == UserLevelCount - 1) // If the level is the last level in the list
                 level = levelKey + DecryptedLevelData.Substring(LevelKeyStartIndices[index], Math.Max(DecryptedLevelData.Find("</d></d></d>") + 8, DecryptedLevelData.Find("<d /></d></d>") + 9) - LevelKeyStartIndices[index]);
             return level;
         }
         public static string GetLevelDescription(int index)
         {
-            try { return Encoding.UTF8.GetString(FromBase64String(GetKeyValue(index, 3, "s"))); }
-            catch { return ""; }
+            try
+            {
+                return Encoding.UTF8.GetString(FromBase64String(GetKeyValue(index, 3, "s")));
+            }
+            catch
+            {
+                return "";
+            }
         }
         public static string GetLevelKeyEntry(string levelString, string name, string desc)
         {
@@ -398,18 +409,36 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static string GetLevelString(int index)
         {
-            try { return GetKeyValue(index, 4, "s"); }
-            catch (KeyNotFoundException) { return ""; }
+            try
+            {
+                return GetKeyValue(index, 4, "s");
+            }
+            catch (KeyNotFoundException)
+            {
+                return "";
+            }
         }
         public static string GetLevelString(string level)
         {
-            try { return GetKeyValue(level, 4, "s"); }
-            catch (KeyNotFoundException) { return ""; }
+            try
+            {
+                return GetKeyValue(level, 4, "s");
+            }
+            catch (KeyNotFoundException)
+            {
+                return "";
+            }
         }
         public static string GetObjectString(string ls)
         {
-            try { return ls.Split(';').RemoveAt(0).Combine(";"); }
-            catch { return ""; }
+            try
+            {
+                return ls.Split(';').RemoveAt(0).Combine(";");
+            }
+            catch
+            {
+                return "";
+            }
         }
         public static string GetOfficialSongID(int index)
         {
