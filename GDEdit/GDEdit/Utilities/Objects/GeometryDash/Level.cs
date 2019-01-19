@@ -14,10 +14,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
-        private List<Guideline> levelGuidelines;
+        private List<Guideline> guidelines;
         private string levelString;
         private string decryptedLevelString;
-        private string levelGuidelinesString;
+        private string guidelineString;
 
         #region Properties
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
@@ -55,15 +55,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         {
             get
             {
-                if (levelGuidelinesString == null)
-                    levelGuidelinesString = Gamesave.GetGuidelineString(DecryptedLevelString);
-                return levelGuidelinesString;
+                if (guidelineString == null)
+                    guidelineString = Gamesave.GetGuidelineString(DecryptedLevelString);
+                return guidelineString;
             }
             set
             {
-                levelGuidelines = null; // Reset and only analyze if requested
-                DecryptedLevelString = DecryptedLevelString.Replace(levelGuidelinesString, value);
-                levelGuidelinesString = value;
+                guidelines = null; // Reset and only analyze if requested
+                DecryptedLevelString = DecryptedLevelString.Replace(guidelineString, value);
+                guidelineString = value;
             }
         }
         /// <summary>The description of the level.</summary>
@@ -109,11 +109,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         {
             get
             {
-                if (levelGuidelines == null)
-                    levelGuidelines = Gamesave.GetGuidelines(GuidelineString);
-                return levelGuidelines;
+                if (guidelines == null)
+                    guidelines = Gamesave.GetGuidelines(GuidelineString);
+                return guidelines;
             }
-            set => GuidelineString = GetGuidelineString(levelGuidelines = value);
+            set => GuidelineString = GetGuidelineString(guidelines = value);
         }
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
         public Dictionary<int, int> ObjectCounts;
