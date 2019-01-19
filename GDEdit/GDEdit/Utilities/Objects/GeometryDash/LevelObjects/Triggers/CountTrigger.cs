@@ -12,13 +12,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Count trigger.</summary>
     public class CountTrigger : Trigger, IHasTargetGroupID, IHasPrimaryItemID
     {
+        private short targetGroupID, itemID;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Count;
         
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The Item ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ItemID)]
-        public int ItemID { get; set; }
+        public int ItemID
+        {
+            get => itemID;
+            set => itemID = (short)value;
+        }
         /// <summary>The primary Item ID of the trigger.</summary>
         public int PrimaryItemID
         {
@@ -30,11 +40,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int TargetCount { get; set; }
         /// <summary>The Activate Group property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
-        public bool ActivateGroup { get; set; }
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Multi Activate property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.MultiActivate)]
-        public bool MultiActivate { get; set; }
-
+        public bool MultiActivate
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
+        
         /// <summary>Initializes a new instance of the <seealso cref="CountTrigger"/> class.</summary>
         public CountTrigger() { }
         /// <summary>Initializes a new instance of the <seealso cref="CountTrigger"/> class.</summary>

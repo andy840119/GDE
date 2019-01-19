@@ -13,6 +13,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces
     {
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.Duration)]
-        float Duration { get; set; }
+        double Duration { get; set; }
     }
 }

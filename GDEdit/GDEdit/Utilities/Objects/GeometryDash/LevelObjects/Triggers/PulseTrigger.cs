@@ -13,30 +13,70 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Pulse trigger.</summary>
     public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
     {
+        private byte red, green, blue;
+        private short targetGroupID, targetColorID;
+        private float fadeIn, hold, fadeOut;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        public int TargetGroupID { get; set; }
+        public int TargetGroupID
+        {
+            get => targetGroupID;
+            set => targetGroupID = (short)value;
+        }
         /// <summary>The target Color ID of the trigger.</summary>
-        public int TargetColorID { get; set; }
+        public int TargetColorID
+        {
+            get => targetColorID;
+            set => targetColorID = (short)value;
+        }
         /// <summary>The red part of the color.</summary>
-        public int Red { get; set; }
+        public int Red
+        {
+            get => red;
+            set => red = (byte)value;
+        }
         /// <summary>The green part of the color.</summary>
-        public int Green { get; set; }
+        public int Green
+        {
+            get => green;
+            set => green = (byte)value;
+        }
         /// <summary>The blue part of the color.</summary>
-        public int Blue { get; set; }
+        public int Blue
+        {
+            get => blue;
+            set => blue = (byte)value;
+        }
         /// <summary>The Fade In property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.FadeIn)]
-        public float FadeIn { get; set; }
+        public double FadeIn
+        {
+            get => fadeIn;
+            set => fadeIn = (float)value;
+        }
         /// <summary>The Hold property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Hold)]
-        public float Hold { get; set; }
+        public double Hold
+        {
+            get => hold;
+            set => hold = (float)value;
+        }
         /// <summary>The Fade Out property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.FadeOut)]
-        public float FadeOut { get; set; }
+        public double FadeOut
+        {
+            get => fadeOut;
+            set => fadeOut = (float)value;
+        }
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
-        public int CopiedColorID { get; set; }
+        public int CopiedColorID
+        {
+            get => CopiedColorID;
+            set => CopiedColorID = (short)value;
+        }
         /// <summary>The Pulse Mode of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.PulseMode)]
         public PulseMode PulseMode { get; set; }
@@ -45,7 +85,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public PulseTargetType PulseTargetType { get; set; }
         /// <summary>The Exclusive property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Exclusive)]
-        public bool Exclusive { get; set; }
+        public bool Exclusive
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
         public string HSV => HSVAdjustment.ToString();
@@ -62,7 +106,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetID">The target ID of the trigger.</param>
         /// <param name="pulseTargetType">The Pulse Target Type of the trigger.</param>
         /// <param name="pulseMode">The Pulse Mode of the trigger.</param>
-        public PulseTrigger(float fadeIn, float hold, float fadeOut, int targetID, PulseTargetType pulseTargetType = PulseTargetType.ColorChannel, PulseMode pulseMode = PulseMode.Color)
+        public PulseTrigger(double fadeIn, double hold, double fadeOut, int targetID, PulseTargetType pulseTargetType = PulseTargetType.ColorChannel, PulseMode pulseMode = PulseMode.Color)
         {
             FadeIn = fadeIn;
             Hold = hold;

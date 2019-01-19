@@ -13,34 +13,78 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Color trigger.</summary>
     public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
     {
+        private byte red, green, blue;
+        private short targetColorID;
+        private float duration = 0.5f, opacity = 1;
+
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public int TargetColorID { get; set; }
+        public int TargetColorID
+        {
+            get => targetColorID;
+            set => targetColorID = (short)value;
+        }
         /// <summary>The duration of the trigger's effect.</summary>
-        public float Duration { get; set; } = 0.5f;
+        public double Duration
+        {
+            get => duration;
+            set => duration = (float)value;
+        }
         /// <summary>The red part of the color.</summary>
-        public int Red { get; set; }
+        public int Red
+        {
+            get => red;
+            set => red = (byte)value;
+        }
         /// <summary>The green part of the color.</summary>
-        public int Green { get; set; }
+        public int Green
+        {
+            get => green;
+            set => green = (byte)value;
+        }
         /// <summary>The blue part of the color.</summary>
-        public int Blue { get; set; }
+        public int Blue
+        {
+            get => blue;
+            set => blue = (byte)value;
+        }
         /// <summary>The Opacity property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Opacity)]
-        public float Opacity { get; set; } = 1;
-        /// <summary>The Blending property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Blending)]
-        public bool Blending { get; set; }
+        public double Opacity
+        {
+            get => opacity;
+            set => opacity = (float)value;
+        }
         // IMPORTANT: The Player 1 and Player 2 properties are ignored because the Copied Color ID serves that purpose well
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
-        public int CopiedColorID { get; set; }
+        public int CopiedColorID
+        {
+            get => TargetColorID;
+            set => TargetColorID = value;
+        }
+        /// <summary>The Blending property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Blending)]
+        public bool Blending
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
         /// <summary>The Copy Opacity property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopyOpacity)]
-        public bool CopyOpacity { get; set; }
+        public bool CopyOpacity
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
         /// <summary>The Tint Ground property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TintGround)]
-        public bool TintGround { get; set; }
+        public bool TintGround
+        {
+            get => TriggerBools[5];
+            set => TriggerBools[5] = value;
+        }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
         public string HSV => HSVAdjustment.ToString();
@@ -61,7 +105,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="targetID">The target ID of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
-        public ColorTrigger(float duration, int targetID, bool copyOpacity = false, bool tintGround = false)
+        public ColorTrigger(double duration, int targetID, bool copyOpacity = false, bool tintGround = false)
             : this(targetID)
         {
             Duration = duration;

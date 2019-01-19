@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Provides the special Color ID values for the special Color Channels.</summary>
-    public enum SpecialColorID
+    public enum SpecialColorID : short
     {
         /// <summary>The BG Color Channel.</summary>
         BG = 1000,
