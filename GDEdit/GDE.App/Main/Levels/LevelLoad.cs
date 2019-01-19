@@ -1,7 +1,7 @@
 ﻿using GDEdit.Application;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
-namespace GDE.App.Main.lvl
+namespace GDE.App.Main.Levels
 {
     public static class LevelLoad
     {
