@@ -51,7 +51,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set => LevelString = decryptedLevelString = value;
         }
         /// <summary>The guideline string of the level.</summary>
-        public string LevelGuidelinesString
+        public string GuidelineString
         {
             get
             {
@@ -67,7 +67,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
         }
         /// <summary>The description of the level.</summary>
-        public string LevelDescription = "";
+        public string Description = "";
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel;
         /// <summary>The revision of the level.</summary>
@@ -110,10 +110,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (levelGuidelines == null)
-                    levelGuidelines = Gamesave.GetGuidelines(LevelGuidelinesString);
+                    levelGuidelines = Gamesave.GetGuidelines(GuidelineString);
                 return levelGuidelines;
             }
-            set => LevelGuidelinesString = GetGuidelineString(levelGuidelines = value);
+            set => GuidelineString = GetGuidelineString(levelGuidelines = value);
         }
         /// <summary>Contains the number of times each object ID has been used in the level.</summary>
         public Dictionary<int, int> ObjectCounts;

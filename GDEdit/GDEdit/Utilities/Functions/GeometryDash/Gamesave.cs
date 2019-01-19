@@ -874,7 +874,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                             UserLevels[index].Name = parameterValue;
                             break;
                         case 3: // Level Description
-                            UserLevels[index].LevelDescription = Encoding.UTF8.GetString(Base64Decrypt(parameterValue));
+                            UserLevels[index].Description = Encoding.UTF8.GetString(Base64Decrypt(parameterValue));
                             break;
                         case 4: // Level String
                             UserLevels[index].LevelString = parameterValue;
@@ -938,7 +938,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     string type = e.GetType().ToString();
                     throw new DataException($"An unknown error has occured while attempting to decrypt the level string of the level with index {index + 1} (zero-based index: {index}). Contact us immediately about this occurence and provide us the details as stated in this message. Your level data file may be asked for debugging and (manual) examination.");
                 }
-                UserLevels[index].LevelGuidelinesString = GetGuidelineString(index);
+                UserLevels[index].GuidelineString = GetGuidelineString(index);
                 UserLevels[index].LevelObjects = GetObjects(GetObjectString(UserLevels[index].DecryptedLevelString));
             }
         }
@@ -1018,14 +1018,14 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void SetGuidelineString(string newGuidelines, int levelIndex)
         {
-            string oldGS = UserLevels[levelIndex].LevelGuidelinesString;
+            string oldGS = UserLevels[levelIndex].GuidelineString;
             int gsStartIndex = GetGuidelineStringStartIndex(levelIndex);
             string newLS;
             if (oldGS.Length == 0)
                 newLS = UserLevels[levelIndex].LevelString.Insert(gsStartIndex, newGuidelines);
             else
                 newLS = UserLevels[levelIndex].LevelString.Replace(oldGS, newGuidelines);
-            UserLevels[levelIndex].LevelGuidelinesString = newGuidelines;
+            UserLevels[levelIndex].GuidelineString = newGuidelines;
             SetLevelString(newLS, levelIndex);
         }
         public static void SetGuidelineStrings(string[] newGuidelineStrings, int[] levelIndices)
@@ -1035,7 +1035,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int[] gsStartIndices = new int[levelIndices.Length];
             for (int i = 0; i < levelIndices.Length; i++)
             {
-                oldGS[i] = UserLevels[levelIndices[i]].LevelGuidelinesString;
+                oldGS[i] = UserLevels[levelIndices[i]].GuidelineString;
                 gsStartIndices[i] = GetGuidelineStringStartIndex(levelIndices[i]);
             }
             for (int i = 0; i < levelIndices.Length; i++)
@@ -1044,7 +1044,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     newLS[i] = UserLevels[levelIndices[i]].LevelString.Insert(gsStartIndices[i], newGuidelineStrings[i]);
                 else
                     newLS[i] = UserLevels[levelIndices[i]].LevelString.Replace(oldGS[i], newGuidelineStrings[i]);
-                UserLevels[levelIndices[i]].LevelGuidelinesString = newGuidelineStrings[i];
+                UserLevels[levelIndices[i]].GuidelineString = newGuidelineStrings[i];
             }
             SetLevelStrings(newLS, levelIndices);
         }
@@ -1055,7 +1055,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int[] gsStartIndices = new int[levelIndices.Length];
             for (int i = 0; i < levelIndices.Length; i++)
             {
-                oldGS[i] = UserLevels[levelIndices[i]].LevelGuidelinesString;
+                oldGS[i] = UserLevels[levelIndices[i]].GuidelineString;
                 gsStartIndices[i] = GetGuidelineStringStartIndex(levelIndices[i]);
             }
             for (int i = 0; i < levelIndices.Length; i++)
@@ -1064,7 +1064,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     newLS[i] = UserLevels[levelIndices[i]].LevelString.Insert(gsStartIndices[i], newGuidelines);
                 else
                     newLS[i] = UserLevels[levelIndices[i]].LevelString.Replace(oldGS[i], newGuidelines);
-                UserLevels[levelIndices[i]].LevelGuidelinesString = newGuidelines;
+                UserLevels[levelIndices[i]].GuidelineString = newGuidelines;
             }
             SetLevelStrings(newLS, levelIndices);
         }
@@ -1146,8 +1146,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void TemporarilySetLevelDescription(int index, string newValue)
         {
-            TemporarilySetLevelProperty(index, 3, "s", Base64Encrypt(Encoding.UTF8.GetBytes(UserLevels[index].LevelDescription)), Base64Encrypt(Encoding.UTF8.GetBytes(newValue)));
-            UserLevels[index].LevelDescription = newValue;
+            TemporarilySetLevelProperty(index, 3, "s", Base64Encrypt(Encoding.UTF8.GetBytes(UserLevels[index].Description)), Base64Encrypt(Encoding.UTF8.GetBytes(newValue)));
+            UserLevels[index].Description = newValue;
         }
         public static void TemporarilySetLevelFolder(int index, string newValue)
         {
