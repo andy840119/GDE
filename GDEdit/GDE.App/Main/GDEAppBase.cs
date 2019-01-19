@@ -35,10 +35,10 @@ namespace GDE.App.Main
 
             Resources.AddStore(new DllResourceStore(mainResourceFile));
 
-            //Fonts = new FontStore(new GlyphStore(Resources, @"Fonts/Arial"));
-            //Fonts.AddStore(new GlyphStore(Resources, @"Fonts/FontAwesome"));
+            Fonts = new FontStore(new GlyphStore(Resources, @"Fonts/OpenSans"));
+            Fonts.AddStore(new GlyphStore(Resources, @"Fonts/FontAwesome"));
 
-            //dependencies.Cache(Fonts);
+            dependencies.Cache(Fonts);
         }
 
         public override void SetHost(GameHost host)

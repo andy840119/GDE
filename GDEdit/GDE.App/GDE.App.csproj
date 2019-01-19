@@ -17,4 +17,8 @@
     <ProjectReference Include="..\GDEdit\GDEdit.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Main\Panels\ObjSelection\" />
+  </ItemGroup>
+
 </Project>
