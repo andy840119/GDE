@@ -15,7 +15,8 @@ namespace GDE.App.Main.Objects
     public class ObjectBase : Container
     {
         private GeneralObject lvlObj;
-        private Box Object;
+        private Box obj;
+        private TextureStore texStore;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
@@ -91,7 +92,7 @@ namespace GDE.App.Main.Objects
 
             Children = new Drawable[]
             {
-                Object = new Box
+                obj = new Box
                 {
                     Size = new Vector2(100),
                     Origin = Anchor.Centre,
@@ -101,9 +102,15 @@ namespace GDE.App.Main.Objects
         }
 
         [BackgroundDependencyLoader]
-        private void load(TextureStore texStore)
+        private void load(TextureStore ts)
         {
-            Object.Texture = texStore.Get($"Objects/{ObjectID}.png");
+            texStore = ts;
+        }
+
+        protected override void Update()
+        {
+            obj.Texture = texStore.Get($"Objects/{ObjectID}.png");
+            base.Update();
         }
     }
 }
