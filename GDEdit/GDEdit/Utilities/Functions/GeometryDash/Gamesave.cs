@@ -279,7 +279,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 string[] s = guidelineString.Split('~');
                 return s.Length / 2;
             }
-            else return 0;
+            else
+                return 0;
         }
         public static int GetNumberOfGuidelines(int index)
         {
@@ -319,8 +320,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
 
         public static string GetKeyValue(string level, int key, string valueType)
         {
-            string startKeyString = "<k>k" + key.ToString() + "</k><" + valueType + ">";
-            string endKeyString = "</" + valueType + ">";
+            string startKeyString = $"<k>k{key}</k><{valueType}>";
+            string endKeyString = $"</{valueType}>";
             if (UserLevelCount > 0)
             {
                 int parameterStartIndex, parameterEndIndex, parameterLength;
@@ -337,8 +338,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static string GetKeyValue(int index, int key, string valueType)
         {
-            string startKeyString = "<k>k" + key.ToString() + "</k><" + valueType + ">";
-            string endKeyString = "</" + valueType + ">";
+            string startKeyString = $"<k>k{key}</k><{valueType}>";
+            string endKeyString = $"</{valueType}>";
             if (UserLevelCount > 0)
             {
                 if (index <= UserLevelCount - 1)
@@ -381,18 +382,19 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static string GetLevelLengthString(int index)
         {
-            string levelLength;
-            int length = GetLevelLength(index);
-            switch (length)
+            switch (GetLevelLength(index))
             {
-                case 0: levelLength = "Tiny"; break;
-                case 1: levelLength = "Small"; break;
-                case 2: levelLength = "Medium"; break;
-                case 3: levelLength = "Long"; break;
-                case 4: levelLength = "XL"; break;
-                default: levelLength = "Tiny"; break;
+                case 1:
+                    return "Small";
+                case 2:
+                    return "Medium";
+                case 3:
+                    return "Long";
+                case 4:
+                    return "XL";
+                default:
+                    return "Tiny";
             }
-            return levelLength;
         }
         public static string GetLevelString(int index)
         {
