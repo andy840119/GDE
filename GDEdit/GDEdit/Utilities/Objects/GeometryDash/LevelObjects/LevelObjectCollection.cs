@@ -75,9 +75,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             }
         }
         /// <summary>Contains the count of objects per object ID in the collection.</summary>
-        public Dictionary<int, int> ObjectCounts { get; private set; }
+        public Dictionary<int, int> ObjectCounts { get; private set; } = new Dictionary<int, int>();
         /// <summary>Contains the count of groups per object ID in the collection.</summary>
-        public Dictionary<int, int> GroupCounts { get; private set; }
+        public Dictionary<int, int> GroupCounts { get; private set; } = new Dictionary<int, int>();
         /// <summary>The different object IDs in the collection.</summary>
         public int DifferentObjectIDCount => ObjectCounts.Keys.Count;
         /// <summary>The different object IDs in the collection.</summary>
