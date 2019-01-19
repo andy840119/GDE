@@ -917,27 +917,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             }
             UserLevels[index].ObjectCounts = new Dictionary<int, int>();
 
-            if (UserLevels[index].LevelString != null) // If there is a level string
+            if (UserLevels[index].DecryptedLevelString != null) // If there is a level string
             {
-                UserLevels[index].DecryptedLevelString = "";
-                try
-                {
-                    bool isEncrypted = TryDecryptLevelString(index, out UserLevels[index].DecryptedLevelString);
-                    if (isEncrypted)
-                    {
-                        UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace(UserLevels[index].LevelString, UserLevels[index].DecryptedLevelString);
-                        // TODO: Probably refactor
-                        UserLevels[index].LevelString = UserLevels[index].DecryptedLevelString;
-                    }
-                }
-                catch (ArgumentException) { }
-                catch (KeyNotFoundException) { }
-                catch (FormatException) { }
-                catch (Exception e)
-                {
-                    string type = e.GetType().ToString();
-                    throw new DataException($"An unknown error has occured while attempting to decrypt the level string of the level with index {index + 1} (zero-based index: {index}). Contact us immediately about this occurence and provide us the details as stated in this message. Your level data file may be asked for debugging and (manual) examination.");
-                }
                 UserLevels[index].GuidelineString = GetGuidelineString(index);
                 UserLevels[index].LevelObjects = GetObjects(GetObjectString(UserLevels[index].DecryptedLevelString));
             }
