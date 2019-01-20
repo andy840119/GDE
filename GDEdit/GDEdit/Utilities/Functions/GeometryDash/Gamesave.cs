@@ -29,32 +29,25 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not. Returns true if the gamesave is encrypted; otherwise false.</summary>
         /// <param name="decrypted">The string to return the decrypted gamesave.</param>
         /// <returns>Returns true if the gamesave is encrypted; otherwise false.</returns>
-        public static bool TryDecryptGamesave(out string decrypted)
+        public static bool TryDecryptGamesave(string gamesave, out string decrypted)
         {
-            string gamesave = "";
-            bool isEncrypted = CheckIfGamesaveIsEncrypted();
+            decrypted = "";
+            bool isEncrypted = CheckIfGamesaveIsEncrypted(gamesave);
             if (isEncrypted)
-                gamesave = DecryptGamesave();
+                decrypted = GDGamesaveDecrypt(gamesave);
             else
-                gamesave = Encoding.UTF8.GetString(File.ReadAllBytes(GDGameManager));
-            decrypted = gamesave;
+                decrypted = gamesave;
             DoneDecryptingGamesave = true;
             return isEncrypted;
         }
-        public static bool CheckIfGamesaveIsEncrypted()
+        public static bool CheckIfGamesaveIsEncrypted(string gamesave)
         {
-            string gamesave = Encoding.UTF8.GetString(File.ReadAllBytes(GDGameManager));
             int checks = 0;
             string[] tests = { "<k>bgVolume</k>", "<k>sfxVolume</k>", "<k>playerUDID</k>", "<k>playerName</k>", "<k>playerUserID</k>" };
             for (int i = 0; i < tests.Length; i++)
                 if (gamesave.Contains(tests[i]))
                     checks++;
             return checks != tests.Length;
-        }
-        public static string DecryptGamesave()
-        {
-            string gamesave = GetData(GDGameManager); // Get the gamesave data
-            return GDGamesaveDecrypt(gamesave);
         }
 
         /// <summary>Returns the decrypted version of the level data after checking whether the level data is encrypted or not. Returns true if the level data is encrypted; otherwise false.</summary>
