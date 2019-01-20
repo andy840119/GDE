@@ -21,8 +21,11 @@
     <None Remove="Fonts\Venera_0.png" />
     <None Remove="Fonts\Venera_1.png" />
     <None Remove="Textures\Objects\1.png" />
+    <None Remove="Textures\Objects\103.png" />
     <None Remove="Textures\Objects\2.png" />
     <None Remove="Textures\Objects\3.png" />
+    <None Remove="Textures\Objects\36.png" />
+    <None Remove="Textures\Objects\39.png" />
     <None Remove="Textures\Objects\4.png" />
     <None Remove="Textures\Objects\5.png" />
     <None Remove="Textures\Objects\6.png" />
@@ -44,8 +47,11 @@
     <EmbeddedResource Include="Fonts\OpenSans.bin" />
     <EmbeddedResource Include="Fonts\OpenSans_0.png" />
     <EmbeddedResource Include="Textures\Objects\1.png" />
+    <EmbeddedResource Include="Textures\Objects\103.png" />
     <EmbeddedResource Include="Textures\Objects\2.png" />
     <EmbeddedResource Include="Textures\Objects\3.png" />
+    <EmbeddedResource Include="Textures\Objects\36.png" />
+    <EmbeddedResource Include="Textures\Objects\39.png" />
     <EmbeddedResource Include="Textures\Objects\4.png" />
     <EmbeddedResource Include="Textures\Objects\5.png" />
     <EmbeddedResource Include="Textures\Objects\6.png" />

@@ -94,9 +94,9 @@ namespace GDE.App.Main.Objects
             {
                 obj = new Box
                 {
-                    RelativeSizeAxes = Axes.Both,
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
+                    RelativeSizeAxes = Axes.Both
                 }
             };
         }
