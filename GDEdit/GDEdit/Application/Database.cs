@@ -47,6 +47,7 @@ namespace GDEdit.Application
         }
         #endregion
 
+        // TODO: Order these appropriately
         #region Functions
         public void AddKey(int index, int key, string value, string valueType)
         {
@@ -181,6 +182,31 @@ namespace GDEdit.Application
         {
             for (int i = 0; i < indices.Length; i++)
                 File.WriteAllText($@"{folderPath}\{UserLevels[indices[i]].LevelNameWithRevision}.dat", UserLevels[indices[i]].ToString());
+        }
+        /// <summary>Sets the level strings for levels whose level strings are empty.</summary>
+        /// <returns></returns>
+        public int SetLevelStringsForEmptyLevels()
+        {
+            int lvls = 0;
+            for (int i = 0; i < UserLevelCount; i++)
+                if (UserLevels[i].LevelString == "")
+                {
+                    AddLevelStringParameter(DefaultLevelString, i);
+                    lvls++;
+                }
+            UpdateLevelData();
+            return lvls;
+        }
+        /// <summary>Retrieves the custom song location of the song with the specified ID.</summary>
+        /// <param name="ID">The ID of the song.</param>
+        public string GetCustomSongLocation(int ID) => $@"{GDLocalData}\{ID}.mp3";
+        public string GetLevelKeyEntry(string levelString, string name, string desc)
+        {
+            int objectCount = -1;
+            for (int i = 0; i < levelString.Length; i++)
+                if (levelString[i] == ';')
+                    objectCount++;
+            return $"<d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>0</i><k>k48</k><i>{objectCount}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
         }
         public int GetLevelCount()
         {

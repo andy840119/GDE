@@ -84,31 +84,15 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
 
         /// <summary>Returns the decrypted version of the level string after checking whether the level string is encrypted or not. Returns true if the level string is encrypted; otherwise false.</summary>
+        /// <param name="ls">The level string to try decrypting. If it is already encrypted, it will be returned in the <paramref name="decrypted"/> parameter.</param>
         /// <param name="decrypted">The string to return the decrypted level string.</param>
         /// <returns>Returns true if the level string is encrypted; otherwise false.</returns>
-        public static bool TryDecryptLevelString(int index, out string decrypted)
-        {
-            bool isEncrypted = CheckIfLevelStringIsEncrypted(index, out decrypted);
-            if (isEncrypted)
-                decrypted = DecryptLevelString(decrypted);
-            return isEncrypted;
-        }
         public static bool TryDecryptLevelString(string ls, out string decrypted)
         {
             bool isEncrypted = CheckIfLevelStringIsEncrypted(ls, out decrypted);
             if (isEncrypted)
                 decrypted = DecryptLevelString(decrypted);
             return isEncrypted;
-        }
-        public static bool CheckIfLevelStringIsEncrypted(int index, out string levelString)
-        {
-            levelString = UserLevels[index].LevelString;
-            int checks = 0;
-            string[] tests = { "kA13,", "kA15,", "kA16,", "kA14,", "kA6," };
-            for (int i = 0; i < tests.Length; i++)
-                if (UserLevels[index].LevelString.Contains(tests[i]))
-                    checks++;
-            return checks != tests.Length;
         }
         public static bool CheckIfLevelStringIsEncrypted(string ls, out string levelString)
         {
@@ -119,10 +103,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 if (levelString.Contains(tests[i]))
                     checks++;
             return checks != tests.Length;
-        }
-        public static string DecryptLevelString(int index)
-        {
-            return GDLevelStringDecrypt(UserLevels[index].LevelString);
         }
         public static string DecryptLevelString(string ls)
         {
@@ -198,7 +178,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             }
             return new LevelObjectCollection(objects);
         }
-        public static GeneralObject GetCommonAttributes(List<GeneralObject> list, short objectID)
+        public static GeneralObject GetCommonAttributes(LevelObjectCollection list, short objectID)
         {
             GeneralObject common = GeneralObject.GetNewObjectInstance(objectID);
 
@@ -226,69 +206,13 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             else
                 return null;
         }
-        public static bool GetBoolKeyValue(int index, int key)
-        {
-            return DecryptedLevelData.Find($"<k>k{key}</k>", LevelKeyStartIndices[index], (index < UserLevelCount - 1) ? LevelKeyStartIndices[index + 1] : DecryptedLevelData.Find("</d></d></d>")) > -1;
-        }
         public static bool GetBoolKeyValue(string level, int key)
         {
             return level.Find($"<k>k{key}</k>") > -1;
         }
-        public static bool[] GetBoolKeyValues(int key)
-        {
-            bool[] result = new bool[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-                result[i] = DecryptedLevelData.Find($"<k>k{key}</k>", LevelKeyStartIndices[i], (i < UserLevelCount - 1) ? LevelKeyStartIndices[i + 1] : DecryptedLevelData.Find("</d></d></d>")) > -1;
-            return result;
-        }
-        public static bool[] GetLevelVerifiedStatus()
-        {
-            return GetBoolKeyValues(14);
-        }
-        public static bool[] GetLevelUploadedStatus()
-        {
-            return GetBoolKeyValues(15);
-        }
         public static int GetGuidelineStringStartIndex(string ls)
         {
             return ls.Find("kA14,") + 5;
-        }
-        public static int GetGuidelineStringStartIndex(int index)
-        {
-            return GetGuidelineStringStartIndex(UserLevels[index].DecryptedLevelString);
-        }
-        public static int GetNumberOfGuidelines(string guidelineString)
-        {
-            if (guidelineString != null && guidelineString != "")
-            {
-                guidelineString = guidelineString.Remove(guidelineString.Length - 1);
-                string[] s = guidelineString.Split('~');
-                return s.Length / 2;
-            }
-            else
-                return 0;
-        }
-        public static int GetNumberOfGuidelines(int index)
-        {
-            return GetNumberOfGuidelines(GetGuidelineString(index));
-        }
-        public static int SetLevelStringsForEmptyLevels()
-        {
-            int lvls = 0;
-            for (int i = 0; i < UserLevelCount; i++)
-                if (UserLevels[i].LevelString == "")
-                {
-                    AddLevelStringParameter(DefaultLevelString, i);
-                    lvls++;
-                }
-            UpdateLevelData();
-            return lvls;
-        }
-        public static string GetCustomSongLocation(int index) => $@"{GDLocalData}\{UserLevels[index]}.mp3";
-        public static string GetDecryptedLevelString(int index)
-        {
-            TryDecryptLevelString(index, out string decrypted);
-            return decrypted;
         }
         public static string GetGuidelineString(string ls)
         {
@@ -296,12 +220,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             int guidelinesEndIndex = ls.Find(",kA6");
             int guidelinesLength = guidelinesEndIndex - guidelinesStartIndex;
             return ls.Substring(guidelinesStartIndex, guidelinesLength);
-        }
-        public static string GetGuidelineString(int index)
-        {
-            if (UserLevels[index].DecryptedLevelString.Length > 0)
-                return GetGuidelineString(UserLevels[index].DecryptedLevelString);
-            return "";
         }
 
         public static string GetKeyValue(string level, int key, string valueType)
@@ -316,51 +234,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             if (parameterStartIndex == startKeyString.Length - 1)
                 throw new KeyNotFoundException();
             return level.Substring(parameterStartIndex, parameterLength);
-        }
-        public static string GetKeyValue(int index, int key, string valueType)
-        {
-            string startKeyString = $"<k>k{key}</k><{valueType}>";
-            string endKeyString = $"</{valueType}>";
-            if (UserLevelCount > 0)
-            {
-                if (index <= UserLevelCount - 1)
-                {
-                    int parameterStartIndex = UserLevels[index].RawLevel.Find(startKeyString, 0, UserLevels[index].RawLevel.Length - 1) + startKeyString.Length;
-                    if (parameterStartIndex == startKeyString.Length - 1)
-                        throw new KeyNotFoundException();
-                    int parameterEndIndex = UserLevels[index].RawLevel.Find(endKeyString, parameterStartIndex, UserLevels[index].RawLevel.Length - 1);
-                    int parameterLength = parameterEndIndex - parameterStartIndex;
-                    return UserLevels[index].RawLevel.Substring(parameterStartIndex, parameterLength);
-                }
-                else
-                    throw new ArgumentOutOfRangeException();
-            }
-            else
-                throw new ArgumentNullException();
-        }
-        public static string GetLevelKeyEntry(string levelString, string name, string desc)
-        {
-            int objectCount = -1;
-            for (int i = 0; i < levelString.Length; i++)
-                if (levelString[i] == ';')
-                    objectCount++;
-            return $"<d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>0</i><k>k48</k><i>{objectCount}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
-        }
-        public static string GetLevelLengthString(int length)
-        {
-            switch (length)
-            {
-                case 1:
-                    return "Small";
-                case 2:
-                    return "Medium";
-                case 3:
-                    return "Long";
-                case 4:
-                    return "XL";
-                default:
-                    return "Tiny";
-            }
         }
         public static string GetLevelString(string level)
         {
@@ -395,39 +268,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             }
             return result;
         }
-        public static string TryGetKeyValue(int index, int key, string valueType, string defaultValueOnException)
-        {
-            string startKeyString = $"<k>k{key}</k><{valueType}>";
-            string endKeyString = $"</{valueType}>";
-            if (UserLevelCount > 0)
-            {
-                if (index <= UserLevelCount - 1)
-                {
-                    int parameterStartIndex;
-                    int parameterEndIndex;
-                    int parameterLength;
-                    if (index < UserLevelCount - 1)
-                    {
-                        parameterStartIndex = DecryptedLevelData.Find(startKeyString, LevelKeyStartIndices[index], LevelKeyStartIndices[index + 1]) + startKeyString.Length;
-                        parameterEndIndex = DecryptedLevelData.Find(endKeyString, parameterStartIndex, LevelKeyStartIndices[index + 1]);
-                    }
-                    else
-                    {
-                        parameterStartIndex = DecryptedLevelData.Find(startKeyString, LevelKeyStartIndices[index], DecryptedLevelData.Length - 1) + startKeyString.Length;
-                        parameterEndIndex = DecryptedLevelData.Find(endKeyString, parameterStartIndex, DecryptedLevelData.Length - 1);
-                    }
-                    parameterLength = parameterEndIndex - parameterStartIndex;
-                    if (parameterStartIndex == startKeyString.Length - 1)
-                        return defaultValueOnException;
-                    else
-                        return DecryptedLevelData.Substring(parameterStartIndex, parameterLength);
-                }
-                else
-                    throw new ArgumentOutOfRangeException();
-            }
-            else
-                throw new ArgumentNullException();
-        }
         public static string TryGetKeyValue(string level, int key, string valueType, string defaultValueOnException)
         {
             string startKeyString = $"<k>k{key}</k><{valueType}>";
@@ -439,157 +279,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 return defaultValueOnException;
             else
                 return level.Substring(parameterStartIndex, parameterLength);
-        }
-        public static string[] GetKeyValues(int key, string valueType)
-        {
-            string startKeyString = $"<k>k{key}</k><{valueType}>";
-            string endKeyString = $"</{valueType}>";
-            if (UserLevelCount == 0)
-                throw new ArgumentNullException();
-            string[] lvlParameters = new string[UserLevelCount];
-            int[] parameterStartIndices = new int[UserLevelCount];
-            int[] parameterEndIndices = new int[UserLevelCount];
-            int[] parameterLengths = new int[UserLevelCount];
-            for (int i = 0; i < UserLevelCount; i++)
-            {
-                if (i < UserLevelCount - 1)
-                {
-                    parameterStartIndices[i] = DecryptedLevelData.Find(startKeyString, LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1]) + startKeyString.Length;
-                    parameterEndIndices[i] = DecryptedLevelData.Find(endKeyString, parameterStartIndices[i], LevelKeyStartIndices[i + 1]);
-                }
-                else
-                {
-                    parameterStartIndices[i] = DecryptedLevelData.Find(startKeyString, LevelKeyStartIndices[i], DecryptedLevelData.Length - 1) + startKeyString.Length;
-                    parameterEndIndices[i] = DecryptedLevelData.Find(endKeyString, parameterStartIndices[i], DecryptedLevelData.Length - 1);
-                }
-                parameterLengths[i] = parameterEndIndices[i] - parameterStartIndices[i];
-            }
-            for (int i = 0; i < parameterStartIndices.Length; i++)
-                if (parameterStartIndices[i] == startKeyString.Length - 1)
-                    throw new KeyNotFoundException();
-            for (int i = 0; i < UserLevelCount; i++)
-                lvlParameters[i] = DecryptedLevelData.Substring(parameterStartIndices[i], parameterLengths[i]);
-            return lvlParameters;
-        }
-        public static string[] TryGetKeyValues(int key, string valueType, string defaultValueOnException)
-        {
-            string startKeyString = $"<k>k{key}</k><{valueType}>";
-            string endKeyString = $"</{valueType}>";
-            if (UserLevelCount > 0)
-            {
-                string[] lvlParameters = new string[UserLevelCount];
-                int[] parameterStartIndices = new int[UserLevelCount];
-                int[] parameterEndIndices = new int[UserLevelCount];
-                int[] parameterLengths = new int[UserLevelCount];
-                for (int i = 0; i < UserLevelCount; i++)
-                {
-                    if (i < UserLevelCount - 1)
-                    {
-                        parameterStartIndices[i] = DecryptedLevelData.Find(startKeyString, LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1]) + startKeyString.Length;
-                        parameterEndIndices[i] = DecryptedLevelData.Find(endKeyString, parameterStartIndices[i], LevelKeyStartIndices[i + 1]);
-                    }
-                    else
-                    {
-                        parameterStartIndices[i] = DecryptedLevelData.Find(startKeyString, LevelKeyStartIndices[i], DecryptedLevelData.Length - 1) + startKeyString.Length;
-                        parameterEndIndices[i] = DecryptedLevelData.Find(endKeyString, parameterStartIndices[i], DecryptedLevelData.Length - 1);
-                    }
-                    parameterLengths[i] = parameterEndIndices[i] - parameterStartIndices[i];
-                }
-                for (int i = 0; i < UserLevelCount; i++)
-                    if (parameterStartIndices[i] == startKeyString.Length - 1)
-                        lvlParameters[i] = defaultValueOnException;
-                    else
-                        lvlParameters[i] = DecryptedLevelData.Substring(parameterStartIndices[i], parameterLengths[i]);
-                return lvlParameters;
-            }
-            else
-                throw new ArgumentNullException();
-        }
-        public static void SetKeyValue(int index, int keyValue, string keyType, string newValue)
-        {
-            TemporarilySetKeyValue(index, keyValue, keyType, newValue);
-            UpdateLevelData();
-        }
-        public static void SetLevel(string newLevel, int levelIndex)
-        {
-            UserLevels[levelIndex].RawLevel = newLevel;
-            UpdateMemoryLevelData();
-            UpdateLevelData(); // Write the new data
-        }
-        public static void SetLevels(string[] newLevels, int[] levelIndices)
-        {
-            for (int i = 0; i < levelIndices.Length; i++)
-            {
-                DecryptedLevelData = DecryptedLevelData.Replace(newLevels[i], LevelKeyStartIndices[levelIndices[i]], UserLevels[levelIndices[i]].RawLevel.Length); // Change the level in the game
-                for (int j = levelIndices[i]; j < UserLevelCount; j++)
-                    LevelKeyStartIndices[j] += newLevels[i].Length - UserLevels[levelIndices[i]].RawLevel.Length; // Change the indices of the other levels
-                UserLevels[levelIndices[i]].RawLevel = newLevels[i];
-            }
-            UpdateLevelData(); // Write the new data
-        }
-        public static void TemporarilySetCustomSongID(int index, string newValue)
-        {
-            TemporarilySetKeyValue(index, 45, "i", newValue);
-            UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace($"<k>k45</k><i>{UserLevels[index].CustomSongID}</i>", $"<k>k45</k><i>{newValue}</i>");
-            UserLevels[index].CustomSongID = ToInt32(newValue);
-        }
-        public static void TemporarilySetKeyValue(int index, int keyValue, string keyType, string newValue)
-        {
-            if (index < 0)
-                throw new ArgumentException("The index may not be a negative number.");
-            string keyStart = $"<k>k{keyValue}</k><{keyType}>";
-            string keyEnd = $"</{keyType}>";
-            int keyStartIndex = 0;
-            if (index < UserLevelCount - 1)
-                keyStartIndex = DecryptedLevelData.Find(keyStart, LevelKeyStartIndices[index], LevelKeyStartIndices[index + 1]) + keyStart.Length;
-            else if (index == UserLevelCount - 1)
-                keyStartIndex = DecryptedLevelData.Find(keyStart, LevelKeyStartIndices[index], DecryptedLevelData.Length) + keyStart.Length;
-            if (keyStartIndex >= keyStart.Length)
-            {
-                int keyEndIndex = DecryptedLevelData.Find(keyEnd, keyStartIndex, DecryptedLevelData.Length);
-                int length = keyEndIndex - keyStartIndex;
-                DecryptedLevelData = DecryptedLevelData.Replace(newValue, keyStartIndex, length);
-                UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace(newValue, keyStartIndex - LevelKeyStartIndices[index], length);
-                for (int i = index + 1; i < UserLevelCount; i++) // Adjust the indices of the other levels
-                    LevelKeyStartIndices[i] += newValue.Length - length;
-            }
-            else
-                AddKey(index, keyValue, newValue, keyType);
-        }
-        public static void TemporarilySetLevelDescription(int index, string newValue)
-        {
-            TemporarilySetLevelProperty(index, 3, "s", Base64Encrypt(Encoding.UTF8.GetBytes(UserLevels[index].Description)), Base64Encrypt(Encoding.UTF8.GetBytes(newValue)));
-            UserLevels[index].Description = newValue;
-        }
-        public static void TemporarilySetLevelFolder(int index, string newValue)
-        {
-            TemporarilySetLevelProperty(index, 84, "i", UserLevels[index].Folder.ToString(), newValue);
-            UserLevels[index].Folder = ToInt32(newValue);
-        }
-        public static void TemporarilySetLevelID(int index, string newValue)
-        {
-            TemporarilySetLevelProperty(index, 1, "i", UserLevels[index].LevelID.ToString(), newValue);
-            UserLevels[index].LevelID = ToInt32(newValue);
-        }
-        public static void TemporarilySetLevelName(int index, string newValue)
-        {
-            TemporarilySetLevelProperty(index, 2, "s", UserLevels[index].Name, newValue);
-            UserLevels[index].Name = newValue;
-        }
-        public static void TemporarilySetLevelRevision(int index, string newValue)
-        {
-            TemporarilySetLevelProperty(index, 46, "i", UserLevels[index].Revision.ToString(), newValue);
-            UserLevels[index].Revision = ToInt32(newValue);
-        }
-        public static void TemporarilySetLevelVersion(int index, string newValue)
-        {
-            TemporarilySetLevelProperty(index, 16, "i", UserLevels[index].Version.ToString(), newValue);
-            UserLevels[index].Version = ToInt32(newValue);
-        }
-        public static void TemporarilySetLevelProperty(int index, int key, string keyType, string oldValue, string newValue)
-        {
-            TemporarilySetKeyValue(index, key, keyType, newValue);
-            UserLevels[index].RawLevel = UserLevels[index].RawLevel.Replace($"<k>k{key}</k><{keyType}>{oldValue}</i>", $"<k>k{key}</k><{keyType}>{newValue}</i>");
         }
         
         public static string GetData(string path)
