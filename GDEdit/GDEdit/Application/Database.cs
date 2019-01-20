@@ -288,11 +288,13 @@ namespace GDEdit.Application
                     objectCount++;
             return $"<d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>0</i><k>k48</k><i>{objectCount}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
         }
+        /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
         public int GetLevelCount()
         {
             return DecryptedLevelData.FindAll("<k>k_").Length;
         }
-        public void GetCustomObjects()
+        /// <summary>Gets the custom objects.</summary>
+        private void GetCustomObjects()
         {
             customObjects = new List<CustomLevelObject>();
             int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
@@ -304,7 +306,8 @@ namespace GDEdit.Application
             while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
                 customObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
         }
-        public void GetKeyIndices()
+        /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
+        private void GetKeyIndices()
         {
             LevelKeyStartIndices = new List<int>();
             int count = GetLevelCount();
@@ -316,7 +319,8 @@ namespace GDEdit.Application
                     LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
             }
         }
-        public void GetLevels()
+        /// <summary>Gets the levels from the level data. For internal use only.</summary>
+        private void GetLevels()
         {
             UserLevels = new List<Level>();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
@@ -328,6 +332,8 @@ namespace GDEdit.Application
             }
         }
 
+        /// <summary>Imports a level into the database and adds it to the start of the level list.</summary>
+        /// <param name="level">The raw level to import.</param>
         public void ImportLevel(string level)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
@@ -342,10 +348,14 @@ namespace GDEdit.Application
             UserLevels = UserLevels.InsertAtStart(new Level(level));
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
+        /// <param name="levelPath">The path of the level to import.</param>
         public void ImportLevelFromFile(string levelPath)
         {
             ImportLevel(File.ReadAllText(levelPath));
         }
+        /// <summary>Imports a number of levels into the database and adds them to the start of the level list.</summary>
+        /// <param name="lvls">The raw levels to import.</param>
         public void ImportLevels(string[] lvls)
         {
             for (int i = 0; i < lvls.Length; i++)
@@ -357,6 +367,8 @@ namespace GDEdit.Application
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Imports a number of levels from the specified file path and adds them to the start of the level list.</summary>
+        /// <param name="levelPaths">The paths of the levels to import.</param>
         public void ImportLevelsFromFiles(string[] levelPaths)
         {
             string[] levels = new string[levelPaths.Length];
@@ -364,6 +376,8 @@ namespace GDEdit.Application
                 levels[i] = File.ReadAllText(levelPaths[i]);
             ImportLevels(levels);
         }
+        /// <summary>Moves the selected levels down by one position.</summary>
+        /// <param name="indices">The indices of the levels to move down.</param>
         public void MoveLevelsDown(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort().RemoveElementsMatchingIndicesFromEnd(UserLevelCount);
@@ -373,6 +387,8 @@ namespace GDEdit.Application
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Moves the selected levels to the bottom of the level list while preserving their original order.</summary>
+        /// <param name="indices">The indices of the levels to move to the bottom of the level list.</param>
         public void MoveLevelsToBottom(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort();
@@ -381,6 +397,8 @@ namespace GDEdit.Application
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData();
         }
+        /// <summary>Moves the selected levels to the top of the level list while preserving their original order.</summary>
+        /// <param name="indices">The indices of the levels to move to the top of the level list.</param>
         public void MoveLevelsToTop(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort();
@@ -389,6 +407,8 @@ namespace GDEdit.Application
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData();
         }
+        /// <summary>Moves the selected levels up by one position.</summary>
+        /// <param name="indices">The indices of the levels to move up.</param>
         public void MoveLevelsUp(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort().RemoveElementsMatchingIndices();
@@ -398,6 +418,9 @@ namespace GDEdit.Application
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Swaps the levels at the specified indices.</summary>
+        /// <param name="levelIndexA">The index of the first level in the database to swap.</param>
+        /// <param name="levelIndexB">The index of the second level in the database to swap.</param>
         public void SwapLevels(int levelIndexA, int levelIndexB)
         {
             SwapAllLevelInfo(levelIndexA, levelIndexB);
