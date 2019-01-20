@@ -31,16 +31,24 @@ namespace GDEdit.Application
         #endregion
 
         #region Information
+        /// <summary>The path for the game manager file.</summary>
         public string GameManagerPath { get; }
+        /// <summary>The path for the local levels file.</summary>
         public string LocalLevelsPath { get; }
 
         // TODO: Split into LevelInfo and GameInfo
+
+        /// <summary>The level key start indices of the database in the local levels file.</summary>
         public List<int> LevelKeyStartIndices { get; private set; }
 
+        /// <summary>The user name of the player as found in the game manager file.</summary>
         public string UserName { get; set; }
+        /// <summary>The user name of the player.</summary>
         public List<Level> UserLevels { get; set; }
+        /// <summary>The names of the folders.</summary>
         public List<string> FolderNames { get; set; }
 
+        /// <summary>The decrypted form of the game manager.</summary>
         public string DecryptedGamesave
         {
             get
@@ -51,6 +59,7 @@ namespace GDEdit.Application
             }
             set => decryptedGamesave = value;
         }
+        /// <summary>The decrypted form of the level data.</summary>
         public string DecryptedLevelData
         {
             get
@@ -61,6 +70,7 @@ namespace GDEdit.Application
             }
             set => decryptedLevelData = value;
         }
+        /// <summary>The custom objects.</summary>
         public List<CustomLevelObject> CustomObjects
         {
             get
@@ -72,6 +82,7 @@ namespace GDEdit.Application
             set => customObjects = value;
         }
 
+        /// <summary>The number of local levels in the level data file.</summary>
         public int UserLevelCount => UserLevels.Count;
         #endregion
 
