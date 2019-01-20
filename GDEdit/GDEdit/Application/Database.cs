@@ -103,14 +103,9 @@ namespace GDEdit.Application
 
         // TODO: Order these appropriately
         #region Functions
-        public void AddKey(int index, int key, string value, string valueType)
-        {
-            string keyToInsert = $"<k>k{key}</k><{valueType}>{value}</{valueType}>";
-            UserLevels[index].RawLevel = UserLevels[index].RawLevel.Insert(22, keyToInsert);
-            DecryptedLevelData = DecryptedLevelData.Insert(DecryptedLevelData.Find("<k>kCEK</k><i>4</i>", index + 1) + 19, keyToInsert);
-            for (int i = index + 1; i < UserLevelCount; i++)
-                LevelKeyStartIndices[i] += keyToInsert.Length;
-        }
+        /// <summary>Adds a level string parameter to the raw data of the level at the specified index.</summary>
+        /// <param name="newLS">The new level string to add to the level.</param>
+        /// <param name="levelIndex">The index of the level in the database to add the level string parameter at.</param>
         public void AddLevelStringParameter(string newLS, int levelIndex)
         {
             string nameKey = $"<k>k2</k><s>{UserLevels[levelIndex].Name}</s>";
@@ -124,6 +119,8 @@ namespace GDEdit.Application
                 LevelKeyStartIndices[i] += $"<k>k4</k><s>{newLS}</s>".Length;
             UserLevels[levelIndex].LevelString = newLS;
         }
+        /// <summary>Clones a level and adds it to the start of the list.</summary>
+        /// <param name="index">The index of the level to clone.</param>
         public void CloneLevel(int index)
         {
             if (index < 0)
@@ -133,6 +130,8 @@ namespace GDEdit.Application
             UserLevels.Insert(0, UserLevels[index]); // TODO: .Clone()
             UpdateLevelData();
         }
+        /// <summary>Clones a number of levels and adds them to the start of the level list in their original order.</summary>
+        /// <param name="indices">The indices of the levels to clone.</param>
         public void CloneLevels(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort();
@@ -143,6 +142,7 @@ namespace GDEdit.Application
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
         public void CreateLevel()
         {
             int n = 0;
@@ -155,10 +155,15 @@ namespace GDEdit.Application
                 n++;
             CreateLevel($"Unnamed {n}", "");
         }
+        /// <summary>Creates a new level with a specified name and adds it to the start of the level list.</summary>
+        /// <param name="name">The name of the new level to create.</param>
         public void CreateLevel(string name)
         {
             CreateLevel(name, "");
         }
+        /// <summary>Creates a new level with a specified name and description and adds it to the start of the level list.</summary>
+        /// <param name="name">The name of the new level to create.</param>
+        /// <param name="desc">The description of the new level to create.</param>
         public void CreateLevel(string name, string desc)
         {
             int r = 0;
@@ -179,6 +184,10 @@ namespace GDEdit.Application
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Creates a new level with a specified name, description and level string and adds it to the start of the level list.</summary>
+        /// <param name="name">The name of the new level to create.</param>
+        /// <param name="desc">The description of the new level to create.</param>
+        /// <param name="levelString">The level string of the new level to create.</param>
         public void CreateLevel(string name, string desc, string levelString)
         {
             int r = 0;
@@ -198,18 +207,28 @@ namespace GDEdit.Application
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Creates a number of new levels with the names "Unnamed {n}" and adds them to the start of the level list.</summary>
+        /// <param name="numberOfLevels">The number of new levels to create.</param>
         public void CreateLevels(int numberOfLevels)
         {
-            // Useless ATM
+            // TODO: Create
         }
+        /// <summary>Creates a number of new levels with specified names and adds them to the start of the level list.</summary>
+        /// <param name="numberOfLevels">The number of new levels to create.</param>
+        /// <param name="name">The names of the new levels to create.</param>
         public void CreateLevels(int numberOfLevels, string[] names)
         {
-            // Useless ATM
+            // TODO: Create
         }
+        /// <summary>Creates a number of new levels with specified names and descriptions and adds them to the start of the level list.</summary>
+        /// <param name="numberOfLevels">The number of new levels to create.</param>
+        /// <param name="name">The names of the new levels to create.</param>
+        /// <param name="desc">The descriptions of the new levels to create.</param>
         public void CreateLevels(int numberOfLevels, string[] names, string[] descs)
         {
-            // Useless ATM
+            // TODO: Create
         }
+        /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
         {
             DecryptedLevelData = DefaultLevelData; // Set the level data to the default
@@ -219,6 +238,8 @@ namespace GDEdit.Application
             UserLevels.Clear();
             LevelKeyStartIndices.Clear();
         }
+        /// <summary>Deletes the levels at the specified indices in the database.</summary>
+        /// <param name="indices">The indices of the levels to delete from the database.</param>
         public void DeleteLevels(int[] indices)
         {
             indices = indices.RemoveDuplicates();
@@ -228,17 +249,22 @@ namespace GDEdit.Application
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
+        /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
+        /// <param name="index">The index of the level to export.</param>
+        /// <param name="folderPath">The path of the folder to export the level at.</param>
         public void ExportLevel(int index, string folderPath)
         {
             File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
         }
+        /// <summary>Exports the levels at the specified indices in the database to a .dat file in the specified folder.</summary>
+        /// <param name="indices">The indices of the levels to export.</param>
+        /// <param name="folderPath">The path of the folder to export the level at.</param>
         public void ExportLevels(int[] indices, string folderPath)
         {
             for (int i = 0; i < indices.Length; i++)
                 File.WriteAllText($@"{folderPath}\{UserLevels[indices[i]].LevelNameWithRevision}.dat", UserLevels[indices[i]].ToString());
         }
         /// <summary>Sets the level strings for levels whose level strings are empty.</summary>
-        /// <returns></returns>
         public int SetLevelStringsForEmptyLevels()
         {
             int lvls = 0;
