@@ -12,6 +12,7 @@ using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.GeometryDash;
+using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Screens
 {
@@ -22,6 +23,8 @@ namespace GDE.App.Main.Screens
 
         public LevelCreation()
         {
+            Databases.Add(new Database());
+
             Children = new Drawable[]
             {
                 new Box
@@ -85,7 +88,7 @@ namespace GDE.App.Main.Screens
                     },
                     Action = () =>
                     {
-                        Gamesave.CreateLevel(name.Text, desc.Text);
+                        Databases[0].CreateLevel(name.Text, desc.Text);
                     }
                 },
             };

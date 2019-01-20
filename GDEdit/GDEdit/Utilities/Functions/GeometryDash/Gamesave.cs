@@ -11,7 +11,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using static GDEdit.Application.Database;
 using static GDEdit.Application.Status;
 using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;

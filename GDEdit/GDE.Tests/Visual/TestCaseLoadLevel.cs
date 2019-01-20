@@ -2,6 +2,7 @@
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
+using static GDEdit.Application.ApplicationDatabase;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDE.Tests.Visual
@@ -10,9 +11,7 @@ namespace GDE.Tests.Visual
     {
         public TestCaseLoadLevel()
         {
-            TryDecryptLevelData(out Database.DecryptedLevelData);
-            GetKeyIndices();
-            GetLevels();
+            Databases.Add(new Database());
 
             Children = new Drawable[]
             {
@@ -21,7 +20,7 @@ namespace GDE.Tests.Visual
                     RelativeSizeAxes = Axes.Both,
                     AllowMultiline = true,
                     TextSize = 40,
-                    Text = "Loaded: " + Database.UserLevels[0].Name
+                    Text = "Loaded: " + Databases[0].UserLevels[0].Name
                 }
             };
         }
