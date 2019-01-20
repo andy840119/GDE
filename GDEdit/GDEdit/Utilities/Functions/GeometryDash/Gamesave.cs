@@ -692,12 +692,12 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         }
         public static void ExportLevel(int index, string folderPath)
         {
-            File.WriteAllText(folderPath + UserLevels[index].LevelNameWithRevision, GetLevel(index));
+            File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
         }
         public static void ExportLevels(int[] indices, string folderPath)
         {
             for (int i = 0; i < indices.Length; i++)
-                File.WriteAllText($@"{folderPath}\{UserLevels[indices[i]].LevelNameWithRevision}.txt", GetLevel(indices[i]));
+                File.WriteAllText($@"{folderPath}\{UserLevels[indices[i]].LevelNameWithRevision}.dat", GetLevel(indices[i]));
         }
         public static void GetCustomObjects()
         {
