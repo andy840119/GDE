@@ -9,7 +9,7 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseLevelOverview : TestCase
     {
-        private LevelOverview lvlOverview;
+        private LevelPreview lvlOverview;
         public TestCaseLevelOverview()
         {
             Children = new Drawable[]
@@ -19,7 +19,7 @@ namespace GDE.Tests.Visual
                     Colour = new Color4(95, 95, 95, 255),
                     RelativeSizeAxes = Axes.Both
                 },
-                lvlOverview = new LevelOverview()
+                lvlOverview = new LevelPreview()
             };
         }
     }
