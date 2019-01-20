@@ -10,6 +10,6 @@ namespace GDEdit.Application
     public static class ApplicationDatabase
     {
         /// <summary>The databases that are loaded in the application.</summary>
-        public static List<Database> Databases;
+        public static List<Database> Databases = new List<Database>();
     }
 }

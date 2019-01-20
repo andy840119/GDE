@@ -274,7 +274,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             while (encodedData.Length % 4 != 0)
                 encodedData += "=";
-            byte[] encodedDataAsBytes = FromBase64String(encodedData);
+            byte[] encodedDataAsBytes = FromBase64String(encodedData.Replace('-', '+').Replace('_', '/').Replace("\0", string.Empty));
             return encodedDataAsBytes;
         }
         public static string Base64Encrypt(byte[] decryptedData)
