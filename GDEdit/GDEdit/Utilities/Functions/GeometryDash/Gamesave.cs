@@ -31,12 +31,10 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         /// <returns>Returns true if the gamesave is encrypted; otherwise false.</returns>
         public static bool TryDecryptGamesave(string gamesave, out string decrypted)
         {
-            decrypted = "";
+            decrypted = gamesave;
             bool isEncrypted = CheckIfGamesaveIsEncrypted(gamesave);
             if (isEncrypted)
                 decrypted = GDGamesaveDecrypt(gamesave);
-            else
-                decrypted = gamesave;
             DoneDecryptingGamesave = true;
             return isEncrypted;
         }
@@ -53,27 +51,19 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         /// <summary>Returns the decrypted version of the level data after checking whether the level data is encrypted or not. Returns true if the level data is encrypted; otherwise false.</summary>
         /// <param name="decrypted">The string to return the decrypted level data.</param>
         /// <returns>Returns true if the level data is encrypted; otherwise false.</returns>
-        public static bool TryDecryptLevelData(out string decrypted)
+        public static bool TryDecryptLevelData(string levelData, out string decrypted)
         {
-            string levelData = "";
-            bool isEncrypted = CheckIfLevelDataIsEncrypted();
+            decrypted = levelData;
+            bool isEncrypted = CheckIfLevelDataIsEncrypted(levelData);
             if (isEncrypted)
-                levelData = DecryptLevelData();
-            else
-                levelData = Encoding.UTF8.GetString(File.ReadAllBytes(GDLocalLevels));
+                levelData = GDGamesaveDecrypt(levelData);
             decrypted = levelData;
             return isEncrypted;
         }
-        public static bool CheckIfLevelDataIsEncrypted()
+        public static bool CheckIfLevelDataIsEncrypted(string levelData)
         {
-            string levelData = Encoding.UTF8.GetString(File.ReadAllBytes(GDLocalLevels));
             string test = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\">";
             return !levelData.Contains(test);
-        }
-        public static string DecryptLevelData()
-        {
-            string levelData = GetData(GDLocalLevels); // Get the gamesave data
-            return GDGamesaveDecrypt(levelData);
         }
 
         /// <summary>Returns the decrypted version of the level string after checking whether the level string is encrypted or not. Returns true if the level string is encrypted; otherwise false.</summary>
