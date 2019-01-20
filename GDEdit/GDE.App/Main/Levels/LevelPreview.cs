@@ -11,11 +11,11 @@ using static GDEdit.Application.Database;
 
 namespace GDE.App.Main.Levels
 {
-    public class LevelOverview : Container
+    public class LevelPreview : Container
     {
         public bool AllowDrag = true;
 
-        public LevelOverview()
+        public LevelPreview()
         {
             TryDecryptLevelData(out DecryptedLevelData);
             GetKeyIndices();
@@ -39,7 +39,7 @@ namespace GDE.App.Main.Levels
                 }
             }*/
 
-            for (var i = 0; i < 2299; i++)
+            for (var i = 0; i < 100; i++)
             {
                 float scale = 1;
 
@@ -48,11 +48,22 @@ namespace GDE.App.Main.Levels
                     scale = (float)UserLevels[0].LevelObjects[i].Scaling;
                 }
 
+                Vector2 size;
+
+                if (UserLevels[0].LevelObjects[i].FlippedVertically && UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                    size = new Vector2(-30 * scale, -30 * scale);
+                else if (UserLevels[0].LevelObjects[i].FlippedVertically)
+                    size = new Vector2(30 * scale, -30 * scale);
+                else if (UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                    size = new Vector2(-30 * scale, 30 * scale);
+                else
+                    size = new Vector2(30 * scale);
+
                 Add(new ObjectBase
                 {
                     ObjectID = UserLevels[0].LevelObjects[i].ObjectID,
                     Position = new Vector2((float)UserLevels[0].LevelObjects[i].X, (float)-UserLevels[0].LevelObjects[i].Y),
-                    Size = new Vector2(30 * scale), // Set this to zoom scale later
+                    Size = size, // Set this to zoom scale later
                     Rotation = (float)UserLevels[0].LevelObjects[i].Rotation, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft

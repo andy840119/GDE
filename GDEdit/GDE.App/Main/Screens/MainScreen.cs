@@ -9,9 +9,6 @@ using osuTK;
 using osuTK.Graphics;
 using GDE.App.Main.Colors;
 using GDE.App.Main.UI;
-using GDEdit.Application;
-using GDEdit.Application.Editor;
-using GDEdit.Utilities.Functions.GeometryDash;
 
 namespace GDE.App.Main.Screens
 {
@@ -71,10 +68,9 @@ namespace GDE.App.Main.Screens
                                         {
                                             Origin = Anchor.Centre,
                                             Anchor = Anchor.Centre,
-                                            Position = new Vector2(0, 90),
+                                            Position = new Vector2(0, 60),
                                             Text = "New level",
-                                            Font = @"OpenSans",
-                                            TextSize = 60
+                                            Font = @"OpenSans"
                                         },
                                         new SpriteIcon
                                         {
@@ -110,10 +106,9 @@ namespace GDE.App.Main.Screens
                                         {
                                             Origin = Anchor.Centre,
                                             Anchor = Anchor.Centre,
-                                            Position = new Vector2(0, 90),
+                                            Position = new Vector2(0, 60),
                                             Text = "Edit existing level",
-                                            Font = @"OpenSans",
-                                            TextSize = 60
+                                            Font = @"OpenSans"
                                         },
                                         new SpriteIcon
                                         {
@@ -122,6 +117,10 @@ namespace GDE.App.Main.Screens
                                             Origin = Anchor.Centre,
                                             Anchor = Anchor.Centre,
                                         }
+                                    },
+                                    Action = () =>
+                                    {
+                                        Push(new Edit.Editor());
                                     }
                                 }
                             }
