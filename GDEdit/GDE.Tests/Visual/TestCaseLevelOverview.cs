@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.Levels;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Input.Events;
 using osu.Framework.Testing;
 using osuTK.Graphics;
 
@@ -8,6 +9,7 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseLevelOverview : TestCase
     {
+        private LevelOverview lvlOverview;
         public TestCaseLevelOverview()
         {
             Children = new Drawable[]
@@ -17,7 +19,7 @@ namespace GDE.Tests.Visual
                     Colour = new Color4(95, 95, 95, 255),
                     RelativeSizeAxes = Axes.Both
                 },
-                new LevelOverview()
+                lvlOverview = new LevelOverview()
             };
         }
     }
