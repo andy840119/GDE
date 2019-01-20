@@ -24,7 +24,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         public const string LevelDataStart = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t />";
         public const string LevelDataEnd = "</d><k>LLM_02</k><i>33</i></dict></plist>";
         public const string DefaultLevelData = "<?xml version=\"1.0\"?><plist version=\"1.0\" gjver=\"2.0\"><dict><k>LLM_01</k><d><k>_isArr</k><t /></d><k>LLM_02</k><i>33</i></dict></plist>";
-        public static readonly string[] LevelLengthNames = { "Tiny", "Small", "Medium", "Long", "XL" };
 
         /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not. Returns true if the gamesave is encrypted; otherwise false.</summary>
         /// <param name="decrypted">The string to return the decrypted gamesave.</param>
