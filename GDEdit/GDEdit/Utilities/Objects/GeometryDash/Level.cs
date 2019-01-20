@@ -187,7 +187,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 IDStart = raw.Find(startKeyString, i, raw.Length) + startKeyString.Length;
                 if (IDStart <= startKeyString.Length)
                     break;
-                IDEnd = raw.Find(endKeyString, IDStart);
+                IDEnd = raw.Find(endKeyString, IDStart, raw.Length);
                 valueTypeStart = IDEnd + endKeyString.Length;
                 valueTypeEnd = raw.Find(">", valueTypeStart, raw.Length);
                 valueType = raw.Substring(valueTypeStart, valueTypeEnd - valueTypeStart);
@@ -215,7 +215,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     Description = Encoding.UTF8.GetString(Base64Decrypt(value));
                     break;
                 case 4: // Level String
-                    LevelString = value;
+                    levelString = value;
                     break;
                 case 8: // Official Song ID
                     OfficialSongID = ToInt32(value);
