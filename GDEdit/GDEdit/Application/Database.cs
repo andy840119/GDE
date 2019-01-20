@@ -17,32 +17,75 @@ namespace GDEdit.Application
     /// <summary>Contains information about a database for the game.</summary>
     public class Database
     {
+        private string decryptedGamesave;
+        private string decryptedLevelData;
+        private List<CustomLevelObject> customObjects;
+
         #region Constants
         /// <summary>The default local data folder path of the game.</summary>
         public static readonly string GDLocalData = $@"{GetFolderPath(SpecialFolder.LocalApplicationData)}\GeometryDash";
-        /// <summary>The default gamesave file path of the game.</summary>
+        /// <summary>The default game manager file path of the game.</summary>
         public static readonly string GDGameManager = $@"{GDLocalData}\CCGameManager.dat";
-        /// <summary>The default local level file path of the game.</summary>
+        /// <summary>The default local levels file path of the game.</summary>
         public static readonly string GDLocalLevels = $@"{GDLocalData}\CCLocalLevels.dat";
         #endregion
 
         #region Information
-        public string FilePath { get; }
+        public string GameManagerPath { get; }
+        public string LocalLevelsPath { get; }
 
         // TODO: Split into LevelInfo and GameInfo
+        public List<int> LevelKeyStartIndices { get; private set; }
+
+        public string UserName { get; set; }
         public List<Level> UserLevels { get; set; }
         public List<string> FolderNames { get; set; }
-        public List<int> LevelKeyStartIndices { get; set; }
-        public string UserName { get; set; }
-        public string DecryptedGamesave { get; set; }
-        public string DecryptedLevelData { get; set; }
+
+        public string DecryptedGamesave
+        {
+            get
+            {
+                if (decryptedGamesave == null)
+                    TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
+                return decryptedGamesave;
+            }
+            set => decryptedGamesave = value;
+        }
+        public string DecryptedLevelData
+        {
+            get
+            {
+                if (decryptedLevelData == null)
+                    TryDecryptLevelData(File.ReadAllText(LocalLevelsPath), out decryptedLevelData);
+                return decryptedLevelData;
+            }
+            set => decryptedLevelData = value;
+        }
+        public List<CustomLevelObject> CustomObjects
+        {
+            get
+            {
+                if (customObjects == null)
+                    GetCustomObjects();
+                return customObjects;
+            }
+            set => customObjects = value;
+        }
+
         public int UserLevelCount => UserLevels.Count;
-        public List<CustomLevelObject> CustomObjects;
         #endregion
 
         #region Contsructors
-        public Database()
+        /// <summary>Initializes a new instance of the <seealso cref="Database"/> class from the default database file paths.</summary>
+        public Database() : this(GDGameManager, GDLocalLevels) { }
+        /// <summary>Initializes a new instance of the <seealso cref="Database"/> class from custom database file paths.</summary>
+        /// <param name="gameManagerPath">The file path of the game manager file of the game.</param>
+        /// <param name="localLevelsPath">The file path of the local levels file of the game.</param>
+        public Database(string gameManagerPath, string localLevelsPath)
         {
+            GameManagerPath = gameManagerPath;
+            LocalLevelsPath = localLevelsPath;
+            GetKeyIndices();
             GetLevels();
         }
         #endregion
@@ -214,7 +257,7 @@ namespace GDEdit.Application
         }
         public void GetCustomObjects()
         {
-            CustomObjects = new List<CustomLevelObject>();
+            customObjects = new List<CustomLevelObject>();
             int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 return;
@@ -222,7 +265,7 @@ namespace GDEdit.Application
             int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
             int currentIndex = startIndex;
             while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                CustomObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
+                customObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
         }
         public void GetKeyIndices()
         {
