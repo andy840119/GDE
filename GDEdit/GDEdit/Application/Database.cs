@@ -245,7 +245,7 @@ namespace GDEdit.Application
             indices = indices.RemoveDuplicates();
             indices = indices.Sort();
             for (int i = indices.Length - 1; i >= 0; i--)
-                RemoveAllLevelInfoAt(indices[i]);
+                UserLevels.RemoveAt(indices[i]);
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
@@ -383,7 +383,7 @@ namespace GDEdit.Application
             indices = indices.RemoveDuplicates().Sort().RemoveElementsMatchingIndicesFromEnd(UserLevelCount);
             for (int i = indices.Length - 1; i >= 0; i--)
                 if (indices[i] < UserLevelCount - 1) // If the level can be moved further down
-                    SwapAllLevelInfo(indices[i], indices[i] + 1);
+                    UserLevels.Swap(indices[i], indices[i] + 1);
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData(); // Write the new data
         }
@@ -393,7 +393,7 @@ namespace GDEdit.Application
         {
             indices = indices.RemoveDuplicates().Sort();
             for (int i = indices.Length - 1; i >= 0; i--)
-                MoveAllLevelInfo(indices[i], UserLevelCount - indices.Length + i + 1); // +1?
+                UserLevels.MoveElement(indices[i], UserLevelCount - indices.Length + i + 1); // TODO: Figure out why +1
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData();
         }
@@ -403,7 +403,7 @@ namespace GDEdit.Application
         {
             indices = indices.RemoveDuplicates().Sort();
             for (int i = 0; i < indices.Length; i++)
-                MoveAllLevelInfo(indices[i], i);
+                UserLevels.MoveElement(indices[i], i); // TODO: Figure out why +1
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData();
         }
@@ -414,7 +414,7 @@ namespace GDEdit.Application
             indices = indices.RemoveDuplicates().Sort().RemoveElementsMatchingIndices();
             for (int i = 0; i < indices.Length; i++)
                 if (indices[i] >= i) // If the level can be moved further up
-                    SwapAllLevelInfo(indices[i], indices[i] - 1);
+                    UserLevels.Swap(indices[i], indices[i] - 1);
             UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData(); // Write the new data
         }
@@ -423,41 +423,17 @@ namespace GDEdit.Application
         /// <param name="levelIndexB">The index of the second level in the database to swap.</param>
         public void SwapLevels(int levelIndexA, int levelIndexB)
         {
-            SwapAllLevelInfo(levelIndexA, levelIndexB);
+            UserLevels.Swap(levelIndexA, levelIndexB);
             UpdateMemoryLevelData();
             UpdateLevelData();
         }
 
-        // TODO: Remove
-        public void CloneAllLevelInfo(int a, int b)
-        {
-            UserLevels.Insert(a, UserLevels[b]);
-        }
-        public void MoveAllLevelInfo(int a, int b)
-        {
-            UserLevels.MoveElement(a, b);
-        }
-        public void MoveAllLevelInfoToStart(int a)
-        {
-            UserLevels.MoveElementToStart(a);
-        }
-        public void MoveAllLevelInfoToEnd(int a)
-        {
-            UserLevels.MoveElementToEnd(a);
-        }
-        public void RemoveAllLevelInfoAt(int a)
-        {
-            UserLevels.RemoveAt(a);
-        }
-        public void SwapAllLevelInfo(int a, int b)
-        {
-            UserLevels = UserLevels.Swap(a, b);
-        }
-
+        /// <summary>Writes the level data to the level data file.</summary>
         public void UpdateLevelData()
         {
             File.WriteAllText(GDLocalLevels, DecryptedLevelData); // Write the level data
         }
+        /// <summary>Updates the level data in the database's memory.</summary>
         public void UpdateMemoryLevelData()
         {
             LevelKeyStartIndices = new List<int>();
