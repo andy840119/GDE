@@ -9,28 +9,28 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
     /// <summary>Represents the HSV adjustment in an object's color or a trigger's copied color HSV adjustment.</summary>
     public class HSVAdjustment
     {
-        private H hue;
-        private SV saturation, brightness;
+        private H h;
+        private SV s, v;
         private SVAdjustmentMode saturationMode;
         private SVAdjustmentMode brightnessMode;
         
         /// <summary>The hue of the HSV adjustment.</summary>
         public double Hue
         {
-            get => hue.Value;
-            set => hue.Value = (short)value;
+            get => h.Value;
+            set => h.Value = (short)value;
         }
         /// <summary>The saturation of the HSV adjustment.</summary>
         public double Saturation
         {
-            get => saturation.Value;
-            set => saturation.Value = (float)value;
+            get => s.Value;
+            set => s.Value = (float)value;
         }
         /// <summary>The brightness of the HSV adjustment.</summary>
         public double Brightness
         {
-            get => brightness.Value;
-            set => brightness.Value = (float)value;
+            get => v.Value;
+            set => v.Value = (float)value;
         }
         /// <summary>The adjustment mode of the saturation of the HSV adjustment.</summary>
         public SVAdjustmentMode SaturationMode
@@ -38,7 +38,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             get => saturationMode;
             set
             {
-                saturation = SV.GetSVFromMode(value, saturation.Value);
+                s = SV.GetSVFromMode(value, s.Value);
                 saturationMode = value;
             }
         }
@@ -48,7 +48,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             get => brightnessMode;
             set
             {
-                brightness = SV.GetSVFromMode(value, brightness.Value);
+                v = SV.GetSVFromMode(value, v.Value);
                 brightnessMode = value;
             }
         }
@@ -61,11 +61,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
         /// <param name="brightnessMode">The adjustment mode of the brightness of the HSV adjustment.</param>
         public HSVAdjustment(double hue, double saturation, double brightness, SVAdjustmentMode saturationMode, SVAdjustmentMode brightnessMode)
         {
-            hue = new H((short)hue);
-            saturation = SV.GetSVFromMode(SaturationMode = saturationMode, (float)saturation);
-            brightness = SV.GetSVFromMode(SaturationMode = saturationMode, (float)saturation);
-            SaturationMode = saturationMode;
-            BrightnessMode = brightnessMode;
+            h = new H((short)hue);
+            s = SV.GetSVFromMode(SaturationMode = saturationMode, (float)saturation);
+            v = SV.GetSVFromMode(BrightnessMode = saturationMode, (float)brightness);
         }
 
         public override string ToString() => $"{Hue}a{Saturation}a{Brightness}a{(int)SaturationMode}a{(int)BrightnessMode}";
