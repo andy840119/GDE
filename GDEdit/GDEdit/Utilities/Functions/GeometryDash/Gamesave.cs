@@ -638,7 +638,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             string level = $"<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{DefaultLevelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>{r}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
             // Insert the cloned level's parameters
             UserLevels.Insert(0, new Level(level));
-            GetLevelInfo(0);
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
@@ -735,110 +734,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(DecryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 8, DecryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
             }
         }
-        /// <summary>Gets the level info for all levels in the gamesave.</summary>
-        public static void GetAllLevelInfo()
-        {
-            for (int i = 0; i < UserLevelCount; i++)
-                try
-                {
-                    GetLevelInfo(i);
-                }
-                catch (Exception ex)
-                {
-                    throw new DataException($"Unable to properly analyze the data of the level at index {i}.", ex);
-                }
-        }
-        /// <summary>Gets the level info for a level in the specified index in the gamesave.</summary>
-        public static void GetLevelInfo(int index)
-        {
-            if (index >= UserLevelCount)
-                throw new ArgumentOutOfRangeException("The level's index may not be greater or equal to the count of the levels.");
-
-            string startKeyString = "<k>k";
-            string endKeyString = "</k><";
-            // TODO: Shorten variable names
-            int parameterIDStartIndex;
-            int parameterIDEndIndex;
-            int parameterValueTypeStartIndex;
-            int parameterValueTypeEndIndex;
-            int parameterValueStartIndex;
-            int parameterValueEndIndex;
-            int parameterID;
-            string parameterValueType;
-            string parameterValue;
-            int finalIndex = (index < UserLevelCount - 1 ? LevelKeyStartIndices[index + 1] : DecryptedLevelData.Length - 1) - 10 - index / 10;
-            for (int i = LevelKeyStartIndices[index]; i < finalIndex; )
-            {
-                parameterIDStartIndex = DecryptedLevelData.Find(startKeyString, i, finalIndex) + startKeyString.Length;
-                if (parameterIDStartIndex <= startKeyString.Length)
-                    break; 
-                parameterIDEndIndex = DecryptedLevelData.Find(endKeyString, parameterIDStartIndex, finalIndex);
-                parameterValueTypeStartIndex = parameterIDEndIndex + endKeyString.Length;
-                parameterValueTypeEndIndex = DecryptedLevelData.Find(">", parameterValueTypeStartIndex, finalIndex);
-                parameterValueType = DecryptedLevelData.Substring(parameterValueTypeStartIndex, parameterValueTypeEndIndex - parameterValueTypeStartIndex);
-                parameterValueStartIndex = parameterValueTypeEndIndex + 1;
-                parameterValueEndIndex = parameterValueType[parameterValueType.Length - 1] != '/' ? DecryptedLevelData.Find($"</{parameterValueType}>", parameterValueStartIndex, finalIndex) : parameterValueStartIndex;
-                parameterValue = DecryptedLevelData.Substring(parameterValueStartIndex, parameterValueEndIndex - parameterValueStartIndex);
-                string s = DecryptedLevelData.Substring(parameterIDStartIndex, parameterIDEndIndex - parameterIDStartIndex);
-                if (s != "CEK" && !s.StartsWith("I"))
-                {
-                    parameterID = ToInt32(s);
-                    switch (parameterID)
-                    {
-                        case 1: // Level ID
-                            UserLevels[index].LevelID = ToInt32(parameterValue);
-                            break;
-                        case 2: // Level Name
-                            UserLevels[index].Name = parameterValue;
-                            break;
-                        case 3: // Level Description
-                            UserLevels[index].Description = Encoding.UTF8.GetString(Base64Decrypt(parameterValue));
-                            break;
-                        case 4: // Level String
-                            UserLevels[index].LevelString = parameterValue;
-                            break;
-                        case 8: // Official Song ID
-                            UserLevels[index].OfficialSongID = ToInt32(parameterValue);
-                            break;
-                        case 14: // Level Verified Status
-                            UserLevels[index].VerifiedStatus = parameterValueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
-                            break;
-                        case 15: // Level Uploaded Status
-                            UserLevels[index].UploadedStatus = parameterValueType == "t /";
-                            break;
-                        case 16: // Level Version
-                            UserLevels[index].Version = ToInt32(parameterValue);
-                            break;
-                        case 18: // Level Attempts
-                            UserLevels[index].Attempts = ToInt32(parameterValue);
-                            break;
-                        case 23: // Level Length
-                            UserLevels[index].Length = ToInt32(parameterValue);
-                            break;
-                        case 45: // Custom Song ID
-                            UserLevels[index].CustomSongID = ToInt32(parameterValue);
-                            break;
-                        case 46: // Level Revision
-                            UserLevels[index].Revision = ToInt32(parameterValue);
-                            break;
-                        case 80: // Time Spent
-                            UserLevels[index].BuildTime = ToInt32(parameterValue);
-                            break;
-                        case 84: // Level Folder
-                            UserLevels[index].Folder = ToInt32(parameterValue);
-                            break;
-                        default: // Not something we care about
-                            break;
-                    }
-                }
-                i = parameterValueEndIndex;
-            }
-
-            if (UserLevels[index].DecryptedLevelString != null) // If there is a level string
-            {
-                UserLevels[index].LevelObjects = GetObjects(GetObjectString(UserLevels[index].DecryptedLevelString));
-            }
-        }
         
         public static void ImportLevel(string level)
         {
@@ -852,7 +747,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
             UserLevels = UserLevels.InsertAtStart(new Level(level));
-            GetLevelInfo(0);
             UpdateLevelData(); // Write the new data
         }
         public static void ImportLevelFromFile(string levelPath)
@@ -865,7 +759,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             {
                 lvls[i] = RemoveLevelIndexKey(lvls[i]); // Remove the index key of the level
                 UserLevels.InsertAtStart(new Level(lvls[i]));
-                GetLevelInfo(0);
             }
             GetKeyIndices();
             UpdateMemoryLevelData();
