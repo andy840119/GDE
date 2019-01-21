@@ -245,11 +245,6 @@ namespace GDEdit.Application
                     objectCount++;
             return $"<d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>0</i><k>k48</k><i>{objectCount}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
         }
-        /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
-        public int GetLevelCount()
-        {
-            return DecryptedLevelData.FindAll("<k>k_").Length;
-        }
 
         /// <summary>Imports a level into the database and adds it to the start of the level list.</summary>
         /// <param name="level">The raw level to import.</param>
@@ -392,6 +387,11 @@ namespace GDEdit.Application
             return nums.GetNextAvailableNumber();
         }
 
+        /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
+        private int GetLevelCount()
+        {
+            return DecryptedLevelData.FindAll("<k>k_").Length;
+        }
         /// <summary>Gets the custom objects.</summary>
         private void GetCustomObjects()
         {
