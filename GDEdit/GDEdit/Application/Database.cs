@@ -157,19 +157,7 @@ namespace GDEdit.Application
         /// <param name="levelString">The level string of the new level to create.</param>
         public void CreateLevel(string name, string desc, string levelString)
         {
-            int r = 0;
-            List<int> levelsWithSameName = new List<int>();
-            for (int i = 0; i < UserLevels.Count; i++)
-                if (name == UserLevels[i].Name)
-                    levelsWithSameName.Add(i);
-            List<int> revs = new List<int>(); // The revisions of the levels with the same name
-            for (int i = 0; i < levelsWithSameName.Count; i++) // Add the revisions of the levels with the same name in the list
-                revs.Add(UserLevels[levelsWithSameName[i]].Revision);
-            revs.Sort();
-            while (r < revs.Count && r == revs[r])
-                r++;
-            // Insert the created level's parameters
-            UserLevels.Insert(0, new Level(name, desc, levelString, UserName, r));
+            UserLevels.Insert(0, new Level(name, desc, levelString, UserName, GetNextAvailableRevision(name)));
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
@@ -361,6 +349,7 @@ namespace GDEdit.Application
         {
             File.WriteAllText(GDLocalLevels, DecryptedLevelData); // Write the level data
         }
+        // TODO: Migrate functionality to the DecryptedLevelData property, which should be regenerated every time it gets called, if there are any updates
         /// <summary>Updates the level data in the database's memory.</summary>
         public void UpdateMemoryLevelData()
         {
