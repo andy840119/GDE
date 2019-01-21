@@ -84,7 +84,7 @@
     <Compile Include="Utilities\Functions\Extensions\GuidelineExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
-    <Compile Include="Utilities\Functions\General\Extensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\Extensions.cs" />
     <Compile Include="Utilities\Functions\General\UsefulFunctions.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\ColorTriggerTypes.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Easing.cs" />

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Functions.General
+namespace GDEdit.Utilities.Functions.Extensions
 {
     public static class Extensions
     {
@@ -149,13 +149,6 @@ namespace GDEdit.Utilities.Functions.General
             for (int i = 0; i < innerAr.Length; i++)
                 innerAr[i] = ar[innerArrayIndex, i];
             return innerAr;
-        }
-        public static int[] GetLengths<T>(this List<T[]> l)
-        {
-            int[] lengths = new int[l.Count];
-            for (int i = 0; i < l.Count; i++)
-                lengths[i] = l[i].Length;
-            return lengths;
         }
         public static int[] GetLengths<T>(this T[,] ar)
         {
