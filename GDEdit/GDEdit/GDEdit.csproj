@@ -64,6 +64,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\InstantCountComparison.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PadType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\PlayerSize.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\MoveTargetPosCoordinates.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ObjectParameter.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelColorChannels.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />

@@ -26,6 +26,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         private string rawLevel;
 
         #region Properties
+        // Metadata
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
         public string LevelNameWithRevision => $"{Name}{(Revision > 0 ? $" (Rev. {Revision})" : "")}";
         /// <summary>The name of the level.</summary>
@@ -34,22 +35,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string Description { get; set; }
         /// <summary>The revision of the level.</summary>
         public int Revision { get; set; }
-        /// <summary>The official song ID used in the level.</summary>
-        public int OfficialSongID { get; set; }
-        /// <summary>The custom song ID used in the level.</summary>
-        public int CustomSongID { get; set; }
-        /// <summary>The level object count.</summary>
-        public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
-        /// <summary>The level trigger count.</summary>
-        public int TriggerCount => LevelObjects.TriggerCount;
         /// <summary>The attempts made in the level.</summary>
         public int Attempts { get; set; }
         /// <summary>The ID of the level.</summary>
         public int LevelID { get; set; }
         /// <summary>The version of the level.</summary>
         public int Version { get; set; }
-        /// <summary>The length of the level.</summary>
-        public int Length { get; set; }
         /// <summary>The folder of the level.</summary>
         public int Folder { get; set; }
         /// <summary>The time spent in the editor building the level in seconds.</summary>
@@ -64,6 +55,32 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public bool VerifiedStatus { get; set; }
         /// <summary>Determines whether the level has been uploaded or not.</summary>
         public bool UploadedStatus { get; set; }
+        /// <summary>The length of the level.</summary>
+        public LevelLength Length { get; set; }
+
+        // Level properties
+        /// <summary>The official song ID used in the level.</summary>
+        public int OfficialSongID { get; set; }
+        /// <summary>The custom song ID used in the level.</summary>
+        public int CustomSongID { get; set; }
+
+        /// <summary>The starting speed of the player when the level begins.</summary>
+        public Speed StartingSpeed { get; set; }
+        /// <summary>The starting gamemode of the player when the level begins.</summary>
+        public Gamemode StartingGamemode { get; set; }
+        /// <summary>The starting size of the player when the level begins.</summary>
+        public PlayerSize StartingSize { get; set; }
+        /// <summary>The Dual Mode property of the level.</summary>
+        public bool DualMode { get; set; }
+        /// <summary>The 2-Player Mode property of the level.</summary>
+        public bool TwoPlayerMode { get; set; }
+        /// <summary>The background texture property of the level.</summary>
+        public int BackgroundTexture { get; set; }
+        /// <summary>The ground texture property of the level.</summary>
+        public int GroundTexture { get; set; }
+        /// <summary>The color channels of the level.</summary>
+        public LevelColorChannels ColorChannels { get; }
+
         /// <summary>The level's objects.</summary>
         public LevelObjectCollection LevelObjects
         {
@@ -86,6 +103,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
             set => GuidelineString = (guidelines = value).GetGuidelineString();
         }
+        /// <summary>The level object count.</summary>
+        public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
+        /// <summary>The level trigger count.</summary>
+        public int TriggerCount => LevelObjects.TriggerCount;
         /// <summary>Contains the count of objects per object ID in the collection.</summary>
         public Dictionary<int, int> ObjectCounts => LevelObjects.ObjectCounts;
         /// <summary>Contains the count of groups per object ID in the collection.</summary>
@@ -97,6 +118,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The group IDs in the collection.</summary>
         public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
 
+        // Strings
         /// <summary>The level string.</summary>
         public string LevelString
         {
@@ -172,6 +194,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <param name="revision">The revision of the level.</param>
         public Level(string name, string description, string levelString, string creatorName, int revision = 0)
         {
+            // LONG
             RawLevel = $"<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
         }
         #endregion
@@ -184,7 +207,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Static Functions
         /// <summary>Merges a number of levels together. All their objects are concatenated, colors are kept the same if equal at respective IDs, otherwise reset, and the rest of the properties are kept the same if respectively equal, otherwise reset.</summary>
         /// <param name="levels">The levels to merge.</param>
-        public Level MergeLevels(params Level[] levels)
+        public static Level MergeLevels(params Level[] levels)
         {
             if (levels.Length == 1)
                 return levels[0];
@@ -267,7 +290,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     Attempts = ToInt32(value);
                     break;
                 case 23: // Level Length
-                    Length = ToInt32(value);
+                    Length = (LevelLength)ToInt32(value);
                     break;
                 case 45: // Custom Song ID
                     CustomSongID = ToInt32(value);
