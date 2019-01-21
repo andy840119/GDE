@@ -201,7 +201,7 @@ namespace GDEdit.Utilities.Functions.General
             return l;
         }
 
-        private int GetNextAvailableNumber(List<int> numbers)
+        public static int GetNextAvailableNumber(this List<int> numbers)
         {
             int n = 0;
             numbers.Sort();
