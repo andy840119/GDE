@@ -165,14 +165,16 @@ namespace GDEdit.Application
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         public void CreateLevels(int numberOfLevels)
         {
-            // TODO: Create
+            for (int i = 0; i < numberOfLevels; i++)
+                CreateLevel();
         }
         /// <summary>Creates a number of new levels with specified names and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
         public void CreateLevels(int numberOfLevels, string[] names)
         {
-            // TODO: Create
+            for (int i = 0; i < numberOfLevels; i++)
+                CreateLevel(names[i]);
         }
         /// <summary>Creates a number of new levels with specified names and descriptions and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
@@ -180,7 +182,8 @@ namespace GDEdit.Application
         /// <param name="desc">The descriptions of the new levels to create.</param>
         public void CreateLevels(int numberOfLevels, string[] names, string[] descs)
         {
-            // TODO: Create
+            for (int i = 0; i < numberOfLevels; i++)
+                CreateLevel(names[i], descs[i]);
         }
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
