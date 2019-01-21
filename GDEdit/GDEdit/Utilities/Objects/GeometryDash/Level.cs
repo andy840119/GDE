@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int OfficialSongID { get; set; }
         /// <summary>The custom song ID used in the level.</summary>
         public int CustomSongID { get; set; }
+        /// <summary>The song offset of the level.</summary>
+        public int SongOffset { get; set; }
+        /// <summary>The fade in property of the song of the level.</summary>
+        public bool FadeIn { get; set; }
+        /// <summary>The fade out property of the song of the level.</summary>
+        public bool FadeOut { get; set; }
 
         /// <summary>The starting speed of the player when the level begins.</summary>
         public Speed StartingSpeed { get; set; }
@@ -74,12 +81,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public bool DualMode { get; set; }
         /// <summary>The 2-Player Mode property of the level.</summary>
         public bool TwoPlayerMode { get; set; }
+        /// <summary>The inversed gravity property of the level (there is no ability to set that from the game itself without hacking the gamesave).</summary>
+        public bool InversedGravity { get; set; }
         /// <summary>The background texture property of the level.</summary>
         public int BackgroundTexture { get; set; }
         /// <summary>The ground texture property of the level.</summary>
         public int GroundTexture { get; set; }
+        /// <summary>The ground line property of the level.</summary>
+        public int GroundLine { get; set; }
+        /// <summary>The font property of the level.</summary>
+        public int Font { get; set; }
         /// <summary>The color channels of the level.</summary>
-        public LevelColorChannels ColorChannels { get; }
+        public LevelColorChannels ColorChannels { get; private set; }
 
         /// <summary>The level's objects.</summary>
         public LevelObjectCollection LevelObjects
@@ -172,7 +185,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set
             {
                 rawLevel = value;
-                GetInformation(rawLevel);
+                GetRawInformation(rawLevel);
             }
         }
         #endregion
@@ -228,7 +241,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public override string ToString() => RawLevel;
 
         #region Private stuff
-        private void GetInformation(string raw)
+        private void GetLevelStringInformation(string levelString)
+        {
+            
+        }
+        private void GetRawInformation(string raw)
         {
             string startKeyString = "<k>k";
             string endKeyString = "</k><";
@@ -254,11 +271,72 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 value = raw.Substring(valueStart, valueEnd - valueStart);
                 string s = raw.Substring(IDStart, IDEnd - IDStart);
                 if (s != "CEK" && !s.StartsWith("I"))
-                    GetParameterInformation(ToInt32(s), value, valueType);
+                    GetRawParameterInformation(ToInt32(s), value, valueType);
                 i = valueEnd;
             }
         }
-        private void GetParameterInformation(int parameterID, string value, string valueType)
+        private void GetLevelStringParameterInformation(string key, string value, string valueType)
+        {
+            switch (key)
+            {
+                case "kA2": // Gamemode
+                    StartingGamemode = (Gamemode)ToInt32(value);
+                    break;
+                case "kA3": // Player Size
+                    StartingSize = (PlayerSize)ToInt32(value);
+                    break;
+                case "kA4": // Speed
+                    StartingSpeed = (Speed)ToInt32(value);
+                    break;
+                case "kA6": // Background
+                    BackgroundTexture = ToInt32(value);
+                    break;
+                case "kA7": // Ground
+                    GroundTexture = ToInt32(value);
+                    break;
+                case "kA8": // Dual Mode
+                    DualMode = value == "1"; // Seriously the easiest way to determine whether it's true or not
+                    break;
+                case "kA9": // Level/Start Pos
+                    // We don't care
+                    break;
+                case "kA10": // 2-Player Mode
+                    TwoPlayerMode = value == "1";
+                    break;
+                case "kA11": // Inversed Gravity
+                    InversedGravity = value == "1";
+                    break;
+                case "kA13": // Song Offset
+                    SongOffset = ToInt32(value);
+                    break;
+                case "kA14": // Guidelines
+                    guidelines = GetGuidelines(value);
+                    break;
+                case "kA15": // Fade In
+                    FadeIn = value == "1";
+                    break;
+                case "kA16": // Fade Out
+                    FadeOut = value == "1";
+                    break;
+                case "kA17": // Ground Line
+                    GroundLine = ToInt32(value);
+                    break;
+                case "kA18": // Font
+                    Font = ToInt32(value);
+                    break;
+                case "kS38": // Color Channel
+                    ColorChannels = value; // TODO: Implement parsing function
+                    break;
+                case "kS39": // Color Page
+                    // We don't care
+                    break;
+                default: // We need to know more about that suspicious new thing so we keep a log of it
+                    Directory.CreateDirectory("ulsk");
+                    File.WriteAllText($@"ulsk\{key}", key);
+                    break;
+            }
+        }
+        private void GetRawParameterInformation(int parameterID, string value, string valueType)
         {
             switch (parameterID)
             {
