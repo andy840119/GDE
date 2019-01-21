@@ -162,6 +162,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         {
             RawLevel = level;
         }
+        /// <summary>Creates a new instance of the <see cref="Level"/> class from a specified name, description, level string, revision and the creator's name.</summary>
+        /// <param name="name">The name of the level.</param>
+        /// <param name="description">The description of the level.</param>
+        /// <param name="levelString">The level string of the level.</param>
+        /// <param name="creatorName">The name of the creator.</param>
+        /// <param name="revision">The revision of the level.</param>
+        public Level(string name, string description, string levelString, string creatorName, int revision = 0)
+        {
+            RawLevel = $"<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
+        }
         #endregion
 
         #region Functions
@@ -170,6 +180,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>
         public override string ToString() => RawLevel;
 
+        #region Private stuff
         private void GetInformation(string raw)
         {
             string startKeyString = "<k>k";
@@ -200,7 +211,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 i = valueEnd;
             }
         }
-
         private void GetParameterInformation(int parameterID, string value, string valueType)
         {
             switch (parameterID)
@@ -251,5 +261,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
             }
         }
+        #endregion
     }
 }

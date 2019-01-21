@@ -143,47 +143,14 @@ namespace GDEdit.Application
             UpdateLevelData(); // Write the new data
         }
         /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
-        public void CreateLevel()
-        {
-            int n = 0;
-            List<int> nums = new List<int>();
-            for (int i = 0; i < UserLevelCount; i++) // Add the unnamed numbers to the list
-                if (UserLevels[i].Name.Contains("Unnamed ") && UserLevels[i].Name.Split(' ').Length == 2 && int.TryParse(UserLevels[i].Name.Split(' ')[1], out int _))
-                    nums.Add(UserLevels[i].Name.GetLastNumber());
-            nums.Sort();
-            while (n < nums.Count && n == nums[n])
-                n++;
-            CreateLevel($"Unnamed {n}", "");
-        }
+        public void CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
-        public void CreateLevel(string name)
-        {
-            CreateLevel(name, "");
-        }
+        public void CreateLevel(string name) => CreateLevel(name, "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name and description and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
         /// <param name="desc">The description of the new level to create.</param>
-        public void CreateLevel(string name, string desc)
-        {
-            int r = 0;
-            List<int> levelsWithSameName = new List<int>();
-            for (int i = 0; i < UserLevels.Count; i++)
-                if (name == UserLevels[i].Name)
-                    levelsWithSameName.Add(i);
-            List<int> revs = new List<int>(); // The revisions of the levels with the same name
-            for (int i = 0; i < levelsWithSameName.Count; i++) // Add the revisions of the levels with the same name in the list
-                revs.Add(UserLevels[levelsWithSameName[i]].Revision);
-            revs.Sort();
-            while (r < revs.Count && r == revs[r])
-                r++;
-            // TODO: Transfer to separate function
-            string level = $"<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{DefaultLevelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>{r}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
-            // Insert the cloned level's parameters
-            UserLevels.Insert(0, new Level(level));
-            UpdateMemoryLevelData();
-            UpdateLevelData(); // Write the new data
-        }
+        public void CreateLevel(string name, string desc) => CreateLevel(name, "", DefaultLevelString);
         /// <summary>Creates a new level with a specified name, description and level string and adds it to the start of the level list.</summary>
         /// <param name="name">The name of the new level to create.</param>
         /// <param name="desc">The description of the new level to create.</param>
@@ -201,9 +168,8 @@ namespace GDEdit.Application
             revs.Sort();
             while (r < revs.Count && r == revs[r])
                 r++;
-            // TODO: Transfer to separate function
-            string level = $"<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(desc.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(desc))}</s>" : "")}<k>k46</k><i>{r}</i><k>k5</k><s>{UserName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
-
+            // Insert the created level's parameters
+            UserLevels.Insert(0, new Level(name, desc, levelString, UserName, r));
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
@@ -292,44 +258,6 @@ namespace GDEdit.Application
         public int GetLevelCount()
         {
             return DecryptedLevelData.FindAll("<k>k_").Length;
-        }
-        /// <summary>Gets the custom objects.</summary>
-        private void GetCustomObjects()
-        {
-            customObjects = new List<CustomLevelObject>();
-            int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
-            if (startIndex < 26)
-                return;
-
-            int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
-            int currentIndex = startIndex;
-            while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                customObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
-        }
-        /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
-        private void GetKeyIndices()
-        {
-            LevelKeyStartIndices = new List<int>();
-            int count = GetLevelCount();
-            for (int i = 0; i < count; i++)
-            {
-                if (i > 0)
-                    LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], DecryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
-                else if (i == 0)
-                    LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
-            }
-        }
-        /// <summary>Gets the levels from the level data. For internal use only.</summary>
-        private void GetLevels()
-        {
-            UserLevels = new List<Level>();
-            for (int i = 0; i < LevelKeyStartIndices.Count; i++)
-            {
-                if (i < LevelKeyStartIndices.Count - 1)
-                    UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length)));
-                else
-                    UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(DecryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 8, DecryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
-            }
         }
 
         /// <summary>Imports a level into the database and adds it to the start of the level list.</summary>
@@ -446,6 +374,69 @@ namespace GDEdit.Application
             }
             lvlDat = lvlDat.Append(LevelDataEnd);
             DecryptedLevelData = lvlDat.ToString();
+        }
+        
+        /// <summary>Gets the next available revision for a level with a specified name.</summary>
+        private int GetNextAvailableRevision(string levelName)
+        {
+            List<int> levelsWithSameName = new List<int>();
+            for (int i = 0; i < UserLevels.Count; i++)
+                if (levelName == UserLevels[i].Name)
+                    levelsWithSameName.Add(i);
+            List<int> revs = new List<int>(); // The revisions of the levels with the same name
+            for (int i = 0; i < levelsWithSameName.Count; i++) // Add the revisions of the levels with the same name in the list
+                revs.Add(UserLevels[levelsWithSameName[i]].Revision);
+            return revs.GetNextAvailableNumber();
+        }
+        /// <summary>Gets the next available number n for a level with name "Unnamed {n}".</summary>
+        private int GetNextUnnamedNumber()
+        {
+            string name;
+            string[] split;
+            List<int> nums = new List<int>();
+            for (int i = 0; i < UserLevelCount; i++)
+                if ((name = UserLevels[i].Name).Contains("Unnamed ") && (split = name.Split(' ')).Length == 2 && int.TryParse(split[1], out int k))
+                    nums.Add(k);
+            return nums.GetNextAvailableNumber();
+        }
+
+        /// <summary>Gets the custom objects.</summary>
+        private void GetCustomObjects()
+        {
+            customObjects = new List<CustomLevelObject>();
+            int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            if (startIndex < 26)
+                return;
+
+            int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
+            int currentIndex = startIndex;
+            while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
+                customObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
+        }
+        /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
+        private void GetKeyIndices()
+        {
+            LevelKeyStartIndices = new List<int>();
+            int count = GetLevelCount();
+            for (int i = 0; i < count; i++)
+            {
+                if (i > 0)
+                    LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], DecryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
+                else if (i == 0)
+                    LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
+            }
+        }
+        /// <summary>Gets the levels from the level data. For internal use only.</summary>
+        private void GetLevels()
+        {
+            UserLevels = new List<Level>();
+            for (int i = 0; i < LevelKeyStartIndices.Count; i++)
+            {
+                if (i < LevelKeyStartIndices.Count - 1)
+                    UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length)));
+                else
+                    UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(DecryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 8, DecryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
+            }
         }
 
         private void GetPlayerName()
