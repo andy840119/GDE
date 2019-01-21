@@ -175,6 +175,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        /// <summary>Clones this level and returns the cloned result.</summary>
+        public Level Clone() => new Level(new string(RawLevel.ToCharArray()));
         #endregion
 
         /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>

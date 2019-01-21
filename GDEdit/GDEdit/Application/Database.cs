@@ -127,7 +127,7 @@ namespace GDEdit.Application
                 throw new ArgumentOutOfRangeException("index", "The index of the level cannot be a negative number.");
             if (index >= UserLevelCount)
                 throw new ArgumentOutOfRangeException("index", "The argument that is parsed is out of range.");
-            UserLevels.Insert(0, UserLevels[index]); // TODO: .Clone()
+            UserLevels.Insert(0, UserLevels[index].Clone());
             UpdateLevelData();
         }
         /// <summary>Clones a number of levels and adds them to the start of the level list in their original order.</summary>
@@ -138,7 +138,7 @@ namespace GDEdit.Application
             for (int i = 0; i < indices.Length; i++)
                 if (indices[i] >= 0)
                     if (indices[i] < UserLevelCount)
-                        UserLevels.Insert(i, UserLevels[indices[i] + i]); // TODO: .Clone()
+                        UserLevels.Insert(i, UserLevels[indices[i] + i].Clone());
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
