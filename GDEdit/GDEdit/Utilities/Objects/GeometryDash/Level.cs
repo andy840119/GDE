@@ -144,7 +144,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set
             {
                 RawLevel = RawLevel.Replace($"<k>k4</k><s>{levelString}</s>", $"<k>k4</k><s>{value}</s>");
-                levelString = value;
+                GetLevelStringInformation(levelString = value);
             }
         }
         /// <summary>The decrypted form of the level string.</summary>
@@ -182,11 +182,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string RawLevel
         {
             get => rawLevel;
-            set
-            {
-                rawLevel = value;
-                GetRawInformation(rawLevel);
-            }
+            set => GetRawInformation(rawLevel = value);
         }
         #endregion
 
@@ -241,9 +237,29 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public override string ToString() => RawLevel;
 
         #region Private stuff
+        // TODO: Validate
         private void GetLevelStringInformation(string levelString)
         {
-            
+            string infoString = levelString.Split(';').First();
+            string startKeyString = ",k";
+            int IDStart;
+            int IDEnd;
+            int valueStart;
+            int valueEnd;
+            string value;
+            for (int i = 0; i < infoString.Length;)
+            {
+                IDStart = infoString.Find(startKeyString, i, infoString.Length) + startKeyString.Length;
+                if (IDStart <= startKeyString.Length)
+                    break;
+                IDEnd = infoString.Find(",", IDStart, infoString.Length);
+                valueStart = IDEnd + 1;
+                valueEnd = infoString.Find(startKeyString, valueStart, infoString.Length);
+                value = infoString.Substring(valueStart, valueEnd - valueStart);
+                string s = infoString.Substring(IDStart, IDEnd - IDStart);
+                GetLevelStringParameterInformation(s, value);
+                i = valueEnd;
+            }
         }
         private void GetRawInformation(string raw)
         {
@@ -275,7 +291,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 i = valueEnd;
             }
         }
-        private void GetLevelStringParameterInformation(string key, string value, string valueType)
+        private void GetLevelStringParameterInformation(string key, string value)
         {
             switch (key)
             {
@@ -350,7 +366,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     Description = Encoding.UTF8.GetString(Base64Decrypt(value));
                     break;
                 case 4: // Level String
-                    levelString = value;
+                    LevelString = value;
                     break;
                 case 8: // Official Song ID
                     OfficialSongID = ToInt32(value);
