@@ -9,26 +9,6 @@ namespace GDEdit.Utilities.Functions.General
 {
     public static class Extensions
     {
-        public static bool Contains<T>(this T[] a, T item)
-        {
-            for (int i = 0; i < a.Length; i++)
-            {
-                try
-                {
-                    var x = Expression.Constant(a[i], typeof(T));
-                    var y = Expression.Constant(item, typeof(T));
-                    Expression shit = Expression.Convert(Expression.IsTrue(Expression.Equal(x, y)), typeof(bool));
-                    if (Expression.Lambda<Func<bool>>(shit).Compile()())
-                        return true;
-                }
-                catch
-                {
-                    if (a[i].Equals(item))
-                        return true;
-                }
-            }
-            return false;
-        }
         public static bool Contains(this int[] a, int item)
         {
             for (int i = 0; i < a.Length; i++)
@@ -38,7 +18,7 @@ namespace GDEdit.Utilities.Functions.General
         }
         public static bool Contains(this Enum e, int value)
         {
-            return ((int[])(Enum.GetValues(e.GetType()))).Contains(value);
+            return ((int[])Enum.GetValues(e.GetType())).Contains(value);
         }
 
         public static bool MatchIndices(this List<int> l)
@@ -156,8 +136,10 @@ namespace GDEdit.Utilities.Functions.General
         }
         public static int WithinBounds(this int i, int min, int max)
         {
-            if (i < min) return min;
-            else if (i > max) return max;
+            if (i < min)
+                return min;
+            else if (i > max)
+                return max;
             return i;
         }
 
@@ -190,7 +172,8 @@ namespace GDEdit.Utilities.Functions.General
                 a.Insert(0, item);
                 return a;
             }
-            else return new List<T> { item };
+            else
+                return new List<T> { item };
         }
         public static List<T> MoveElement<T>(this List<T> a, int from, int to)
         {
@@ -218,6 +201,14 @@ namespace GDEdit.Utilities.Functions.General
             return l;
         }
 
+        private int GetNextAvailableNumber(List<int> numbers)
+        {
+            int n = 0;
+            numbers.Sort();
+            while (n < numbers.Count && n == numbers[n])
+                n++;
+            return n;
+        }
         public static bool ContainsOrdered(this List<bool> list, List<bool> containedList)
         {
             for (int i = 0; i < list.Count - containedList.Count; i++)
@@ -225,7 +216,8 @@ namespace GDEdit.Utilities.Functions.General
                 bool found = true;
                 for (int j = 0; j < containedList.Count && found; j++)
                     found = list[i + j] == containedList[j];
-                if (found) return true;
+                if (found)
+                    return true;
             }
             return false;
         }
@@ -236,7 +228,8 @@ namespace GDEdit.Utilities.Functions.General
                 bool found = true;
                 for (int j = 0; j < containedList.Count && found; j++)
                     found = list[i + j] == containedList[j];
-                if (found) return true;
+                if (found)
+                    return true;
             }
             return false;
         }
@@ -247,7 +240,8 @@ namespace GDEdit.Utilities.Functions.General
                 bool found = true;
                 for (int j = 0; j < containedList.Count && found; j++)
                     found = list[i + j] == containedList[j];
-                if (found) return true;
+                if (found)
+                    return true;
             }
             return false;
         }
