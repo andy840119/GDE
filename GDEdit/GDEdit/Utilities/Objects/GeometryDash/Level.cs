@@ -16,6 +16,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
+        // TODO: Remove dependency relationships between level strings and properties; prefer re-calculating the level strings after any changes.
+
         private List<Guideline> guidelines;
         private LevelObjectCollection levelObjects;
         private string levelString;
@@ -177,6 +179,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Functions
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(new string(RawLevel.ToCharArray()));
+        #endregion
+
+        #region Static Functions
+        /// <summary>Merges a number of levels together. All their objects are concatenated, colors are kept the same if equal at respective IDs, otherwise reset, and the rest of the properties are kept the same if respectively equal, otherwise reset.</summary>
+        /// <param name="levels">The levels to merge.</param>
+        public Level MergeLevels(params Level[] levels)
+        {
+            if (levels.Length == 1)
+                return levels[0];
+            if (levels.Length == 0)
+                throw new Exception("Cannot merge 0 levels.");
+            Level result = new Level();
+            foreach (var l in levels)
+            {
+                foreach (var o in l.LevelObjects)
+                    result.LevelObjects.Add(o);
+                // TODO: Care for the rest of the properties
+            }
+            return result;
+        }
         #endregion
 
         /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>
