@@ -60,7 +60,7 @@ namespace GDE.App.Main
 
         private static int allowableExceptions = DebugUtils.IsDebugBuild ? 0 : 1;
 
-        private bool ExceptionHandler(System.Exception arg)
+        protected virtual bool ExceptionHandler(System.Exception arg)
         {
             bool continueExecution = Interlocked.Decrement(ref allowableExceptions) >= 0;
 
