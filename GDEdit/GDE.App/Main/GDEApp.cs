@@ -33,7 +33,7 @@ namespace GDE.App.Main
 
         protected override bool ExceptionHandler(Exception arg)
         {
-            notif.text.Text = $"An error has occured, This has been reported to the devs automatically.";
+            notif.text.Text = $"An error has occured, Please report this to the devs.";
             notif.ToggleVisibility();
 
             return base.ExceptionHandler(arg);
