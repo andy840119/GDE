@@ -80,18 +80,5 @@ namespace GDE.App.Main.Toasts
 
             base.PopOut();
         }
-
-        /// <summary>The severity of the notification (see "https://goo.gl/11qsYP")</summary>
-        public enum SeverityEnum
-        {
-            emergencies,
-            alerts,
-            critical,
-            errors,
-            warnings,
-            notifications,
-            informational,
-            debugging
-        }
     }
 }
