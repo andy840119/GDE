@@ -1,6 +1,7 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using GDE.App.Main.Screens;
+using GDE.App.Main.Tools;
 
 namespace GDE.App.Main
 {
@@ -15,6 +16,8 @@ namespace GDE.App.Main
             {
                 container = new MainContainer()
             });
+
+            new RavenLogger(this);
         }
     }
 }
