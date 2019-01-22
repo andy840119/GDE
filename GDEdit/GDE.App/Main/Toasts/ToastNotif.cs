@@ -22,7 +22,10 @@ namespace GDE.App.Main.Toasts
                 container = new CircularContainer
                 {
                     Masking = true,
-                    RelativeSizeAxes = Axes.Both,
+                    RelativeSizeAxes = Axes.Y,
+                    AutoSizeAxes = Axes.X,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
                     Children = new Drawable[]
                     {
                         toastBody = new Box
