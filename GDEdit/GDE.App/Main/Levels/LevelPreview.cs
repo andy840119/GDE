@@ -39,7 +39,7 @@ namespace GDE.App.Main.Levels
                 }
             }*/
 
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 2299; i++)
             {
                 float scale = 1;
 
@@ -58,7 +58,7 @@ namespace GDE.App.Main.Levels
                     size = new Vector2(-30 * scale, 30 * scale);
                 else
                     size = new Vector2(30 * scale);
-
+                 
                 Add(new ObjectBase
                 {
                     ObjectID = UserLevels[0].LevelObjects[i].ObjectID,
