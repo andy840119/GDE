@@ -2,15 +2,26 @@
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
 
 namespace GDE.App.Main.Panels
 {
-    public class Panel : Container
+    public class Panel : FocusedOverlayContainer
     {
-        public bool AllowDrag = true;
+        private SpriteText Text;
         private PinButton Pin;
+
+        public bool AllowDrag = true;
+        public string text
+        {
+            get => Text.Text;
+            set
+            {
+                Text.Text = value;
+            }
+        }
 
         public Panel()
         {
@@ -62,8 +73,34 @@ namespace GDE.App.Main.Panels
                             }
                         },
                     }
+                },
+                Text = new SpriteText
+                {
+                    Margin = new MarginPadding
+                    {
+                        Horizontal = 5,
+                        Vertical = 2
+                    }
                 }
             };
+        }
+
+        protected override void LoadComplete()
+        {
+            Scale = new Vector2(1, 0);
+            base.LoadComplete();
+        }
+
+        protected override void PopIn()
+        {
+            this.ScaleTo(new Vector2(1, 1), 500, Easing.OutExpo);
+            base.PopIn();
+        }
+
+        protected override void PopOut()
+        {
+            this.ScaleTo(new Vector2(1, 0), 500, Easing.OutExpo);
+            base.PopIn();
         }
 
         protected override bool OnDrag(DragEvent e)
