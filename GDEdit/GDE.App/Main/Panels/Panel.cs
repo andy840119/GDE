@@ -10,17 +10,14 @@ namespace GDE.App.Main.Panels
 {
     public class Panel : FocusedOverlayContainer
     {
-        private SpriteText Text;
-        private PinButton Pin;
+        private SpriteText text;
+        private PinButton pin;
 
         public bool AllowDrag = true;
-        public string text
+        public string Text
         {
-            get => Text.Text;
-            set
-            {
-                Text.Text = value;
-            }
+            get => text.Text;
+            set => text.Text = value;
         }
 
         public Panel()
@@ -52,7 +49,7 @@ namespace GDE.App.Main.Panels
                             },
                             Action = Hide
                         },
-                        Pin = new PinButton
+                        pin = new PinButton
                         {
                             Origin = Anchor.Centre,
                             Anchor = Anchor.TopRight,
@@ -66,15 +63,15 @@ namespace GDE.App.Main.Panels
                             Action = () => 
                             {
                                 if (AllowDrag)
-                                    Pin.Rotation = 45;
+                                    pin.Rotation = 45;
                                 else
-                                    Pin.Rotation = 0;
+                                    pin.Rotation = 0;
                                 AllowDrag = !AllowDrag;
                             }
                         },
                     }
                 },
-                Text = new SpriteText
+                text = new SpriteText
                 {
                     Margin = new MarginPadding
                     {
