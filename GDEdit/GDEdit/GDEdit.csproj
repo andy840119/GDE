@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ColorChannelPlayerColor.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\Easing.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\InstantCountComparison.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PadType.cs" />
@@ -99,13 +100,14 @@
     <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\General\BitArray8.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\ColorChannel.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelColorChannels.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\LevelColorChannels.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />

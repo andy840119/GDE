@@ -8,6 +8,7 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Functions.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using static System.Convert;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
