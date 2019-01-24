@@ -16,7 +16,7 @@ namespace GDE.Tests.Visual
                 panel = new Panel
                 {
                     Size = new Vector2(335, 557),
-                    text = "TestCasePanel"
+                    Text = "TestCasePanel"
                 }
             };
 
