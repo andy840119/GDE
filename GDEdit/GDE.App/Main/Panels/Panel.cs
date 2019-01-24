@@ -62,10 +62,7 @@ namespace GDE.App.Main.Panels
                             },
                             Action = () => 
                             {
-                                if (AllowDrag)
-                                    pin.Rotation = 45;
-                                else
-                                    pin.Rotation = 0;
+                                pin.Rotation = AllowDrag ? 45 : 0;
                                 AllowDrag = !AllowDrag;
                             }
                         },
