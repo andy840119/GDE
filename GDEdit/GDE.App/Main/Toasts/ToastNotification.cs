@@ -8,7 +8,7 @@ using osuTK;
 
 namespace GDE.App.Main.Toasts
 {
-    public class ToastNotif : FocusedOverlayContainer
+    public class ToastNotification : FocusedOverlayContainer
     {
         public SpriteText text;
         private SpriteIcon toastIcon;

@@ -7,13 +7,13 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseToastNotification : TestCase
     {
-        private ToastNotif toast;
+        private ToastNotification toast;
 
         public TestCaseToastNotification()
         {
             Children = new Drawable[]
             {
-                toast = new ToastNotif
+                toast = new ToastNotification
                 {
                     Anchor = Anchor.BottomCentre,
                     Origin = Anchor.BottomCentre,
