@@ -6,6 +6,7 @@ using osu.Framework.IO.Stores;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK;
+using System;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace GDE.App.Main
 
         private static int allowableExceptions = DebugUtils.IsDebugBuild ? 0 : 1;
 
-        private bool ExceptionHandler(System.Exception arg)
+        protected virtual bool ExceptionHandler(Exception arg)
         {
             bool continueExecution = Interlocked.Decrement(ref allowableExceptions) >= 0;
 
