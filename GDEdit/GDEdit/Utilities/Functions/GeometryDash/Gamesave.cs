@@ -90,26 +90,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             return GDLevelStringDecrypt(ls);
         }
 
-        public static List<Guideline> GetGuidelines(string guidelineString)
-        {
-            List<Guideline> guidelines = new List<Guideline>();
-            if (guidelineString != null && guidelineString != "")
-            {
-                guidelineString = guidelineString.Remove(guidelineString.Length - 1);
-                string[] s = guidelineString.Split('~');
-                for (int i = 0; i < s.Length; i += 2)
-                    guidelines = guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
-            }
-            return guidelines;
-        }
-        public static List<Guideline> RemoveDuplicatedGuidelines(List<Guideline> guidelines)
-        {
-            List<Guideline> g = new List<Guideline>();
-            for (int i = 0; i < guidelines.Count; i++)
-                if (!g.Contains(guidelines[i]))
-                    g.Add(guidelines[i]);
-            return g;
-        }
         public static LevelObjectCollection GetObjects(string objectString)
         {
             List<GeneralObject> objects = new List<GeneralObject>();

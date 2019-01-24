@@ -83,7 +83,6 @@
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericListExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\GuidelineExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\Extensions.cs" />

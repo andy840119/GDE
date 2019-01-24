@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Convert;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
@@ -73,9 +74,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             g.Insert(index, new Guideline(timeStamp, color));
             return this;
         }
-        /// <summary>Returns the index to insert a <seealso cref="Guideline"/> into the list.</summary>
-        /// <param name="timeStamp">The timestamp of the <seealso cref="Guideline"/>.</param>
-        public int FindIndexToInsertGuideline(double timeStamp)
+        /// <summary>Removes the duplicated guidelines and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
+        public GuidelineCollection RemoveDuplicatedGuidelines()
+        {
+            var guidelines = new List<Guideline>();
+            foreach (var g in g)
+                if (!guidelines.Contains(g))
+                    guidelines.Add(g);
+            g = guidelines;
+            return this;
+        }
+
+        #region Private stuff
+        private int FindIndexToInsertGuideline(Guideline g) => FindIndexToInsertGuideline(g.TimeStamp);
+        private int FindIndexToInsertGuideline(double timeStamp)
         {
             int min = 0;
             int max = g.Count;
@@ -91,6 +103,22 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     max = mid;
             }
             return mid;
+        }
+        #endregion
+
+        /// <summary>Parses the guideline string into a <seealso cref="GuidelineCollection"/>.</summary>
+        /// <param name="guidelineString">The guideline string to parse.</param>
+        public static GuidelineCollection Parse(string guidelineString)
+        {
+            GuidelineCollection guidelines = new GuidelineCollection();
+            if (guidelineString != null && guidelineString != "")
+            {
+                guidelineString = guidelineString.Remove(guidelineString.Length - 1);
+                string[] s = guidelineString.Split('~');
+                for (int i = 0; i < s.Length; i += 2)
+                    guidelines.Add(ToDouble(s[i]), ToDouble(s[i + 1]));
+            }
+            return guidelines;
         }
 
         /// <summary>Gets or sets the <seealso cref="Guideline"/> at a specified index.</summary>

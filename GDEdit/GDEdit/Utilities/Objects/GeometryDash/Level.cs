@@ -20,7 +20,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         // TODO: Remove dependency relationships between level strings and properties; prefer re-calculating the level strings after any changes.
 
-        private List<Guideline> guidelines;
+        private GuidelineCollection guidelines;
         private LevelObjectCollection levelObjects;
         private string levelString;
         private string decryptedLevelString;
@@ -107,15 +107,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set => rawLevel = $"{rawLevel.Substring(0, rawLevel.IndexOf(';') + 1)}{levelObjects = value}";
         }
         /// <summary>The level's guidelines.</summary>
-        public List<Guideline> Guidelines
+        public GuidelineCollection Guidelines
         {
             get
             {
                 if (guidelines == null)
-                    guidelines = GetGuidelines(GuidelineString);
+                    guidelines = GuidelineCollection.Parse(GuidelineString);
                 return guidelines;
             }
-            set => GuidelineString = (guidelines = value).GetGuidelineString();
+            set => guidelines = value;
         }
         /// <summary>The level object count.</summary>
         public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
@@ -165,8 +165,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         {
             get
             {
-                if (guidelineString == null)
-                    guidelineString = GetGuidelineString(DecryptedLevelString);
+                if (guidelines == null)
+                    guidelines = GuidelineCollection.Parse(guidelineString = GetGuidelineString(DecryptedLevelString));
                 return guidelineString;
             }
             set
@@ -215,7 +215,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public Level Clone() => new Level(new string(RawLevel.ToCharArray()));
 
         /// <summary>Returns the level string of this level.</summary>
-        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines.GetGuidelineString()},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};";
+        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};";
         #endregion
 
         #region Static Functions
@@ -314,7 +314,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     SongOffset = ToInt32(value);
                     break;
                 case "kA14": // Guidelines
-                    guidelines = GetGuidelines(value);
+                    guidelines = GuidelineCollection.Parse(value);
                     break;
                 case "kA15": // Fade In
                     FadeIn = value == "1";
