@@ -342,14 +342,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     Font = ToInt32(value);
                     break;
                 case "kS38": // Color Channel
-                    ColorChannels = value; // TODO: Implement parsing function
+                    ColorChannels = LevelColorChannels.Parse(value);
                     break;
                 case "kS39": // Color Page
                     // We don't care
                     break;
                 default: // We need to know more about that suspicious new thing so we keep a log of it
                     Directory.CreateDirectory("ulsk");
-                    File.WriteAllText($@"ulsk\{key}", key);
+                    File.WriteAllText($@"ulsk\{key}.key", key);
                     break;
             }
         }
