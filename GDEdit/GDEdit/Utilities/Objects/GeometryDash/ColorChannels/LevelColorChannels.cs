@@ -41,5 +41,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             }
             return result;
         }
+
+        /// <summary>Returns the string of the <seealso cref="LevelColorChannels"/>.</summary>
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (var c in colors)
+            {
+                if (c == null)
+                    continue;
+                result.Append(c);
+            }
+            return result.ToString();
+        }
     }
 }
