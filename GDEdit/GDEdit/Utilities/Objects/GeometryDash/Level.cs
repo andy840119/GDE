@@ -24,7 +24,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         private LevelObjectCollection levelObjects;
         private string levelString;
         private string decryptedLevelString;
-        private string guidelineString;
         private string rawLevel;
 
         #region Properties
@@ -112,7 +111,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     levelObjects = GetObjects(GetObjectString(DecryptedLevelString));
                 return levelObjects;
             }
-            set => rawLevel = $"{rawLevel.Substring(0, rawLevel.IndexOf(';') + 1)}{levelObjects = value}";
+            set => levelObjects = value;
         }
         /// <summary>The level's guidelines.</summary>
         public GuidelineCollection Guidelines
@@ -160,7 +159,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
             set
             {
-                RawLevel = RawLevel.Replace($"<k>k4</k><s>{levelString}</s>", $"<k>k4</k><s>{value}</s>");
                 GetLevelStringInformation(levelString = value);
                 decryptedLevelString = null;
             }
@@ -179,22 +177,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The guideline string of the level.</summary>
         public string GuidelineString
         {
-            get
-            {
-                if (guidelines == null)
-                    guidelines = GuidelineCollection.Parse(guidelineString = GetGuidelineString(DecryptedLevelString));
-                return guidelineString;
-            }
-            set
-            {
-                guidelines = null; // Reset and only analyze if requested
-                int gsStartIndex = GetGuidelineStringStartIndex(DecryptedLevelString);
-                if (guidelineString.Length == 0)
-                    DecryptedLevelString = DecryptedLevelString.Insert(gsStartIndex, value);
-                else
-                    DecryptedLevelString = DecryptedLevelString.Replace(guidelineString, value);
-                guidelineString = value;
-            }
+            get => GetGuidelineString(DecryptedLevelString);
+            set => guidelines = GuidelineCollection.Parse(value);
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel
@@ -317,9 +301,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "kA8": // Dual Mode
                     DualMode = value == "1"; // Seriously the easiest way to determine whether it's true or not
                     break;
-                case "kA9": // Level/Start Pos
-                    // We don't care
-                    break;
                 case "kA10": // 2-Player Mode
                     TwoPlayerMode = value == "1";
                     break;
@@ -347,6 +328,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "kS38": // Color Channel
                     ColorChannels = LevelColorChannels.Parse(value);
                     break;
+                case "kA9": // Level/Start Pos
                 case "kS39": // Color Page
                     // We don't care
                     break;
@@ -370,7 +352,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     Description = Encoding.UTF8.GetString(Base64Decrypt(value));
                     break;
                 case "k4": // Level String
-                    levelString = value;
+                    LevelString = value;
                     break;
                 case "k5": // Creator Name
                     CreatorName = value;
