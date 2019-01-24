@@ -35,6 +35,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string Name { get; set; }
         /// <summary>The description of the level.</summary>
         public string Description { get; set; }
+        /// <summary>The name of the creator.</summary>
+        public string CreatorName { get; set; }
         /// <summary>The revision of the level.</summary>
         public int Revision { get; set; }
         /// <summary>The attempts made in the level.</summary>
@@ -45,6 +47,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int Version { get; set; }
         /// <summary>The folder of the level.</summary>
         public int Folder { get; set; }
+        /// <summary>The password of the level.</summary>
+        public int Password { get; set; }
         /// <summary>The time spent in the editor building the level in seconds.</summary>
         public int BuildTime { get; set; }
         /// <summary>The time spent in the editor building the level.</summary>
@@ -132,6 +136,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The group IDs in the collection.</summary>
         public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
 
+        // Editor stuff
+        /// <summary>The X position of the camera.</summary>
+        public double CameraX { get; set; }
+        /// <summary>The Y position of the camera.</summary>
+        public double CameraY { get; set; }
+        /// <summary>The zoom of the camera.</summary>
+        public double CameraZoom { get; set; }
+
         // Strings
         /// <summary>The level string.</summary>
         public string LevelString
@@ -206,7 +218,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public Level(string name, string description, string levelString, string creatorName, int revision = 0)
         {
             // LONG
-            RawLevel = $"<k>k_0</k><d><k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>1</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r><k>kI6</k><d><k>0</k><s>0</s><k>1</k><s>0</s><k>2</k><s>0</s><k>3</k><s>0</s><k>4</k><s>0</s><k>5</k><s>0</s><k>6</k><s>0</s><k>7</k><s>0</s><k>8</k><s>0</s><k>9</k><s>0</s><k>10</k><s>0</s><k>11</k><s>0</s><k>12</k><s>0</s></d></d>";
+            RawLevel = $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
         }
         #endregion
 
@@ -274,8 +286,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 valueEnd = valueType[valueType.Length - 1] != '/' ? raw.Find($"</{valueType}>", valueStart, raw.Length) : valueStart;
                 value = raw.Substring(valueStart, valueEnd - valueStart);
                 string s = raw.Substring(IDStart, IDEnd - IDStart);
-                if (s != "CEK" && !s.StartsWith("I"))
-                    GetRawParameterInformation(ToInt32(s), value, valueType);
+                GetRawParameterInformation(s, value, valueType);
                 i = valueEnd;
             }
         }
@@ -340,51 +351,66 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
             }
         }
-        private void GetRawParameterInformation(int parameterID, string value, string valueType)
+        private void GetRawParameterInformation(string key, string value, string valueType)
         {
-            switch (parameterID)
+            switch (key)
             {
-                case 1: // Level ID
+                case "k1": // Level ID
                     LevelID = ToInt32(value);
                     break;
-                case 2: // Level Name
+                case "k2": // Level Name
                     Name = value;
                     break;
-                case 3: // Level Description
+                case "k3": // Level Description
                     Description = Encoding.UTF8.GetString(Base64Decrypt(value));
                     break;
-                case 4: // Level String
+                case "k4": // Level String
                     levelString = value;
                     break;
-                case 8: // Official Song ID
+                case "k5": // Creator Name
+                    CreatorName = value;
+                    break;
+                case "k8": // Official Song ID
                     OfficialSongID = ToInt32(value);
                     break;
-                case 14: // Level Verified Status
+                case "k14": // Level Verified Status
                     VerifiedStatus = valueType == "t /"; // Well that's how it's implemented ¯\_(ツ)_/¯
                     break;
-                case 15: // Level Uploaded Status
+                case "k15": // Level Uploaded Status
                     UploadedStatus = valueType == "t /";
                     break;
-                case 16: // Level Version
+                case "k16": // Level Version
                     Version = ToInt32(value);
                     break;
-                case 18: // Level Attempts
+                case "k18": // Level Attempts
                     Attempts = ToInt32(value);
                     break;
-                case 23: // Level Length
+                case "k23": // Level Length
                     Length = (LevelLength)ToInt32(value);
                     break;
-                case 45: // Custom Song ID
+                case "k41": // Level Password
+                    Password = ToInt32(value) % 1000000; // If it exists, the password is in the form $"1{password}" (example: 1000023 = 0023)
+                    break;
+                case "k45": // Custom Song ID
                     CustomSongID = ToInt32(value);
                     break;
-                case 46: // Level Revision
+                case "k46": // Level Revision
                     Revision = ToInt32(value);
                     break;
-                case 80: // Time Spent
+                case "k80": // Time Spent
                     BuildTime = ToInt32(value);
                     break;
-                case 84: // Level Folder
+                case "k84": // Level Folder
                     Folder = ToInt32(value);
+                    break;
+                case "kI1": // Camera X
+                    CameraX = ToDouble(value);
+                    break;
+                case "kI2": // Camera Y
+                    CameraY = ToDouble(value);
+                    break;
+                case "kI3": // Camera Zoom
+                    CameraZoom = ToDouble(value);
                     break;
                 default: // Not something we care about
                     break;
