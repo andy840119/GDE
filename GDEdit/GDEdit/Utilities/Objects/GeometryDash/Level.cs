@@ -238,29 +238,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public override string ToString() => RawLevel;
 
         #region Private stuff
-        // TODO: Validate
         private void GetLevelStringInformation(string levelString)
         {
             string infoString = levelString.Split(';').First();
-            string startKeyString = ",k";
-            int IDStart;
-            int IDEnd;
-            int valueStart;
-            int valueEnd;
-            string value;
-            for (int i = 0; i < infoString.Length;)
-            {
-                IDStart = infoString.Find(startKeyString, i, infoString.Length) + startKeyString.Length;
-                if (IDStart <= startKeyString.Length)
-                    break;
-                IDEnd = infoString.Find(",", IDStart, infoString.Length);
-                valueStart = IDEnd + 1;
-                valueEnd = infoString.Find(startKeyString, valueStart, infoString.Length);
-                value = infoString.Substring(valueStart, valueEnd - valueStart);
-                string s = infoString.Substring(IDStart, IDEnd - IDStart);
-                GetLevelStringParameterInformation(s, value);
-                i = valueEnd;
-            }
+            string[] split = infoString.Split(',');
+            for (int i = 0; i < split.Length; i += 2)
+                GetLevelStringParameterInformation(split[i], split[i + 1]);
         }
         private void GetRawInformation(string raw)
         {
