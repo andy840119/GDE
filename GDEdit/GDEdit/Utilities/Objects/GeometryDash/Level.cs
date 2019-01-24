@@ -139,13 +139,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (levelString == null)
-                    levelString = GetLevelString(RawLevel);
+                    levelString = Gamesave.GetLevelString(RawLevel);
                 return levelString;
             }
             set
             {
                 RawLevel = RawLevel.Replace($"<k>k4</k><s>{levelString}</s>", $"<k>k4</k><s>{value}</s>");
                 GetLevelStringInformation(levelString = value);
+                decryptedLevelString = null;
             }
         }
         /// <summary>The decrypted form of the level string.</summary>
@@ -212,6 +213,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Functions
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(new string(RawLevel.ToCharArray()));
+
+        /// <summary>Returns the level string of this level.</summary>
+        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines.GetGuidelineString()},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};";
         #endregion
 
         #region Static Functions
