@@ -42,13 +42,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The attempts made in the level.</summary>
         public int Attempts { get; set; }
         /// <summary>The ID of the level.</summary>
-        public int LevelID { get; set; }
+        public int ID { get; set; }
         /// <summary>The version of the level.</summary>
         public int Version { get; set; }
         /// <summary>The folder of the level.</summary>
         public int Folder { get; set; }
         /// <summary>The password of the level.</summary>
         public int Password { get; set; }
+        /// <summary>The binary version of the game the level was created on.</summary>
+        public int BinaryVersion { get; set; }
         /// <summary>The time spent in the editor building the level in seconds.</summary>
         public int BuildTime { get; set; }
         /// <summary>The time spent in the editor building the level.</summary>
@@ -61,6 +63,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public bool VerifiedStatus { get; set; }
         /// <summary>Determines whether the level has been uploaded or not.</summary>
         public bool UploadedStatus { get; set; }
+        /// <summary>Determines whether the level is unlisted or not.</summary>
+        public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
         public LevelLength Length { get; set; }
 
@@ -218,16 +222,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public Level(string name, string description, string levelString, string creatorName, int revision = 0)
         {
             // LONG
-            RawLevel = $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>33</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
+            RawLevel = $"<k>kCEK</k><i>4</i><k>k2</k><s>{name}</s><k>k4</k><s>{levelString}</s>{(description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(description))}</s>" : "")}<k>k46</k><i>{revision}</i><k>k5</k><s>{creatorName}</s><k>k13</k><t /><k>k21</k><i>2</i><k>k16</k><i>1</i><k>k80</k><i>0</i><k>k50</k><i>35</i><k>k47</k><t /><k>kI1</k><r>0</r><k>kI2</k><r>36</r><k>kI3</k><r>1</r>";
         }
         #endregion
 
         #region Functions
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(new string(RawLevel.ToCharArray()));
-
-        /// <summary>Returns the level string of this level.</summary>
+        /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
         public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};";
+        /// <summary>Returns the raw level string of this <seealso cref="Level"/>.</summary>
+        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{DecryptedLevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
         #endregion
 
         #region Static Functions
@@ -356,7 +361,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             switch (key)
             {
                 case "k1": // Level ID
-                    LevelID = ToInt32(value);
+                    ID = ToInt32(value);
                     break;
                 case "k2": // Level Name
                     Name = value;
@@ -397,6 +402,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "k46": // Level Revision
                     Revision = ToInt32(value);
                     break;
+                case "k50": // Binary Version
+                    BinaryVersion = ToInt32(value);
+                    break;
+                case "k79": // Time Spent
+                    BuildTime = ToInt32(value);
+                    break;
                 case "k80": // Time Spent
                     BuildTime = ToInt32(value);
                     break;
@@ -416,6 +427,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
             }
         }
+        private string GetBoolPropertyString(string key, bool value) => value ? $"<k>{key}</k><t />" : "";
         #endregion
     }
 }
