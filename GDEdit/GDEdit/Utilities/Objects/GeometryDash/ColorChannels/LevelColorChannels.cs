@@ -27,5 +27,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             get => colors[(int)colorID];
             set => colors[(int)colorID] = value;
         }
+
+        /// <summary>Parses the level color string into a <seealso cref="LevelColorChannels"/> object.</summary>
+        /// <param name="colorChannels">The level color string to parse.</param>
+        public static LevelColorChannels Parse(string colorChannels)
+        {
+            string[] split = colorChannels.Split('|');
+            LevelColorChannels result = new LevelColorChannels();
+            foreach (var s in split)
+            {
+                var c = ColorChannel.Parse(s);
+                result[c.ColorChannelID] = c;
+            }
+            return result;
+        }
     }
 }
