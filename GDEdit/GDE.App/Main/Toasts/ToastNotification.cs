@@ -15,7 +15,7 @@ namespace GDE.App.Main.Toasts
         private Box toastBody;
         private CircularContainer container;
 
-        public ToastNotif()
+        public ToastNotification()
         {
             Children = new Drawable[]
             {
