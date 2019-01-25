@@ -50,7 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             {
                 if (c == null)
                     continue;
-                result.Append(c);
+                result.Append($"{c}|");
             }
             return result.ToString();
         }
