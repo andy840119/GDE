@@ -36,6 +36,19 @@ namespace GDEdit.Utilities.Objects.General
             var d = p - this;
             return Math.Sqrt(d.X * d.X + d.Y * d.Y);
         }
+        /// <summary>Given this point A and a supplied point B, this returns a point C such that the angle CAB (A is the center) is equal to the angle that's specified.</summary>
+        /// <param name="p">The point to rotate</param>
+        /// <param name="rotation">The angle of the rotation in degrees.</param>
+        public Point Rotate(Point p, double rotation)
+        {
+            // TODO: Validate
+            double distance = DistanceFrom(p);
+            double xDistance = p.X - X;
+            double rad = (Math.Asin(distance / xDistance) + rotation) * Math.PI / 180;
+            double x = Math.Cos(rad) * distance;
+            double y = Math.Sin(rad) * distance;
+            return this + new Point(x, y);
+        }
 
         public static Point operator +(Point left, Point right) => new Point(left.X + right.X, left.Y + right.Y);
         public static Point operator -(Point left, Point right) => new Point(left.X - right.X, left.Y - right.Y);
