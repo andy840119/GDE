@@ -166,6 +166,9 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HitboxType.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Circle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasHeight.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasWidth.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasRadius.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
