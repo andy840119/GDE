@@ -22,7 +22,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 
         private GuidelineCollection guidelines;
         private LevelObjectCollection levelObjects;
-        private string levelString;
         private string decryptedLevelString;
         private string rawLevel;
 
@@ -151,15 +150,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The level string.</summary>
         public string LevelString
         {
-            get
-            {
-                if (levelString == null)
-                    levelString = Gamesave.GetLevelString(RawLevel);
-                return levelString;
-            }
+            get => GetLevelString();
             set
             {
-                GetLevelStringInformation(levelString = value);
+                GetLevelStringInformation(value);
                 decryptedLevelString = null;
             }
         }
@@ -183,7 +177,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel
         {
-            get => rawLevel;
+            get => GetRawLevel();
             set => GetRawInformation(rawLevel = value);
         }
         #endregion
