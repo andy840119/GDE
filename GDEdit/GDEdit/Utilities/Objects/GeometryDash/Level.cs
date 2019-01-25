@@ -18,8 +18,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
-        // TODO: Remove dependency relationships between level strings and properties; prefer re-calculating the level strings after any changes.
-
         private GuidelineCollection guidelines;
         private LevelObjectCollection levelObjects;
         private string decryptedLevelString;
