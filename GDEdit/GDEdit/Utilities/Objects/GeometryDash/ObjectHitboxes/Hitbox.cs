@@ -12,6 +12,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     {
         private Point position;
 
+        /// <summary>The rotation of the hitbox.</summary>
+        public double Rotation { get; set; }
         /// <summary>The position of the hitbox.</summary>
         public Point Position
         {
@@ -52,6 +54,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="type">The hitbox type of the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
         public Hitbox(double x, double y, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), type, behavior) { }
+
+        /// <summary>Determines whether a point is within this hitbox.</summary>
+        /// <param name="p">The point to determine whether it's within this hitbox.</param>
+        public bool IsPointWithinHitbox(Point p) => HitboxType.IsPointWithinHitbox(p, Position, Rotation);
     }
 
     /// <summary>Represents a hitbox behavior.</summary>
