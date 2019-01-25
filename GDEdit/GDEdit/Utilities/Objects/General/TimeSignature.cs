@@ -34,6 +34,9 @@ namespace GDEdit.Utilities.Objects.General
             d = denominator;
             Denominator = denominator;
         }
+        /// <summary>Initializes a new instance of the <seealso cref="TimeSignature"/> class.</summary>
+        /// <param name="beats">The beats of the time signature.</param>
+        public TimeSignature((int b, int d) timeSignature) : this(timeSignature.b, timeSignature.d) { }
 
         private bool IsPowerOfTwo(int value)
         {
