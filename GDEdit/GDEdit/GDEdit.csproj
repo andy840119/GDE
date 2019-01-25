@@ -164,10 +164,10 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItem.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\RotatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\SlopePlatform.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\RectangularPlatform.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Platform.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hazard.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HitboxType.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Circle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Rectangle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />

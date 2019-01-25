@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.ObjectHitboxes
+namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 {
     /// <summary>Represents an object hitbox.</summary>
     public abstract class Hitbox
@@ -14,14 +14,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.ObjectHitboxes
 
         /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
         public Hitbox() { }
-    }
-
-    /// <summary>Represents the type of the hitbox.</summary>
-    public enum HitboxType
-    {
-        /// <summary>The rectangular hitbox type.</summary>
-        Rectangular,
-        /// <summary>The slope hitbox type.</summary>
-        Slope,
     }
 }
