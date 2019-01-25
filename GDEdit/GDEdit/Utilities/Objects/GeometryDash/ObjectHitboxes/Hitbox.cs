@@ -9,18 +9,48 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     /// <summary>Represents an object hitbox.</summary>
     public class Hitbox
     {
+        private (double X, double Y) position;
+
+        /// <summary>The position of the hitbox.</summary>
+        public (double X, double Y) Position
+        {
+            get => position;
+            set => position = value;
+        }
+        /// <summary>The X position of the hitbox.</summary>
+        public double X
+        {
+            get => position.X;
+            set => position.X = value;
+        }
+        /// <summary>The Y position of the hitbox.</summary>
+        public double Y
+        {
+            get => position.Y;
+            set => position.Y = value;
+        }
+
         /// <summary>The hitbox type of the hitbox.</summary>
         public HitboxType HitboxType { get; }
         /// <summary>The behavior of the hitbox.</summary>
         public HitboxBehavior Behavior { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
+        /// <param name="position">The position of the hitbox.</param>
         /// <param name="type">The hitbox type of the hitbox.</param>
-        public Hitbox(HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform)
+        /// <param name="behavior">The behavior of the hitbox.</param>
+        public Hitbox((double, double) position, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform)
         {
+            Position = position;
             HitboxType = type;
             Behavior = behavior;
         }
+        /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
+        /// <param name="x">The X position of the hitbox.</param>
+        /// <param name="y">The Y position of the hitbox.</param>
+        /// <param name="type">The hitbox type of the hitbox.</param>
+        /// <param name="behavior">The behavior of the hitbox.</param>
+        public Hitbox(double x, double y, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform) : this((x, y), type, behavior) { }
     }
 
     /// <summary>Represents a hitbox behavior.</summary>
