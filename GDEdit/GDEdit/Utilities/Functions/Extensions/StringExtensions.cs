@@ -62,8 +62,7 @@ namespace GDEdit.Utilities.Functions.Extensions
             {
                 bool found = true;
                 for (int j = 0; j < match.Length && found; j++)
-                    if (s[i + j] != match[j])
-                        found = false;
+                    found = s[i + j] == match[j];
                 if (found)
                     return i;
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Convert;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.General
 {
@@ -64,6 +65,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             h = new H((short)hue);
             s = SV.GetSVFromMode(SaturationMode = saturationMode, (float)saturation);
             v = SV.GetSVFromMode(BrightnessMode = saturationMode, (float)brightness);
+        }
+
+        /// <summary>Parses the HSV adjustment string into an <seealso cref="HSVAdjustment"/> object.</summary>
+        /// <param name="adjustment">The string to parse.</param>
+        public static HSVAdjustment Parse(string adjustment)
+        {
+            string[] split = adjustment.Split('a');
+            return new HSVAdjustment(ToDouble(split[0]), ToDouble(split[1]), ToDouble(split[2]), (SVAdjustmentMode)ToInt32(split[3]), (SVAdjustmentMode)ToInt32(split[4]));
         }
 
         public override string ToString() => $"{Hue}a{Saturation}a{Brightness}a{(int)SaturationMode}a{(int)BrightnessMode}";
