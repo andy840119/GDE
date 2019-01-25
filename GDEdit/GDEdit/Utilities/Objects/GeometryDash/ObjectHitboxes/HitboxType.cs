@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GDEdit.Utilities.Objects.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         {
 
         }
+
+        /// <summary>Determines whether a point is within the hitbox.</summary>
+        /// <param name="point">The point's location.</param>
+        /// <param name="hitboxCenter">The hitbox's center.</param>
+        public abstract bool IsPointWithinHitbox(Point point, Point hitboxCenter);
     }
 }

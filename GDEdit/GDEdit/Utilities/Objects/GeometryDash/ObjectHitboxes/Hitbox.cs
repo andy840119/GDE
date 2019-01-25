@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GDEdit.Utilities.Objects.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     /// <summary>Represents an object hitbox.</summary>
     public class Hitbox
     {
-        private (double X, double Y) position;
+        private Point position;
 
         /// <summary>The position of the hitbox.</summary>
-        public (double X, double Y) Position
+        public Point Position
         {
             get => position;
             set => position = value;
@@ -39,7 +40,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="position">The position of the hitbox.</param>
         /// <param name="type">The hitbox type of the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
-        public Hitbox((double, double) position, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform)
+        public Hitbox(Point position, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform)
         {
             Position = position;
             HitboxType = type;
@@ -50,7 +51,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="y">The Y position of the hitbox.</param>
         /// <param name="type">The hitbox type of the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
-        public Hitbox(double x, double y, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform) : this((x, y), type, behavior) { }
+        public Hitbox(double x, double y, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), type, behavior) { }
     }
 
     /// <summary>Represents a hitbox behavior.</summary>
