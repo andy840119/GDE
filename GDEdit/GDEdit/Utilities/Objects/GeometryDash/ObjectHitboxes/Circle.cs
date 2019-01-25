@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Objects.General;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 {
@@ -19,5 +20,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         {
             Radius = radius;
         }
+
+        /// <summary>Determines whether a point is within the hitbox.</summary>
+        /// <param name="point">The point's location.</param>
+        /// <param name="hitboxCenter">The hitbox's center.</param>
+        public override bool IsPointWithinHitbox(Point point, Point hitboxCenter) => point.DistanceFrom(hitboxCenter) <= Radius;
     }
 }

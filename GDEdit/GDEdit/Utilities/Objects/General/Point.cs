@@ -47,5 +47,11 @@ namespace GDEdit.Utilities.Objects.General
         public static Point operator /(Point left, int right) => new Point(left.X / right, left.Y / right);
         public static Point operator /(double left, Point right) => new Point(left / right.X, left / right.Y);
         public static Point operator /(Point left, double right) => new Point(left.X / right, left.Y / right);
+        public static bool operator ==(Point left, Point right) => left.X == right.X && left.Y == right.Y;
+        public static bool operator !=(Point left, Point right) => left.X != right.X && left.Y != right.Y;
+        public static bool operator <=(Point left, Point right) => left.X <= right.X && left.Y <= right.Y;
+        public static bool operator >=(Point left, Point right) => left.X >= right.X && left.Y >= right.Y;
+        public static bool operator <(Point left, Point right) => left.X < right.X && left.Y < right.Y;
+        public static bool operator >(Point left, Point right) => left.X > right.X && left.Y > right.Y;
     }
 }
