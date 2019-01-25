@@ -10,14 +10,14 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
     public enum Speed : byte
     {
         /// <summary>Represents the slow speed (&lt;).</summary>
-        Slow,
+        Slow = 1,
         /// <summary>Represents the normal speed (&rt;).</summary>
-        Normal,
+        Normal = 2,
         /// <summary>Represents the fast speed (&rt;&rt;).</summary>
-        Fast,
+        Fast = 3,
         /// <summary>Represents the faster speed (&rt;&rt;&rt;).</summary>
-        Faster,
+        Faster = 4,
         /// <summary>Represents the fastest speed (&rt;&rt;&rt;&rt;).</summary>
-        Fastest
+        Fastest = 5,
     }
 }
