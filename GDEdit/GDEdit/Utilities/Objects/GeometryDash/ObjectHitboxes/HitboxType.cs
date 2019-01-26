@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         public HitboxType() { }
 
         /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
-        /// <param name="rotation">The rotation to get the distance at.</param>
+        /// <param name="rotation">The rotation in degrees to get the distance at.</param>
         public abstract double GetRadiusAtRotation(double rotation);
 
         /// <summary>Determines whether a point is within the hitbox.</summary>

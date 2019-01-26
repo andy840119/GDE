@@ -28,6 +28,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
             Height = height;
         }
 
+        /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
+        /// <param name="rotation">The rotation in degrees to get the distance at.</param>
+        public override double GetRadiusAtRotation(double rotation)
+        {
+            double x, y;
+            // Get radius
+            return new Point(0).DistanceFrom(new Point(x, y));
+        }
+
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
         /// <param name="hitboxCenter">The hitbox's center.</param>
