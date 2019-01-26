@@ -21,6 +21,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
             Radius = radius;
         }
 
+        /// <summary>Returns the distance between the center of the circular hitbox and its edge. The rotation parameter is ignored for obvious mathematical reasons.</summary>
+        /// <param name="rotation">A useless parameter.</param>
+        public override double GetRadiusAtRotation(double rotation) => Radius;
+
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
         /// <param name="hitboxCenter">The hitbox's center.</param>
