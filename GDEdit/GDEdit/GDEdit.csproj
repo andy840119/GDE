@@ -213,6 +213,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\WidthHeightHitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
