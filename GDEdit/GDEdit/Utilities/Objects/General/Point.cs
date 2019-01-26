@@ -36,6 +36,15 @@ namespace GDEdit.Utilities.Objects.General
             var d = p - this;
             return Math.Sqrt(d.X * d.X + d.Y * d.Y);
         }
+        // TODO: Use EML and convert the angle arguments from double to Angle.
+        /// <summary>Gets the angle in radians formed by this and a specified point, in comparison to the x axis on the plane.</summary>
+        /// <param name="p">The point to rotate.</param>
+        public double GetAngle(Point p)
+        {
+            double distance = DistanceFrom(p);
+            double xDistance = p.X - X;
+            return Math.Asin(distance / xDistance);
+        }
         /// <summary>Given this point A and a supplied point B, this returns a point C such that the angle CAB (A is the center) is equal to the angle that's specified.</summary>
         /// <param name="p">The point to rotate.</param>
         /// <param name="rotation">The angle of the rotation in degrees.</param>
@@ -43,8 +52,7 @@ namespace GDEdit.Utilities.Objects.General
         {
             // TODO: Validate
             double distance = DistanceFrom(p);
-            double xDistance = p.X - X;
-            double rad = (Math.Asin(distance / xDistance) + rotation) * Math.PI / 180;
+            double rad = GetAngle(p) + rotation * Math.PI / 180;
             double x = Math.Cos(rad) * distance;
             double y = Math.Sin(rad) * distance;
             return this + new Point(x, y);

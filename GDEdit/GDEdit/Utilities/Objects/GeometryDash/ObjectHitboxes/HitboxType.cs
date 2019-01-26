@@ -11,10 +11,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     public abstract class HitboxType
     {
         /// <summary>Initializes a new instance of the <seealso cref="HitboxType"/> class.</summary>
-        public HitboxType()
-        {
+        public HitboxType() { }
 
-        }
+        /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
+        /// <param name="rotation">The rotation to get the distance at.</param>
+        public abstract double GetRadiusAtRotation(double rotation);
 
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
