@@ -9,16 +9,27 @@ namespace GDEdit.Utilities.Objects.General
     /// <summary>Represents a time signature.</summary>
     public struct TimeSignature
     {
-        private int d;
+        private int b, d;
 
         /// <summary>The beats of the time signature.</summary>
-        public int Beats { get; set; }
+        public int Beats
+        {
+            get => b;
+            set
+            {
+                if (value < 1)
+                    throw new InvalidOperationException("Cannot set the beats of the time signature to a non-positive integer.");
+                b = value;
+            }
+        }
         /// <summary>The denominator of the time signature.</summary>
         public int Denominator
         {
             get => d;
             set
             {
+                if (value < 1)
+                    throw new InvalidOperationException("Cannot set the denominator of the time signature to a non-positive integer.");
                 if (!IsPowerOfTwo(d))
                     throw new InvalidOperationException("Cannot set the denominator of the time signature to anything but a power of two.");
                 d = value;
@@ -30,8 +41,9 @@ namespace GDEdit.Utilities.Objects.General
         /// <param name="denominator">The denominator of the time signature.</param>
         public TimeSignature(int beats, int denominator)
         {
-            Beats = beats;
+            b = beats;
             d = denominator;
+            Beats = beats;
             Denominator = denominator;
         }
         /// <summary>Initializes a new instance of the <seealso cref="TimeSignature"/> class.</summary>
