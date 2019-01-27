@@ -7,7 +7,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
-using GDE.App.Main.Colours;
+using GDE.App.Main.Colors;
 using GDE.App.Main.UI;
 using GDE.App.Main.UI.Toolbar;
 using GDEdit.Application;
@@ -21,7 +21,6 @@ namespace GDE.App.Main.Screens.Edit
     public class Editor : Screen
     {
         private Level lvl;
-        private List<LevelObject> objs;
 
         private ToolbarMenu toolbar;
         //private List<ToolbarMenuItem> items;

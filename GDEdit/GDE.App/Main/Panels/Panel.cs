@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Colours;
+﻿using GDE.App.Main.Colors;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -27,7 +27,7 @@ namespace GDE.App.Main.Panels
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColours.FromHex("151515") 
+                    Colour = GDEColors.FromHex("151515") 
                 },
                 new FillFlowContainer
                 {
@@ -41,7 +41,7 @@ namespace GDE.App.Main.Panels
                             Origin = Anchor.Centre,
                             Anchor = Anchor.TopRight,
                             Size = new Vector2(20),
-                            Colour = GDEColours.FromHex("424242"),
+                            Colour = GDEColors.FromHex("424242"),
                             Margin = new MarginPadding
                             {
                                 Horizontal = 5,
@@ -54,7 +54,7 @@ namespace GDE.App.Main.Panels
                             Origin = Anchor.Centre,
                             Anchor = Anchor.TopRight,
                             Size = new Vector2(20),
-                            Colour = GDEColours.FromHex("424242"),
+                            Colour = GDEColors.FromHex("424242"),
                             Margin = new MarginPadding
                             {
                                 Horizontal = 5,

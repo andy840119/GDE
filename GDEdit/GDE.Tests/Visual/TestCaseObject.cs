@@ -9,7 +9,7 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseObject : TestCase
     {
-        private ObjectBase Obj;
+        private ObjectBase obj;
 
         public TestCaseObject()
         {
@@ -20,7 +20,7 @@ namespace GDE.Tests.Visual
                     Colour = new Color4(95, 95, 95, 255),
                     RelativeSizeAxes = Axes.Both
                 },
-                Obj = new ObjectBase
+                obj = new ObjectBase
                 {
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
@@ -28,9 +28,9 @@ namespace GDE.Tests.Visual
                 }
             };
 
-            AddSliderStep("Object ID", 1, 1600, 1, v => Obj.ObjectID = v);
-            AddStep("Move 1", () => Obj.ObjectID++);
-            AddStep("Move -1", () => Obj.ObjectID--);
+            AddSliderStep("Object ID", 1, 1600, 1, v => obj.ObjectID = v);
+            AddStep("Move 1", () => obj.ObjectID++);
+            AddStep("Move -1", () => obj.ObjectID--);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Colours;
+﻿using GDE.App.Main.Colors;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Extensions.Color4Extensions;
@@ -65,7 +65,7 @@ namespace GDE.App.Main.UI.Toolbar
             private void load(AudioManager audio)
             {
                 BackgroundColour = Color4.Transparent;
-                BackgroundColourHover = GDEColours.FromHex(@"172023");
+                BackgroundColourHover = GDEColors.FromHex(@"172023");
 
                 updateTextColour();
             }
@@ -78,7 +78,7 @@ namespace GDE.App.Main.UI.Toolbar
                         text.Colour = Color4.Red;
                         break;
                     case MenuItemType.Highlighted:
-                        text.Colour = GDEColours.FromHex(@"ffcc22");
+                        text.Colour = GDEColors.FromHex(@"ffcc22");
                         break;
                     case MenuItemType.Standard:
                     default:

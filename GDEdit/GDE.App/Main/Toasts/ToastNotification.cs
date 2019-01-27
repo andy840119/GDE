@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Colours;
+﻿using GDE.App.Main.Colors;
 using GDE.App.Main.UI;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -31,7 +31,7 @@ namespace GDE.App.Main.Toasts
                         toastBody = new Box
                         {
                             RelativeSizeAxes = Axes.Both,
-                            Colour = GDEColours.FromHex("1c1c1c")
+                            Colour = GDEColors.FromHex("1c1c1c")
                         },
                         toastIcon = new SpriteIcon
                         {
