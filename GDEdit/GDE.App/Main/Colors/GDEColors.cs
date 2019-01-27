@@ -1,15 +1,13 @@
 ﻿using System;
 using osuTK.Graphics;
 
-namespace GDE.App.Main.Colours
+namespace GDE.App.Main.Colors
 {
-    public class GDEColours
+    /// <summary>Provides the colors of the application and functions related to them.</summary>
+    public static class GDEColors
     {
-        /// <summary>
-        /// Returns a Color4 value from a Hex String
-        /// </summary>
-        /// <param name="hex">Hex value (pretty self explanatory)</param>
-        /// <returns><see cref="Color4"/> from Hex</returns>
+        /// <summary>Returns a <see cref="Color4"/> value from a hex string.</summary>
+        /// <param name="hex">The hex string of the color.</param>
         public static Color4 FromHex(string hex)
         {
             if (hex[0] == '#')
@@ -30,6 +28,6 @@ namespace GDE.App.Main.Colours
             byte getByte(int n, int k) => Convert.ToByte(hex.Substring(n, k), 16);
         }
 
-        // TODO: Add official colours here:
+        // TODO: Add official colors here
     }
 }

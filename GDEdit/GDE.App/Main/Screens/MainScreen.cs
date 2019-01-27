@@ -7,7 +7,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
-using GDE.App.Main.Colours;
+using GDE.App.Main.Colors;
 using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
@@ -33,7 +33,7 @@ namespace GDE.App.Main.Screens
                             RelativeSizeAxes = Axes.Both,
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre,
-                            Colour = GDEColours.FromHex("111")
+                            Colour = GDEColors.FromHex("111")
                         },
                         new FillFlowContainer
                         {
