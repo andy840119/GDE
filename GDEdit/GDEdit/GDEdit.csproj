@@ -165,6 +165,17 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItem.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\RotatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HitboxType.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Circle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasHeight.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasWidth.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasRadius.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HorizontalLine.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Line.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\VerticalLine.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Rectangle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Slope.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color4ColorTrigger.cs" />
@@ -204,6 +215,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\WidthHeightHitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
