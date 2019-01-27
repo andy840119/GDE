@@ -57,7 +57,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 
         /// <summary>Determines whether a point is within this hitbox.</summary>
         /// <param name="p">The point to determine whether it's within this hitbox.</param>
-        public bool IsPointWithinHitbox(Point p) => HitboxType.IsPointWithinHitbox(p, Position, Rotation);
+        public bool IsPointWithinHitbox(Point p) => IsPointWithinHitbox(p, Rotation);
+        /// <summary>Determines whether a point is within the hitbox. The provided point is moved to a point relative to <seealso cref="Point.Zero"/> instead of the hitbox's position.</summary>
+        /// <param name="point">The point's location.</param>
+        /// <param name="hitboxRotation">The rotation of the hitbox.</param>
+        public bool IsPointWithinHitbox(Point point, double hitboxRotation) => HitboxType.IsPointWithinHitbox(Point.Zero.Rotate(point - Position, hitboxRotation));
 
         /// <summary>Determines whether this hitbox overlaps with another hitbox.</summary>
         /// <param name="h">The hitbox to check whether it overlaps with this one.</param>

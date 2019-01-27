@@ -9,6 +9,9 @@ namespace GDEdit.Utilities.Objects.General
     /// <summary>Represents a point in the editor.</summary>
     public struct Point
     {
+        /// <summary>The <seealso cref="Point"/> at the center of the plane.</summary>
+        public static Point Zero => new Point(0);
+
         /// <summary>The X location of the point.</summary>
         public double X;
         /// <summary>The Y location of the point.</summary>

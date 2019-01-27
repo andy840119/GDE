@@ -27,7 +27,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
-        /// <param name="hitboxCenter">The hitbox's center.</param>
-        public override bool IsPointWithinHitbox(Point point, Point hitboxCenter) => point.DistanceFrom(hitboxCenter) <= Radius;
+        public override bool IsPointWithinHitbox(Point point) => point.DistanceFrom(Point.Zero) <= Radius;
     }
 }

@@ -33,11 +33,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
-        /// <param name="hitboxCenter">The hitbox's center.</param>
-        public override bool IsPointWithinHitbox(Point point, Point hitboxCenter)
-        {
-            double offset = hitboxCenter.Y - SlopeRatio * hitboxCenter.X;
-            return base.IsPointWithinHitbox(point, hitboxCenter) && (SlopeRatio * point.X + offset) <= point.Y;
-        }
+        public override bool IsPointWithinHitbox(Point point) => base.IsPointWithinHitbox(point) && (SlopeRatio * point.X) <= point.Y;
     }
 }

@@ -17,15 +17,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
         public abstract double GetRadiusAtRotation(double rotation);
 
-        /// <summary>Determines whether a point is within the hitbox.</summary>
+        /// <summary>Determines whether a point is within the hitbox (assuming the center of the hitbox is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
-        /// <param name="hitboxCenter">The hitbox's center.</param>
-        public abstract bool IsPointWithinHitbox(Point point, Point hitboxCenter);
-
-        /// <summary>Determines whether a point is within the hitbox.</summary>
-        /// <param name="point">The point's location.</param>
-        /// <param name="hitboxCenter">The hitbox's center.</param>
-        /// <param name="hitboxRotation">The rotation of the hitbox.</param>
-        public bool IsPointWithinHitbox(Point point, Point hitboxCenter, double hitboxRotation) => IsPointWithinHitbox(point, hitboxCenter.Rotate(point, hitboxRotation));
+        public abstract bool IsPointWithinHitbox(Point point);
     }
 }
