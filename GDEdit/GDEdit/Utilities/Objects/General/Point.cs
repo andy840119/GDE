@@ -46,7 +46,7 @@ namespace GDEdit.Utilities.Objects.General
         {
             double distance = DistanceFrom(p);
             double xDistance = p.X - X;
-            return Math.Asin(xDistance / distance);
+            return Math.Sign(p.Y - Y) * Math.Acos(xDistance / distance);
         }
         /// <summary>Given this point A and a supplied point B, this returns a point C such that the angle CAB (A is the center) is equal to the angle that's specified.</summary>
         /// <param name="p">The point to rotate.</param>
