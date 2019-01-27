@@ -8,19 +8,13 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 {
     /// <summary>Represents a vertical line hitbox.</summary>
-    public class VerticalLine : HitboxType
+    public class VerticalLine : Line
     {
         /// <summary>Initializes a new instance of the <seealso cref="VerticalLine"/> class.</summary>
-        public VerticalLine() : base() { }
+        public VerticalLine() : base(90) { }
 
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
         public override bool IsPointWithinHitbox(Point point) => point.X == 0;
-
-        /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
-        /// <param name="rotation">The rotation in degrees to get the distance at.</param>
-        public override double GetRadiusAtRotation(double rotation) => rotation % 180 == 90 ? double.PositiveInfinity : 0;
-        /// <summary>Returns the maximum distance between the center of the hitbox and its edge.</summary>
-        public override double GetMaxRadius() => double.PositiveInfinity;
     }
 }
