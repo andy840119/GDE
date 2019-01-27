@@ -55,6 +55,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="behavior">The behavior of the hitbox.</param>
         public Hitbox(double x, double y, HitboxType type, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), type, behavior) { }
 
+        /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
+        /// <param name="rotation">The rotation in degrees to get the distance at.</param>
+        public double GetRadiusAtRotation(double rotation) => HitboxType.GetRadiusAtRotation(rotation + Rotation);
+
         /// <summary>Determines whether a point is within this hitbox.</summary>
         /// <param name="p">The point to determine whether it's within this hitbox.</param>
         public bool IsPointWithinHitbox(Point p) => IsPointWithinHitbox(p, Rotation);
