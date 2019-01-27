@@ -16,5 +16,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <summary>Determines whether a point is within the hitbox.</summary>
         /// <param name="point">The point's location.</param>
         public override bool IsPointWithinHitbox(Point point) => point.X == 0;
+
+        /// <summary>Returns the maximum distance between the center of the hitbox and its edge.</summary>
+        public override double GetMaxRadius() => double.PositiveInfinity;
     }
 }
