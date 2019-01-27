@@ -32,27 +32,24 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
         public override double GetRadiusAtRotation(double rotation)
         {
+            double r = rotation % 180;
+            if (r == 0)
+                return Width / 2;
+            if (r == -90 || r == 90)
+                return Height / 2;
             double rad = rotation * Math.PI / 180;
             double w = Width / 2;
             double h = Height / 2;
-            // The points (x, y) are an ellipse contained in the rectangle
-            double x = Math.Cos(rad) * w;
-            double y = Math.Sin(rad) * h;
+            double radius = GetMaxRadius();
+            // The points (x, y) are an ellipse containing the rectangle
+            double x = Math.Cos(rad) * radius;
+            double y = Math.Sin(rad) * radius;
             Point result = new Point(x, y);
-            // Check whether the point does not touch the horizontal lines of the rectangle
-            if (y < h && y > -h)
-            {
-                double k = w / x;
-                double a = k * x;
-                double b = k * y;
-                if (b > h || b < -h)
-                {
-                    a *= h / b;
-                    b = h;
-                }
-                result.X = a;
-                result.Y = b;
-            }
+            // Check whether the point in the ellipse is outside the rectangle
+            if (y > h || y < -h)
+                result *= h / y;
+            else if (x > w || x < -w)
+                result *= w / x;
             return new Point(0).DistanceFrom(result);
         }
         /// <summary>Returns the maximum distance between the center of the hitbox and its edge.</summary>
