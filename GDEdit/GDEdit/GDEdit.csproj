@@ -170,6 +170,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasWidth.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasRadius.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HorizontalLine.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Line.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\VerticalLine.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Slope.cs" />
