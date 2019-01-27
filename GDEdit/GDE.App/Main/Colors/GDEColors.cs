@@ -13,8 +13,6 @@ namespace GDE.App.Main.Colors
             if (hex[0] == '#')
                 hex = hex.Substring(1);
 
-            Console.WriteLine(hex);
-
             switch (hex.Length)
             {
                 case 3:
