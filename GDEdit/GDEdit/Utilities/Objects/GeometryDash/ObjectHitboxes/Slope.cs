@@ -31,7 +31,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
             return base.GetRadiusAtRotation(rotation);
         }
 
-        /// <summary>Determines whether a point is within the hitbox.</summary>
+        /// <summary>Determines whether a point is within the hitbox (assuming the center of the hitbox is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
         public override bool IsPointWithinHitbox(Point point) => base.IsPointWithinHitbox(point) && (SlopeRatio * point.X) <= point.Y;
     }

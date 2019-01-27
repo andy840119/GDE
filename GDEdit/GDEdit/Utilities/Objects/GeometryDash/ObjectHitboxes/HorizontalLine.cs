@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <summary>Initializes a new instance of the <seealso cref="HorizontalLine"/> class.</summary>
         public HorizontalLine() : base(0) { }
 
-        /// <summary>Determines whether a point is within the hitbox.</summary>
+        /// <summary>Determines whether a point is within the hitbox (assuming the center of the hitbox is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
         public override bool IsPointWithinHitbox(Point point) => point.Y == 0;
     }
