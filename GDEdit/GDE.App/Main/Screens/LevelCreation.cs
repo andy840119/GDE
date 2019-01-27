@@ -49,7 +49,7 @@ namespace GDE.App.Main.Screens
                 },
                 desc = new TextBox
                 {
-                    PlaceholderText = "Description [Optional] (defaults to \"No description provided\")",
+                    PlaceholderText = "Description [Optional]",
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                     RelativeSizeAxes = Axes.X,
