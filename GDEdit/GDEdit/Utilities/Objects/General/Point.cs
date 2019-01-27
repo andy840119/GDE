@@ -81,5 +81,7 @@ namespace GDEdit.Utilities.Objects.General
         public static bool operator >=(Point left, Point right) => left.X >= right.X && left.Y >= right.Y;
         public static bool operator <(Point left, Point right) => left.X < right.X && left.Y < right.Y;
         public static bool operator >(Point left, Point right) => left.X > right.X && left.Y > right.Y;
+
+        public override string ToString() => $"({X}, {Y})";
     }
 }
