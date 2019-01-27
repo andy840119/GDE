@@ -21,7 +21,6 @@ namespace GDE.App.Main.Screens.Edit
     public class Editor : Screen
     {
         private Level lvl;
-        private List<LevelObject> objs;
 
         private ToolbarMenu toolbar;
         //private List<ToolbarMenuItem> items;
