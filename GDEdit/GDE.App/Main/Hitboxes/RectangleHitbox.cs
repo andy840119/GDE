@@ -58,6 +58,7 @@ namespace GDE.App.Main.Hitboxes
 
         protected override void Update()
         {
+            Rotation = (float)-HitboxRotation;
             base.Update();
         }
     }
