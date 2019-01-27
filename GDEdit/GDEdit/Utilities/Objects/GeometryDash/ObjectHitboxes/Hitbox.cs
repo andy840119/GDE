@@ -73,6 +73,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
             double b = h.HitboxType.GetRadiusAtRotation(-deg);
             return a + b <= distance;
         }
+        /// <summary>Determines whether this hitbox is contained in another hitbox.</summary>
+        /// <param name="h">The hitbox to check whether it contains this hitbox.</param>
+        public bool IsContainedInAnotherHitbox(Hitbox h)
+        {
+            double distance = Position.DistanceFrom(h.Position);
+            double a = HitboxType.GetMaxRadius();
+            double b = h.HitboxType.GetMaxRadius();
+            return a + distance <= b;
+        }
     }
 
     /// <summary>Represents a hitbox behavior.</summary>
