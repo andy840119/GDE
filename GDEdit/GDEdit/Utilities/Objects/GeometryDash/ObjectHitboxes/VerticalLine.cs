@@ -17,6 +17,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="point">The point's location.</param>
         public override bool IsPointWithinHitbox(Point point) => point.X == 0;
 
+        /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
+        /// <param name="rotation">The rotation in degrees to get the distance at.</param>
+        public override double GetRadiusAtRotation(double rotation) => rotation % 180 == 90 ? double.PositiveInfinity : 0;
         /// <summary>Returns the maximum distance between the center of the hitbox and its edge.</summary>
         public override double GetMaxRadius() => double.PositiveInfinity;
     }
