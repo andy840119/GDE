@@ -6,8 +6,7 @@ using osu.Framework.Screens;
 using osu.Framework.Input.Events;
 using System;
 using osuTK;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
-using static GDEdit.Application.Database;
+using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Levels
 {
@@ -17,12 +16,7 @@ namespace GDE.App.Main.Levels
 
         public LevelPreview()
         {
-            TryDecryptLevelData(out DecryptedLevelData);
-            GetKeyIndices();
-            GetLevels();
-            UserLevels[0].LevelString = GetLevelString(0);
-            TryDecryptLevelString(0, out UserLevels[0].DecryptedLevelString);
-            UserLevels[0].LevelObjects = GetObjects(GetObjectString(UserLevels[0].DecryptedLevelString));
+            Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
 
@@ -43,28 +37,28 @@ namespace GDE.App.Main.Levels
             {
                 float scale = 1;
 
-                if (UserLevels[0].LevelObjects[i].Scaling > 0)
+                if (Databases[0].UserLevels[0].LevelObjects[i].Scaling > 0)
                 {
-                    scale = (float)UserLevels[0].LevelObjects[i].Scaling;
+                    scale = (float)Databases[0].UserLevels[0].LevelObjects[i].Scaling;
                 }
 
                 Vector2 size;
 
-                if (UserLevels[0].LevelObjects[i].FlippedVertically && UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                if (Databases[0].UserLevels[0].LevelObjects[i].FlippedVertically && Databases[0].UserLevels[0].LevelObjects[i].FlippedHorizontally)
                     size = new Vector2(-30 * scale, -30 * scale);
-                else if (UserLevels[0].LevelObjects[i].FlippedVertically)
+                else if (Databases[0].UserLevels[0].LevelObjects[i].FlippedVertically)
                     size = new Vector2(30 * scale, -30 * scale);
-                else if (UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                else if (Databases[0].UserLevels[0].LevelObjects[i].FlippedHorizontally)
                     size = new Vector2(-30 * scale, 30 * scale);
                 else
                     size = new Vector2(30 * scale);
                  
                 Add(new ObjectBase
                 {
-                    ObjectID = UserLevels[0].LevelObjects[i].ObjectID,
-                    Position = new Vector2((float)UserLevels[0].LevelObjects[i].X, (float)-UserLevels[0].LevelObjects[i].Y),
+                    ObjectID = Databases[0].UserLevels[0].LevelObjects[i].ObjectID,
+                    Position = new Vector2((float)Databases[0].UserLevels[0].LevelObjects[i].X, (float)-Databases[0].UserLevels[0].LevelObjects[i].Y),
                     Size = size, // Set this to zoom scale later
-                    Rotation = (float)UserLevels[0].LevelObjects[i].Rotation, // fix soon:tm:
+                    Rotation = (float)Databases[0].UserLevels[0].LevelObjects[i].Rotation, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft
                 });
