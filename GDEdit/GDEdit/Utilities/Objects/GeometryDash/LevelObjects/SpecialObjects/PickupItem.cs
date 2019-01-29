@@ -45,7 +45,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             get => SpecialObjectBools[1];
             set => SpecialObjectBools[1] = value;
         }
-        
+
+        /// <summary>Initializes a new empty instance of the <seealso cref="PickupItem"/> class. For internal use only.</summary>
+        private PickupItem() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PickupItem"/> class.</summary>
         /// <param name="objectID">The object ID of the pickup item.</param>
         /// <param name="x">The X location of the object.</param>

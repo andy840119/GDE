@@ -26,7 +26,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             get => SpecialObjectBools[0];
             set => SpecialObjectBools[0] = value;
         }
-        
+
+        /// <summary>Initializes a new empty instance of the <seealso cref="PulsatingObject"/> class. For internal use only.</summary>
+        private PulsatingObject() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PulsatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the pulsating object.</param>
         /// <param name="x">The X location of the object.</param>
