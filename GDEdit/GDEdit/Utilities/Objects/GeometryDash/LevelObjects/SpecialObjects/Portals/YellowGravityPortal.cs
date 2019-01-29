@@ -15,5 +15,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowGravityPortal"/> class.</summary>
         public YellowGravityPortal() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="YellowGravityPortal"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new YellowGravityPortal());
     }
 }
