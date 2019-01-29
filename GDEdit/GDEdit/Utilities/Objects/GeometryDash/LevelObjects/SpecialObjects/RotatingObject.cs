@@ -25,6 +25,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Initializes a new instance of the <seealso cref="RotatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the rotating object.</param>
+        public RotatingObject(int objectID) : base(objectID) { }
+        /// <summary>Initializes a new instance of the <seealso cref="RotatingObject"/> class.</summary>
+        /// <param name="objectID">The object ID of the rotating object.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
         public RotatingObject(int objectID, double x, double y)

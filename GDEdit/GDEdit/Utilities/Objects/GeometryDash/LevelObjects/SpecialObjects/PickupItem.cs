@@ -48,6 +48,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Initializes a new instance of the <seealso cref="PickupItem"/> class.</summary>
         /// <param name="objectID">The object ID of the pickup item.</param>
+        public PickupItem(int objectID) : base(objectID) { }
+        /// <summary>Initializes a new instance of the <seealso cref="PickupItem"/> class.</summary>
+        /// <param name="objectID">The object ID of the pickup item.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
         public PickupItem(int objectID, double x, double y)
