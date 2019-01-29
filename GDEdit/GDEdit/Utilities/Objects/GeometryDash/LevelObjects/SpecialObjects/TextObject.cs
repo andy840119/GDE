@@ -25,6 +25,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public string Text { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
+        public TextObject() : base() { }
+        /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
         /// <param name="text">The text of the text object.</param>
