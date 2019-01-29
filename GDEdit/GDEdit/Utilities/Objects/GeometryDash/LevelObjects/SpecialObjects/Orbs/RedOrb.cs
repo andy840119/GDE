@@ -19,5 +19,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
 
         /// <summary>Initializes a new instance of the <seealso cref="RedOrb"/> class.</summary>
         public RedOrb() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="RedOrb"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new RedOrb());
     }
 }
