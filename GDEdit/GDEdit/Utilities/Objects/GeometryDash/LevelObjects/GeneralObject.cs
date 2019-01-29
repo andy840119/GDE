@@ -222,7 +222,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             Rotation = rotation;
         }
 
-        /// <summary>Returns a clone of this object.</summary>
+        /// <summary>Returns a clone of this <seealso cref="GeneralObject"/>.</summary>
         public virtual GeneralObject Clone() => AddClonedInstanceInformation(new GeneralObject());
 
         /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>

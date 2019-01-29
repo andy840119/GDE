@@ -31,5 +31,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionBlock"/> class.</summary>
         public CollisionBlock() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="CollisionBlock"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new CollisionBlock());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as CollisionBlock;
+            c.BlockID = BlockID;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

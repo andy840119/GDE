@@ -15,12 +15,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     {
         protected override int[] ValidObjectIDs => ObjectLists.AnimatedObjectList;
         protected override string SpecialObjectTypeName => "animated object";
-
+        
         /// <summary>Initializes a new instance of the <seealso cref="AnimatedObject"/> class.</summary>
         /// <param name="objectID">The object ID of the animated object.</param>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
         public AnimatedObject(int objectID, double x, double y)
             : base(objectID, x, y) { }
+
+        /// <summary>Returns a clone of this <seealso cref="AnimatedObject"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new AnimatedObject());
     }
 }
