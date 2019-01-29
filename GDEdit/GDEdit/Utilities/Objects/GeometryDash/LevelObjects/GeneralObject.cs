@@ -308,7 +308,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return new TouchTrigger();
                 // Special objects
                 case (int)SpecialObjectType.TextObject:
-                    return new TextObject(0, 0); // I have no idea why the constructors are so fucking inconsistent, pending fix
+                    return new TextObject();
                 case (int)SpecialObjectType.CollisionBlock:
                     return new CollisionBlock();
                 case (int)SpecialObjectType.CountTextObject:
@@ -402,13 +402,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 // If none of the previous categories contain the object ID, take care of it later
             }
             if (ObjectLists.RotatingObjectList.Contains(objectID))
-                return new RotatingObject(objectID, 0, 0); // That constructor too
+                return new RotatingObject(objectID);
             if (ObjectLists.AnimatedObjectList.Contains(objectID))
-                return new AnimatedObject(objectID, 0, 0); // That constructor too
+                return new AnimatedObject(objectID);
             if (ObjectLists.PickupItemList.Contains(objectID))
-                return new PickupItem(objectID, 0, 0); // That constructor too
+                return new PickupItem(objectID);
             if (ObjectLists.PulsatingObjectList.Contains(objectID))
-                return new PulsatingObject(objectID, 0, 0); // That constructor too
+                return new PulsatingObject(objectID);
 
             return new GeneralObject(objectID);
         }
