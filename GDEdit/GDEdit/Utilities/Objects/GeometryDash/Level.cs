@@ -96,6 +96,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int GroundLine { get; set; }
         /// <summary>The font property of the level.</summary>
         public int Font { get; set; }
+        /// <summary>The level's guidelines.</summary>
+        public GuidelineCollection Guidelines { get; set; }
         /// <summary>The color channels of the level.</summary>
         public LevelColorChannels ColorChannels { get; private set; }
 
@@ -109,17 +111,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 return levelObjects;
             }
             set => levelObjects = value;
-        }
-        /// <summary>The level's guidelines.</summary>
-        public GuidelineCollection Guidelines
-        {
-            get
-            {
-                if (guidelines == null)
-                    guidelines = GuidelineCollection.Parse(GuidelineString);
-                return guidelines;
-            }
-            set => guidelines = value;
         }
         /// <summary>The level object count.</summary>
         public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
@@ -154,12 +145,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 TryDecryptLevelString(value, out decryptedLevelString);
                 GetLevelStringInformation(value);
             }
-        }
-        /// <summary>The guideline string of the level.</summary>
-        public string GuidelineString
-        {
-            get => GetGuidelineString(LevelString);
-            set => guidelines = GuidelineCollection.Parse(value);
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel
