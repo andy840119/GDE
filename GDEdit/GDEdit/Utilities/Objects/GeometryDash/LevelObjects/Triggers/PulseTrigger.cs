@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Pulse trigger.</summary>
     public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
     {
-        private byte red, green, blue;
+        private byte red = 255, green = 255, blue = 255;
         private short targetGroupID, targetColorID;
         private float fadeIn, hold, fadeOut;
 

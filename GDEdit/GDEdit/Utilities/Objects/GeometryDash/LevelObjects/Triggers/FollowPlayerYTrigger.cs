@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     public class FollowPlayerYTrigger : Trigger, IHasDuration, IHasTargetGroupID
     {
         private short targetGroupID;
-        private float duration = 0.5f, speed, delay, maxSpeed;
+        private float duration = 0.5f, speed = 1, delay, maxSpeed;
         
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.FollowPlayerY;
 

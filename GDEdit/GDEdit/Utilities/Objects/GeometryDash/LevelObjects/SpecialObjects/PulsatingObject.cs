@@ -18,7 +18,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>The animation speed of the pulsating object as a ratio.</summary>
         [ObjectStringMappable(ObjectParameter.AnimationSpeed)]
-        public float AnimationSpeed { get; set; }
+        public float AnimationSpeed { get; set; } = 1;
         /// <summary>The Randomize Start property of the pulsating object.</summary>
         [ObjectStringMappable(ObjectParameter.RandomizeStart)]
         public bool RandomizeStart
