@@ -220,13 +220,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 return levels[0];
             if (levels.Length == 0)
                 throw new Exception("Cannot merge 0 levels.");
-            Level result = new Level();
-            foreach (var l in levels)
+            Level result = levels[0].Clone();
+            for (int i = 1; i < levels.Length; i++)
             {
-                foreach (var o in l.LevelObjects)
-                    result.LevelObjects.Add(o);
+                result.LevelObjects.AddRange(levels[i].LevelObjects);
+                result.Guidelines.AddRange(levels[i].Guidelines);
                 // TODO: Care for the rest of the properties
             }
+            result.Guidelines.RemoveDuplicatedGuidelines();
             return result;
         }
         #endregion
