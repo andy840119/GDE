@@ -18,9 +18,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
-        private GuidelineCollection guidelines;
-        private LevelObjectCollection levelObjects;
-        private string decryptedLevelString;
         private string rawLevel;
 
         #region Properties
@@ -98,20 +95,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int Font { get; set; }
         /// <summary>The level's guidelines.</summary>
         public GuidelineCollection Guidelines { get; set; }
+        /// <summary>The level's objects.</summary>
+        public LevelObjectCollection LevelObjects { get; set; }
         /// <summary>The color channels of the level.</summary>
         public LevelColorChannels ColorChannels { get; private set; }
 
-        /// <summary>The level's objects.</summary>
-        public LevelObjectCollection LevelObjects
-        {
-            get
-            {
-                if (levelObjects == null)
-                    levelObjects = GetObjects(GetObjectString(LevelString));
-                return levelObjects;
-            }
-            set => levelObjects = value;
-        }
         /// <summary>The level object count.</summary>
         public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
         /// <summary>The level trigger count.</summary>
@@ -142,8 +130,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get => GetLevelString();
             set
             {
-                TryDecryptLevelString(value, out decryptedLevelString);
-                GetLevelStringInformation(value);
+                TryDecryptLevelString(value, out var decryptedLevelString);
+                GetLevelStringInformation(decryptedLevelString);
             }
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
@@ -277,7 +265,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     SongOffset = ToInt32(value);
                     break;
                 case "kA14": // Guidelines
-                    guidelines = GuidelineCollection.Parse(value);
+                    Guidelines = GuidelineCollection.Parse(value);
                     break;
                 case "kA15": // Fade In
                     FadeIn = value == "1";
