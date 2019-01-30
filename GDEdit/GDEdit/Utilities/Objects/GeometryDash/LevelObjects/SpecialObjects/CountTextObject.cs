@@ -1,5 +1,5 @@
-﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
-using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,5 +31,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Initializes a new instance of the <seealso cref="CountTextObject"/> class.</summary>
         public CountTextObject() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="CountTextObject"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new CountTextObject());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as CountTextObject;
+            c.ItemID = ItemID;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

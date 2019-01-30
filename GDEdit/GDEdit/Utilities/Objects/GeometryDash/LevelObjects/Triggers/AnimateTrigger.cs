@@ -42,6 +42,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             AnimationID = animationID;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="AnimateTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new AnimateTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as AnimateTrigger;
+            c.AnimationID = AnimationID;
+            c.TargetGroupID = TargetGroupID;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

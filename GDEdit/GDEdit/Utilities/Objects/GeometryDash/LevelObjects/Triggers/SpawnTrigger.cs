@@ -51,6 +51,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             EditorDisable = editorDisable;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="SpawnTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new SpawnTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as SpawnTrigger;
+            c.TargetGroupID = TargetGroupID;
+            c.Delay = Delay;
+            c.EditorDisable = EditorDisable;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

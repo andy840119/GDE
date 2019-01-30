@@ -46,6 +46,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             set => SpecialObjectBools[1] = value;
         }
 
+        /// <summary>Initializes a new empty instance of the <seealso cref="PickupItem"/> class. For internal use only.</summary>
+        private PickupItem() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PickupItem"/> class.</summary>
         /// <param name="objectID">The object ID of the pickup item.</param>
         public PickupItem(int objectID) : base(objectID) { }
@@ -55,5 +57,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="y">The Y location of the object.</param>
         public PickupItem(int objectID, double x, double y)
             : base(objectID, x, y) { }
+
+        /// <summary>Returns a clone of this <seealso cref="PickupItem"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new PickupItem());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as PickupItem;
+            c.PickupMode = PickupMode;
+            c.Count = Count;
+            c.SubtractCount = SubtractCount;
+            c.TargetGroupID = TargetGroupID;
+            c.EnableGroup = EnableGroup;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

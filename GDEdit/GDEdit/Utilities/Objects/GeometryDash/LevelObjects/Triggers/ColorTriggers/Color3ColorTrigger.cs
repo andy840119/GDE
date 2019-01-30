@@ -23,5 +23,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public Color3ColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
             : base(duration, 3, copyOpacity, tintGround) { }
+
+        /// <summary>Returns a clone of this <seealso cref="Color3ColorTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new Color3ColorTrigger());
     }
 }

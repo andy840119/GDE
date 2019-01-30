@@ -23,6 +23,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             set => SpecialObjectBools[0] = value;
         }
 
+        /// <summary>Initializes a new empty instance of the <seealso cref="RotatingObject"/> class. For internal use only.</summary>
+        private RotatingObject() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="RotatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the rotating object.</param>
         public RotatingObject(int objectID) : base(objectID) { }
@@ -32,5 +34,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="y">The Y location of the object.</param>
         public RotatingObject(int objectID, double x, double y)
             : base(objectID, x, y) { }
+
+        /// <summary>Returns a clone of this <seealso cref="RotatingObject"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new RotatingObject());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as RotatingObject;
+            c.DisableRotation = DisableRotation;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

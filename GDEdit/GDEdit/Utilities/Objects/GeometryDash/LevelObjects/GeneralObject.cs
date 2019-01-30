@@ -221,10 +221,37 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             Y = y;
             Rotation = rotation;
         }
-        
-        /// <summary>Returns a clone of this object.</summary>
-        public GeneralObject Clone() => (GeneralObject)MemberwiseClone();
-        
+
+        /// <summary>Returns a clone of this <seealso cref="GeneralObject"/>.</summary>
+        public virtual GeneralObject Clone() => AddClonedInstanceInformation(new GeneralObject());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected virtual GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            cloned.ObjectID = ObjectID;
+            cloned.X = X;
+            cloned.Y = Y;
+            cloned.FlippedHorizontally = FlippedHorizontally;
+            cloned.FlippedVertically = FlippedVertically;
+            cloned.Rotation = Rotation;
+            cloned.Scaling = Scaling;
+            cloned.EL1 = EL1;
+            cloned.EL2 = EL2;
+            cloned.ZLayer = ZLayer;
+            cloned.ZOrder = ZOrder;
+            cloned.Color1ID = Color1ID;
+            cloned.Color2ID = Color2ID;
+            cloned.GroupIDs = GroupIDs;
+            cloned.LinkedGroupID = LinkedGroupID;
+            cloned.GroupParent = GroupParent;
+            cloned.HighDetail = HighDetail;
+            cloned.DontEnter = DontEnter;
+            cloned.DontFade = DontFade;
+            cloned.DisableGlow = DisableGlow;
+            return cloned;
+        }
+
         public T GetParameterWithID<T>(int ID)
         {
             var properties = typeof(GeneralObject).GetProperties();

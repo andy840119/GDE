@@ -21,5 +21,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
 
         /// <summary>Initializes a new instance of the <seealso cref="FastSpeedPortal"/> class.</summary>
         public FastSpeedPortal() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="FastSpeedPortal"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new FastSpeedPortal());
     }
 }

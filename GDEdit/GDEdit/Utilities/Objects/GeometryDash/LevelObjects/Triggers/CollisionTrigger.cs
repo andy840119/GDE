@@ -66,6 +66,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             TriggerOnExit = triggerOnExit;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="CollisionTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new CollisionTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as CollisionTrigger;
+            c.TargetGroupID = TargetGroupID;
+            c.PrimaryBlockID = PrimaryBlockID;
+            c.SecondaryBlockID = SecondaryBlockID;
+            c.ActivateGroup = ActivateGroup;
+            c.TriggerOnExit = TriggerOnExit;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

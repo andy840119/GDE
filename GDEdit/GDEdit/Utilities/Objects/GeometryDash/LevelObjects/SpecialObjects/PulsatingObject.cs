@@ -27,6 +27,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             set => SpecialObjectBools[0] = value;
         }
 
+        /// <summary>Initializes a new empty instance of the <seealso cref="PulsatingObject"/> class. For internal use only.</summary>
+        private PulsatingObject() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PulsatingObject"/> class.</summary>
         /// <param name="objectID">The object ID of the pulsating object.</param>
         public PulsatingObject(int objectID) : base(objectID) { }
@@ -36,5 +38,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="y">The Y location of the object.</param>
         public PulsatingObject(int objectID, double x, double y)
             : base(objectID, x, y) { }
+
+        /// <summary>Returns a clone of this <seealso cref="PulsatingObject"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new PulsatingObject());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as PulsatingObject;
+            c.AnimationSpeed = AnimationSpeed;
+            c.RandomizeStart = RandomizeStart;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }
