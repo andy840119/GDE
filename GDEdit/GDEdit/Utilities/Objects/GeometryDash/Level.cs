@@ -206,7 +206,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         }
         private void GetRawInformation(string raw)
         {
-            string startKeyString = "<k>k";
+            string startKeyString = "<k>";
             string endKeyString = "</k><";
             int IDStart;
             int IDEnd;
