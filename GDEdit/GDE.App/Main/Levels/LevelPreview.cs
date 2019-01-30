@@ -1,13 +1,10 @@
-﻿using GDEdit.Application;
-using GDE.App.Main.Objects;
+﻿using GDE.App.Main.Objects;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Screens;
 using osu.Framework.Input.Events;
-using System;
 using osuTK;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 using static GDEdit.Application.Database;
+using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDE.App.Main.Levels
 {
@@ -41,23 +38,14 @@ namespace GDE.App.Main.Levels
 
             for (var i = 0; i < 2299; i++)
             {
-                float scale = 1;
+                float scale = (float)UserLevels[0].LevelObjects[i].Scaling;
 
-                if (UserLevels[0].LevelObjects[i].Scaling > 0)
-                {
-                    scale = (float)UserLevels[0].LevelObjects[i].Scaling;
-                }
-
-                Vector2 size;
-
-                if (UserLevels[0].LevelObjects[i].FlippedVertically && UserLevels[0].LevelObjects[i].FlippedHorizontally)
-                    size = new Vector2(-30 * scale, -30 * scale);
-                else if (UserLevels[0].LevelObjects[i].FlippedVertically)
-                    size = new Vector2(30 * scale, -30 * scale);
-                else if (UserLevels[0].LevelObjects[i].FlippedHorizontally)
-                    size = new Vector2(-30 * scale, 30 * scale);
-                else
-                    size = new Vector2(30 * scale);
+                Vector2 size = new Vector2(30 * scale);
+                
+                if (UserLevels[0].LevelObjects[i].FlippedVertically)
+                    size.Y *= -1;
+                if (UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                    size.X *= -1;
                  
                 Add(new ObjectBase
                 {
