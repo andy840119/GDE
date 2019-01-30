@@ -252,9 +252,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             {
                 result.LevelObjects.AddRange(levels[i].LevelObjects);
                 result.Guidelines.AddRange(levels[i].Guidelines);
-                // TODO: Care for the rest of the properties
+                result.BuildTime += levels[i].BuildTime;
+                if (levels[i].BinaryVersion > result.BinaryVersion)
+                    result.BinaryVersion = levels[i].BinaryVersion;
             }
+            // TODO: Add support for the color channels
             result.Guidelines.RemoveDuplicatedGuidelines();
+            var properties = typeof(Level).GetProperties();
+            foreach (var p in properties)
+            {
+                if (p.GetCustomAttributes(typeof(CommonMergedPropertyAttribute), false).Length > 0)
+                {
+                    bool common = true;
+                    for (int i = 1; i < levels.Length && common; i++)
+                        if (!(common = p.GetValue(result) != p.GetValue(levels[i])))
+                            p.SetValue(result, default);
+                }
+            }
             return result;
         }
         #endregion
