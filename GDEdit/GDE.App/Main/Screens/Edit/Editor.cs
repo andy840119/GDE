@@ -1,19 +1,11 @@
-﻿using osu.Framework.Allocation;
+﻿using GDE.App.Main.Colors;
+using GDE.App.Main.Levels;
+using osu.Framework.Allocation;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
-using GDE.App.Main.Levels;
-using osuTK.Graphics;
-using GDE.App.Main.Colors;
-using GDE.App.Main.UI;
-using GDE.App.Main.UI.Toolbar;
-using GDEdit.Application;
-using GDEdit.Application.Editor;
-using GDEdit.Utilities.Functions.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash;
-using System.Collections.Generic;
 
 namespace GDE.App.Main.Screens.Edit
 {

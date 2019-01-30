@@ -3,7 +3,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osuTK;
-using static GDEdit.Application.Database;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDE.App.Main.Levels
