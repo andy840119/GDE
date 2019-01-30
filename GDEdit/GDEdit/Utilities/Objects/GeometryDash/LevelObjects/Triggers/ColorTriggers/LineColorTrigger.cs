@@ -23,5 +23,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public LineColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
             : base(duration, (short)(int)SpecialColorID.Line, copyOpacity, tintGround) { }
+
+        /// <summary>Returns a clone of this <seealso cref="LineColorTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new LineColorTrigger());
     }
 }
