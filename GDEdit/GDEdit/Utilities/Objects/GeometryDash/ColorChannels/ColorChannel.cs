@@ -97,6 +97,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             return result;
         }
 
+        public static bool operator ==(ColorChannel left, ColorChannel right)
+        {
+            foreach (var p in typeof(ColorChannel).GetProperties())
+                if (p.GetValue(left) != p.GetValue(right))
+                    return false;
+            return true;
+        }
+        public static bool operator !=(ColorChannel left, ColorChannel right)
+        {
+            foreach (var p in typeof(ColorChannel).GetProperties())
+                if (p.GetValue(left) == p.GetValue(right))
+                    return false;
+            return true;
+        }
+
         // IMPORTANT: This may need to be changed as more information about the color channel string is discovered (especially for property IDs 8, 11, 12, 13, 15, 18 which are currently hardcoded because of that)
         /// <summary>Returns the string of the <seealso cref="ColorChannel"/>.</summary>
         public override string ToString() => $"1_{Red}_2_{Green}_3_{Blue}_4_{(int)CopiedPlayerColor}_5_{(Blending ? 1 : 0)}_6_{ColorChannelID}_7_{Opacity}_8_1_9_{CopiedColorID}_10_{CopiedColorHSV}_11_255_12_255_13_255_15_1_17_{(CopyOpacity ? 1 : 0)}_18_0";
