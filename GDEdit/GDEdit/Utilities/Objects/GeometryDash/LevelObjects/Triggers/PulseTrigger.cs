@@ -119,6 +119,28 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             PulseMode = pulseMode;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="PulseTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new PulseTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as PulseTrigger;
+            c.TargetGroupID = TargetGroupID;
+            c.TargetColorID = TargetColorID;
+            c.Red = Red;
+            c.Green = Green;
+            c.Blue = Blue;
+            c.FadeIn = FadeIn;
+            c.Hold = Hold;
+            c.FadeOut = FadeOut;
+            c.CopiedColorID = CopiedColorID;
+            c.PulseMode = PulseMode;
+            c.PulseTargetType = PulseTargetType;
+            c.Exclusive = Exclusive;
+            c.HSVAdjustment = HSVAdjustment;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }
