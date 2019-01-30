@@ -1,9 +1,10 @@
 ﻿using GDE.App.Main.Objects;
+using GDEdit.Application;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osuTK;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
+using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Levels
 {
@@ -13,12 +14,7 @@ namespace GDE.App.Main.Levels
 
         public LevelPreview()
         {
-            TryDecryptLevelData(out DecryptedLevelData);
-            GetKeyIndices();
-            GetLevels();
-            UserLevels[0].LevelString = GetLevelString(0);
-            TryDecryptLevelString(0, out UserLevels[0].DecryptedLevelString);
-            UserLevels[0].LevelObjects = GetObjects(GetObjectString(UserLevels[0].DecryptedLevelString));
+            Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
 
@@ -35,23 +31,23 @@ namespace GDE.App.Main.Levels
                 }
             }*/
 
-            for (var i = 0; i < 2299; i++)
+            foreach (var o in Databases[0].UserLevels[0].LevelObjects)
             {
-                float scale = (float)UserLevels[0].LevelObjects[i].Scaling;
+                float scale = (float)o.Scaling;
 
                 Vector2 size = new Vector2(30 * scale);
                 
-                if (UserLevels[0].LevelObjects[i].FlippedVertically)
+                if (o.FlippedVertically)
                     size.Y *= -1;
-                if (UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                if (o.FlippedHorizontally)
                     size.X *= -1;
                  
                 Add(new ObjectBase
                 {
-                    ObjectID = UserLevels[0].LevelObjects[i].ObjectID,
-                    Position = new Vector2((float)UserLevels[0].LevelObjects[i].X, (float)-UserLevels[0].LevelObjects[i].Y),
+                    ObjectID = o.ObjectID,
+                    Position = new Vector2((float)o.X, (float)-o.Y),
                     Size = size, // Set this to zoom scale later
-                    Rotation = (float)UserLevels[0].LevelObjects[i].Rotation, // fix soon:tm:
+                    Rotation = (float)o.Rotation, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft
                 });
