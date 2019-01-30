@@ -19,5 +19,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowPad"/> class.</summary>
         public YellowPad() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="YellowPad"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new YellowPad());
     }
 }

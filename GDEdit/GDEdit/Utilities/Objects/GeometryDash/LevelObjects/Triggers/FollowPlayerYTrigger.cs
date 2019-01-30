@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     public class FollowPlayerYTrigger : Trigger, IHasDuration, IHasTargetGroupID
     {
         private short targetGroupID;
-        private float duration = 0.5f, speed, delay, maxSpeed;
+        private float duration = 0.5f, speed = 1, delay, maxSpeed;
         
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.FollowPlayerY;
 
@@ -80,6 +80,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             Offset = offset;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="FollowPlayerYTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new FollowPlayerYTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as FollowPlayerYTrigger;
+            c.Duration = Duration;
+            c.TargetGroupID = TargetGroupID;
+            c.Speed = Speed;
+            c.Delay = Delay;
+            c.MaxSpeed = MaxSpeed;
+            c.Offset = Offset;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

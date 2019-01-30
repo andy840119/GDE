@@ -70,6 +70,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             MultiActivate = multiActivate;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="CountTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new CountTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as CountTrigger;
+            c.TargetGroupID = TargetGroupID;
+            c.ItemID = ItemID;
+            c.TargetCount = TargetCount;
+            c.ActivateGroup = ActivateGroup;
+            c.MultiActivate = MultiActivate;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

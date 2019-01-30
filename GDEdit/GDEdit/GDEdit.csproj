@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ApplicationDatabase.cs" />
     <Compile Include="Application\Database.cs" />
     <Compile Include="Application\Editor\Editor.cs" />
     <Compile Include="Application\Status.cs" />
@@ -56,10 +57,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ColorChannelPlayerColor.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\Easing.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\InstantCountComparison.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PadType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\PlayerSize.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\MoveTargetPosCoordinates.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ObjectParameter.cs" />
@@ -77,10 +80,9 @@
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericListExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\GuidelineExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
-    <Compile Include="Utilities\Functions\General\Extensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\Extensions.cs" />
     <Compile Include="Utilities\Functions\General\UsefulFunctions.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\ColorTriggerTypes.cs" />
     <Compile Include="Utilities\Functions\GeometryDash\Easing.cs" />
@@ -94,12 +96,16 @@
     <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\General\BitArray8.cs" />
+    <Compile Include="Utilities\Objects\General\TimeSignature.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\ColorChannel.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\LevelColorChannels.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\GuidelineCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />
@@ -156,6 +162,17 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItem.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\RotatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HitboxType.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Circle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasHeight.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasWidth.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasRadius.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HorizontalLine.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Line.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\VerticalLine.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Rectangle.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Slope.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color4ColorTrigger.cs" />
@@ -195,6 +212,10 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\WidthHeightHitbox.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ISingleSelection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\IMultiSelection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbarTab.cs" />

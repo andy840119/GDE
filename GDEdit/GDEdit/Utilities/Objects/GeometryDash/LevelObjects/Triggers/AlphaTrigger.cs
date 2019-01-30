@@ -50,6 +50,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             Opacity = opacity;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="AlphaTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new AlphaTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as AlphaTrigger;
+            c.Duration = Duration;
+            c.TargetGroupID = TargetGroupID;
+            c.Opacity = Opacity;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

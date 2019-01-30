@@ -22,5 +22,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public GRNDColorTrigger(float duration, bool tintGround = false)
             : base(duration, (short)(int)SpecialColorID.GRND, false, tintGround) { }
+
+        /// <summary>Returns a clone of this <seealso cref="GRNDColorTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new GRNDColorTrigger());
     }
 }

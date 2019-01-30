@@ -104,6 +104,24 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             EasingRate = easingRate;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="RotateTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new RotateTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as RotateTrigger;
+            c.Duration = Duration;
+            c.TargetGroupID = TargetGroupID;
+            c.CenterGroupID = CenterGroupID;
+            c.Easing = Easing;
+            c.EasingRate = EasingRate;
+            c.Degrees = Degrees;
+            c.Times360 = Times360;
+            c.LockObjectRotation = LockObjectRotation;
+            c.CenterGroupID = CenterGroupID;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

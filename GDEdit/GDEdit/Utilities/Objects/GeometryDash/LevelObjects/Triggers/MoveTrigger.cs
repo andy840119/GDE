@@ -127,6 +127,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         // Add more constructors? They seem to be many already
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="MoveTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new MoveTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as MoveTrigger;
+            c.Duration = Duration;
+            c.TargetGroupID = TargetGroupID;
+            c.TargetPosGroupID = TargetPosGroupID;
+            c.Easing = Easing;
+            c.EasingRate = EasingRate;
+            c.MoveX = MoveX;
+            c.MoveY = MoveY;
+            c.LockToPlayerX = LockToPlayerX;
+            c.LockToPlayerY = LockToPlayerY;
+            c.TargetPosCoordinates = TargetPosCoordinates;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

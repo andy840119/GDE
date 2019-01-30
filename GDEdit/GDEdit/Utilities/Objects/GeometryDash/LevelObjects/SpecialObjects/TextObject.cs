@@ -24,6 +24,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <summary>Represents the Text property of the text object.</summary>
         public string Text { get; set; }
 
+        /// <summary>Initializes a new empty instance of the <seealso cref="TextObject"/> class. For internal use only.</summary>
+        private TextObject() : base() { }
+        /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
+        public TextObject() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
@@ -34,6 +38,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             X = x;
             Y = y;
             Text = text;
+        }
+
+        /// <summary>Returns a clone of this <seealso cref="TextObject"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new TextObject());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as TextObject;
+            c.Text = Text;
+            return base.AddClonedInstanceInformation(c);
         }
     }
 }

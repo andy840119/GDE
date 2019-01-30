@@ -23,11 +23,7 @@ namespace GDE.App.Main.Objects
         public int ObjectID
         {
             get => lvlObj.ObjectID;
-            set
-            {
-                lvlObj.ObjectID = value;
-                // TODO: Change the texture of the object
-            }
+            set => lvlObj.ObjectID = value;
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX

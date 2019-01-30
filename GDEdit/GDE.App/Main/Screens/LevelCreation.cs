@@ -7,11 +7,12 @@ using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
-using GDE.App.Main.Colours;
+using GDE.App.Main.Colors;
 using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.GeometryDash;
+using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Screens
 {
@@ -22,6 +23,8 @@ namespace GDE.App.Main.Screens
 
         public LevelCreation()
         {
+            Databases.Add(new Database());
+
             Children = new Drawable[]
             {
                 new Box
@@ -29,7 +32,7 @@ namespace GDE.App.Main.Screens
                     RelativeSizeAxes = Axes.Both,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    Colour = GDEColours.FromHex("111")
+                    Colour = GDEColors.FromHex("111")
                 },
                 name = new TextBox
                 {
@@ -46,7 +49,7 @@ namespace GDE.App.Main.Screens
                 },
                 desc = new TextBox
                 {
-                    PlaceholderText = "Description [Optional] (defaults to \"No description provided\")",
+                    PlaceholderText = "Description [Optional]",
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                     RelativeSizeAxes = Axes.X,
@@ -85,7 +88,7 @@ namespace GDE.App.Main.Screens
                     },
                     Action = () =>
                     {
-                        Gamesave.CreateLevel(name.Text, desc.Text);
+                        Databases[0].CreateLevel(name.Text, desc.Text);
                     }
                 },
             };

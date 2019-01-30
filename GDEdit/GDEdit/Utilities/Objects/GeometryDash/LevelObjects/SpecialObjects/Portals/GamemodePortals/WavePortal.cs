@@ -28,5 +28,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
 
         /// <summary>Initializes a new instance of the <seealso cref="WavePortal"/> class.</summary>
         public WavePortal() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="WavePortal"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new WavePortal());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as WavePortal;
+            c.Checked = Checked;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

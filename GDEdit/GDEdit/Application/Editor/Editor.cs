@@ -208,14 +208,7 @@ namespace GDEdit.Application.Editor
             {
                 var median = GetMedianPoint();
                 foreach (var o in SelectedObjects)
-                {
-                    double distance = o.Location.DistanceFrom(median);
-                    double xDistance = o.X - median.X;
-                    double rad = (Math.Asin(distance / xDistance) + rotation) * Math.PI / 180;
-                    double x = Math.Cos(rad) * distance;
-                    double y = Math.Sin(rad) * distance;
-                    o.Location = median + new Point(x, y);
-                }
+                    o.Location = o.Location.Rotate(median, rotation);
             }
         }
         /// <summary>Rotates the selected objects by an amount based on a specific central point.</summary>
@@ -226,12 +219,7 @@ namespace GDEdit.Application.Editor
             foreach (var o in SelectedObjects)
             {
                 o.Rotation += rotation;
-                double distance = o.Location.DistanceFrom(center);
-                double xDistance = o.X - center.X;
-                double rad = (Math.Asin(distance / xDistance) + rotation) * Math.PI / 180;
-                double x = Math.Cos(rad) * distance;
-                double y = Math.Sin(rad) * distance;
-                o.Location = center + new Point(x, y);
+                o.Location = o.Location.Rotate(center, rotation);
             }
         }
         #endregion

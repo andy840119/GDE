@@ -67,5 +67,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             SpawnTriggered = spawnTriggered;
             MultiTrigger = multiTrigger;
         }
+        
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as Trigger;
+            c.TouchTriggered = TouchTriggered;
+            c.SpawnTriggered = SpawnTriggered;
+            c.MultiTrigger = MultiTrigger;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

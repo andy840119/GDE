@@ -1,16 +1,24 @@
-﻿using GDE.App.Main.Colours;
+﻿using GDE.App.Main.Colors;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
 
 namespace GDE.App.Main.Panels
 {
-    public class Panel : Container
+    public class Panel : FocusedOverlayContainer
     {
+        private SpriteText text;
+        private PinButton pin;
+
         public bool AllowDrag = true;
-        private PinButton Pin;
+        public string Text
+        {
+            get => text.Text;
+            set => text.Text = value;
+        }
 
         public Panel()
         {
@@ -19,7 +27,7 @@ namespace GDE.App.Main.Panels
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColours.FromHex("151515") 
+                    Colour = GDEColors.FromHex("151515") 
                 },
                 new FillFlowContainer
                 {
@@ -33,7 +41,7 @@ namespace GDE.App.Main.Panels
                             Origin = Anchor.Centre,
                             Anchor = Anchor.TopRight,
                             Size = new Vector2(20),
-                            Colour = GDEColours.FromHex("424242"),
+                            Colour = GDEColors.FromHex("424242"),
                             Margin = new MarginPadding
                             {
                                 Horizontal = 5,
@@ -41,12 +49,12 @@ namespace GDE.App.Main.Panels
                             },
                             Action = Hide
                         },
-                        Pin = new PinButton
+                        pin = new PinButton
                         {
                             Origin = Anchor.Centre,
                             Anchor = Anchor.TopRight,
                             Size = new Vector2(20),
-                            Colour = GDEColours.FromHex("424242"),
+                            Colour = GDEColors.FromHex("424242"),
                             Margin = new MarginPadding
                             {
                                 Horizontal = 5,
@@ -54,16 +62,39 @@ namespace GDE.App.Main.Panels
                             },
                             Action = () => 
                             {
-                                if (AllowDrag)
-                                    Pin.Rotation = 45;
-                                else
-                                    Pin.Rotation = 0;
+                                pin.Rotation = AllowDrag ? 45 : 0;
                                 AllowDrag = !AllowDrag;
                             }
                         },
                     }
+                },
+                text = new SpriteText
+                {
+                    Margin = new MarginPadding
+                    {
+                        Horizontal = 5,
+                        Vertical = 2
+                    }
                 }
             };
+        }
+
+        protected override void LoadComplete()
+        {
+            Scale = new Vector2(1, 0);
+            base.LoadComplete();
+        }
+
+        protected override void PopIn()
+        {
+            this.ScaleTo(new Vector2(1, 1), 500, Easing.OutExpo);
+            base.PopIn();
+        }
+
+        protected override void PopOut()
+        {
+            this.ScaleTo(new Vector2(1, 0), 500, Easing.OutExpo);
+            base.PopIn();
         }
 
         protected override bool OnDrag(DragEvent e)

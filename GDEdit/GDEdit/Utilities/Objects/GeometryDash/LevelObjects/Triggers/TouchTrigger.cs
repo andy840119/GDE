@@ -55,6 +55,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             ToggleMode = toggleMode;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="TouchTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new TouchTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as TouchTrigger;
+            c.TargetGroupID = TargetGroupID;
+            c.HoldMode = HoldMode;
+            c.DualMode = DualMode;
+            c.ToggleMode = ToggleMode;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

@@ -28,5 +28,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
 
         /// <summary>Initializes a new instance of the <seealso cref="BallPortal"/> class.</summary>
         public BallPortal() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="BallPortal"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new BallPortal());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as BallPortal;
+            c.Checked = Checked;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }
