@@ -105,7 +105,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get
             {
                 if (levelObjects == null)
-                    levelObjects = GetObjects(GetObjectString(DecryptedLevelString));
+                    levelObjects = GetObjects(GetObjectString(LevelString));
                 return levelObjects;
             }
             set => levelObjects = value;
@@ -145,31 +145,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public double CameraZoom { get; set; }
 
         // Strings
-        /// <summary>The level string.</summary>
+        /// <summary>The level string in its decrypted form.</summary>
         public string LevelString
         {
             get => GetLevelString();
             set
             {
+                TryDecryptLevelString(value, out decryptedLevelString);
                 GetLevelStringInformation(value);
-                decryptedLevelString = null;
             }
-        }
-        /// <summary>The decrypted form of the level string.</summary>
-        public string DecryptedLevelString
-        {
-            get
-            {
-                if (decryptedLevelString == null)
-                    TryDecryptLevelString(LevelString, out decryptedLevelString);
-                return decryptedLevelString;
-            }
-            set => LevelString = decryptedLevelString = value;
         }
         /// <summary>The guideline string of the level.</summary>
         public string GuidelineString
         {
-            get => GetGuidelineString(DecryptedLevelString);
+            get => GetGuidelineString(LevelString);
             set => guidelines = GuidelineCollection.Parse(value);
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
@@ -208,7 +197,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
         public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};";
         /// <summary>Returns the raw level string of this <seealso cref="Level"/>.</summary>
-        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{DecryptedLevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
+        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{LevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
         #endregion
 
         #region Static Functions
