@@ -47,7 +47,7 @@ namespace GDE.App.Main.Levels
                     ObjectID = o.ObjectID,
                     Position = new Vector2((float)o.X, (float)-o.Y),
                     Size = size, // Set this to zoom scale later
-                    Rotation = (float)o.Rotation, // fix soon:tm:
+                    Rotation = (float)o.MathRotationDegrees, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft
                 });
