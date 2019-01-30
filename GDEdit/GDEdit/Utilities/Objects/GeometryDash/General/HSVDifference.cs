@@ -67,6 +67,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             v = SV.GetSVFromMode(BrightnessMode = saturationMode, (float)brightness);
         }
 
+        public static bool operator ==(HSVAdjustment left, HSVAdjustment right)
+        {
+            foreach (var p in typeof(HSVAdjustment).GetProperties())
+                if (p.GetValue(left) != p.GetValue(right))
+                    return false;
+            return true;
+        }
+        public static bool operator !=(HSVAdjustment left, HSVAdjustment right)
+        {
+            foreach (var p in typeof(HSVAdjustment).GetProperties())
+                if (p.GetValue(left) == p.GetValue(right))
+                    return false;
+            return true;
+        }
+
         /// <summary>Parses the HSV adjustment string into an <seealso cref="HSVAdjustment"/> object.</summary>
         /// <param name="adjustment">The string to parse.</param>
         public static HSVAdjustment Parse(string adjustment)
