@@ -239,7 +239,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Static Functions
-        /// <summary>Merges a number of levels together. All their objects are concatenated, colors are kept the same if equal at respective IDs, otherwise reset, and the rest of the properties are kept the same if respectively equal, otherwise reset.</summary>
+        /// <summary>Merges a number of levels together. All their objects are concatenated, colors are kept the same if equal at respective IDs, otherwise reset, and the rest of the properties (excluding some metadata) are kept the same if respectively equal, otherwise reset.</summary>
         /// <param name="levels">The levels to merge.</param>
         public static Level MergeLevels(params Level[] levels)
         {
@@ -256,7 +256,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 if (levels[i].BinaryVersion > result.BinaryVersion)
                     result.BinaryVersion = levels[i].BinaryVersion;
             }
-            // TODO: Add support for the color channels
+            result.ColorChannels = LevelColorChannels.GetCommonColors(levels);
             result.Guidelines.RemoveDuplicatedGuidelines();
             var properties = typeof(Level).GetProperties();
             foreach (var p in properties)
