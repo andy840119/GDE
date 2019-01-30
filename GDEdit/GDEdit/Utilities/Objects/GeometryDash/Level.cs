@@ -18,8 +18,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
-        private string rawLevel;
-
         #region Properties
         // Metadata
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
@@ -138,7 +136,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string RawLevel
         {
             get => GetRawLevel();
-            set => GetRawInformation(rawLevel = value);
+            set => GetRawInformation(value);
         }
         #endregion
 
