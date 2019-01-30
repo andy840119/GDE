@@ -7,10 +7,11 @@ using osuTK.Graphics;
 
 namespace GDE.Tests.Visual
 {
-    public class TestCaseLevelOverview : TestCase
+    public class TestCaseLevelPreview : TestCase
     {
         private LevelPreview lvlOverview;
-        public TestCaseLevelOverview()
+
+        public TestCaseLevelPreview()
         {
             Children = new Drawable[]
             {
