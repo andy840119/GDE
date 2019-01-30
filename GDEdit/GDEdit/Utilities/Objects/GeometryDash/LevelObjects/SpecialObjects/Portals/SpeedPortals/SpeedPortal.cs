@@ -24,7 +24,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpeedPortal"/> class.</summary>
-        public SpeedPortal() : base() { }
+        public SpeedPortal()
+            : base()
+        {
+            Checked = true;
+        }
 
         /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
         /// <param name="cloned">The cloned instance to add the information to.</param>

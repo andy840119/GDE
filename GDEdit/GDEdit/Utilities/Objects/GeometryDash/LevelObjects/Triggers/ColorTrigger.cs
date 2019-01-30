@@ -13,8 +13,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Color trigger.</summary>
     public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
     {
-        private byte red, green, blue;
-        private short targetColorID;
+        private byte red = 255, green = 255, blue = 255;
+        private short targetColorID = 1;
         private float duration = 0.5f, opacity = 1;
 
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;

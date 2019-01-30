@@ -24,10 +24,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
-        private short[] groupIDs;
+        private short[] groupIDs = new short[0];
         private BitArray8 bools = new BitArray8();
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
-        private float rotation, scaling;
+        private float rotation, scaling = 1;
         
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
