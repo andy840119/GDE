@@ -18,11 +18,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
-        private GuidelineCollection guidelines;
-        private LevelObjectCollection levelObjects;
-        private string decryptedLevelString;
-        private string rawLevel;
-
         #region Properties
         // Metadata
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
@@ -96,31 +91,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int GroundLine { get; set; }
         /// <summary>The font property of the level.</summary>
         public int Font { get; set; }
+        /// <summary>The level's guidelines.</summary>
+        public GuidelineCollection Guidelines { get; set; }
+        /// <summary>The level's objects.</summary>
+        public LevelObjectCollection LevelObjects { get; set; }
         /// <summary>The color channels of the level.</summary>
         public LevelColorChannels ColorChannels { get; private set; }
 
-        /// <summary>The level's objects.</summary>
-        public LevelObjectCollection LevelObjects
-        {
-            get
-            {
-                if (levelObjects == null)
-                    levelObjects = GetObjects(GetObjectString(DecryptedLevelString));
-                return levelObjects;
-            }
-            set => levelObjects = value;
-        }
-        /// <summary>The level's guidelines.</summary>
-        public GuidelineCollection Guidelines
-        {
-            get
-            {
-                if (guidelines == null)
-                    guidelines = GuidelineCollection.Parse(GuidelineString);
-                return guidelines;
-            }
-            set => guidelines = value;
-        }
         /// <summary>The level object count.</summary>
         public int ObjectCount => LevelObjects.Count - ObjectCounts.ValueOrDefault((int)TriggerType.StartPos);
         /// <summary>The level trigger count.</summary>
@@ -145,38 +122,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public double CameraZoom { get; set; }
 
         // Strings
-        /// <summary>The level string.</summary>
+        /// <summary>The level string in its decrypted form.</summary>
         public string LevelString
         {
             get => GetLevelString();
             set
             {
-                GetLevelStringInformation(value);
-                decryptedLevelString = null;
+                TryDecryptLevelString(value, out var decryptedLevelString);
+                GetLevelStringInformation(decryptedLevelString);
             }
-        }
-        /// <summary>The decrypted form of the level string.</summary>
-        public string DecryptedLevelString
-        {
-            get
-            {
-                if (decryptedLevelString == null)
-                    TryDecryptLevelString(LevelString, out decryptedLevelString);
-                return decryptedLevelString;
-            }
-            set => LevelString = decryptedLevelString = value;
-        }
-        /// <summary>The guideline string of the level.</summary>
-        public string GuidelineString
-        {
-            get => GetGuidelineString(DecryptedLevelString);
-            set => guidelines = GuidelineCollection.Parse(value);
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
         public string RawLevel
         {
             get => GetRawLevel();
-            set => GetRawInformation(rawLevel = value);
+            set => GetRawInformation(value);
         }
         #endregion
 
@@ -204,11 +164,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 
         #region Functions
         /// <summary>Clones this level and returns the cloned result.</summary>
-        public Level Clone() => new Level(new string(RawLevel.ToCharArray()));
+        public Level Clone() => new Level(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
-        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};";
+        public string GetLevelString() => $"kS38,{ColorChannels},kA13,{SongOffset},kA15,{(FadeIn ? "1" : "0")},kA16,{(FadeOut ? "1" : "0")},kA14,{Guidelines},kA6,{BackgroundTexture},kA7,{GroundTexture},kA17,{GroundLine},kA18,{Font},kS39,0,kA2,{StartingGamemode},kA3,{StartingSize},kA8,{(DualMode ? "1" : "0")},kA4,{StartingSpeed},kA9,0,kA10,{(TwoPlayerMode ? "1" : "0")},kA11,{(InversedGravity ? "1" : "0")};{LevelObjects}";
         /// <summary>Returns the raw level string of this <seealso cref="Level"/>.</summary>
-        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{DecryptedLevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
+        public string GetRawLevel() => $"<k>kCEK</k><i>4</i><k>k1</k><i>{ID}</i><k>k2</k><s>{Name}</s><k>k4</k><s>{LevelString}</s>{(Description.Length > 0 ? $"<k>k3</k><s>{ToBase64String(Encoding.ASCII.GetBytes(Description))}</s>" : "")}<k>k46</k><i>{Revision}</i><k>k5</k><s>{CreatorName}</s><k>k13</k><t />{GetBoolPropertyString("k14", VerifiedStatus)}{GetBoolPropertyString("k15", UploadedStatus)}{GetBoolPropertyString("k79", Unlisted)}<k>k21</k><i>2</i><k>k16</k><i>{Version}</i><k>k8</k><i>{OfficialSongID}</i><k>k45</k><i>{CustomSongID}</i><k>k80</k><i>{BuildTime}</i><k>k50</k><i>{BinaryVersion}</i><k>k47</k><t /><k>k84</k><i>{Folder}</i><k>kI1</k><r>{CameraX}</r><k>kI2</k><r>{CameraY}</r><k>kI3</k><r>{CameraZoom}</r>";
         #endregion
 
         #region Static Functions
@@ -237,14 +197,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #region Private stuff
         private void GetLevelStringInformation(string levelString)
         {
-            string infoString = levelString.Split(';').First();
+            string infoString = levelString.Substring(0, levelString.IndexOf(';'));
             string[] split = infoString.Split(',');
             for (int i = 0; i < split.Length; i += 2)
                 GetLevelStringParameterInformation(split[i], split[i + 1]);
+            LevelObjects = GetObjects(GetObjectString(levelString));
         }
         private void GetRawInformation(string raw)
         {
-            string startKeyString = "<k>k";
+            string startKeyString = "<k>";
             string endKeyString = "</k><";
             int IDStart;
             int IDEnd;
@@ -303,7 +264,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     SongOffset = ToInt32(value);
                     break;
                 case "kA14": // Guidelines
-                    guidelines = GuidelineCollection.Parse(value);
+                    Guidelines = GuidelineCollection.Parse(value);
                     break;
                 case "kA15": // Fade In
                     FadeIn = value == "1";

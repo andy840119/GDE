@@ -36,6 +36,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             LevelColorChannels result = new LevelColorChannels();
             foreach (var s in split)
             {
+                if (s.Length == 0)
+                    continue;
                 var c = ColorChannel.Parse(s);
                 result[c.ColorChannelID] = c;
             }
