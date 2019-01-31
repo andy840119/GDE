@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
@@ -29,16 +30,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The name of the creator.</summary>
         public string CreatorName { get; set; }
         /// <summary>The revision of the level.</summary>
+        [CommonMergedProperty]
         public int Revision { get; set; }
         /// <summary>The attempts made in the level.</summary>
         public int Attempts { get; set; }
         /// <summary>The ID of the level.</summary>
+        [CommonMergedProperty]
         public int ID { get; set; }
         /// <summary>The version of the level.</summary>
+        [CommonMergedProperty]
         public int Version { get; set; }
         /// <summary>The folder of the level.</summary>
+        [CommonMergedProperty]
         public int Folder { get; set; }
         /// <summary>The password of the level.</summary>
+        [CommonMergedProperty]
         public int Password { get; set; }
         /// <summary>The binary version of the game the level was created on.</summary>
         public int BinaryVersion { get; set; }
@@ -51,45 +57,63 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             set => BuildTime = (int)value.TotalSeconds;
         }
         /// <summary>Determines whether the level has been verified or not.</summary>
+        [CommonMergedProperty]
         public bool VerifiedStatus { get; set; }
         /// <summary>Determines whether the level has been uploaded or not.</summary>
+        [CommonMergedProperty]
         public bool UploadedStatus { get; set; }
         /// <summary>Determines whether the level is unlisted or not.</summary>
+        [CommonMergedProperty]
         public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
         public LevelLength Length { get; set; }
 
         // Level properties
         /// <summary>The official song ID used in the level.</summary>
+        [CommonMergedProperty]
         public int OfficialSongID { get; set; }
         /// <summary>The custom song ID used in the level.</summary>
+        [CommonMergedProperty]
         public int CustomSongID { get; set; }
         /// <summary>The song offset of the level.</summary>
+        [CommonMergedProperty]
         public int SongOffset { get; set; }
         /// <summary>The fade in property of the song of the level.</summary>
+        [CommonMergedProperty]
         public bool FadeIn { get; set; }
         /// <summary>The fade out property of the song of the level.</summary>
+        [CommonMergedProperty]
         public bool FadeOut { get; set; }
 
         /// <summary>The starting speed of the player when the level begins.</summary>
+        [CommonMergedProperty]
         public Speed StartingSpeed { get; set; }
         /// <summary>The starting gamemode of the player when the level begins.</summary>
+        [CommonMergedProperty]
         public Gamemode StartingGamemode { get; set; }
         /// <summary>The starting size of the player when the level begins.</summary>
+        [CommonMergedProperty]
         public PlayerSize StartingSize { get; set; }
         /// <summary>The Dual Mode property of the level.</summary>
+        [CommonMergedProperty]
         public bool DualMode { get; set; }
         /// <summary>The 2-Player Mode property of the level.</summary>
+        [CommonMergedProperty]
         public bool TwoPlayerMode { get; set; }
         /// <summary>The inversed gravity property of the level (there is no ability to set that from the game itself without hacking the gamesave).</summary>
+        [CommonMergedProperty]
         public bool InversedGravity { get; set; }
         /// <summary>The background texture property of the level.</summary>
+        [CommonMergedProperty]
         public int BackgroundTexture { get; set; }
         /// <summary>The ground texture property of the level.</summary>
+        [CommonMergedProperty]
         public int GroundTexture { get; set; }
         /// <summary>The ground line property of the level.</summary>
+        [CommonMergedProperty]
         public int GroundLine { get; set; }
         /// <summary>The font property of the level.</summary>
+        [CommonMergedProperty]
         public int Font { get; set; }
         /// <summary>The level's guidelines.</summary>
         public GuidelineCollection Guidelines { get; set; }
@@ -115,10 +139,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 
         // Editor stuff
         /// <summary>The X position of the camera.</summary>
+        [CommonMergedProperty]
         public double CameraX { get; set; }
         /// <summary>The Y position of the camera.</summary>
+        [CommonMergedProperty]
         public double CameraY { get; set; }
         /// <summary>The zoom of the camera.</summary>
+        [CommonMergedProperty]
         public double CameraZoom { get; set; }
 
         // Strings
@@ -172,7 +199,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Static Functions
-        /// <summary>Merges a number of levels together. All their objects are concatenated, colors are kept the same if equal at respective IDs, otherwise reset, and the rest of the properties are kept the same if respectively equal, otherwise reset.</summary>
+        /// <summary>Merges a number of levels together. All their objects are concatenated, colors are kept the same if equal at respective IDs, otherwise reset, and the rest of the properties (excluding some metadata) are kept the same if respectively equal, otherwise reset.</summary>
         /// <param name="levels">The levels to merge.</param>
         public static Level MergeLevels(params Level[] levels)
         {
@@ -180,12 +207,27 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 return levels[0];
             if (levels.Length == 0)
                 throw new Exception("Cannot merge 0 levels.");
-            Level result = new Level();
-            foreach (var l in levels)
+            Level result = levels[0].Clone();
+            for (int i = 1; i < levels.Length; i++)
             {
-                foreach (var o in l.LevelObjects)
-                    result.LevelObjects.Add(o);
-                // TODO: Care for the rest of the properties
+                result.LevelObjects.AddRange(levels[i].LevelObjects);
+                result.Guidelines.AddRange(levels[i].Guidelines);
+                result.BuildTime += levels[i].BuildTime;
+                if (levels[i].BinaryVersion > result.BinaryVersion)
+                    result.BinaryVersion = levels[i].BinaryVersion;
+            }
+            result.ColorChannels = LevelColorChannels.GetCommonColors(levels);
+            result.Guidelines.RemoveDuplicatedGuidelines();
+            var properties = typeof(Level).GetProperties();
+            foreach (var p in properties)
+            {
+                if (p.GetCustomAttributes(typeof(CommonMergedPropertyAttribute), false).Length > 0)
+                {
+                    bool common = true;
+                    for (int i = 1; i < levels.Length && common; i++)
+                        if (!(common = p.GetValue(result) != p.GetValue(levels[i])))
+                            p.SetValue(result, default);
+                }
             }
             return result;
         }

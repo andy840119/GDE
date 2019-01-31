@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
@@ -28,6 +29,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             set => colors[(int)colorID] = value;
         }
 
+        /// <summary>Clones this <seealso cref="LevelColorChannels"/> instance and returns the cloned instance.</summary>
+        public LevelColorChannels Clone()
+        {
+            LevelColorChannels result = new LevelColorChannels();
+            result.colors = colors.CopyArray();
+            return result;
+        }
+
         /// <summary>Parses the level color string into a <seealso cref="LevelColorChannels"/> object.</summary>
         /// <param name="colorChannels">The level color string to parse.</param>
         public static LevelColorChannels Parse(string colorChannels)
@@ -41,6 +50,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
                 var c = ColorChannel.Parse(s);
                 result[c.ColorChannelID] = c;
             }
+            return result;
+        }
+        /// <summary>Gets the common colors between a number of levels.</summary>
+        /// <param name="levels">The levels to get the common colors of.</param>
+        public static LevelColorChannels GetCommonColors(Level[] levels)
+        {
+            LevelColorChannels result = levels[0].ColorChannels.Clone();
+            for (int i = 0; i < levels.Length; i++)
+                for (int j = 0; j < result.colors.Length; j++)
+                    if (result[j] != levels[i].ColorChannels[j])
+                        result[j] = default;
             return result;
         }
 

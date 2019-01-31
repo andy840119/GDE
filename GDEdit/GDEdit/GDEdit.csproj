@@ -58,6 +58,7 @@
     <Compile Include="Application\Status.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\GamesaveValues\ColorChannelPlayerColor.cs" />

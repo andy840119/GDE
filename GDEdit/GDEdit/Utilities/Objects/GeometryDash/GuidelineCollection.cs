@@ -28,6 +28,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             g.Add(guideline);
             return this;
         }
+        /// <summary>Adds a collection of guidelines from the <seealso cref="GuidelineCollection"/>.</summary>
+        /// <param name="guidelines">The guidelines to add.</param>
+        public GuidelineCollection AddRange(List<Guideline> guidelines)
+        {
+            g.AddRange(guidelines);
+            return this;
+        }
+        /// <summary>Adds a collection of guidelines from the <seealso cref="GuidelineCollection"/>.</summary>
+        /// <param name="guidelines">The guidelines to add.</param>
+        public GuidelineCollection AddRange(GuidelineCollection guidelines) => AddRange(guidelines.g);
         /// <summary>Inserts a <seealso cref="Guideline"/> into the <seealso cref="GuidelineCollection"/> at a specified index and returns the instance of the <seealso cref="GuidelineCollection"/>.</summary>
         /// <param name="index">The index to insert the <seealso cref="Guideline"/> at.</param>
         /// <param name="guideline">The guideline to insert into the <seealso cref="GuidelineCollection"/>.</param>
