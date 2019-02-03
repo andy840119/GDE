@@ -321,6 +321,27 @@ namespace GDEdit.Application.Editor
         }
         /// <summary>ViPriNizes all the selected objects.</summary>
         public void CopyPaste() => Level.LevelObjects.AddRange(SelectedObjects.Clone());
+
+        /// <summary>Resets the unused color channels.</summary>
+        public void ResetUnusedColors()
+        {
+            HashSet<int> usedIDs = new HashSet<int>();
+            foreach (var o in Level.LevelObjects)
+            {
+                usedIDs.Add(o.Color1ID);
+                usedIDs.Add(o.Color2ID);
+            }
+            HashSet<int> copiedIDs = new HashSet<int>();
+            for (int i = 0; i < 1000; i++)
+                copiedIDs.Add(Level.ColorChannels[i].CopiedColorID);
+            foreach (var c in copiedIDs)
+                usedIDs.Add(c);
+            usedIDs.Remove(0);
+            usedIDs.RemoveWhere(k => k > 999);
+            for (int i = 0; i < 1000; i++)
+                if (!usedIDs.Contains(i))
+                    Level.ColorChannels[i].Reset();
+        }
         #endregion
 
         #region Editor Camera

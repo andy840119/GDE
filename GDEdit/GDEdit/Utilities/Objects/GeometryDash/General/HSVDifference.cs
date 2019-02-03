@@ -82,6 +82,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             return true;
         }
 
+        /// <summary>Resets this <seealso cref="HSVAdjustment"/>.</summary>
+        public void Reset()
+        {
+            Hue = 0;
+            Saturation = Brightness = 1;
+            SaturationMode = BrightnessMode = SVAdjustmentMode.Multiplicative;
+        }
+
         /// <summary>Parses the HSV adjustment string into an <seealso cref="HSVAdjustment"/> object.</summary>
         /// <param name="adjustment">The string to parse.</param>
         public static HSVAdjustment Parse(string adjustment)
