@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a pickup item.</summary>
-    public class PickupItem : SpecialObject, IHasTargetGroupID
+    public class PickupItem : SpecialObject, IHasTargetGroupID, IHasTargetItemID
     {
-        private short targetGroupID;
+        private short targetGroupID, targetItemID;
 
         protected override int[] ValidObjectIDs => ObjectLists.PickupItemList;
         protected override string SpecialObjectTypeName => "pickup item";
@@ -21,9 +21,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <summary>Represents the Pickup Mode property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.PickupMode)]
         public PickupItemPickupMode PickupMode { get; set; }
-        /// <summary>Represents the Count property of the pickup item.</summary>
-        [ObjectStringMappable(ObjectParameter.Count)]
-        public int Count { get; set; }
+        /// <summary>Represents the Target Item ID of the pickup item.</summary>
+        [ObjectStringMappable(ObjectParameter.ItemID)]
+        public int TargetItemID
+        {
+            get => targetItemID;
+            set => targetItemID = (short)value;
+        }
         /// <summary>Represents the Subtract Count property of the pickup item.</summary>
         [ObjectStringMappable(ObjectParameter.SubtractCount)]
         public bool SubtractCount
