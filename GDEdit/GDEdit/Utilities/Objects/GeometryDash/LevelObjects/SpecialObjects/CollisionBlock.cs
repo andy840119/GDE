@@ -28,6 +28,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             get => BlockID;
             set => BlockID = value;
         }
+        /// <summary>The Dynamic Block of the collision block.</summary>
+        public bool DynamicBlock
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionBlock"/> class.</summary>
         public CollisionBlock() : base() { }
@@ -41,6 +47,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             var c = cloned as CollisionBlock;
             c.BlockID = BlockID;
+            c.DynamicBlock = DynamicBlock;
             return base.AddClonedInstanceInformation(c);
         }
     }
