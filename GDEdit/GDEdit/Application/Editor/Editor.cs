@@ -1,6 +1,7 @@
 ﻿using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -336,9 +337,7 @@ namespace GDEdit.Application.Editor
                 copiedIDs.Add(Level.ColorChannels[i].CopiedColorID);
             foreach (var c in copiedIDs)
                 usedIDs.Add(c);
-            usedIDs.Remove(0);
-            usedIDs.RemoveWhere(k => k > 999);
-            for (int i = 0; i < 1000; i++)
+            for (int i = 1; i < 1000; i++)
                 if (!usedIDs.Contains(i))
                     Level.ColorChannels[i].Reset();
         }
