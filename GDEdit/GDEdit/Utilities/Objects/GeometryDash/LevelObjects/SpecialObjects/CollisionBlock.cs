@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
@@ -28,6 +30,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             get => BlockID;
             set => BlockID = value;
         }
+        /// <summary>The Dynamic Block property of the collision block.</summary>
+        [ObjectStringMappable(ObjectParameter.DynamicBlock)]
+        public bool DynamicBlock
+        {
+            get => SpecialObjectBools[0];
+            set => SpecialObjectBools[0] = value;
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionBlock"/> class.</summary>
         public CollisionBlock() : base() { }
@@ -41,6 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             var c = cloned as CollisionBlock;
             c.BlockID = BlockID;
+            c.DynamicBlock = DynamicBlock;
             return base.AddClonedInstanceInformation(c);
         }
     }
