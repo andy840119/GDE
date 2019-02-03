@@ -1,6 +1,9 @@
-﻿using GDEdit.Utilities.Objects.General;
+﻿using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -349,6 +352,14 @@ namespace GDEdit.Application.Editor
             {
                 switch (o)
                 {
+                    case PulseTrigger p:
+                        if (p.PulseTargetType == PulseTargetType.Group)
+                            usedIDs.Add(p.TargetGroupID);
+                        break;
+                    case PickupItem i:
+                        if (i.PickupMode == PickupItemPickupMode.ToggleTriggerMode)
+                            usedIDs.Add(i.TargetGroupID);
+                        break;
                     case IHasTargetGroupID t:
                         usedIDs.Add(t.TargetGroupID);
                         break;
