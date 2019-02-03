@@ -341,6 +341,27 @@ namespace GDEdit.Application.Editor
                 if (!usedIDs.Contains(i))
                     Level.ColorChannels[i].Reset();
         }
+        /// <summary>Resets the Group IDs of the objects that are not targeted by any trigger.</summary>
+        public void ResetUnusedGroupIDs()
+        {
+            HashSet<int> usedIDs = new HashSet<int>();
+            foreach (var o in Level.LevelObjects)
+            {
+                switch (o)
+                {
+                    case IHasTargetGroupID t:
+                        usedIDs.Add(t.TargetGroupID);
+                        break;
+                    case IHasSecondaryGroupID s:
+                        usedIDs.Add(s.SecondaryGroupID);
+                        break;
+                }
+            }
+            foreach (var o in Level.LevelObjects)
+                for (int i = 0; i < o.GroupIDs.Length; i++)
+                    if (!usedIDs.Contains(o.GroupIDs[i]))
+                        o.GroupIDs[i] = 0;
+        }
         #endregion
 
         #region Editor Camera
