@@ -1,6 +1,10 @@
-﻿using GDEdit.Utilities.Objects.General;
+﻿using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -321,6 +325,54 @@ namespace GDEdit.Application.Editor
         }
         /// <summary>ViPriNizes all the selected objects.</summary>
         public void CopyPaste() => Level.LevelObjects.AddRange(SelectedObjects.Clone());
+
+        /// <summary>Resets the unused color channels.</summary>
+        public void ResetUnusedColors()
+        {
+            HashSet<int> usedIDs = new HashSet<int>();
+            foreach (var o in Level.LevelObjects)
+            {
+                usedIDs.Add(o.Color1ID);
+                usedIDs.Add(o.Color2ID);
+            }
+            HashSet<int> copiedIDs = new HashSet<int>();
+            for (int i = 0; i < 1000; i++)
+                copiedIDs.Add(Level.ColorChannels[i].CopiedColorID);
+            foreach (var c in copiedIDs)
+                usedIDs.Add(c);
+            for (int i = 1; i < 1000; i++)
+                if (!usedIDs.Contains(i))
+                    Level.ColorChannels[i].Reset();
+        }
+        /// <summary>Resets the Group IDs of the objects that are not targeted by any trigger.</summary>
+        public void ResetUnusedGroupIDs()
+        {
+            HashSet<int> usedIDs = new HashSet<int>();
+            foreach (var o in Level.LevelObjects)
+            {
+                switch (o)
+                {
+                    case PulseTrigger p:
+                        if (p.PulseTargetType == PulseTargetType.Group)
+                            usedIDs.Add(p.TargetGroupID);
+                        break;
+                    case PickupItem i:
+                        if (i.PickupMode == PickupItemPickupMode.ToggleTriggerMode)
+                            usedIDs.Add(i.TargetGroupID);
+                        break;
+                    case IHasTargetGroupID t:
+                        usedIDs.Add(t.TargetGroupID);
+                        break;
+                    case IHasSecondaryGroupID s:
+                        usedIDs.Add(s.SecondaryGroupID);
+                        break;
+                }
+            }
+            foreach (var o in Level.LevelObjects)
+                for (int i = 0; i < o.GroupIDs.Length; i++)
+                    if (!usedIDs.Contains(o.GroupIDs[i]))
+                        o.GroupIDs[i] = 0;
+        }
         #endregion
 
         #region Editor Camera

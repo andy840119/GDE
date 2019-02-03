@@ -45,6 +45,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             Green = green;
             Blue = blue;
         }
+
+        /// <summary>Resets this <seealso cref="ColorChannel"/>.</summary>
+        public void Reset()
+        {
+            Red = Green = Blue = 255;
+            CopiedPlayerColor = ColorChannelPlayerColor.None;
+            Blending = false;
+            Opacity = 1;
+            CopiedColorID = 0;
+            CopiedColorHSV.Reset();
+            CopyOpacity = false;
+        }
         
         /// <summary>Parses the color channel string into a <seealso cref="ColorChannel"/> object.</summary>
         /// <param name="colorChannel">The color channel string to parse.</param>
