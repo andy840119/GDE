@@ -1,6 +1,6 @@
 ﻿using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
-using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.GeometryDash;
 using System;
 using System.Collections.Generic;

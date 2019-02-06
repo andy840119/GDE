@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Objects.GeometryDash;
 
-namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
+namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>This enumeration provides values for the parameters of a <see cref="LevelObject"/>.</summary>
     public enum ObjectParameter
