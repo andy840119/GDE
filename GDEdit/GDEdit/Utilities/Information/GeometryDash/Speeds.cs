@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,15 +24,35 @@ namespace GDEdit.Utilities.Information.GeometryDash
         /// <summary>The speed multiplier for the very faster speed (&gt;&gt;&gt;&gt;).</summary>
         public const double VeryFasterSpeedMultiplier = 1.6;
 
-        /// <summary>The (ESTIMATED) speed in uniits per second of the slow speed (&lt;).</summary>
+        /// <summary>The (ESTIMATED) speed in units per second of the slow speed (&lt;).</summary>
         public const double SlowSpeed = 251.3;
-        /// <summary>The (ESTIMATED) speed in uniits per second of the normal speed (&gt;).</summary>
+        /// <summary>The (ESTIMATED) speed in units per second of the normal speed (&gt;).</summary>
         public const double NormalSpeed = 311.6;
-        /// <summary>The (ESTIMATED) speed in uniits per second of the fast speed (&gt;&gt;).</summary>
+        /// <summary>The (ESTIMATED) speed in units per second of the fast speed (&gt;&gt;).</summary>
         public const double FastSpeed = 387.4;
-        /// <summary>The speed in uniits per second of the faster speed (&gt;&gt;&gt;).</summary>
+        /// <summary>The speed in units per second of the faster speed (&gt;&gt;&gt;).</summary>
         public const double FasterSpeed = 468;
-        /// <summary>The speed in uniits per second of the very faster speed (&gt;&gt;&gt;&gt;).</summary>
+        /// <summary>The speed in units per second of the very faster speed (&gt;&gt;&gt;&gt;).</summary>
         public const double VeryFasterSpeed = 576;
+
+        /// <summary>Gets the speed in units per second of the provided speed.</summary>
+        /// <param name="speed">The speed to get the units per second of.</param>
+        public static double GetSpeed(Speed speed)
+        {
+            switch (speed)
+            {
+                case Speed.Slow:
+                    return SlowSpeed;
+                case Speed.Normal:
+                    return NormalSpeed;
+                case Speed.Fast:
+                    return FastSpeed;
+                case Speed.Faster:
+                    return FasterSpeed;
+                case Speed.Fastest:
+                    return VeryFasterSpeed;
+            }
+            throw new Exception("Invalid speed.");
+        }
     }
 }
