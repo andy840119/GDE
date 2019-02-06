@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Functions.Extensions;

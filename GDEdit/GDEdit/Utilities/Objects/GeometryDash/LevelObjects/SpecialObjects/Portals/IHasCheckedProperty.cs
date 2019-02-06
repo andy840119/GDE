@@ -1,5 +1,5 @@
 ﻿using GDEdit.Utilities.Attributes;
-using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using System;
 using System.Collections.Generic;
 using System.Linq;

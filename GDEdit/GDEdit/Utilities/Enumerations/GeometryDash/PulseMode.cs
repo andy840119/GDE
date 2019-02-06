@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
+namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>This enumeration provides values for the Pulse Type of a Pulse trigger.</summary>
     public enum PulseMode : byte

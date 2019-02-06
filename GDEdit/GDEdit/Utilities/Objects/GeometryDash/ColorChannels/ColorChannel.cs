@@ -1,4 +1,4 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+﻿using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.General;
 using System;
 using System.Collections.Generic;

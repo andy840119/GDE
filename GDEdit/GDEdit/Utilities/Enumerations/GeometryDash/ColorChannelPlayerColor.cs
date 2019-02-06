@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues
+namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
     /// <summary>Represents the player color property of a color channel.</summary>
     public enum ColorChannelPlayerColor

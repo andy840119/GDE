@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Objects.General;
-using GDEdit.Utilities.Enumerations.GeometryDash.GamesaveValues;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
