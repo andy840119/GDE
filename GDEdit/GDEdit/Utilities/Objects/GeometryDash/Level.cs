@@ -11,6 +11,7 @@ using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
 using static System.Convert;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
@@ -136,6 +137,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public int[] DifferentObjectIDs => ObjectCounts.Keys.ToArray();
         /// <summary>The group IDs in the collection.</summary>
         public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
+        /// <summary>The speed segments of the level.</summary>
+        public List<SpeedSegment> SpeedSegments
+        {
+            get
+            {
+                var speedSegments = new List<SpeedSegment>();
+                speedSegments.Add(new SpeedSegment(StartingSpeed, 0));
+                foreach (SpeedPortal s in LevelObjects)
+                    if (s.Checked)
+                        speedSegments.Add(new SpeedSegment(s.Speed, s.X)); // TODO: Add offset based on hitbox and scaling and rotation
+                return speedSegments;
+            }
+        }
 
         // Editor stuff
         /// <summary>The X position of the camera.</summary>
