@@ -23,9 +23,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             double time = 0;
             int i = 1;
             for (; i < Count && this[i].X < x; i++)
-                time += (this[i].X - this[i - 1].X) * GetSpeed(this[i - 1].Speed);
-            int final = Math.Max(i, Count);
-            return time + (x - this[final].X) * GetSpeed(this[final].Speed);
+                time += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
+            int final = Math.Max(i, Count - 1);
+            return time + (x - this[final].X) / GetSpeed(this[final].Speed);
         }
         /// <summary>Converts the provided time into X position.</summary>
         /// <param name="time">The time to convert into X position.</param>
