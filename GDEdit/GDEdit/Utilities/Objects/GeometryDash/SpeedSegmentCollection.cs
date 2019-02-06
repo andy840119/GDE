@@ -39,6 +39,41 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             return this[final].X + (t - time) * GetSpeed(this[final].Speed);
         }
 
+        /// <summary>Converts the provided X positions into times.</summary>
+        /// <param name="x">The X positions to convert into times.</param>
+        public List<double> ConvertXToTime(List<double> x)
+        {
+            x.Sort();
+            double time = 0;
+            int i = 1;
+            var result = new List<double>();
+            foreach (var k in x)
+            {
+                for (; i < Count && this[i].X < k; i++)
+                    time += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
+                int final = Math.Max(i, Count - 1);
+                result.Add(time + (k - this[final].X) / GetSpeed(this[final].Speed));
+            }
+            return result;
+        }
+        /// <summary>Converts the provided times into X positions.</summary>
+        /// <param name="time">The times to convert into X positions.</param>
+        public List<double> ConvertTimeToX(List<double> times)
+        {
+            times.Sort();
+            double t = 0;
+            int i = 1;
+            var result = new List<double>();
+            foreach (var k in times)
+            {
+                for (; i < Count && t < k; i++)
+                    t += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
+                int final = Math.Max(i, Count) - 1;
+                result.Add(this[final].X + (t - k) * GetSpeed(this[final].Speed));
+            }
+            return result;
+        }
+
         /// <summary>Gets or sets the element at the specified index.</summary>
         /// <param name="index">The index of the element to get or set.</param>
         public SpeedSegment this[int index]
