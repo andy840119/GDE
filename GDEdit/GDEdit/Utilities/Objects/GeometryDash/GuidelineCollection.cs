@@ -107,6 +107,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             g = guidelines;
             return this;
         }
+        /// <summary>Returns the index of the first guideline whose time stamp is not greater than the provided time stamp.</summary>
+        /// <param name="timeStamp">The time stamp to exceed.</param>
+        public int GetFirstIndexAfterTimeStamp(double timeStamp)
+        {
+            int min = 0;
+            int max = g.Count;
+            int mid = 0;
+            while (min < max)
+            {
+                mid = (min + max) / 2;
+                if (timeStamp == g[mid].TimeStamp)
+                    return mid;
+                if (timeStamp < g[mid].TimeStamp)
+                    min = mid + 1;
+                else
+                    max = mid;
+            }
+            return mid;
+        }
 
         public IEnumerator<Guideline> GetEnumerator()
         {
@@ -116,24 +135,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #region Private stuff
-        private int FindIndexToInsertGuideline(Guideline g) => FindIndexToInsertGuideline(g.TimeStamp);
-        private int FindIndexToInsertGuideline(double timeStamp)
-        {
-            int min = 0;
-            int max = g.Count;
-            int mid = 0;
-            while (min < max)
-            {
-                mid = (min + max) / 2;
-                if (timeStamp == g[mid].TimeStamp)
-                    return mid; // Why do you want the same timestamp to be included?
-                if (timeStamp < g[mid].TimeStamp)
-                    min = mid + 1;
-                else
-                    max = mid;
-            }
-            return mid;
-        }
+        private int FindIndexToInsertGuideline(Guideline g) => GetFirstIndexAfterTimeStamp(g.TimeStamp);
         #endregion
 
         /// <summary>Parses the guideline string into a <seealso cref="GuidelineCollection"/>.</summary>
