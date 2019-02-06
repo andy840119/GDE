@@ -138,11 +138,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The group IDs in the collection.</summary>
         public int[] UsedGroupIDs => GroupCounts.Keys.ToArray();
         /// <summary>The speed segments of the level.</summary>
-        public SortedSet<SpeedSegment> SpeedSegments
+        public SpeedSegmentCollection SpeedSegments
         {
             get
             {
-                var speedSegments = new SortedSet<SpeedSegment>();
+                var speedSegments = new SpeedSegmentCollection();
                 speedSegments.Add(new SpeedSegment(StartingSpeed, 0));
                 foreach (SpeedPortal s in LevelObjects)
                     if (s.Checked)
