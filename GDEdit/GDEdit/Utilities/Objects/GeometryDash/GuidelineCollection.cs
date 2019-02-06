@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using static System.Convert;
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
     /// <summary>Represents a collection of guidelines.</summary>
-    public class GuidelineCollection
+    public class GuidelineCollection : IEnumerable<Guideline>
     {
         private List<Guideline> g;
 
@@ -94,6 +95,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             g = guidelines;
             return this;
         }
+
+        public IEnumerator<Guideline> GetEnumerator()
+        {
+            foreach (var g in g)
+                yield return g;
+        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #region Private stuff
         private int FindIndexToInsertGuideline(Guideline g) => FindIndexToInsertGuideline(g.TimeStamp);
