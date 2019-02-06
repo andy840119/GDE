@@ -13,6 +13,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         private List<Guideline> g;
 
+        /// <summary>The time stamps of the guidelines.</summary>
+        public List<double> TimeStamps
+        {
+            get
+            {
+                List<double> t = new List<double>();
+                foreach (var g in g)
+                    t.Add(g.TimeStamp);
+                return t;
+            }
+        }
+
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineCollection"/> class.</summary>
         public GuidelineCollection() : this(new List<Guideline>()) { }
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineCollection"/> class.</summary>
