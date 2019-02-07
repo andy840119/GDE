@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,23 @@ using static System.Convert;
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
     /// <summary>Represents a collection of guidelines.</summary>
-    public class GuidelineCollection
+    public class GuidelineCollection : IEnumerable<Guideline>
     {
         private List<Guideline> g;
+
+        /// <summary>The count of the guideline collection.</summary>
+        public int Count => g.Count;
+        /// <summary>The time stamps of the guidelines.</summary>
+        public List<double> TimeStamps
+        {
+            get
+            {
+                List<double> t = new List<double>();
+                foreach (var g in g)
+                    t.Add(g.TimeStamp);
+                return t;
+            }
+        }
 
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineCollection"/> class.</summary>
         public GuidelineCollection() : this(new List<Guideline>()) { }
@@ -94,10 +109,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             g = guidelines;
             return this;
         }
-
-        #region Private stuff
-        private int FindIndexToInsertGuideline(Guideline g) => FindIndexToInsertGuideline(g.TimeStamp);
-        private int FindIndexToInsertGuideline(double timeStamp)
+        /// <summary>Returns the index of the first guideline whose time stamp is not greater than the provided time stamp.</summary>
+        /// <param name="timeStamp">The time stamp to exceed.</param>
+        public int GetFirstIndexAfterTimeStamp(double timeStamp)
         {
             int min = 0;
             int max = g.Count;
@@ -106,7 +120,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             {
                 mid = (min + max) / 2;
                 if (timeStamp == g[mid].TimeStamp)
-                    return mid; // Why do you want the same timestamp to be included?
+                    return mid;
                 if (timeStamp < g[mid].TimeStamp)
                     min = mid + 1;
                 else
@@ -114,6 +128,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             }
             return mid;
         }
+
+        public IEnumerator<Guideline> GetEnumerator()
+        {
+            foreach (var g in g)
+                yield return g;
+        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        #region Private stuff
+        private int FindIndexToInsertGuideline(Guideline g) => GetFirstIndexAfterTimeStamp(g.TimeStamp);
         #endregion
 
         /// <summary>Parses the guideline string into a <seealso cref="GuidelineCollection"/>.</summary>

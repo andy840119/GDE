@@ -373,6 +373,30 @@ namespace GDEdit.Application.Editor
                     if (!usedIDs.Contains(o.GroupIDs[i]))
                         o.GroupIDs[i] = 0;
         }
+
+        /// <summary>Snaps all the triggers to the level's guidelines.</summary>
+        /// <param name="maxDifference">The max difference between the time of the trigger and the guideline in milliseconds.</param>
+        public void SnapTriggersToGuidelines(double maxDifference = 100)
+        {
+            if (Level.Guidelines.Count == 0)
+                return;
+            var segments = Level.SpeedSegments;
+            var triggers = new List<Trigger>(); // Contains the information of the triggers and their X positions
+            foreach (Trigger t in Level.LevelObjects)
+                if (!t.TouchTriggered)
+                    triggers.Add(t);
+            foreach (var t in triggers)
+            {
+                double time = segments.ConvertXToTime(t.X);
+                int index = Level.Guidelines.GetFirstIndexAfterTimeStamp(time);
+                double a = Level.Guidelines[index - 1].TimeStamp;
+                double b = Level.Guidelines[index].TimeStamp;
+                if (index > 0 && Math.Abs(a - time) <= maxDifference)
+                    t.X = segments.ConvertTimeToX(a);
+                else if (Math.Abs(b - time) <= maxDifference)
+                    t.X = segments.ConvertTimeToX(b);
+            }
+        }
         #endregion
 
         #region Editor Camera
