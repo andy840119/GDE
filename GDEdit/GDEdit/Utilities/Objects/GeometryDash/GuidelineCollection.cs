@@ -13,6 +13,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         private List<Guideline> g;
 
+        /// <summary>The count of the guideline collection.</summary>
+        public int Count => g.Count;
         /// <summary>The time stamps of the guidelines.</summary>
         public List<double> TimeStamps
         {
