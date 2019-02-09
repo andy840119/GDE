@@ -16,7 +16,6 @@ namespace GDE.App.Main.Objects
     {
         private GeneralObject lvlObj;
         private Box obj;
-        private TextureStore texStore;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
@@ -100,13 +99,7 @@ namespace GDE.App.Main.Objects
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
-            texStore = ts;
-        }
-
-        protected override void Update()
-        {
-            obj.Texture = texStore.Get($"Objects/{ObjectID}.png");
-            base.Update();
+            obj.Texture = ts.Get($"Objects/{ObjectID}.png");
         }
     }
 }
