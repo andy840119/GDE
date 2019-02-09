@@ -17,6 +17,8 @@ namespace GDE.App.Main.Screens.Menu
 {
     public class MainScreen : Screen
     {
+        private FillFlowContainer levelList;
+
         public MainScreen()
         {
             Children = new Drawable[]
@@ -39,12 +41,39 @@ namespace GDE.App.Main.Screens.Menu
                             {
                                 Value = "Song name"
                             }
-                        }
+                        },
+                        new Box
+                        {
+                            RelativeSizeAxes = Axes.Y,
+                            Size = new Vector2(260, 1f),
+                            Colour = GDEColours.FromHex("111111"),
+                            Margin = new MarginPadding
+                            {
+                                Top = 40
+                            },
+                        },
+                        new ScrollContainer
+                        {
+                           RelativeSizeAxes = Axes.Y,
+                           Size = new Vector2(260, 1f),
+                           Margin = new MarginPadding
+                           {
+                               Top = 40
+                           },
+                           Children = new Drawable[]
+                           {
+                               levelList = new FillFlowContainer
+                               {
+                                   RelativeSizeAxes = Axes.Both,
+                                   Direction = FillDirection.Vertical
+                               }
+                           }
+                        },
                     }
                 }
             };
 
-            if (Databases.Count == 0 || Databases[0].UserLevels.Count == 0)
+            /*if (Databases[0].UserLevels.Count == 0)
             {
                 Add(new FillFlowContainer
                 {
@@ -83,9 +112,17 @@ namespace GDE.App.Main.Screens.Menu
                 });
             }
             else
-            {
-                //TODO: Level cards
-            }
+            {*/
+                for (var i = 0; i < 3 /*Databases[0].UserLevels.Count*/; i++)
+                {
+                    levelList.Add(new LevelCard
+                    {
+                        RelativeSizeAxes = Axes.X,
+                        Size = new Vector2(0.9f, 100),
+                        Margin = new MarginPadding(10)
+                    });
+                }
+            //}
         }
     }
 }
