@@ -220,6 +220,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\SongMetadata.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\SpeedSegment.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\SpeedSegmentCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ISingleSelection.cs" />
