@@ -50,6 +50,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "1": // Song ID
                     ID = ToInt32(value);
                     break;
+                case "3": // ?
+                    UnknownKey3 = ToInt32(value);
+                    break;
                 case "2": // Title
                     Title = value;
                     break;
@@ -59,12 +62,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "5": // Creator Name
                     SongSizeMB = ToInt32(value);
                     break;
+                case "7": // ?
+                    UnknownKey7 = value;
+                    break;
+                case "9": // ?
+                    UnknownKey9 = ToInt32(value);
+                    break;
                 case "10": // Download Link
                     DownloadLink = value;
-                    break;
-                case "3": // ?
-                case "7": // ?
-                case "9": // ?
                     break;
                 default: // Not something we care about
                     break;
