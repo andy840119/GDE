@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Screens;
+﻿using GDE.App.Main.Screens.Menu;
 using GDE.App.Main.Toasts;
 using GDE.App.Main.Tools;
 using osu.Framework.Allocation;
@@ -10,16 +10,16 @@ namespace GDE.App.Main
 {
     public class GDEApp : GDEAppBase
     {
-        private MainContainer container;
-        private ToastNotification notif;
+        private MainScreen screen;
+        private ToastNotification notification;
 
         [BackgroundDependencyLoader]
         private void load()
         {
             AddRange(new Drawable[]
             {
-                container = new MainContainer(),
-                notif = new ToastNotification
+                screen = new MainScreen(),
+                notification = new ToastNotification
                 {
                     Anchor = Anchor.BottomCentre,
                     Origin = Anchor.BottomCentre,
@@ -36,8 +36,8 @@ namespace GDE.App.Main
 
         protected override bool ExceptionHandler(Exception arg)
         {
-            notif.text.Text = $"An error has occurred, Please report this to the devs. (Err: {arg.Message})";
-            notif.ToggleVisibility();
+            notification.text.Text = $"An error has occurred, Please report this to the devs. (Err: {arg.Message})";
+            notification.ToggleVisibility();
 
             return base.ExceptionHandler(arg);
         }
