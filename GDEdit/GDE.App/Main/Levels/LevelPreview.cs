@@ -16,7 +16,7 @@ namespace GDE.App.Main.Levels
 
         public LevelPreview()
         {
-            Databases.Add(new Database());
+            //Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
 
@@ -33,7 +33,7 @@ namespace GDE.App.Main.Levels
                 }
             }*/
 
-            for (var i = 0; i < 2299; i++)
+            for (var i = 0; i < 0; i++)
             {
                 float scale = 1;
 
