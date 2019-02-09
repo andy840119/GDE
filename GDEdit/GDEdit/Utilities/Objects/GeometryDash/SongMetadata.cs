@@ -24,6 +24,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The download link of the song.</summary>
         public string DownloadLink { get; set; }
 
+        /// <summary>The value of the unknown key 3.</summary>
+        public int UnknownKey3 { get; set; }
+        /// <summary>The value of the unknown key 7.</summary>
+        public string UnknownKey7 { get; set; }
+        /// <summary>The value of the unknown key 9.</summary>
+        public int UnknownKey9 { get; set; }
+
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>
         public SongMetadata() { }
 
@@ -92,5 +99,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 i = valueEnd;
             }
         }
+
+        /// <summary>Returns the equivalent <seealso cref="string"/> value of this <seealso cref="SongMetadata"/> instance.</summary>
+        public override string ToString() => $"<k>kCEK</k><i>6</i><k>1</k><i>{ID}</i><k>2</k><s>{Title}</s><k>3</k><i>{UnknownKey3}</i><k>4</k><s>{Artist}</s><k>5</k><r>{SongSizeMB}</r><k>7</k><s>{UnknownKey7}</s><k>9</k><i>{UnknownKey9}</i><k>10</k><s>{DownloadLink}</s>";
     }
 }
