@@ -47,6 +47,8 @@ namespace GDEdit.Application
         public List<Level> UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
         public List<string> FolderNames { get; set; }
+        /// <summary>The stored metadata information of the songs.</summary>
+        public List<SongMetadata> SongMetadataInformation { get; set; }
 
         /// <summary>The decrypted form of the game manager.</summary>
         public string DecryptedGamesave
@@ -463,6 +465,21 @@ namespace GDEdit.Application
                     while (folderIndex >= FolderNames.Count)
                         FolderNames.Add("");
                     FolderNames[folderIndex] = DecryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex);
+                }
+            }
+        }
+        private void GetSongMetadata()
+        {
+            SongMetadataInformation = new List<SongMetadata>();
+            int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            if (songMetadataStartIndex > 15)
+            {
+                int songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataStartIndex, DecryptedGamesave.Length);
+                int currentIndex = songMetadataStartIndex;
+                while ((currentIndex = DecryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
+                {
+                    int endingIndex = DecryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
+                    SongMetadataInformation.Add(SongMetadata.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
                 }
             }
         }
