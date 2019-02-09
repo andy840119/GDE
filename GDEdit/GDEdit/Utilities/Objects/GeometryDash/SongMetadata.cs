@@ -15,8 +15,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string Title { get; set; }
         /// <summary>The author of the song.</summary>
         public string Author { get; set; }
+        /// <summary>The size of the song in MB.</summary>
+        public double SongSizeMB { get; set; }
         /// <summary>The URL to the song on Newgrounds.</summary>
         public string URL => $"https://www.newgrounds.com/audio/listen/{ID}";
+        /// <summary>The download link of the song.</summary>
+        public string DownloadLink { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>
         public SongMetadata() { }
