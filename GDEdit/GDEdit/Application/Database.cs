@@ -176,8 +176,6 @@ namespace GDEdit.Application
         public void DeleteAllLevels()
         {
             DecryptedLevelData = DefaultLevelData; // Set the level data to the default
-            UpdateLevelData();
-
             // Delete all the level info from the prorgam's memory
             UserLevels.Clear();
             LevelKeyStartIndices.Clear();
@@ -213,33 +211,25 @@ namespace GDEdit.Application
         public void ImportLevel(string level)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
-                DecryptedLevelData = DecryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
+                decryptedLevelData = decryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
             level = RemoveLevelIndexKey(level); // Remove the index key of the level
-            DecryptedLevelData = DecryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
+            decryptedLevelData = decryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
             int clonedLevelLength = level.Length + 10; // The length of the inserted level
             LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
             UserLevels = UserLevels.InsertAtStart(new Level(level));
-            UpdateLevelData();
         }
         /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
         /// <param name="levelPath">The path of the level to import.</param>
-        public void ImportLevelFromFile(string levelPath)
-        {
-            ImportLevel(File.ReadAllText(levelPath));
-        }
+        public void ImportLevelFromFile(string levelPath) => ImportLevel(File.ReadAllText(levelPath));
         /// <summary>Imports a number of levels into the database and adds them to the start of the level list.</summary>
         /// <param name="lvls">The raw levels to import.</param>
         public void ImportLevels(string[] lvls)
         {
             for (int i = 0; i < lvls.Length; i++)
-            {
-                lvls[i] = RemoveLevelIndexKey(lvls[i]); // Remove the index key of the level
-                UserLevels.InsertAtStart(new Level(lvls[i]));
-            }
-            GetKeyIndices();
+                ImportLevel(lvls[i]);
             UpdateLevelData();
         }
         /// <summary>Imports a number of levels from the specified file path and adds them to the start of the level list.</summary>
@@ -298,7 +288,7 @@ namespace GDEdit.Application
             UpdateLevelData();
         }
 
-        /// <summary>Updates the level data in the memory.</summary>
+        /// <summary>Updates the level data in the memory and clears the stored decrypted level data string.</summary>
         public void UpdateLevelData()
         {
             decryptedLevelData = null; // Reset level data and let it be generated later
