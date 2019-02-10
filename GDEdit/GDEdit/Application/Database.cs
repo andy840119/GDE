@@ -175,7 +175,7 @@ namespace GDEdit.Application
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
         {
-            DecryptedLevelData = DefaultLevelData; // Set the level data to the default
+            decryptedLevelData = DefaultLevelData; // Set the level data to the default
             // Delete all the level info from the prorgam's memory
             UserLevels.Clear();
             LevelKeyStartIndices.Clear();
