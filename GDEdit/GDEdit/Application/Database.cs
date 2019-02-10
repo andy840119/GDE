@@ -157,19 +157,11 @@ namespace GDEdit.Application
         }
         /// <summary>Creates a number of new levels with the names "Unnamed {n}" and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
-        public void CreateLevels(int numberOfLevels)
-        {
-            for (int i = 0; i < numberOfLevels; i++)
-                CreateLevel();
-        }
+        public void CreateLevels(int numberOfLevels) => CreateLevels(numberOfLevels, new string[numberOfLevels], new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
-        public void CreateLevels(int numberOfLevels, string[] names)
-        {
-            for (int i = 0; i < numberOfLevels; i++)
-                CreateLevel(names[i]);
-        }
+        public void CreateLevels(int numberOfLevels, string[] names) => CreateLevels(numberOfLevels, names, new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and descriptions and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
@@ -177,7 +169,8 @@ namespace GDEdit.Application
         public void CreateLevels(int numberOfLevels, string[] names, string[] descs)
         {
             for (int i = 0; i < numberOfLevels; i++)
-                CreateLevel(names[i], descs[i]);
+                UserLevels.Insert(0, new Level(names[i], descs[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
+            UpdateLevelData();
         }
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
