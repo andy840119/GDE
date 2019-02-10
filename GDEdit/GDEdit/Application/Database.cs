@@ -113,7 +113,8 @@ namespace GDEdit.Application
         public Database(string gameManagerPath, string localLevelsPath)
         {
             TryDecryptGamesave(File.ReadAllText(GameManagerPath = gameManagerPath), out decryptedGamesave);
-            TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out DecryptedLevelData);
+            TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out var d);
+            DecryptedLevelData = d;
         }
         #endregion
 
