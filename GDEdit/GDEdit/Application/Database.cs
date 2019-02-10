@@ -365,7 +365,7 @@ namespace GDEdit.Application
             {
                 if (i > 0)
                     LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], DecryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
-                else if (i == 0)
+                else
                     LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
             }
         }
