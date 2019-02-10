@@ -59,7 +59,11 @@ namespace GDEdit.Application
                     TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
                 return decryptedGamesave;
             }
-            set => decryptedGamesave = value;
+            set
+            {
+                GetCustomObjects();
+                decryptedGamesave = value;
+            }
         }
         /// <summary>The decrypted form of the level data.</summary>
         public string DecryptedLevelData
@@ -91,13 +95,19 @@ namespace GDEdit.Application
         /// <summary>The custom objects.</summary>
         public List<CustomLevelObject> CustomObjects
         {
-            get
+            get => customObjects;
+            set
             {
-                if (customObjects == null)
-                    GetCustomObjects();
-                return customObjects;
+                customObjects = value;
+                int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+                if (startIndex < 26)
+                    decryptedGamesave += $"<k>customObjectDict</k><d>{customObjects}</d>";
+                else
+                {
+                    int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
+                    decryptedGamesave.Replace(customObjects.ToString(), startIndex, endIndex - startIndex);
+                }
             }
-            set => customObjects = value;
         }
 
         /// <summary>The number of local levels in the level data file.</summary>
