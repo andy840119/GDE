@@ -105,22 +105,6 @@ namespace GDEdit.Application
 
         // TODO: Order these appropriately
         #region Functions
-        /// <summary>Adds a level string parameter to the raw data of the level at the specified index.</summary>
-        /// <param name="newLS">The new level string to add to the level.</param>
-        /// <param name="levelIndex">The index of the level in the database to add the level string parameter at.</param>
-        public void AddLevelStringParameter(string newLS, int levelIndex)
-        {
-            string nameKey = $"<k>k2</k><s>{UserLevels[levelIndex].Name}</s>";
-            int nameKeyOccurence = 0;
-            for (int i = 0; i < levelIndex; i++)
-                if (UserLevels[i].Name == UserLevels[levelIndex].Name)
-                    nameKeyOccurence++;
-            int index = DecryptedLevelData.Find(nameKey, nameKeyOccurence + 1) + nameKey.Length;
-            DecryptedLevelData = DecryptedLevelData.Insert(index, $"<k>k4</k><s>{newLS}</s>");
-            for (int i = levelIndex + 1; i < UserLevelCount; i++)
-                LevelKeyStartIndices[i] += $"<k>k4</k><s>{newLS}</s>".Length;
-            UserLevels[levelIndex].LevelString = newLS;
-        }
         /// <summary>Clones a level and adds it to the start of the list.</summary>
         /// <param name="index">The index of the level to clone.</param>
         public void CloneLevel(int index)
@@ -207,19 +191,6 @@ namespace GDEdit.Application
                 UserLevels.RemoveAt(indices[i]);
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
-        }
-        /// <summary>Sets the level strings for levels whose level strings are empty.</summary>
-        public int SetLevelStringsForEmptyLevels()
-        {
-            int lvls = 0;
-            for (int i = 0; i < UserLevelCount; i++)
-                if (UserLevels[i].LevelString == "")
-                {
-                    AddLevelStringParameter(DefaultLevelString, i);
-                    lvls++;
-                }
-            UpdateLevelData();
-            return lvls;
         }
 
         /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
