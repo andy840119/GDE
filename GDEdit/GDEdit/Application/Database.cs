@@ -121,10 +121,9 @@ namespace GDEdit.Application
         public void CloneLevels(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort();
-            for (int i = 0; i < indices.Length; i++)
-                if (indices[i] >= 0)
-                    if (indices[i] < UserLevelCount)
-                        UserLevels.Insert(i, UserLevels[indices[i] + i].Clone());
+            for (int i = indices.Length - 1; i >= 0; i--)
+                if (indices[i] >= 0 && indices[i] < UserLevelCount)
+                    UserLevels.Insert(0, UserLevels[indices[i] + indices.Length - 1 - i].Clone());
             UpdateMemoryLevelData();
             UpdateLevelData(); // Write the new data
         }
