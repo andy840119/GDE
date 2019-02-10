@@ -81,7 +81,12 @@ namespace GDEdit.Application
                 }
                 return decryptedLevelData;
             }
-            set => decryptedLevelData = value;
+            set
+            {
+                decryptedLevelData = value;
+                GetKeyIndices();
+                GetLevels();
+            }
         }
         /// <summary>The custom objects.</summary>
         public List<CustomLevelObject> CustomObjects
@@ -108,9 +113,7 @@ namespace GDEdit.Application
         public Database(string gameManagerPath, string localLevelsPath)
         {
             TryDecryptGamesave(File.ReadAllText(GameManagerPath = gameManagerPath), out decryptedGamesave);
-            TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out decryptedLevelData);
-            GetKeyIndices();
-            GetLevels();
+            TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out DecryptedLevelData);
         }
         #endregion
 
