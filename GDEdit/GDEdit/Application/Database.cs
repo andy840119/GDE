@@ -278,6 +278,7 @@ namespace GDEdit.Application
         {
             indices = indices.RemoveDuplicates().Sort();
             for (int i = 0; i < indices.Length; i++)
+                UserLevels.MoveElement(indices[i], i);
             UpdateLevelData();
         }
         /// <summary>Moves the selected levels up by one position.</summary>
