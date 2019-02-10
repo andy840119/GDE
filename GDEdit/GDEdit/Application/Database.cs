@@ -46,7 +46,7 @@ namespace GDEdit.Application
         /// <summary>The user name of the player.</summary>
         public List<Level> UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
-        public List<string> FolderNames { get; set; }
+        public Dictionary<int, string> FolderNames { get; set; }
         /// <summary>The stored metadata information of the songs.</summary>
         public List<SongMetadata> SongMetadataInformation { get; set; }
 
@@ -409,7 +409,7 @@ namespace GDEdit.Application
         }
         private void GetFolderNames()
         {
-            FolderNames = new List<string>();
+            FolderNames = new Dictionary<int, string>();
             int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {
@@ -421,9 +421,7 @@ namespace GDEdit.Application
                     int folderIndex = int.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex));
                     int folderNameStartIndex = endingIndex + 7;
                     int folderNameEndIndex = DecryptedGamesave.Find("</s>", folderNameStartIndex, foldersEndIndex);
-                    while (folderIndex >= FolderNames.Count)
-                        FolderNames.Add("");
-                    FolderNames[folderIndex] = DecryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex);
+                    FolderNames.Add(folderIndex, DecryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
                 }
             }
         }
