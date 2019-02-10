@@ -50,11 +50,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "1": // Song ID
                     ID = ToInt32(value);
                     break;
-                case "3": // ?
-                    UnknownKey3 = ToInt32(value);
-                    break;
                 case "2": // Title
                     Title = value;
+                    break;
+                case "3": // ?
+                    UnknownKey3 = ToInt32(value);
                     break;
                 case "4": // Artist
                     Artist = value;
