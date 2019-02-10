@@ -208,10 +208,7 @@ namespace GDEdit.Application
         /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
         /// <param name="index">The index of the level to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
-        public void ExportLevel(int index, string folderPath)
-        {
-            File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
-        }
+        public void ExportLevel(int index, string folderPath) => File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
         /// <summary>Exports the levels at the specified indices in the database to a .dat file in the specified folder.</summary>
         /// <param name="indices">The indices of the levels to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
@@ -339,10 +336,7 @@ namespace GDEdit.Application
         }
 
         /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
-        private int GetLevelCount()
-        {
-            return DecryptedLevelData.FindAll("<k>k_").Length;
-        }
+        private int GetLevelCount() => DecryptedLevelData.FindAll("<k>k_").Length;
         /// <summary>Gets the custom objects.</summary>
         private void GetCustomObjects()
         {
