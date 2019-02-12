@@ -76,9 +76,9 @@ namespace GDEdit.Application
                     StringBuilder lvlDat = new StringBuilder(LevelDataStart);
                     for (int i = 0; i < UserLevelCount; i++)
                     {
-                        lvlDat = lvlDat.Append($"<k>k_{i}</k>");
+                        lvlDat = lvlDat.Append($"<k>k_{i}</k><d>");
                         LevelKeyStartIndices.Add(lvlDat.Length);
-                        lvlDat = lvlDat.Append(UserLevels[i].RawLevel);
+                        lvlDat = lvlDat.Append(UserLevels[i].RawLevel).Append("</d>");
                     }
                     lvlDat = lvlDat.Append(LevelDataEnd);
                     decryptedLevelData = lvlDat.ToString();
