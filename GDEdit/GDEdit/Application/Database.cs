@@ -45,7 +45,7 @@ namespace GDEdit.Application
         /// <summary>The user name of the player.</summary>
         public List<Level> UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
-        public Dictionary<int, string> FolderNames { get; set; }
+        public FolderNameCollection FolderNames { get; set; }
         /// <summary>The stored metadata information of the songs.</summary>
         public SongMetadataCollection SongMetadataInformation { get; set; }
 
@@ -392,7 +392,7 @@ namespace GDEdit.Application
         }
         private void GetFolderNames()
         {
-            FolderNames = new Dictionary<int, string>();
+            FolderNames = new FolderNameCollection();
             int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {

@@ -106,6 +106,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\FolderNameCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\LevelColorChannels.cs" />
