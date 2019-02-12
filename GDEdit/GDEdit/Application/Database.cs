@@ -96,7 +96,7 @@ namespace GDEdit.Application
             }
         }
         /// <summary>The custom objects.</summary>
-        public List<CustomLevelObject> CustomObjects { get; set; }
+        public CustomLevelObjectCollection CustomObjects { get; set; }
 
         /// <summary>The number of local levels in the level data file.</summary>
         public int UserLevelCount => UserLevels.Count;
@@ -330,7 +330,7 @@ namespace GDEdit.Application
         /// <summary>Gets the custom objects.</summary>
         private void GetCustomObjects()
         {
-            CustomObjects = new List<CustomLevelObject>();
+            CustomObjects = new CustomLevelObjectCollection();
             int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 return;
