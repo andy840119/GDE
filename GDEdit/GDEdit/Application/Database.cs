@@ -19,7 +19,6 @@ namespace GDEdit.Application
     {
         private string decryptedGamesave;
         private string decryptedLevelData;
-        private List<CustomLevelObject> customObjects;
 
         #region Constants
         /// <summary>The default local data folder path of the game.</summary>
@@ -55,12 +54,12 @@ namespace GDEdit.Application
         {
             get
             {
-                if (decryptedGamesave == null)
-                    TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
+                SetCustomObjectsInGamesave();
                 return decryptedGamesave;
             }
             set
             {
+                GetPlayerName();
                 GetCustomObjects();
                 GetSongMetadata();
                 decryptedGamesave = value;
@@ -94,22 +93,7 @@ namespace GDEdit.Application
             }
         }
         /// <summary>The custom objects.</summary>
-        public List<CustomLevelObject> CustomObjects
-        {
-            get => customObjects;
-            set
-            {
-                customObjects = value;
-                int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
-                if (startIndex < 26)
-                    decryptedGamesave += $"<k>customObjectDict</k><d>{customObjects}</d>";
-                else
-                {
-                    int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
-                    decryptedGamesave.Replace(customObjects.ToString(), startIndex, endIndex - startIndex);
-                }
-            }
-        }
+        public List<CustomLevelObject> CustomObjects { get; set; }
 
         /// <summary>The number of local levels in the level data file.</summary>
         public int UserLevelCount => UserLevels.Count;
@@ -343,7 +327,7 @@ namespace GDEdit.Application
         /// <summary>Gets the custom objects.</summary>
         private void GetCustomObjects()
         {
-            customObjects = new List<CustomLevelObject>();
+            CustomObjects = new List<CustomLevelObject>();
             int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 return;
@@ -351,7 +335,7 @@ namespace GDEdit.Application
             int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
             int currentIndex = startIndex;
             while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                customObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
+                CustomObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
         }
         /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
         private void GetKeyIndices()
@@ -435,6 +419,18 @@ namespace GDEdit.Application
                     int endingIndex = DecryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
                     SongMetadataInformation.Add(SongMetadata.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
                 }
+            }
+        }
+
+        private void SetCustomObjectsInGamesave()
+        {
+            int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            if (startIndex < 26)
+                decryptedGamesave += $"<k>customObjectDict</k><d>{CustomObjects}</d>";
+            else
+            {
+                int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
+                decryptedGamesave = decryptedGamesave.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
             }
         }
         #endregion
