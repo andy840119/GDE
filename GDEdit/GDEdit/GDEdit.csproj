@@ -106,10 +106,12 @@
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\FolderNameCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\LevelColorChannels.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\GuidelineCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />
@@ -221,6 +223,8 @@
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\SongMetadata.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\SongMetadataCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\SpeedSegment.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\SpeedSegmentCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ISingleSelection.cs" />

@@ -19,7 +19,6 @@ namespace GDEdit.Application
     {
         private string decryptedGamesave;
         private string decryptedLevelData;
-        private List<CustomLevelObject> customObjects;
 
         #region Constants
         /// <summary>The default local data folder path of the game.</summary>
@@ -44,22 +43,30 @@ namespace GDEdit.Application
         /// <summary>The user name of the player as found in the game manager file.</summary>
         public string UserName { get; set; }
         /// <summary>The user name of the player.</summary>
-        public List<Level> UserLevels { get; set; }
+        public LevelCollection UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
-        public List<string> FolderNames { get; set; }
+        public FolderNameCollection FolderNames { get; set; }
         /// <summary>The stored metadata information of the songs.</summary>
-        public List<SongMetadata> SongMetadataInformation { get; set; }
+        public SongMetadataCollection SongMetadataInformation { get; set; }
 
         /// <summary>The decrypted form of the game manager.</summary>
         public string DecryptedGamesave
         {
             get
             {
-                if (decryptedGamesave == null)
-                    TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
+                SetFolderNamesInGamesave();
+                SetCustomObjectsInGamesave();
+                SetSongMetadataInGamesave();
                 return decryptedGamesave;
             }
-            set => decryptedGamesave = value;
+            set
+            {
+                GetFolderNames();
+                GetPlayerName();
+                GetCustomObjects();
+                GetSongMetadata();
+                decryptedGamesave = value;
+            }
         }
         /// <summary>The decrypted form of the level data.</summary>
         public string DecryptedLevelData
@@ -67,22 +74,29 @@ namespace GDEdit.Application
             get
             {
                 if (decryptedLevelData == null)
-                    TryDecryptLevelData(File.ReadAllText(LocalLevelsPath), out decryptedLevelData);
+                {
+                    LevelKeyStartIndices = new List<int>();
+                    StringBuilder lvlDat = new StringBuilder(LevelDataStart);
+                    for (int i = 0; i < UserLevelCount; i++)
+                    {
+                        lvlDat = lvlDat.Append($"<k>k_{i}</k><d>");
+                        LevelKeyStartIndices.Add(lvlDat.Length);
+                        lvlDat = lvlDat.Append(UserLevels[i].RawLevel).Append("</d>");
+                    }
+                    lvlDat = lvlDat.Append(LevelDataEnd);
+                    decryptedLevelData = lvlDat.ToString();
+                }
                 return decryptedLevelData;
             }
-            set => decryptedLevelData = value;
+            set
+            {
+                decryptedLevelData = value;
+                GetKeyIndices();
+                GetLevels();
+            }
         }
         /// <summary>The custom objects.</summary>
-        public List<CustomLevelObject> CustomObjects
-        {
-            get
-            {
-                if (customObjects == null)
-                    GetCustomObjects();
-                return customObjects;
-            }
-            set => customObjects = value;
-        }
+        public CustomLevelObjectCollection CustomObjects { get; set; }
 
         /// <summary>The number of local levels in the level data file.</summary>
         public int UserLevelCount => UserLevels.Count;
@@ -96,31 +110,15 @@ namespace GDEdit.Application
         /// <param name="localLevelsPath">The file path of the local levels file of the game.</param>
         public Database(string gameManagerPath, string localLevelsPath)
         {
-            GameManagerPath = gameManagerPath;
-            LocalLevelsPath = localLevelsPath;
-            GetKeyIndices();
-            GetLevels();
+            TryDecryptGamesave(File.ReadAllText(GameManagerPath = gameManagerPath), out var g);
+            TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out var d);
+            DecryptedGamesave = g;
+            DecryptedLevelData = d;
         }
         #endregion
 
         // TODO: Order these appropriately
         #region Functions
-        /// <summary>Adds a level string parameter to the raw data of the level at the specified index.</summary>
-        /// <param name="newLS">The new level string to add to the level.</param>
-        /// <param name="levelIndex">The index of the level in the database to add the level string parameter at.</param>
-        public void AddLevelStringParameter(string newLS, int levelIndex)
-        {
-            string nameKey = $"<k>k2</k><s>{UserLevels[levelIndex].Name}</s>";
-            int nameKeyOccurence = 0;
-            for (int i = 0; i < levelIndex; i++)
-                if (UserLevels[i].Name == UserLevels[levelIndex].Name)
-                    nameKeyOccurence++;
-            int index = DecryptedLevelData.Find(nameKey, nameKeyOccurence + 1) + nameKey.Length;
-            DecryptedLevelData = DecryptedLevelData.Insert(index, $"<k>k4</k><s>{newLS}</s>");
-            for (int i = levelIndex + 1; i < UserLevelCount; i++)
-                LevelKeyStartIndices[i] += $"<k>k4</k><s>{newLS}</s>".Length;
-            UserLevels[levelIndex].LevelString = newLS;
-        }
         /// <summary>Clones a level and adds it to the start of the list.</summary>
         /// <param name="index">The index of the level to clone.</param>
         public void CloneLevel(int index)
@@ -137,12 +135,10 @@ namespace GDEdit.Application
         public void CloneLevels(int[] indices)
         {
             indices = indices.RemoveDuplicates().Sort();
-            for (int i = 0; i < indices.Length; i++)
-                if (indices[i] >= 0)
-                    if (indices[i] < UserLevelCount)
-                        UserLevels.Insert(i, UserLevels[indices[i] + i].Clone());
-            UpdateMemoryLevelData();
-            UpdateLevelData(); // Write the new data
+            for (int i = indices.Length - 1; i >= 0; i--)
+                if (indices[i] >= 0 && indices[i] < UserLevelCount)
+                    UserLevels.Insert(0, UserLevels[indices[i] + indices.Length - 1 - i].Clone());
+            UpdateLevelData();
         }
         /// <summary>Creates a new level with the name "Unnamed {n}" and adds it to the start of the level list.</summary>
         public void CreateLevel() => CreateLevel($"Unnamed {GetNextUnnamedNumber()}", "", DefaultLevelString);
@@ -160,24 +156,15 @@ namespace GDEdit.Application
         public void CreateLevel(string name, string desc, string levelString)
         {
             UserLevels.Insert(0, new Level(name, desc, levelString, UserName, GetNextAvailableRevision(name)));
-            UpdateMemoryLevelData();
-            UpdateLevelData(); // Write the new data
+            UpdateLevelData();
         }
         /// <summary>Creates a number of new levels with the names "Unnamed {n}" and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
-        public void CreateLevels(int numberOfLevels)
-        {
-            for (int i = 0; i < numberOfLevels; i++)
-                CreateLevel();
-        }
+        public void CreateLevels(int numberOfLevels) => CreateLevels(numberOfLevels, new string[numberOfLevels], new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
-        public void CreateLevels(int numberOfLevels, string[] names)
-        {
-            for (int i = 0; i < numberOfLevels; i++)
-                CreateLevel(names[i]);
-        }
+        public void CreateLevels(int numberOfLevels, string[] names) => CreateLevels(numberOfLevels, names, new string[numberOfLevels]);
         /// <summary>Creates a number of new levels with specified names and descriptions and adds them to the start of the level list.</summary>
         /// <param name="numberOfLevels">The number of new levels to create.</param>
         /// <param name="name">The names of the new levels to create.</param>
@@ -185,14 +172,13 @@ namespace GDEdit.Application
         public void CreateLevels(int numberOfLevels, string[] names, string[] descs)
         {
             for (int i = 0; i < numberOfLevels; i++)
-                CreateLevel(names[i], descs[i]);
+                UserLevels.Insert(0, new Level(names[i], descs[i], DefaultLevelString, UserName, GetNextAvailableRevision(names[i])));
+            UpdateLevelData();
         }
         /// <summary>Deletes all levels in the database.</summary>
         public void DeleteAllLevels()
         {
-            DecryptedLevelData = DefaultLevelData; // Set the level data to the default
-            UpdateLevelData(); // Write the new data
-
+            decryptedLevelData = DefaultLevelData; // Set the level data to the default
             // Delete all the level info from the prorgam's memory
             UserLevels.Clear();
             LevelKeyStartIndices.Clear();
@@ -205,30 +191,13 @@ namespace GDEdit.Application
             indices = indices.Sort();
             for (int i = indices.Length - 1; i >= 0; i--)
                 UserLevels.RemoveAt(indices[i]);
-            UpdateMemoryLevelData();
-            UpdateLevelData(); // Write the new data
-        }
-        /// <summary>Sets the level strings for levels whose level strings are empty.</summary>
-        public int SetLevelStringsForEmptyLevels()
-        {
-            int lvls = 0;
-            for (int i = 0; i < UserLevelCount; i++)
-                if (UserLevels[i].LevelString == "")
-                {
-                    AddLevelStringParameter(DefaultLevelString, i);
-                    lvls++;
-                }
             UpdateLevelData();
-            return lvls;
         }
 
         /// <summary>Exports the level at the specified index in the database to a .dat file in the specified folder.</summary>
         /// <param name="index">The index of the level to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
-        public void ExportLevel(int index, string folderPath)
-        {
-            File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
-        }
+        public void ExportLevel(int index, string folderPath) => File.WriteAllText($@"{folderPath}\{UserLevels[index].LevelNameWithRevision}.dat", UserLevels[index].ToString());
         /// <summary>Exports the levels at the specified indices in the database to a .dat file in the specified folder.</summary>
         /// <param name="indices">The indices of the levels to export.</param>
         /// <param name="folderPath">The path of the folder to export the level at.</param>
@@ -242,35 +211,26 @@ namespace GDEdit.Application
         public void ImportLevel(string level)
         {
             for (int i = UserLevelCount - 1; i >= 0; i--) // Increase the level indices of all the other levels to insert the cloned level at the start
-                DecryptedLevelData = DecryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
+                decryptedLevelData = decryptedLevelData.Replace($"<k>k_{i}</k>", $"<k>k_{i + 1}</k>");
             level = RemoveLevelIndexKey(level); // Remove the index key of the level
-            DecryptedLevelData = DecryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
+            decryptedLevelData = decryptedLevelData.Insert(LevelKeyStartIndices[0] - 10, $"<k>k_0</k>{level}"); // Insert the new level
             int clonedLevelLength = level.Length + 10; // The length of the inserted level
             LevelKeyStartIndices = LevelKeyStartIndices.InsertAtStart(LevelKeyStartIndices[0]); // Add the new key start position in the array
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
-            UserLevels = UserLevels.InsertAtStart(new Level(level));
-            UpdateLevelData(); // Write the new data
+            UserLevels.Insert(0, new Level(level));
         }
         /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
         /// <param name="levelPath">The path of the level to import.</param>
-        public void ImportLevelFromFile(string levelPath)
-        {
-            ImportLevel(File.ReadAllText(levelPath));
-        }
+        public void ImportLevelFromFile(string levelPath) => ImportLevel(File.ReadAllText(levelPath));
         /// <summary>Imports a number of levels into the database and adds them to the start of the level list.</summary>
         /// <param name="lvls">The raw levels to import.</param>
         public void ImportLevels(string[] lvls)
         {
             for (int i = 0; i < lvls.Length; i++)
-            {
-                lvls[i] = RemoveLevelIndexKey(lvls[i]); // Remove the index key of the level
-                UserLevels.InsertAtStart(new Level(lvls[i]));
-            }
-            GetKeyIndices();
-            UpdateMemoryLevelData();
-            UpdateLevelData(); // Write the new data
+                ImportLevel(lvls[i]);
+            UpdateLevelData();
         }
         /// <summary>Imports a number of levels from the specified file path and adds them to the start of the level list.</summary>
         /// <param name="levelPaths">The paths of the levels to import.</param>
@@ -290,8 +250,7 @@ namespace GDEdit.Application
             for (int i = indices.Length - 1; i >= 0; i--)
                 if (indices[i] < UserLevelCount - 1) // If the level can be moved further down
                     UserLevels.Swap(indices[i], indices[i] + 1);
-            UpdateMemoryLevelData(); // Rebuild the level data
-            UpdateLevelData(); // Write the new data
+            UpdateLevelData();
         }
         /// <summary>Moves the selected levels to the bottom of the level list while preserving their original order.</summary>
         /// <param name="indices">The indices of the levels to move to the bottom of the level list.</param>
@@ -300,7 +259,6 @@ namespace GDEdit.Application
             indices = indices.RemoveDuplicates().Sort();
             for (int i = indices.Length - 1; i >= 0; i--)
                 UserLevels.MoveElement(indices[i], UserLevelCount - indices.Length + i + 1); // TODO: Figure out why +1
-            UpdateMemoryLevelData(); // Rebuild the level data
             UpdateLevelData();
         }
         /// <summary>Moves the selected levels to the top of the level list while preserving their original order.</summary>
@@ -309,8 +267,7 @@ namespace GDEdit.Application
         {
             indices = indices.RemoveDuplicates().Sort();
             for (int i = 0; i < indices.Length; i++)
-                UserLevels.MoveElement(indices[i], i); // TODO: Figure out why +1
-            UpdateMemoryLevelData(); // Rebuild the level data
+                UserLevels.MoveElement(indices[i], i);
             UpdateLevelData();
         }
         /// <summary>Moves the selected levels up by one position.</summary>
@@ -321,8 +278,7 @@ namespace GDEdit.Application
             for (int i = 0; i < indices.Length; i++)
                 if (indices[i] >= i) // If the level can be moved further up
                     UserLevels.Swap(indices[i], indices[i] - 1);
-            UpdateMemoryLevelData(); // Rebuild the level data
-            UpdateLevelData(); // Write the new data
+            UpdateLevelData();
         }
         /// <summary>Swaps the levels at the specified indices.</summary>
         /// <param name="levelIndexA">The index of the first level in the database to swap.</param>
@@ -330,31 +286,21 @@ namespace GDEdit.Application
         public void SwapLevels(int levelIndexA, int levelIndexB)
         {
             UserLevels.Swap(levelIndexA, levelIndexB);
-            UpdateMemoryLevelData();
             UpdateLevelData();
         }
 
-        /// <summary>Writes the level data to the level data file.</summary>
+        /// <summary>Updates the level data in the memory and clears the stored decrypted level data string.</summary>
         public void UpdateLevelData()
         {
+            decryptedLevelData = null; // Reset level data and let it be generated later
+        }
+        /// <summary>Writes the level data to the level data file.</summary>
+        public void WriteLevelData()
+        {
+            UpdateLevelData();
             File.WriteAllText(GDLocalLevels, DecryptedLevelData); // Write the level data
         }
-        // TODO: Migrate functionality to the DecryptedLevelData property, which should be regenerated every time it gets called, if there are any updates
-        /// <summary>Updates the level data in the database's memory.</summary>
-        public void UpdateMemoryLevelData()
-        {
-            LevelKeyStartIndices = new List<int>();
-            StringBuilder lvlDat = new StringBuilder(LevelDataStart);
-            for (int i = 0; i < UserLevelCount; i++)
-            {
-                lvlDat = lvlDat.Append($"<k>k_{i}</k>");
-                LevelKeyStartIndices.Add(lvlDat.Length);
-                lvlDat = lvlDat.Append(UserLevels[i].RawLevel);
-            }
-            lvlDat = lvlDat.Append(LevelDataEnd);
-            DecryptedLevelData = lvlDat.ToString();
-        }
-        
+
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
         private int GetNextAvailableRevision(string levelName)
         {
@@ -380,14 +326,11 @@ namespace GDEdit.Application
         }
 
         /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
-        private int GetLevelCount()
-        {
-            return DecryptedLevelData.FindAll("<k>k_").Length;
-        }
+        private int GetLevelCount() => DecryptedLevelData.FindAll("<k>k_").Length;
         /// <summary>Gets the custom objects.</summary>
         private void GetCustomObjects()
         {
-            customObjects = new List<CustomLevelObject>();
+            CustomObjects = new CustomLevelObjectCollection();
             int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 return;
@@ -395,7 +338,7 @@ namespace GDEdit.Application
             int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
             int currentIndex = startIndex;
             while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                customObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
+                CustomObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
         }
         /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
         private void GetKeyIndices()
@@ -406,14 +349,14 @@ namespace GDEdit.Application
             {
                 if (i > 0)
                     LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], DecryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
-                else if (i == 0)
+                else
                     LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
         private void GetLevels()
         {
-            UserLevels = new List<Level>();
+            UserLevels = new LevelCollection();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
@@ -450,7 +393,7 @@ namespace GDEdit.Application
         }
         private void GetFolderNames()
         {
-            FolderNames = new List<string>();
+            FolderNames = new FolderNameCollection();
             int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {
@@ -462,25 +405,66 @@ namespace GDEdit.Application
                     int folderIndex = int.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex));
                     int folderNameStartIndex = endingIndex + 7;
                     int folderNameEndIndex = DecryptedGamesave.Find("</s>", folderNameStartIndex, foldersEndIndex);
-                    while (folderIndex >= FolderNames.Count)
-                        FolderNames.Add("");
-                    FolderNames[folderIndex] = DecryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex);
+                    FolderNames.Add(folderIndex, DecryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
                 }
             }
         }
         private void GetSongMetadata()
         {
-            SongMetadataInformation = new List<SongMetadata>();
+            SongMetadataInformation = new SongMetadataCollection();
             int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
-                int songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataStartIndex, DecryptedGamesave.Length);
+                int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
+                do
+                {
+                    nextDictionaryStartIndex = DecryptedGamesave.Find("<d>", nextDictionaryStartIndex, DecryptedGamesave.Length);
+                    songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataEndIndex, DecryptedGamesave.Length);
+                }
+                while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
                 int currentIndex = songMetadataStartIndex;
                 while ((currentIndex = DecryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
                 {
                     int endingIndex = DecryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
                     SongMetadataInformation.Add(SongMetadata.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
                 }
+            }
+        }
+
+        private void SetCustomObjectsInGamesave()
+        {
+            int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            if (startIndex < 26)
+                decryptedGamesave += $"<k>customObjectDict</k><d>{CustomObjects}</d>";
+            else
+            {
+                int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
+                decryptedGamesave = decryptedGamesave.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
+            }
+        }
+        private void SetFolderNamesInGamesave()
+        {
+            int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
+            if (foldersStartIndex > 15)
+            {
+                int foldersEndIndex = DecryptedGamesave.Find("</d>", foldersStartIndex, DecryptedGamesave.Length);
+                decryptedGamesave = decryptedGamesave.Replace(FolderNames.ToString(), foldersStartIndex, foldersEndIndex - foldersStartIndex);
+            }
+        }
+        private void SetSongMetadataInGamesave()
+        {
+            int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            if (songMetadataStartIndex > 15)
+            {
+                int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
+                do
+                {
+                    nextDictionaryStartIndex = DecryptedGamesave.Find("<d>", nextDictionaryStartIndex, DecryptedGamesave.Length);
+                    songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataEndIndex, DecryptedGamesave.Length);
+                }
+                while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
+                int currentIndex = songMetadataStartIndex;
+                decryptedGamesave = decryptedGamesave.Replace(SongMetadataInformation.ToString(), songMetadataStartIndex, songMetadataEndIndex);
             }
         }
         #endregion
