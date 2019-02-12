@@ -412,7 +412,13 @@ namespace GDEdit.Application
             int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
-                int songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataStartIndex, DecryptedGamesave.Length);
+                int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
+                do
+                {
+                    nextDictionaryStartIndex = DecryptedGamesave.Find("<d>", nextDictionaryStartIndex, DecryptedGamesave.Length);
+                    songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataEndIndex, DecryptedGamesave.Length);
+                }
+                while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
                 int currentIndex = songMetadataStartIndex;
                 while ((currentIndex = DecryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
                 {
