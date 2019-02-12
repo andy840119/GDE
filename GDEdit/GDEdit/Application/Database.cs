@@ -43,7 +43,7 @@ namespace GDEdit.Application
         /// <summary>The user name of the player as found in the game manager file.</summary>
         public string UserName { get; set; }
         /// <summary>The user name of the player.</summary>
-        public List<Level> UserLevels { get; set; }
+        public LevelCollection UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
         public FolderNameCollection FolderNames { get; set; }
         /// <summary>The stored metadata information of the songs.</summary>
@@ -219,7 +219,7 @@ namespace GDEdit.Application
             for (int i = 1; i < LevelKeyStartIndices.Count; i++)
                 LevelKeyStartIndices[i] += clonedLevelLength; // Increase the other key indices by the length of the cloned level
             // Insert the imported level's parameters
-            UserLevels = UserLevels.InsertAtStart(new Level(level));
+            UserLevels.Insert(0, new Level(level));
         }
         /// <summary>Imports a level from the specified file path and adds it to the start of the level list.</summary>
         /// <param name="levelPath">The path of the level to import.</param>
@@ -356,7 +356,7 @@ namespace GDEdit.Application
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
         private void GetLevels()
         {
-            UserLevels = new List<Level>();
+            UserLevels = new LevelCollection();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
