@@ -67,7 +67,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         [CommonMergedProperty]
         public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
-        public LevelLength Length { get; set; }
+        public LevelLength Length => LevelLengthConversion.GetLevelLength(TimeLength.TotalSeconds);
         /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
         public TimeSpan TimeLength
         {
@@ -392,9 +392,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
                 case "k18": // Level Attempts
                     Attempts = ToInt32(value);
-                    break;
-                case "k23": // Level Length
-                    Length = (LevelLength)ToInt32(value);
                     break;
                 case "k41": // Level Password
                     Password = ToInt32(value) % 1000000; // If it exists, the password is in the form $"1{password}" (example: 1000023 = 0023)
