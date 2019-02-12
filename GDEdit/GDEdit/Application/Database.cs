@@ -55,6 +55,7 @@ namespace GDEdit.Application
             get
             {
                 SetCustomObjectsInGamesave();
+                SetSongMetadataInGamesave();
                 return decryptedGamesave;
             }
             set
@@ -437,6 +438,22 @@ namespace GDEdit.Application
             {
                 int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
                 decryptedGamesave = decryptedGamesave.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
+            }
+        }
+        private void SetSongMetadataInGamesave()
+        {
+            int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            if (songMetadataStartIndex > 15)
+            {
+                int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
+                do
+                {
+                    nextDictionaryStartIndex = DecryptedGamesave.Find("<d>", nextDictionaryStartIndex, DecryptedGamesave.Length);
+                    songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataEndIndex, DecryptedGamesave.Length);
+                }
+                while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
+                int currentIndex = songMetadataStartIndex;
+                decryptedGamesave = decryptedGamesave.Replace(SongMetadataInformation.ToString(), songMetadataStartIndex, songMetadataEndIndex);
             }
         }
         #endregion
