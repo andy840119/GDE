@@ -60,6 +60,7 @@ namespace GDEdit.Application
             }
             set
             {
+                GetFolderNames();
                 GetPlayerName();
                 GetCustomObjects();
                 GetSongMetadata();
