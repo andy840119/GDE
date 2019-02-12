@@ -54,6 +54,7 @@ namespace GDEdit.Application
         {
             get
             {
+                SetFolderNamesInGamesave();
                 SetCustomObjectsInGamesave();
                 SetSongMetadataInGamesave();
                 return decryptedGamesave;
@@ -439,6 +440,15 @@ namespace GDEdit.Application
             {
                 int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
                 decryptedGamesave = decryptedGamesave.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
+            }
+        }
+        private void SetFolderNamesInGamesave()
+        {
+            int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
+            if (foldersStartIndex > 15)
+            {
+                int foldersEndIndex = DecryptedGamesave.Find("</d>", foldersStartIndex, DecryptedGamesave.Length);
+                decryptedGamesave = decryptedGamesave.Replace(FolderNames.ToString(), foldersStartIndex, foldersEndIndex - foldersStartIndex);
             }
         }
         private void SetSongMetadataInGamesave()
