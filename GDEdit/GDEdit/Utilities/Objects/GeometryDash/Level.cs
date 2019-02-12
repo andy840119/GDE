@@ -68,6 +68,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
         public LevelLength Length { get; set; }
+        /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
+        public TimeSpan TimeLength
+        {
+            get
+            {
+                double max = double.MinValue;
+                foreach (var m in LevelObjects)
+                    if (m.X > max)
+                        max = m.X;
+                return new TimeSpan((long)(SpeedSegments.ConvertXToTime(max) * 10000000));
+            }
+        }
 
         // Level properties
         /// <summary>The official song ID used in the level.</summary>
