@@ -47,7 +47,7 @@ namespace GDEdit.Application
         /// <summary>The names of the folders.</summary>
         public Dictionary<int, string> FolderNames { get; set; }
         /// <summary>The stored metadata information of the songs.</summary>
-        public List<SongMetadata> SongMetadataInformation { get; set; }
+        public SongMetadataCollection SongMetadataInformation { get; set; }
 
         /// <summary>The decrypted form of the game manager.</summary>
         public string DecryptedGamesave
@@ -408,7 +408,7 @@ namespace GDEdit.Application
         }
         private void GetSongMetadata()
         {
-            SongMetadataInformation = new List<SongMetadata>();
+            SongMetadataInformation = new SongMetadataCollection();
             int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
