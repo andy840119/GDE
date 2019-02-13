@@ -312,8 +312,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
                 case "kA4": // Speed
                     StartingSpeed = (Speed)ToInt32(value);
-                    if (StartingSpeed == 0)
-                        StartingSpeed = Speed.Normal;
                     break;
                 case "kA6": // Background
                     BackgroundTexture = ToInt32(value);

@@ -9,6 +9,8 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
     /// <summary>Represents the player speed.</summary>
     public enum Speed : byte
     {
+        /// <summary>Represents the default speed (normal).</summary>
+        Default = 0,
         /// <summary>Represents the slow speed (&lt;).</summary>
         Slow = 1,
         /// <summary>Represents the normal speed (&rt;).</summary>

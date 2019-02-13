@@ -43,6 +43,7 @@ namespace GDEdit.Utilities.Information.GeometryDash
             {
                 case Speed.Slow:
                     return SlowSpeed;
+                case Speed.Default:
                 case Speed.Normal:
                     return NormalSpeed;
                 case Speed.Fast:

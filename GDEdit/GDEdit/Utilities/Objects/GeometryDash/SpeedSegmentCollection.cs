@@ -24,7 +24,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             int i = 1;
             for (; i < Count && this[i].X < x; i++)
                 time += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
-            int final = Math.Max(i, Count - 1);
+            int final = Math.Min(i, Count - 1);
             return time + (x - this[final].X) / GetSpeed(this[final].Speed);
         }
         /// <summary>Converts the provided time into X position.</summary>
@@ -35,7 +35,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             int i = 1;
             for (; i < Count && t < time; i++)
                 t += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
-            int final = Math.Max(i, Count) - 1;
+            int final = Math.Min(i, Count) - 1;
             return this[final].X + (t - time) * GetSpeed(this[final].Speed);
         }
 
@@ -51,7 +51,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             {
                 for (; i < Count && this[i].X < k; i++)
                     time += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
-                int final = Math.Max(i, Count - 1);
+                int final = Math.Min(i, Count - 1);
                 result.Add(time + (k - this[final].X) / GetSpeed(this[final].Speed));
             }
             return result;
@@ -68,7 +68,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             {
                 for (; i < Count && t < k; i++)
                     t += (this[i].X - this[i - 1].X) / GetSpeed(this[i - 1].Speed);
-                int final = Math.Max(i, Count) - 1;
+                int final = Math.Min(i, Count) - 1;
                 result.Add(this[final].X + (t - k) * GetSpeed(this[final].Speed));
             }
             return result;

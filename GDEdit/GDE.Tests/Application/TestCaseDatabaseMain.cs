@@ -53,6 +53,12 @@ namespace GDE.Tests.Application
                             TextSize = 20,
                             Text = "Object count: " + Databases[0].UserLevels[0].ObjectCount
                         },
+                        new SpriteText
+                        {
+                            RelativeSizeAxes = Axes.X,
+                            TextSize = 20,
+                            Text = "Length: " + Databases[0].UserLevels[0].Length
+                        },
                     }
                 },
             };
