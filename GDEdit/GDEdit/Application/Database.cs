@@ -54,6 +54,11 @@ namespace GDEdit.Application
         {
             get
             {
+                if (decryptedGamesave == null)
+                {
+                    TryDecryptGamesave(File.ReadAllText(GameManagerPath), out decryptedGamesave);
+                    DecryptedGamesave = decryptedGamesave;
+                }
                 SetFolderNamesInGamesave();
                 SetCustomObjectsInGamesave();
                 SetSongMetadataInGamesave();
@@ -110,9 +115,8 @@ namespace GDEdit.Application
         /// <param name="localLevelsPath">The file path of the local levels file of the game.</param>
         public Database(string gameManagerPath, string localLevelsPath)
         {
-            TryDecryptGamesave(File.ReadAllText(GameManagerPath = gameManagerPath), out var g);
+            GameManagerPath = gameManagerPath;
             TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out var d);
-            DecryptedGamesave = g;
             DecryptedLevelData = d;
         }
         #endregion
