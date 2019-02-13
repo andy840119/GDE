@@ -129,9 +129,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         [CommonMergedProperty]
         public int Font { get; set; }
         /// <summary>The level's guidelines.</summary>
-        public GuidelineCollection Guidelines { get; set; }
+        public GuidelineCollection Guidelines { get; set; } = new GuidelineCollection();
         /// <summary>The level's objects.</summary>
-        public LevelObjectCollection LevelObjects { get; set; }
+        public LevelObjectCollection LevelObjects { get; set; } = new LevelObjectCollection();
         /// <summary>The color channels of the level.</summary>
         public LevelColorChannels ColorChannels { get; private set; }
 

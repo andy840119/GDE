@@ -18,40 +18,38 @@ namespace GDE.Tests.Application
             {
                 new FillFlowContainer
                 {
+                    RelativeSizeAxes = Axes.X,
+                    RelativePositionAxes = Axes.X,
+                    Direction = FillDirection.Vertical,
                     Children = new[]
                     {
                         new SpriteText
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            AllowMultiline = true,
+                            RelativeSizeAxes = Axes.X,
                             TextSize = 40,
                             Text = "Name: " + Databases[0].UserLevels[0].Name
                         },
                         new SpriteText
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            AllowMultiline = true,
+                            RelativeSizeAxes = Axes.X,
                             TextSize = 15,
                             Text = "Description: " + Databases[0].UserLevels[0].Description
                         },
                         new SpriteText
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            AllowMultiline = true,
+                            RelativeSizeAxes = Axes.X,
                             TextSize = 20,
                             Text = "Revision: " + Databases[0].UserLevels[0].Revision
                         },
                         new SpriteText
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            AllowMultiline = true,
+                            RelativeSizeAxes = Axes.X,
                             TextSize = 20,
                             Text = "Version: " + Databases[0].UserLevels[0].Version
                         },
                         new SpriteText
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            AllowMultiline = true,
+                            RelativeSizeAxes = Axes.X,
                             TextSize = 20,
                             Text = "Object count: " + Databases[0].UserLevels[0].ObjectCount
                         },

@@ -298,7 +298,7 @@ namespace GDEdit.Application
         public void WriteLevelData()
         {
             UpdateLevelData();
-            File.WriteAllText(GDLocalLevels, DecryptedLevelData); // Write the level data
+            File.WriteAllText(GDLocalLevels, decryptedLevelData); // Write the level data
         }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
@@ -326,7 +326,7 @@ namespace GDEdit.Application
         }
 
         /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
-        private int GetLevelCount() => DecryptedLevelData.FindAll("<k>k_").Length;
+        private int GetLevelCount() => decryptedLevelData.FindAll("<k>k_").Length;
         /// <summary>Gets the custom objects.</summary>
         private void GetCustomObjects()
         {
@@ -348,9 +348,9 @@ namespace GDEdit.Application
             for (int i = 0; i < count; i++)
             {
                 if (i > 0)
-                    LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], DecryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
+                    LevelKeyStartIndices.Add(decryptedLevelData.Find($"<k>k_{i}</k><d>", LevelKeyStartIndices[i - 1], decryptedLevelData.Length) + $"<k>k_{i}</k>".Length);
                 else
-                    LevelKeyStartIndices.Add(DecryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
+                    LevelKeyStartIndices.Add(decryptedLevelData.Find($"<k>k_{i}</k><d>") + $"<k>k_{i}</k>".Length);
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
@@ -360,9 +360,9 @@ namespace GDEdit.Application
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
-                    UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length)));
+                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length)));
                 else
-                    UserLevels.Add(new Level(DecryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(DecryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 8, DecryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], DecryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
+                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
             }
         }
 

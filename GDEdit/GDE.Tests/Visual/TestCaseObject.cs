@@ -7,11 +7,11 @@ using osuTK.Graphics;
 
 namespace GDE.Tests.Visual
 {
-    public class TestCaseDatabaseMain : TestCase
+    public class TestCaseObject : TestCase
     {
         private ObjectBase obj;
 
-        public TestCaseDatabaseMain()
+        public TestCaseObject()
         {
             Children = new Drawable[]
             {
