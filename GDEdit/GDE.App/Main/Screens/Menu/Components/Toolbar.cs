@@ -7,15 +7,33 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Graphics;
 using osuTK;
 using System;
+using GDE.App.Main.Levels.Metas;
 
 namespace GDE.App.Main.Screens.Menu.Components
 {
     public class Toolbar : Container
     {
-        public Bindable<string> LevelName = new Bindable<string>("Unknown level");
-        public Bindable<string> SongName = new Bindable<string>("Unknown Song");
+        public Bindable<Level> Level = new Bindable<Level>(new Level
+        {
+            AuthorName = "Unknown author",
+            Name = "Unknown name",
+            Position = 0,
+            Verified = false,
+            Length = 0,
+            Song = new Song
+            {
+                AuthorName = "Unknown author",
+                Name = "Unknown name",
+                AuthorNG = "Unkown author NG",
+                ID = 000000,
+                Link = "Unkown link"
+            },
+        });
+
         public Action Edit;
         public Action Delete;
+
+        private SpriteText LevelName, SongName;
 
         public Toolbar()
         {
@@ -32,19 +50,19 @@ namespace GDE.App.Main.Screens.Menu.Components
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        new SpriteText
+                        LevelName = new SpriteText
                         {
                             Margin = new MarginPadding(5),
-                            Text = LevelName.Value,
+                            Text = Level.Value.Name,
                             TextSize = 30
                         },
-                        new SpriteText
+                        SongName = new SpriteText
                         {
                             Anchor = Anchor.BottomLeft,
                             Origin = Anchor.BottomLeft,
                             Margin = new MarginPadding(5),
                             Colour = GDEColours.FromHex("666666"),
-                            Text = SongName.Value,
+                            Text = Level.Value.Song.Name,
                             TextSize = 25,
                         }
                     }
@@ -80,6 +98,14 @@ namespace GDE.App.Main.Screens.Menu.Components
                     }
                 }
             };
+
+            Level.ValueChanged += OnChanged;
+        }
+
+        private void OnChanged(Level obj)
+        {
+            LevelName.Text = obj.Name;
+            SongName.Text = obj.Song.Name;
         }
     }
 }

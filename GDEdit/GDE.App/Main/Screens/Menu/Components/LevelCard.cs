@@ -20,7 +20,7 @@ namespace GDE.App.Main.Screens.Menu.Components
             Name = "Unknown name",
             Position = 0,
             Verified = false,
-            Length = 95000,
+            Length = 0,
             Song =new Song
             {
                 AuthorName = "Unknown author",
@@ -35,6 +35,7 @@ namespace GDE.App.Main.Screens.Menu.Components
 
         private Box selectionBar;
         private Box HoverBox;
+        private SpriteText levelName, levelAuthor, levelLength;
 
         public LevelCard()
         {
@@ -61,12 +62,12 @@ namespace GDE.App.Main.Screens.Menu.Components
                     },
                     Children = new Drawable[]
                     {
-                        new SpriteText
+                        levelName = new SpriteText
                         {
                             Text = Level.Value.Name,
                             TextSize = 30
                         },
-                        new SpriteText
+                        levelAuthor = new SpriteText
                         {
                             Text = Level.Value.Song.Name,
                             TextSize = 20,
@@ -74,7 +75,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                         }
                     }
                 },
-                new SpriteText
+                levelLength = new SpriteText
                 {
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
@@ -86,6 +87,14 @@ namespace GDE.App.Main.Screens.Menu.Components
             };
 
             Selected.ValueChanged += OnSelected;
+            Level.ValueChanged += OnlevelChange;
+        }
+
+        private void OnlevelChange(Level obj)
+        {
+            levelName.Text = obj.Name;
+            levelAuthor.Text = obj.Song.Name;
+            levelLength.Text = TimeSpan.FromMilliseconds(obj.Length).ToString(@"m\:ss");
         }
 
         private void OnSelected(bool obj)
