@@ -4,6 +4,7 @@
     {
         public string Name { get; set; }
         public string AuthorName { get; set; }
+        public string Description { get; set; }
         public int ID { get; set; }
         public int Position { get; set; }
         public double Length { get; set; }
