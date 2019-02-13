@@ -119,7 +119,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                                 else if (HSVParameters.Contains(currentParameterID))
                                 {
                                     string[] values = objectParameters[i, j].ToString().Split('a');
-                                    HSVAdjustment HSVValues = new HSVAdjustment(ToDouble(values[2]), ToDouble(values[3]), ToDouble(values[4]), (SVAdjustmentMode)ToInt32(values[0]), (SVAdjustmentMode)ToInt32(values[1]));
+                                    HSVAdjustment HSVValues = new HSVAdjustment(ToDouble(values[0]), ToDouble(values[1]), ToDouble(values[2]), (SVAdjustmentMode)ToInt32(values[3]), (SVAdjustmentMode)ToInt32(values[4]));
                                     objects[objects.Count - 1].SetParameterWithID(currentParameterID, HSVValues);
                                 }
                                 else if (currentParameterID == 31)
