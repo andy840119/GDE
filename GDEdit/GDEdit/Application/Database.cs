@@ -61,11 +61,11 @@ namespace GDEdit.Application
             }
             set
             {
+                decryptedGamesave = value;
                 GetFolderNames();
                 GetPlayerName();
                 GetCustomObjects();
                 GetSongMetadata();
-                decryptedGamesave = value;
             }
         }
         /// <summary>The decrypted form of the level data.</summary>
@@ -331,14 +331,14 @@ namespace GDEdit.Application
         private void GetCustomObjects()
         {
             CustomObjects = new CustomLevelObjectCollection();
-            int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            int startIndex = decryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 return;
 
-            int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
+            int endIndex = decryptedGamesave.Find("</d>", startIndex, decryptedGamesave.Length);
             int currentIndex = startIndex;
-            while ((currentIndex = DecryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
-                CustomObjects.Add(new CustomLevelObject(GetObjects(DecryptedGamesave.Substring(currentIndex, DecryptedGamesave.Find("</s>", currentIndex, DecryptedGamesave.Length) - currentIndex))));
+            while ((currentIndex = decryptedGamesave.Find("</k><s>", currentIndex, endIndex) + 7) > 6)
+                CustomObjects.Add(new CustomLevelObject(GetObjects(decryptedGamesave.Substring(currentIndex, decryptedGamesave.Find("</s>", currentIndex, decryptedGamesave.Length) - currentIndex))));
         }
         /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
         private void GetKeyIndices()
@@ -368,99 +368,99 @@ namespace GDEdit.Application
 
         private void GetPlayerName()
         {
-            int playerNameStartIndex = DecryptedGamesave.FindFromEnd("<k>playerName</k><s>") + 20;
-            int playerNameEndIndex = DecryptedGamesave.FindFromEnd("</s><k>playerUserID</k>");
+            int playerNameStartIndex = decryptedGamesave.FindFromEnd("<k>playerName</k><s>") + 20;
+            int playerNameEndIndex = decryptedGamesave.FindFromEnd("</s><k>playerUserID</k>");
             int playerNameLength = playerNameEndIndex - playerNameStartIndex;
-            UserName = DecryptedGamesave.Substring(playerNameStartIndex, playerNameLength);
+            UserName = decryptedGamesave.Substring(playerNameStartIndex, playerNameLength);
         }
         // TODO: Decide whether they're staying or not
         private string GetUserID()
         {
-            int userIDStartIndex = DecryptedGamesave.FindFromEnd("<k>playerUserID</k><i>") + 22;
-            int userIDEndIndex = DecryptedGamesave.FindFromEnd("</i><k>playerFrame</k>");
+            int userIDStartIndex = decryptedGamesave.FindFromEnd("<k>playerUserID</k><i>") + 22;
+            int userIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>playerFrame</k>");
             int userIDLength = userIDEndIndex - userIDStartIndex;
-            return DecryptedGamesave.Substring(userIDStartIndex, userIDLength);
+            return decryptedGamesave.Substring(userIDStartIndex, userIDLength);
         }
         private string GetAccountID()
         {
-            int accountIDStartIndex = DecryptedGamesave.FindFromEnd("<k>GJA_003</k><i>") + 17;
-            int accountIDEndIndex = DecryptedGamesave.FindFromEnd("</i><k>KBM_001</k>");
+            int accountIDStartIndex = decryptedGamesave.FindFromEnd("<k>GJA_003</k><i>") + 17;
+            int accountIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>KBM_001</k>");
             int accountIDLength = accountIDEndIndex - accountIDStartIndex;
             if (accountIDLength > 0)
-                return DecryptedGamesave.Substring(accountIDStartIndex, accountIDLength);
+                return decryptedGamesave.Substring(accountIDStartIndex, accountIDLength);
             else
                 return "0";
         }
         private void GetFolderNames()
         {
             FolderNames = new FolderNameCollection();
-            int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
+            int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {
-                int foldersEndIndex = DecryptedGamesave.Find("</d>", foldersStartIndex, DecryptedGamesave.Length);
+                int foldersEndIndex = decryptedGamesave.Find("</d>", foldersStartIndex, decryptedGamesave.Length);
                 int currentIndex = foldersStartIndex;
-                while ((currentIndex = DecryptedGamesave.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
+                while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, foldersEndIndex) + 3) > 2)
                 {
-                    int endingIndex = DecryptedGamesave.Find("</k>", currentIndex, foldersEndIndex);
-                    int folderIndex = int.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex));
+                    int endingIndex = decryptedGamesave.Find("</k>", currentIndex, foldersEndIndex);
+                    int folderIndex = int.Parse(decryptedGamesave.Substring(currentIndex, endingIndex - currentIndex));
                     int folderNameStartIndex = endingIndex + 7;
-                    int folderNameEndIndex = DecryptedGamesave.Find("</s>", folderNameStartIndex, foldersEndIndex);
-                    FolderNames.Add(folderIndex, DecryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
+                    int folderNameEndIndex = decryptedGamesave.Find("</s>", folderNameStartIndex, foldersEndIndex);
+                    FolderNames.Add(folderIndex, decryptedGamesave.Substring(folderNameStartIndex, folderNameEndIndex - folderNameStartIndex));
                 }
             }
         }
         private void GetSongMetadata()
         {
             SongMetadataInformation = new SongMetadataCollection();
-            int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
                 int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
                 do
                 {
-                    nextDictionaryStartIndex = DecryptedGamesave.Find("<d>", nextDictionaryStartIndex, DecryptedGamesave.Length);
-                    songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataEndIndex, DecryptedGamesave.Length);
+                    nextDictionaryStartIndex = decryptedGamesave.Find("<d>", nextDictionaryStartIndex + 3, decryptedGamesave.Length);
+                    songMetadataEndIndex = decryptedGamesave.Find("</d>", songMetadataEndIndex + 4, decryptedGamesave.Length);
                 }
                 while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
                 int currentIndex = songMetadataStartIndex;
-                while ((currentIndex = DecryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
+                while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
                 {
-                    int endingIndex = DecryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
-                    SongMetadataInformation.Add(SongMetadata.Parse(DecryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
+                    int endingIndex = decryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
+                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
                 }
             }
         }
 
         private void SetCustomObjectsInGamesave()
         {
-            int startIndex = DecryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
+            int startIndex = decryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
             if (startIndex < 26)
                 decryptedGamesave += $"<k>customObjectDict</k><d>{CustomObjects}</d>";
             else
             {
-                int endIndex = DecryptedGamesave.Find("</d>", startIndex, DecryptedGamesave.Length);
+                int endIndex = decryptedGamesave.Find("</d>", startIndex, decryptedGamesave.Length);
                 decryptedGamesave = decryptedGamesave.Replace(CustomObjects.ToString(), startIndex, endIndex - startIndex);
             }
         }
         private void SetFolderNamesInGamesave()
         {
-            int foldersStartIndex = DecryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
+            int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
             if (foldersStartIndex > 15)
             {
-                int foldersEndIndex = DecryptedGamesave.Find("</d>", foldersStartIndex, DecryptedGamesave.Length);
+                int foldersEndIndex = decryptedGamesave.Find("</d>", foldersStartIndex, decryptedGamesave.Length);
                 decryptedGamesave = decryptedGamesave.Replace(FolderNames.ToString(), foldersStartIndex, foldersEndIndex - foldersStartIndex);
             }
         }
         private void SetSongMetadataInGamesave()
         {
-            int songMetadataStartIndex = DecryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
+            int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
             if (songMetadataStartIndex > 15)
             {
                 int nextDictionaryStartIndex = songMetadataStartIndex, songMetadataEndIndex = songMetadataStartIndex;
                 do
                 {
-                    nextDictionaryStartIndex = DecryptedGamesave.Find("<d>", nextDictionaryStartIndex, DecryptedGamesave.Length);
-                    songMetadataEndIndex = DecryptedGamesave.Find("</d>", songMetadataEndIndex, DecryptedGamesave.Length);
+                    nextDictionaryStartIndex = decryptedGamesave.Find("<d>", nextDictionaryStartIndex + 3, decryptedGamesave.Length);
+                    songMetadataEndIndex = decryptedGamesave.Find("</d>", songMetadataEndIndex + 4, decryptedGamesave.Length);
                 }
                 while (nextDictionaryStartIndex > 2 && nextDictionaryStartIndex < songMetadataEndIndex);
                 int currentIndex = songMetadataStartIndex;
