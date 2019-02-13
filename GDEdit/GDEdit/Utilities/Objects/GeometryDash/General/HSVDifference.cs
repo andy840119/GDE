@@ -58,13 +58,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
         /// <param name="hue">The hue of the HSV adjustment.</param>
         /// <param name="saturation">The saturation of the HSV adjustment.</param>
         /// <param name="brightness">The brightness of the HSV adjustment.</param>
-        /// <param name="saturationMode">The adjustment mode of the saturation of the HSV adjustment.</param>
-        /// <param name="brightnessMode">The adjustment mode of the brightness of the HSV adjustment.</param>
-        public HSVAdjustment(double hue, double saturation, double brightness, SVAdjustmentMode saturationMode, SVAdjustmentMode brightnessMode)
+        /// <param name="sMode">The adjustment mode of the saturation of the HSV adjustment.</param>
+        /// <param name="bMode">The adjustment mode of the brightness of the HSV adjustment.</param>
+        public HSVAdjustment(double hue, double saturation, double brightness, SVAdjustmentMode sMode, SVAdjustmentMode bMode)
         {
             h = new H((short)hue);
-            s = SV.GetSVFromMode(SaturationMode = saturationMode, (float)saturation);
-            v = SV.GetSVFromMode(BrightnessMode = saturationMode, (float)brightness);
+            s = SV.GetSVFromMode(sMode, (float)saturation);
+            v = SV.GetSVFromMode(bMode, (float)brightness);
+            saturationMode = sMode;
+            brightnessMode = bMode;
         }
 
         public static bool operator ==(HSVAdjustment left, HSVAdjustment right)
