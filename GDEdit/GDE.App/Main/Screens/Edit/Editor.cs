@@ -4,7 +4,7 @@ using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
-using GDE.App.Main.Colours;
+using GDE.App.Main.Colors;
 using GDE.App.Main.Levels;
 
 namespace GDE.App.Main.Screens.Edit
@@ -23,7 +23,7 @@ namespace GDE.App.Main.Screens.Edit
                     Origin = Anchor.BottomLeft,
                     Anchor = Anchor.BottomLeft,
                     Depth = float.MaxValue,
-                    Colour = GDEColours.FromHex("287dff"),
+                    Colour = GDEColors.FromHex("287dff"),
                     Size = new Vector2(2048, 2048)
                 },
                 new LevelPreview

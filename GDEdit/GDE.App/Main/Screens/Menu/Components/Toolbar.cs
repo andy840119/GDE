@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Colours;
+﻿using GDE.App.Main.Colors;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -42,7 +42,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColours.FromHex("161616")
+                    Colour = GDEColors.FromHex("161616")
                 },
                 new FillFlowContainer
                 {
@@ -61,7 +61,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Anchor = Anchor.BottomLeft,
                             Origin = Anchor.BottomLeft,
                             Margin = new MarginPadding(5),
-                            Colour = GDEColours.FromHex("666666"),
+                            Colour = GDEColors.FromHex("666666"),
                             Text = Level.Value.Song.Name,
                             TextSize = 25,
                         }
@@ -81,9 +81,9 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Origin = Anchor.CentreRight,
                             Margin = new MarginPadding(5),
                             Size = new Vector2(80, 30),
-                            BackgroundColour = GDEColours.FromHex("c6262e"),
+                            BackgroundColour = GDEColors.FromHex("c6262e"),
                             Text = "Delete",
-                            Action = () => Edit?.Invoke()
+                            Action = () => Delete?.Invoke()
                         },
                         new Button
                         {
@@ -91,9 +91,9 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Origin = Anchor.CentreRight,
                             Margin = new MarginPadding(5),
                             Size = new Vector2(80, 30),
-                            BackgroundColour = GDEColours.FromHex("242424"),
+                            BackgroundColour = GDEColors.FromHex("242424"),
                             Text = "Edit",
-                            Action = () => Delete?.Invoke()
+                            Action = () => Edit?.Invoke()
                         }
                     }
                 }
