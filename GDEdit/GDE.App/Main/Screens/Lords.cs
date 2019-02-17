@@ -29,7 +29,7 @@ namespace GDE.App.Main.Screens
                     {
                         Alfas = new SpriteText
                         {
-                            Text = "Alfas",
+                            Text = "AlFas",
                             TextSize = 170,
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
