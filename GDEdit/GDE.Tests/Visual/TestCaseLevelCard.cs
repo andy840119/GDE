@@ -24,7 +24,7 @@ namespace GDE.Tests.Visual
                 }
             };
 
-            AddStep("Change name to \"Test---\"", () => card.Level.Value = new Level
+            /*AddStep("Change name to \"Test---\"", () => card.Level.Value = new Level
             {
                 AuthorName = "TestAuthor",
                 Name = "TestLevel",
@@ -56,7 +56,7 @@ namespace GDE.Tests.Visual
                     ID = 000000,
                     Link = "Unkown link"
                 },
-            });
+            });*/
         }
     }
 }

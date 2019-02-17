@@ -1,5 +1,4 @@
-﻿using GDE.App.Main.Colours;
-using GDE.App.Main.Levels.Metas;
+﻿using GDE.App.Main.Colors;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -9,6 +8,8 @@ using osu.Framework.Graphics;
 using osuTK;
 using System;
 using osu.Framework.Input.Events;
+using GDEdit.Utilities.Objects.GeometryDash;
+using osuTK.Graphics;
 
 namespace GDE.App.Main.Screens.Menu.Components
 {
@@ -16,19 +17,20 @@ namespace GDE.App.Main.Screens.Menu.Components
     {
         public Bindable<Level> Level = new Bindable<Level>(new Level
         {
-            AuthorName = "Unknown author",
+            //AuthorName = "Unknown author",
             Name = "Unknown name",
-            Position = 0,
-            Verified = false,
-            Length = 0,
-            Song =new Song
-            {
-                AuthorName = "Unknown author",
-                Name = "Unknown name",
-                AuthorNG = "Unkown author NG",
-                ID = 000000,
-                Link = "Unkown link"
-            },
+            //Position = 0,
+            //Verified = false,
+            //Length = 0,
+            //Song =new Song
+            //{
+                //AuthorName = "Unknown author",
+                //Name = "Unknown name",
+                //AuthorNG = "Unkown author NG",
+                //ID = 000000,
+                //Link = "Unkown link"
+            //},
+            CreatorName = "UnkownCreator",
         });
 
         public Bindable<bool> Selected = new Bindable<bool>(false);
@@ -44,13 +46,13 @@ namespace GDE.App.Main.Screens.Menu.Components
                 HoverBox = new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColours.FromHex("161616")
+                    Colour = GDEColors.FromHex("161616")
                 },
                 selectionBar = new Box
                 {
                     RelativeSizeAxes = Axes.Y,
                     Size = new Vector2(5, 1f),
-                    Colour = GDEColours.FromHex("202020")
+                    Colour = GDEColors.FromHex("202020")
                 },
                 new FillFlowContainer
                 {
@@ -69,9 +71,9 @@ namespace GDE.App.Main.Screens.Menu.Components
                         },
                         levelAuthor = new SpriteText
                         {
-                            Text = Level.Value.Song.Name,
+                            Text = Level.Value.CreatorName,
                             TextSize = 20,
-                            Colour = GDEColours.FromHex("aaaaaa")
+                            Colour = GDEColors.FromHex("aaaaaa")
                         }
                     }
                 },
@@ -80,9 +82,10 @@ namespace GDE.App.Main.Screens.Menu.Components
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
                     Margin = new MarginPadding(5),
-                    Text = TimeSpan.FromMilliseconds(Level.Value.Length).ToString(@"m\:ss"),
+                    //Text = Level.Value.Length.ToString(),
+                    Text = "Tiny",
                     TextSize = 20,
-                    Colour = GDEColours.FromHex("aaaaaa")
+                    Colour = GDEColors.FromHex("aaaaaa")
                 }
             };
 
@@ -93,27 +96,27 @@ namespace GDE.App.Main.Screens.Menu.Components
         private void OnlevelChange(Level obj)
         {
             levelName.Text = obj.Name;
-            levelAuthor.Text = obj.Song.Name;
-            levelLength.Text = TimeSpan.FromMilliseconds(obj.Length).ToString(@"m\:ss");
+            levelAuthor.Text = obj.CreatorName;
+            //levelLength.Text = Level.Value.Length.ToString();
         }
 
         private void OnSelected(bool obj)
         {
             if (obj == false)
-                selectionBar.FadeColour(GDEColours.FromHex("202020"), 200);
+                selectionBar.FadeColour(GDEColors.FromHex("202020"), 200);
             else
-                selectionBar.FadeColour(GDEColours.FromHex("00bc5c"), 200);
+                selectionBar.FadeColour(GDEColors.FromHex("00bc5c"), 200);
         }
 
         protected override bool OnHover(HoverEvent e)
         {
-            HoverBox.FadeColour(GDEColours.FromHex("1c1c1c"), 500);
+            HoverBox.FadeColour(GDEColors.FromHex("1c1c1c"), 500);
             return base.OnHover(e);
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            HoverBox.FadeColour(GDEColours.FromHex("161616"), 500);
+            HoverBox.FadeColour(GDEColors.FromHex("161616"), 500);
             base.OnHoverLost(e);
         }
 
