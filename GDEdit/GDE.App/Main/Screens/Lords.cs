@@ -1,31 +1,17 @@
 ﻿using GDE.App.Main.Colors;
-using GDE.App.Main.UI;
-using GDE.App.Main.Screens.Menu.Components;
-using osu.Framework.Extensions.Color4Extensions;
-using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Sprites;
-using osu.Framework.Allocation;
-using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
+using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Screens;
 using osuTK;
-using osuTK.Graphics;
-using static GDEdit.Application.ApplicationDatabase;
-using GDEdit.Application;
-using GDEdit.Utilities.Objects.GeometryDash;
-using System.Collections.Generic;
-using osu.Framework.Configuration;
-using GDE.App.Main.Levels.Metas;
-using GDE.App.Main.Overlays;
-using osu.Framework.Graphics.Textures;
 
 namespace GDE.App.Main.Screens
 {
     public class Lords : Screen
     {
-        private Box Alfas;
-        private Box Alten;
+        private SpriteText Alfas;
+        private SpriteText Alten;
         private FillFlowContainer Container;
         private Button ExitButton;
 
@@ -41,15 +27,17 @@ namespace GDE.App.Main.Screens
                     Alpha = 0f,
                     Children = new Drawable[]
                     {
-                        Alfas = new Box
+                        Alfas = new SpriteText
                         {
-                            Size = new Vector2(390),
+                            Text = "Alfas",
+                            TextSize = 170,
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
                         },
-                        Alten = new Box
+                        Alten = new SpriteText
                         {
-                            Size = new Vector2(390),
+                            Text = "Alten",
+                            TextSize = 170,
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
                         }
@@ -68,13 +56,6 @@ namespace GDE.App.Main.Screens
             };
         }
         
-        [BackgroundDependencyLoader]
-        private void load(TextureStore TexStore)
-        {
-            Alfas.Texture = TexStore.Get("Alfas.png");
-            Alten.Texture = TexStore.Get("Alten.png");
-        }
-
         protected override void OnEntering(Screen last)
         {
             SpriteText welc;
