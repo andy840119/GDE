@@ -1,4 +1,5 @@
-﻿using GDE.App.Main.Overlays;
+﻿using GDE.App.Main.Colors;
+using GDE.App.Main.Overlays;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK;
@@ -21,7 +22,8 @@ namespace GDE.Tests.Visual
                     HeaderText = "Message1",
                     BodyText = "Message2",
                     Button1Text = "Button1",
-                    Button2Text = "Button2"
+                    Button2Text = "Button2",
+                    ConfirmButtonCol = GDEColors.FromHex("A9A9E3")
                 }
             };
             AddStep("toggle", popup.ToggleVisibility);

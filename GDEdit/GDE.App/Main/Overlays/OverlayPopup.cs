@@ -114,7 +114,7 @@ namespace GDE.App.Main.Overlays
                 }
             };
 
-            Rotation = -45;
+            Rotation = -25;
             Alpha = 0;
             Scale = new Vector2(0.5f);
         }
@@ -129,7 +129,7 @@ namespace GDE.App.Main.Overlays
 
         protected override void PopOut()
         {
-            this.RotateTo(-45, 300, Easing.InExpo);
+            this.RotateTo(-25, 300, Easing.InExpo);
             this.FadeOutFromOne(300, Easing.InExpo);
             this.ScaleTo(0.5f, 300, Easing.InExpo);
             base.PopOut();
