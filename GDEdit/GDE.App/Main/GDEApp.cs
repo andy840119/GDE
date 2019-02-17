@@ -1,10 +1,15 @@
 ﻿using GDE.App.Main.Screens.Menu;
+using GDE.App.Main.Screens;
 using GDE.App.Main.Toasts;
 using GDE.App.Main.Tools;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osuTK;
 using System;
+using osu.Framework.Input.Events;
+using osuTK.Input;
+using osu.Framework.Input.Bindings;
+using GDE.App.Main.Containers;
 
 namespace GDE.App.Main
 {
@@ -16,20 +21,27 @@ namespace GDE.App.Main
         [BackgroundDependencyLoader]
         private void load()
         {
-            AddRange(new Drawable[]
+            Children = new Drawable[]
             {
-                screen = new MainScreen(),
-                notification = new ToastNotification
+                new GlobalActionContainer
                 {
-                    Anchor = Anchor.BottomCentre,
-                    Origin = Anchor.BottomCentre,
-                    Size = new Vector2(600, 30),
-                    Margin = new MarginPadding
+                    RelativeSizeAxes = Axes.Both,
+                    Children = new Drawable[]
                     {
-                        Bottom = 5
+                        screen = new MainScreen(),
+                        notification = new ToastNotification
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            Size = new Vector2(600, 30),
+                            Margin = new MarginPadding
+                            {
+                                Bottom = 5
+                            }
+                        }
                     }
                 }
-            });
+            };
 
             new RavenLogger(this);
         }

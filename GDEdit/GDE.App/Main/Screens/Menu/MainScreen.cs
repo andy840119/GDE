@@ -17,10 +17,14 @@ using System.Collections.Generic;
 using osu.Framework.Configuration;
 using GDE.App.Main.Levels.Metas;
 using GDE.App.Main.Overlays;
+using osu.Framework.Input.Events;
+using osuTK.Input;
+using osu.Framework.Input.Bindings;
+using GDE.App.Main.Containers;
 
 namespace GDE.App.Main.Screens.Menu
 {
-    public class MainScreen : Screen
+    public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
         private FillFlowContainer levelList;
         private LevelCard Card;
@@ -86,7 +90,7 @@ namespace GDE.App.Main.Screens.Menu
                         },
                         PopUp = new OverlayPopup
                         {
-                            HeaderText = "Woah woah there!",
+                            HeaderText = "Woah there!",
                             BodyText = "Are you really sure you want to delete this level?",
                             Button1Text = "Cancel",
                             Button2Text = "Confirm",
@@ -164,6 +168,20 @@ namespace GDE.App.Main.Screens.Menu
         {
             //toolbar.Level = card1.Level;
         }
+
+        public bool OnPressed(GlobalAction action)
+        {
+            switch (action)
+            {
+                case GlobalAction.LordsKeys:
+                    Push(new Lords());
+                    break;
+            }
+
+            return true;
+        }
+
+        public bool OnReleased(GlobalAction action) => true;
     }
 }
 
