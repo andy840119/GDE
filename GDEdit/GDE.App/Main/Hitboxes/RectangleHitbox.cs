@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.General.Shapes;
 using GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -47,7 +48,7 @@ namespace GDE.App.Main.Hitboxes
         public RectangleHitbox(Hitbox hitbox)
         {
             h = hitbox;
-            rectangle = hitbox.HitboxType as Rectangle;
+            rectangle = hitbox.Shape as Rectangle;
 
             Position = new Vector2((float)hitbox.X, (float)hitbox.Y);
             Size = new Vector2((float)rectangle.Width, (float)rectangle.Height);
