@@ -12,6 +12,7 @@ namespace GDE.Tests.Visual
     {
         private LCDClockHorizontalBar horizontalBar;
         private LCDClockVerticalBar verticalBar;
+        private LCDClockNumber number;
         //private LCDClock clock;
 
         public TestCaseLCDClock()
@@ -21,8 +22,18 @@ namespace GDE.Tests.Visual
             RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
-                horizontalBar = new LCDClockHorizontalBar(true),
-                verticalBar = new LCDClockVerticalBar(true),
+                horizontalBar = new LCDClockHorizontalBar(true)
+                {
+                    Y = -100,
+                },
+                verticalBar = new LCDClockVerticalBar(true)
+                {
+                    Y = -100,
+                },
+                number = new LCDClockNumber
+                {
+                    Y = 100,
+                },
                 //clock = new LCDClock
                 //{
                 //    Origin = Anchor.Centre,
@@ -30,6 +41,9 @@ namespace GDE.Tests.Visual
                 //    Size = new Vector2(100)
                 //}
             };
+            
+            AddStep("Increase number", () => number.Value++);
+            AddStep("Decrease number", () => number.Value--);
         }
     }
 }
