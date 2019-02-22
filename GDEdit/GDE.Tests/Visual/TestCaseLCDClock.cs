@@ -12,20 +12,15 @@ namespace GDE.Tests.Visual
     {
         private LCDClockHorizontalBar horizontalBar;
         private LCDClockVerticalBar verticalBar;
-        private LCDClock clock;
+        //private LCDClock clock;
 
         public TestCaseLCDClock()
         {
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
-            RelativeSizeAxes = Axes.None;
+            RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
-                //new Box
-                //{
-                //    Colour = new Color4(95, 95, 95, 255),
-                //    RelativeSizeAxes = Axes.Both
-                //},
                 horizontalBar = new LCDClockHorizontalBar(true),
                 verticalBar = new LCDClockVerticalBar(true),
                 //clock = new LCDClock

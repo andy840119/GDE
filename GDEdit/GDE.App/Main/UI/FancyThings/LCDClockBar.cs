@@ -41,6 +41,12 @@ namespace GDE.App.Main.UI.FancyThings
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
             InitializeBar();
+            Children = new Drawable[]
+            {
+                Bar,
+                TriangleA,
+                TriangleB,
+            };
             Enabled = enabled;
         }
 

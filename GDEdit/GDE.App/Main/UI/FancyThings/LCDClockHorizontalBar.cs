@@ -33,7 +33,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                X = -SizeRatio * Dimension / 2 - Dimension,
+                X = -SizeRatio * Dimension / 2 - Dimension / 2,
                 Size = new Vector2(Dimension),
                 Rotation = -90,
             };
@@ -42,7 +42,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                X = SizeRatio * Dimension / 2 + Dimension,
+                X = SizeRatio * Dimension / 2 + Dimension / 2,
                 Size = new Vector2(Dimension),
                 Rotation = 90,
             };

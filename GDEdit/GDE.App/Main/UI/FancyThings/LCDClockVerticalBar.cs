@@ -33,7 +33,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                Y = SizeRatio * Dimension / 2 + Dimension,
+                Y = -SizeRatio * Dimension / 2 - Dimension / 2,
                 Size = new Vector2(Dimension),
             };
             TriangleB = new EquilateralTriangle
@@ -41,7 +41,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                Y = -SizeRatio * Dimension / 2 - Dimension,
+                Y = SizeRatio * Dimension / 2 + Dimension / 2,
                 Size = new Vector2(Dimension),
                 Rotation = -180,
             };
