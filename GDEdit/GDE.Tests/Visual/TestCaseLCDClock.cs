@@ -1,4 +1,6 @@
-﻿using GDE.App.Main.Objects;
+﻿using System;
+using System.Collections.Generic;
+using GDE.App.Main.Objects;
 using GDE.App.Main.UI.FancyThings;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
@@ -10,6 +12,8 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseLCDClock : TestCase
     {
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDClockBar), typeof(LCDClockNumber) };
+
         private LCDClockHorizontalBar horizontalBar;
         private LCDClockVerticalBar verticalBar;
         private LCDClockNumber number;

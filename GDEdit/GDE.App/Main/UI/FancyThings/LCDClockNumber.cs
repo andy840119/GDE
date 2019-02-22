@@ -16,6 +16,8 @@ namespace GDE.App.Main.UI.FancyThings
 {
     public class LCDClockNumber : Container
     {
+        public const int Spacing = 2;
+
         private static readonly int[,] Numbers = new int[,]
         {
             // 0
@@ -113,13 +115,13 @@ namespace GDE.App.Main.UI.FancyThings
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
-                Y = -(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f,
+                Y = -(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f - Spacing,
             },
             new LCDClockVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
-                Y = -(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f,
+                Y = -(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f - Spacing,
             },
             new LCDClockHorizontalBar
             {
@@ -130,13 +132,13 @@ namespace GDE.App.Main.UI.FancyThings
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
-                Y = (LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f,
+                Y = (LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f + Spacing,
             },
             new LCDClockVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
-                Y = (LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f,
+                Y = (LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f + Spacing,
             },
             new LCDClockHorizontalBar
             {
@@ -164,7 +166,7 @@ namespace GDE.App.Main.UI.FancyThings
             RelativeSizeAxes = Axes.None;
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
-            Size = new Vector2(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1), LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1) * 2);
+            Size = new Vector2(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1) + Spacing * 2, LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1) * 2 + Spacing * 4);
             Children = bars;
             Value = value;
         }

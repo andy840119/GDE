@@ -27,7 +27,7 @@ namespace GDE.App.Main.UI.FancyThings
         private bool enabled;
 
         protected Box Bar;
-        protected EquilateralTriangle TriangleA, TriangleB;
+        protected Triangle TriangleA, TriangleB;
 
         public bool Enabled
         {

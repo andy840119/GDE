@@ -28,21 +28,21 @@ namespace GDE.App.Main.UI.FancyThings
                 RelativePositionAxes = Axes.None,
                 Size = new Vector2(Dimension, SizeRatio * Dimension),
             };
-            TriangleA = new EquilateralTriangle
+            TriangleA = new Triangle
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                Y = -SizeRatio * Dimension / 2 - Dimension / 2,
-                Size = new Vector2(Dimension),
+                Y = -SizeRatio * Dimension / 2f - Dimension / 4f,
+                Size = new Vector2(Dimension, Dimension / 2f),
             };
-            TriangleB = new EquilateralTriangle
+            TriangleB = new Triangle
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                Y = SizeRatio * Dimension / 2 + Dimension / 2,
-                Size = new Vector2(Dimension),
+                Y = SizeRatio * Dimension / 2f + Dimension / 4f,
+                Size = new Vector2(Dimension, Dimension / 2f),
                 Rotation = -180,
             };
         }
