@@ -20,21 +20,21 @@ namespace GDE.App.Main.UI.FancyThings
 
         protected override void InitializeBar()
         {
-            Size = new Vector2(SizeRatio * Dimension, Dimension);
+            Size = new Vector2(SizeRatio * DimensionSize, DimensionSize);
             Bar = new Box
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                Size = new Vector2(SizeRatio * Dimension, Dimension),
+                Size = new Vector2(SizeRatio * DimensionSize, DimensionSize),
             };
             TriangleA = new Triangle
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                X = -SizeRatio * Dimension / 2f - Dimension / 4f,
-                Size = new Vector2(Dimension, Dimension / 2f),
+                X = -SizeRatio * DimensionSize / 2f - DimensionSize / 4f,
+                Size = new Vector2(DimensionSize, DimensionSize / 2f),
                 Rotation = -90,
             };
             TriangleB = new Triangle
@@ -42,8 +42,8 @@ namespace GDE.App.Main.UI.FancyThings
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 RelativePositionAxes = Axes.None,
-                X = SizeRatio * Dimension / 2f + Dimension / 4f,
-                Size = new Vector2(Dimension, Dimension / 2f),
+                X = SizeRatio * DimensionSize / 2f + DimensionSize / 4f,
+                Size = new Vector2(DimensionSize, DimensionSize / 2f),
                 Rotation = 90,
             };
         }

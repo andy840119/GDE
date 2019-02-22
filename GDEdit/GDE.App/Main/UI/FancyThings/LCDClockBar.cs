@@ -22,7 +22,7 @@ namespace GDE.App.Main.UI.FancyThings
         /// <summary>The size ratio of the box.</summary>
         public const int SizeRatio = 15;
         /// <summary>The size of each dimension of the box.</summary>
-        public const int Dimension = 6;
+        public const int DimensionSize = 6;
 
         private bool enabled;
 

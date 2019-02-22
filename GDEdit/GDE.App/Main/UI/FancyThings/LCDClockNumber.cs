@@ -11,6 +11,7 @@ using osuTK.Graphics;
 using GDE.App.Main.Colors;
 using osu.Framework.Input.Events;
 using System;
+using static GDE.App.Main.UI.FancyThings.LCDClockBar;
 
 namespace GDE.App.Main.UI.FancyThings
 {
@@ -115,13 +116,13 @@ namespace GDE.App.Main.UI.FancyThings
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
-                Y = -(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f - Spacing,
+                Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
             new LCDClockVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
-                Y = -(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f - Spacing,
+                Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
             new LCDClockHorizontalBar
             {
@@ -132,13 +133,13 @@ namespace GDE.App.Main.UI.FancyThings
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
-                Y = (LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f + Spacing,
+                Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
             new LCDClockVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
-                Y = (LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1)) / 2f + Spacing,
+                Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
             new LCDClockHorizontalBar
             {
@@ -166,7 +167,7 @@ namespace GDE.App.Main.UI.FancyThings
             RelativeSizeAxes = Axes.None;
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
-            Size = new Vector2(LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1) + Spacing * 2, LCDClockBar.Dimension * (LCDClockBar.SizeRatio + 1) * 2 + Spacing * 4);
+            Size = new Vector2(DimensionSize * (SizeRatio + 1) + Spacing * 2, DimensionSize * (SizeRatio + 1) * 2 + Spacing * 4);
             Children = bars;
             Value = value;
         }
