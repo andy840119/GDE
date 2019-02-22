@@ -1,15 +1,6 @@
-﻿using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics;
-using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Colour;
-using osu.Framework.Graphics.Sprites;
-using osu.Framework.Testing;
-using osu.Framework;
+﻿using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osuTK;
-using osuTK.Graphics;
-using GDE.App.Main.Colors;
-using osu.Framework.Input.Events;
 using System;
 using static GDE.App.Main.UI.FancyThings.LCDClockBar;
 
