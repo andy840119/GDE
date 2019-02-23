@@ -37,9 +37,9 @@ namespace GDE.App.Main.UI.FancyThings
         {
             var now = DateTime.Now;
             h.Value = now.Hour;
-            m.DeactivateTrailingZeroes = h.Value == 0;
+            left.Active = !(m.DeactivateTrailingZeroes = h.Value == 0);
             m.Value = now.Minute;
-            s.DeactivateTrailingZeroes = h.Value == 0 && m.Value == 0;
+            right.Active = !(s.DeactivateTrailingZeroes = h.Value == 0 && m.Value == 0);
             s.Value = now.Second;
         }
     }
