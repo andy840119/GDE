@@ -47,6 +47,7 @@ namespace GDE.App.Main.UI.FancyThings
             digits = new LCDDigit[digitCount];
             for (int i = 0; i < digitCount; i++)
                 digits[i] = new LCDDigit();
+            Size = new Vector2(digitCount * (digits[0].Size.X + 20) - 20, digits[0].Size.Y);
             Children = digits;
             Value = value;
             DeactivateTrailingZeroes = deactivateTrailingZeroes;

@@ -18,7 +18,7 @@ namespace GDE.Tests.Visual
         private LCDDigitHorizontalBar horizontalBar;
         private LCDDigitVerticalBar verticalBar;
         private LCDNumber number;
-        //private LCDClock clock;
+        private LCDClock clock;
 
         public TestCaseLCDClock()
         {
@@ -27,24 +27,25 @@ namespace GDE.Tests.Visual
             RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
-                horizontalBar = new LCDDigitHorizontalBar(true)
-                {
-                    Y = -100,
-                },
-                verticalBar = new LCDDigitVerticalBar(true)
-                {
-                    Y = -100,
-                },
+                //horizontalBar = new LCDDigitHorizontalBar(true)
+                //{
+                //    Y = -100,
+                //},
+                //verticalBar = new LCDDigitVerticalBar(true)
+                //{
+                //    Y = -100,
+                //},
                 number = new LCDNumber(0, 7, true)
                 {
-                    Y = 100,
+                    Y = -100,
                 },
-                //clock = new LCDClock
-                //{
-                //    Origin = Anchor.Centre,
-                //    Anchor = Anchor.Centre,
-                //    Size = new Vector2(100)
-                //}
+                clock = new LCDClock
+                {
+                    Origin = Anchor.Centre,
+                    Anchor = Anchor.Centre,
+                    //Size = new Vector2(100),
+                    Y = 100,
+                }
             };
 
             AddSliderStep("Value", 0, 9999999, 0, v => number.Value = v);
