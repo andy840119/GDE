@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using GDE.App.Main.Objects;
-using GDE.App.Main.UI.FancyThings;
+﻿using GDE.App.Main.UI.FancyThings;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
-using osuTK;
-using osuTK.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace GDE.Tests.Visual
 {
     public class TestCaseLCDClock : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDDigitBar), typeof(LCDDigit) };
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDDigitBar), typeof(LCDDigit), typeof(LCDNumber) };
 
         private Random r = new Random();
-        private LCDDigitHorizontalBar horizontalBar;
-        private LCDDigitVerticalBar verticalBar;
         private LCDNumber number;
         private LCDClock clock;
 
@@ -27,14 +21,6 @@ namespace GDE.Tests.Visual
             RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
-                //horizontalBar = new LCDDigitHorizontalBar(true)
-                //{
-                //    Y = -100,
-                //},
-                //verticalBar = new LCDDigitVerticalBar(true)
-                //{
-                //    Y = -100,
-                //},
                 number = new LCDNumber(0, 7, true)
                 {
                     Y = -100,
@@ -43,7 +29,6 @@ namespace GDE.Tests.Visual
                 {
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
-                    //Size = new Vector2(100),
                     Y = 100,
                 }
             };
