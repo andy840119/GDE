@@ -16,7 +16,7 @@ namespace GDE.Tests.Visual
 
         private LCDClockHorizontalBar horizontalBar;
         private LCDClockVerticalBar verticalBar;
-        private LCDClockDigit number;
+        private LCDClockNumber number;
         //private LCDClock clock;
 
         public TestCaseLCDClock()
@@ -34,7 +34,7 @@ namespace GDE.Tests.Visual
                 {
                     Y = -100,
                 },
-                number = new LCDClockDigit
+                number = new LCDClockNumber(0, 7, true)
                 {
                     Y = 100,
                 },
@@ -45,10 +45,11 @@ namespace GDE.Tests.Visual
                 //    Size = new Vector2(100)
                 //}
             };
-            
-            AddToggleStep("Active number", a => number.Active = a);
-            AddStep("Increase number", () => number.Value += number.Value < 9 ? 1 : 0);
+
+            AddSliderStep("Value", 0, 9999999, 0, v => number.Value = v);
+            AddStep("Increase number", () => number.Value += number.Value < 9999999 ? 1 : 0);
             AddStep("Decrease number", () => number.Value -= number.Value > 0 ? 1 : 0);
+            AddStep("Exponentially increase", () => number.TransformTo("Value", 5000, 1250, Easing.OutQuint));
         }
     }
 }
