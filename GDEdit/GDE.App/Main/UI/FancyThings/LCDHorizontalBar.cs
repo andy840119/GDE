@@ -4,9 +4,9 @@ using osuTK;
 
 namespace GDE.App.Main.UI.FancyThings
 {
-    public class LCDClockHorizontalBar : LCDClockBar
+    public class LCDHorizontalBar : LCDDigitBar
     {
-        public LCDClockHorizontalBar(bool enabled = false) : base(enabled) { }
+        public LCDHorizontalBar(bool enabled = false) : base(enabled) { }
 
         protected override void InitializeBar()
         {

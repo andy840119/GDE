@@ -2,11 +2,11 @@
 using osu.Framework.Graphics.Containers;
 using osuTK;
 using System;
-using static GDE.App.Main.UI.FancyThings.LCDClockBar;
+using static GDE.App.Main.UI.FancyThings.LCDDigitBar;
 
 namespace GDE.App.Main.UI.FancyThings
 {
-    public class LCDClockDigit : Container
+    public class LCDDigit : Container
     {
         public const int Spacing = 2;
 
@@ -97,43 +97,43 @@ namespace GDE.App.Main.UI.FancyThings
         private int v;
         private bool active;
 
-        private LCDClockBar[] bars = new LCDClockBar[]
+        private LCDDigitBar[] bars = new LCDDigitBar[]
         {
-            new LCDClockHorizontalBar
+            new LCDHorizontalBar
             {
                 Anchor = Anchor.TopCentre,
                 Origin = Anchor.Centre,
             },
-            new LCDClockVerticalBar
+            new LCDDigitVerticalBar
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
                 Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
-            new LCDClockVerticalBar
+            new LCDDigitVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
                 Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
-            new LCDClockHorizontalBar
+            new LCDHorizontalBar
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
             },
-            new LCDClockVerticalBar
+            new LCDDigitVerticalBar
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
                 Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
-            new LCDClockVerticalBar
+            new LCDDigitVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
                 Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
-            new LCDClockHorizontalBar
+            new LCDHorizontalBar
             {
                 Anchor = Anchor.BottomCentre,
                 Origin = Anchor.Centre,
@@ -162,7 +162,7 @@ namespace GDE.App.Main.UI.FancyThings
             }
         }
 
-        public LCDClockDigit(int value = 0, bool active = true)
+        public LCDDigit(int value = 0, bool active = true)
             : base()
         {
             RelativeSizeAxes = Axes.None;

@@ -2,16 +2,16 @@
 using osu.Framework.Graphics.Containers;
 using osuTK;
 using System;
-using static GDE.App.Main.UI.FancyThings.LCDClockBar;
+using static GDE.App.Main.UI.FancyThings.LCDDigitBar;
 
 namespace GDE.App.Main.UI.FancyThings
 {
-    public class LCDClockNumber : FillFlowContainer
+    public class LCDNumber : FillFlowContainer
     {
         private int v;
         private bool deactivateTrailingZeroes;
 
-        private LCDClockDigit[] digits;
+        private LCDDigit[] digits;
 
         public int Value
         {
@@ -37,7 +37,7 @@ namespace GDE.App.Main.UI.FancyThings
             }
         }
 
-        public LCDClockNumber(int value = 0, int digitCount = 5, bool deactivateTrailingZeroes = true)
+        public LCDNumber(int value = 0, int digitCount = 5, bool deactivateTrailingZeroes = true)
             : base()
         {
             RelativeSizeAxes = Axes.None;
@@ -45,9 +45,9 @@ namespace GDE.App.Main.UI.FancyThings
             Origin = Anchor.Centre;
             Direction = FillDirection.Horizontal;
             Spacing = new Vector2(25);
-            digits = new LCDClockDigit[digitCount];
+            digits = new LCDDigit[digitCount];
             for (int i = 0; i < digitCount; i++)
-                digits[i] = new LCDClockDigit();
+                digits[i] = new LCDDigit();
             Children = digits;
             Value = value;
             DeactivateTrailingZeroes = deactivateTrailingZeroes;

@@ -12,11 +12,11 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseLCDClock : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDClockBar), typeof(LCDClockDigit) };
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDDigitBar), typeof(LCDDigit) };
 
-        private LCDClockHorizontalBar horizontalBar;
-        private LCDClockVerticalBar verticalBar;
-        private LCDClockNumber number;
+        private LCDHorizontalBar horizontalBar;
+        private LCDDigitVerticalBar verticalBar;
+        private LCDNumber number;
         //private LCDClock clock;
 
         public TestCaseLCDClock()
@@ -26,15 +26,15 @@ namespace GDE.Tests.Visual
             RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
-                horizontalBar = new LCDClockHorizontalBar(true)
+                horizontalBar = new LCDHorizontalBar(true)
                 {
                     Y = -100,
                 },
-                verticalBar = new LCDClockVerticalBar(true)
+                verticalBar = new LCDDigitVerticalBar(true)
                 {
                     Y = -100,
                 },
-                number = new LCDClockNumber(0, 7, true)
+                number = new LCDNumber(0, 7, true)
                 {
                     Y = 100,
                 },
