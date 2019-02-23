@@ -99,7 +99,7 @@ namespace GDE.App.Main.UI.FancyThings
 
         private LCDDigitBar[] bars = new LCDDigitBar[]
         {
-            new LCDHorizontalBar
+            new LCDDigitHorizontalBar
             {
                 Anchor = Anchor.TopCentre,
                 Origin = Anchor.Centre,
@@ -116,7 +116,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Origin = Anchor.Centre,
                 Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
-            new LCDHorizontalBar
+            new LCDDigitHorizontalBar
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
@@ -133,7 +133,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Origin = Anchor.Centre,
                 Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
-            new LCDHorizontalBar
+            new LCDDigitHorizontalBar
             {
                 Anchor = Anchor.BottomCentre,
                 Origin = Anchor.Centre,

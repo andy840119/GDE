@@ -14,7 +14,8 @@ namespace GDE.Tests.Visual
     {
         public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDDigitBar), typeof(LCDDigit) };
 
-        private LCDHorizontalBar horizontalBar;
+        private Random r = new Random();
+        private LCDDigitHorizontalBar horizontalBar;
         private LCDDigitVerticalBar verticalBar;
         private LCDNumber number;
         //private LCDClock clock;
@@ -26,7 +27,7 @@ namespace GDE.Tests.Visual
             RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
-                horizontalBar = new LCDHorizontalBar(true)
+                horizontalBar = new LCDDigitHorizontalBar(true)
                 {
                     Y = -100,
                 },
@@ -49,7 +50,7 @@ namespace GDE.Tests.Visual
             AddSliderStep("Value", 0, 9999999, 0, v => number.Value = v);
             AddStep("Increase number", () => number.Value += number.Value < 9999999 ? 1 : 0);
             AddStep("Decrease number", () => number.Value -= number.Value > 0 ? 1 : 0);
-            AddStep("Exponentially increase", () => number.TransformTo("Value", 5000, 1250, Easing.OutQuint));
+            AddStep("Set random value", () => number.TransformTo("Value", r.Next(0, 10000000), 1250, Easing.OutQuint));
         }
     }
 }
