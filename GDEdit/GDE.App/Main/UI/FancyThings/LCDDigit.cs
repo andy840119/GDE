@@ -146,7 +146,7 @@ namespace GDE.App.Main.UI.FancyThings
             set
             {
                 if (value > 9 || value < 0)
-                    throw new InvalidOperationException("Cannot set the value of the LCD number to a number outside the range [0, 9].");
+                    throw new InvalidOperationException("Cannot set the value of the LCD digit to a number outside the range [0, 9].");
                 v = value;
                 for (int i = 0; i < bars.Length; i++)
                     bars[i].Enabled = Numbers[value, i] == 1;

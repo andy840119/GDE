@@ -2,7 +2,6 @@
 using osu.Framework.Graphics.Containers;
 using osuTK;
 using System;
-using static GDE.App.Main.UI.FancyThings.LCDDigitBar;
 
 namespace GDE.App.Main.UI.FancyThings
 {
@@ -44,7 +43,7 @@ namespace GDE.App.Main.UI.FancyThings
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
             Direction = FillDirection.Horizontal;
-            Spacing = new Vector2(25);
+            Spacing = new Vector2(20);
             digits = new LCDDigit[digitCount];
             for (int i = 0; i < digitCount; i++)
                 digits[i] = new LCDDigit();

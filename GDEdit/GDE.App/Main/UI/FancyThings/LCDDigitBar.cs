@@ -12,7 +12,7 @@ namespace GDE.App.Main.UI.FancyThings
         public static readonly Color4 DisabledColor = new Color4(32, 32, 32, 255);
 
         /// <summary>The size ratio of the box.</summary>
-        public const int SizeRatio = 15;
+        public const int SizeRatio = 8;
         /// <summary>The size of each dimension of the box.</summary>
         public const int DimensionSize = 6;
 
