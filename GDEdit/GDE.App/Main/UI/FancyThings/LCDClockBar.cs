@@ -8,6 +8,7 @@ namespace GDE.App.Main.UI.FancyThings
     public abstract class LCDClockBar : Container
     {
         public static readonly Color4 EnabledColor = new Color4(255, 255, 255, 255);
+        public static readonly Color4 InactiveColor = new Color4(96, 96, 96, 255);
         public static readonly Color4 DisabledColor = new Color4(32, 32, 32, 255);
 
         /// <summary>The size ratio of the box.</summary>
@@ -15,7 +16,8 @@ namespace GDE.App.Main.UI.FancyThings
         /// <summary>The size of each dimension of the box.</summary>
         public const int DimensionSize = 6;
 
-        private bool enabled;
+        private bool enabled, active;
+        private Color4 CurrentEnabledColor = EnabledColor;
 
         protected Box Bar;
         protected Triangle TriangleA, TriangleB;
@@ -23,7 +25,17 @@ namespace GDE.App.Main.UI.FancyThings
         public bool Enabled
         {
             get => enabled;
-            set => Bar.Colour = TriangleA.Colour = TriangleB.Colour = (enabled = value) ? EnabledColor : DisabledColor;
+            set => Bar.Colour = TriangleA.Colour = TriangleB.Colour = (enabled = value) ? CurrentEnabledColor : DisabledColor;
+        }
+        public bool Active
+        {
+            get => active;
+            set
+            {
+                CurrentEnabledColor = (active = value) ? EnabledColor : InactiveColor;
+                if (enabled)
+                    Bar.Colour = TriangleA.Colour = TriangleB.Colour = CurrentEnabledColor;
+            }
         }
 
         public LCDClockBar(bool enabled = false) : base()

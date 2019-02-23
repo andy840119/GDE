@@ -12,11 +12,11 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseLCDClock : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDClockBar), typeof(LCDClockNumber) };
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDClockBar), typeof(LCDClockDigit) };
 
         private LCDClockHorizontalBar horizontalBar;
         private LCDClockVerticalBar verticalBar;
-        private LCDClockNumber number;
+        private LCDClockDigit number;
         //private LCDClock clock;
 
         public TestCaseLCDClock()
@@ -34,7 +34,7 @@ namespace GDE.Tests.Visual
                 {
                     Y = -100,
                 },
-                number = new LCDClockNumber
+                number = new LCDClockDigit
                 {
                     Y = 100,
                 },
@@ -46,8 +46,9 @@ namespace GDE.Tests.Visual
                 //}
             };
             
-            AddStep("Increase number", () => number.Value++);
-            AddStep("Decrease number", () => number.Value--);
+            AddToggleStep("Active number", a => number.Active = a);
+            AddStep("Increase number", () => number.Value += number.Value < 9 ? 1 : 0);
+            AddStep("Decrease number", () => number.Value -= number.Value > 0 ? 1 : 0);
         }
     }
 }

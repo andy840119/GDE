@@ -6,7 +6,7 @@ using static GDE.App.Main.UI.FancyThings.LCDClockBar;
 
 namespace GDE.App.Main.UI.FancyThings
 {
-    public class LCDClockNumber : Container
+    public class LCDClockDigit : Container
     {
         public const int Spacing = 2;
 
@@ -95,6 +95,7 @@ namespace GDE.App.Main.UI.FancyThings
         };
 
         private int v;
+        private bool active;
 
         private LCDClockBar[] bars = new LCDClockBar[]
         {
@@ -138,7 +139,7 @@ namespace GDE.App.Main.UI.FancyThings
                 Origin = Anchor.Centre,
             },
         };
-        
+
         public int Value
         {
             get => v;
@@ -151,8 +152,17 @@ namespace GDE.App.Main.UI.FancyThings
                     bars[i].Enabled = Numbers[value, i] == 1;
             }
         }
+        public bool Active
+        {
+            get => active;
+            set
+            {
+                for (int i = 0; i < bars.Length; i++)
+                    bars[i].Active = active = value;
+            }
+        }
 
-        public LCDClockNumber(int value = 0)
+        public LCDClockDigit(int value = 0, bool active = true)
             : base()
         {
             RelativeSizeAxes = Axes.None;
@@ -161,6 +171,7 @@ namespace GDE.App.Main.UI.FancyThings
             Size = new Vector2(DimensionSize * (SizeRatio + 1) + Spacing * 2, DimensionSize * (SizeRatio + 1) * 2 + Spacing * 4);
             Children = bars;
             Value = value;
+            Active = active;
         }
     }
 }
