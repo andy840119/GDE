@@ -13,6 +13,7 @@ namespace GDE.App.Main.UI.FancyThings
     public class LCDClock : FillFlowContainer
     {
         private LCDNumber h, m, s;
+        private LCDClockSeparator left, right;
 
         public LCDClock()
         {
@@ -21,13 +22,15 @@ namespace GDE.App.Main.UI.FancyThings
             Origin = Anchor.Centre;
             Direction = FillDirection.Horizontal;
             Spacing = new Vector2(20);
-
-            Children = new[]
+            Children = new Drawable[]
             {
                 h = new LCDNumber(0, 2, true),
+                left = new LCDClockSeparator(),
                 m = new LCDNumber(0, 2, false),
+                right = new LCDClockSeparator(),
                 s = new LCDNumber(0, 2, false),
             };
+            Size = new Vector2(h.Size.X * 3 + left.Size.X * 2 + (Children.Count - 1) * 20, h.Size.Y);
         }
 
         protected override void Update()
