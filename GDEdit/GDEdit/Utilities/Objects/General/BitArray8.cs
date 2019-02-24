@@ -4,16 +4,13 @@
     public struct BitArray8
     {
         // The LSB has index 0 and the MSB has index 7
-        public byte bits;
+        private byte bits;
         
         /// <summary>Initializes a new instance of the <seealso cref="BitArray8"/> struct.</summary>
         /// <param name="defaultValue">The default value to set to all the bits.</param>
-        public BitArray8(bool defaultValue)
+        public BitArray8(bool defaultValue = false)
         {
-            if (defaultValue)
-                bits = 0b1111_1111; // Hardcode for perfomance
-            else
-                bits = 0;
+            bits = (byte)(defaultValue ? 0b1111_1111 : 0); // Hardcode for perfomance
         }
         
         /// <summary>Gets a bit of the <seealso cref="BitArray8"/> at the specified index as a <seealso cref="bool"/>.</summary>
@@ -27,16 +24,11 @@
         // All those casts are retarded
         /// <summary>Gets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to get.</param>
-        public byte GetBit(int index) => (byte)((byte)(bits << (7 - index)) >> 7);
+        public byte GetBit(int index) => (byte)((bits & (byte)(1 << index)) >> index);
         /// <summary>Sets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to set.</param>
         /// <param name="b">The bit to set at the specified index.</param>
-        public void SetBit(int index, byte b)
-        {
-            int left = (bits >> (index + 1)) << (index + 1);
-            int right = (byte)(bits << (8 - index)) >> (8 - index);
-            bits = (byte)(left | (b << index) | right);
-        }
+        public void SetBit(int index, byte b) => bits = (byte)((byte)(bits & (byte)~(1 << index)) | (byte)(b << index));
         
         /// <summary>Gets or sets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to get or set.</param>

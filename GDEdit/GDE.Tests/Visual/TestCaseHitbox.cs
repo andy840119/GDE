@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Hitboxes;
 using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.General.Shapes;
 using GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
