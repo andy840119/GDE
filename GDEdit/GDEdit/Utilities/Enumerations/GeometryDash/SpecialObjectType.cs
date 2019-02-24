@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GDEdit.Utilities.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,9 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         CountTextObject = 1615,
         /// <summary>The object ID of the text object.</summary>
         TextObject = 914,
+        /// <summary>The object ID of the custom particle.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleObject = -1,
 
         // General special object types
         /// <summary>Represents a rotating object (not a particular one).</summary>
