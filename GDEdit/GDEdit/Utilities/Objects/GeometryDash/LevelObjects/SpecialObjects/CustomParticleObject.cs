@@ -428,7 +428,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as CustomParticleObject;
-            // TODO: Add cloned property information
+            c.Grouping = Grouping;
+            c.Property1 = Property1;
+            c.MaxParticles = MaxParticles;
+            c.Duration = Duration;
+            c.Emission = Emission;
+            c.posVar = posVar;
+            c.gravity = gravity;
+            c.startSize = startSize;
+            c.endSize = endSize;
+            c.startSpin = startSpin;
+            c.endSpin = endSpin;
+            c.lifetime = lifetime;
+            c.angle = angle;
+            c.speed = speed;
+            c.accelRad = accelRad;
+            c.accelTan = accelTan;
+            c.fadeIn = fadeIn;
+            c.fadeOut = fadeOut;
+            c.start = start;
+            c.end = end;
             return base.AddClonedInstanceInformation(c);
         }
     }
