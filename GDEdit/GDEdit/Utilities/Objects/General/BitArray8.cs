@@ -24,7 +24,7 @@
         // All those casts are retarded
         /// <summary>Gets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to get.</param>
-        public byte GetBit(int index) => (byte)((byte)(bits << (7 - index)) >> 7);
+        public byte GetBit(int index) => (byte)(bits & (byte)(1 << index));
         /// <summary>Sets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to set.</param>
         /// <param name="b">The bit to set at the specified index.</param>
