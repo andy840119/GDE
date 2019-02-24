@@ -25,6 +25,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         private SymmetricalRange<Color> start, end;
         
         #region Motion
+        /// <summary>The grouping of the custom particles.</summary>
+        public CustomParticleGrouping Grouping { get; set; }
+        // TODO: Figure out what this does
+        /// <summary>The property 1 of the custom particles.</summary>
+        public CustomParticleProperty1 Property1 { get; set; }
         /// <summary>The maximum number of particles that will be alive simultaneously.</summary>
         public int MaxParticles
         {
