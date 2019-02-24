@@ -8,7 +8,7 @@
         
         /// <summary>Initializes a new instance of the <seealso cref="BitArray8"/> struct.</summary>
         /// <param name="defaultValue">The default value to set to all the bits.</param>
-        public BitArray8(bool defaultValue)
+        public BitArray8(bool defaultValue = false)
         {
             bits = (byte)(defaultValue ? 0b1111_1111 : 0); // Hardcode for perfomance
         }
