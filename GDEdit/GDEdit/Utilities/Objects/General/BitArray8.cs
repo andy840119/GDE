@@ -4,16 +4,13 @@
     public struct BitArray8
     {
         // The LSB has index 0 and the MSB has index 7
-        public byte bits;
+        private byte bits;
         
         /// <summary>Initializes a new instance of the <seealso cref="BitArray8"/> struct.</summary>
         /// <param name="defaultValue">The default value to set to all the bits.</param>
         public BitArray8(bool defaultValue)
         {
-            if (defaultValue)
-                bits = 0b1111_1111; // Hardcode for perfomance
-            else
-                bits = 0;
+            bits = (byte)(defaultValue ? 0b1111_1111 : 0); // Hardcode for perfomance
         }
         
         /// <summary>Gets a bit of the <seealso cref="BitArray8"/> at the specified index as a <seealso cref="bool"/>.</summary>
