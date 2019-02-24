@@ -2,7 +2,7 @@
 using osu.Framework.Graphics.Shapes;
 using osuTK;
 
-namespace GDE.App.Main.UI.FancyThings
+namespace GDE.App.Main.UI.LCDComponents
 {
     public class LCDDigitVerticalBar : LCDDigitBar
     {

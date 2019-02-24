@@ -3,7 +3,7 @@ using osu.Framework.Graphics.Containers;
 using osuTK;
 using System;
 
-namespace GDE.App.Main.UI.FancyThings
+namespace GDE.App.Main.UI.LCDComponents
 {
     public class LCDClock : FillFlowContainer
     {

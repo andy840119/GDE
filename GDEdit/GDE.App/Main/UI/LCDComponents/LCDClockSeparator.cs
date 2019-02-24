@@ -2,9 +2,9 @@
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osuTK;
-using static GDE.App.Main.UI.FancyThings.LCDDigitBar;
+using static GDE.App.Main.UI.LCDComponents.LCDDigitBar;
 
-namespace GDE.App.Main.UI.FancyThings
+namespace GDE.App.Main.UI.LCDComponents
 {
     public class LCDClockSeparator : Container
     {

@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.UI.FancyThings;
+﻿using GDE.App.Main.UI.LCDComponents;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using System;
