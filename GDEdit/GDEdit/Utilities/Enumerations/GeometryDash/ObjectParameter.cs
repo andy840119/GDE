@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Objects.GeometryDash;
 
 namespace GDEdit.Utilities.Enumerations.GeometryDash
@@ -236,7 +237,178 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         AnimationSpeed = 107,
         /// <summary>Represents the linked Group ID of the <see cref="LevelObject"/>.</summary>
         LinkedGroupID = 108,
+
         /// <summary>Represents whether the player switches direction of the orb <see cref="LevelObject"/>.</summary>
-        OrbSwitchPlayerDirection = -1
+        [FutureProofing("2.2")]
+        OrbSwitchPlayerDirection = -1,
+
+        /// <summary>The grouping of the custom particles.</summary>
+        [FutureProofing("2.2")]
+        Grouping = -1,
+        /// <summary>The property 1 of the custom particles.</summary>
+        [FutureProofing("2.2")]
+        Property1 = -1, // TODO: Figure out what this does
+        /// <summary>The maximum number of particles that will be alive simultaneously.</summary>
+        [FutureProofing("2.2")]
+        MaxParticles = -1,
+        /// <summary>The duration of the particle creation.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleDuration = -1, // Using already implemented Duration property?
+        /// <summary>The lifetime of the particle creation.</summary>
+        [FutureProofing("2.2")]
+        Lifetime = -1,
+        /// <summary>The Lifetime +- property.</summary>
+        [FutureProofing("2.2")]
+        LifetimeAdjustment = -1,
+        /// <summary>The Emission property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        Emission = -1,
+        /// <summary>The angle of the particles and the center.</summary>
+        [FutureProofing("2.2")]
+        Angle = -1,
+        /// <summary>The Angle +- property.</summary>
+        [FutureProofing("2.2")]
+        AngleAdjustment = -1,
+        /// <summary>The speed at which the particles move.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleSpeed = -1, // Using already implemented Speed property?
+        /// <summary>The Speed +- property.</summary>
+        [FutureProofing("2.2")]
+        SpeedAdjustment = -1,
+        /// <summary>The PosVarX property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        PosVarX = -1,
+        /// <summary>The PosVarY +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        PosVarY = -1,
+        /// <summary>The GravityX property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        GravityX = -1,
+        /// <summary>The GravityY +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        GravityY = -1,
+        /// <summary>The AccelRad property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelRad = -1,
+        /// <summary>The AccelRad +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelRadAdjustment = -1,
+        /// <summary>The AccelTan property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelTan = -1,
+        /// <summary>The AccelTan +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelTanAdjustment = -1,
+        /// <summary>The size during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartSize = -1,
+        /// <summary>The StartSize +- property.</summary>
+        [FutureProofing("2.2")]
+        StartSizeAdjustment = -1,
+        /// <summary>The size during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndSize = -1,
+        /// <summary>The EndSize +- property.</summary>
+        [FutureProofing("2.2")]
+        EndSizeAdjustment = -1,
+        /// <summary>The rotation during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartSpin = -1,
+        /// <summary>The StartSpin +- property.</summary>
+        [FutureProofing("2.2")]
+        StartSpinAdjustment = -1,
+        /// <summary>The rotation during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndSpin = -1,
+        /// <summary>The EndSpin +- property.</summary>
+        [FutureProofing("2.2")]
+        EndSpinAdjustment = -1,
+        /// <summary>The alpha value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartA = -1,
+        /// <summary>The Start_A +- property.</summary>
+        [FutureProofing("2.2")]
+        StartAAdjustment = -1,
+        /// <summary>The red value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartR = -1,
+        /// <summary>The Start_R +- property.</summary>
+        [FutureProofing("2.2")]
+        StartRAdjustment = -1,
+        /// <summary>The green value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartG = -1,
+        /// <summary>The Start_G +- property.</summary>
+        [FutureProofing("2.2")]
+        StartGAdjustment = -1,
+        /// <summary>The blue value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartB = -1,
+        /// <summary>The Start_B +- property.</summary>
+        [FutureProofing("2.2")]
+        StartBAdjustment = -1,
+        /// <summary>The alpha value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndA = -1,
+        /// <summary>The End_A +- property.</summary>
+        [FutureProofing("2.2")]
+        EndAAdjustment = -1,
+        /// <summary>The red value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndR = -1,
+        /// <summary>The End_R +- property.</summary>
+        [FutureProofing("2.2")]
+        EndRAdjustment = -1,
+        /// <summary>The green value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndG = -1,
+        /// <summary>The End_G +- property.</summary>
+        [FutureProofing("2.2")]
+        EndGAdjustment = -1,
+        /// <summary>The blue value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndB = -1,
+        /// <summary>The End_B +- property.</summary>
+        [FutureProofing("2.2")]
+        EndBAdjustment = -1,
+        /// <summary>The Fade In property.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleFadeIn = -1, // Using already implemented FadeIn property?
+        /// <summary>The Fade In +- property.</summary>
+        [FutureProofing("2.2")]
+        FadeInAdjustment = -1,
+        /// <summary>The Fade Out property.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleFadeOut = -1, // Using already implemented FadeOut property?
+        /// <summary>The Fade Out +- property.</summary>
+        [FutureProofing("2.2")]
+        FadeOutAdjustment = -1,
+        /// <summary>Represents the Additive property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        Additive = -1,
+        /// <summary>Represents the Start Size = End property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartSizeEqualsEnd = -1,
+        /// <summary>Represents the Start Spin = End property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartSpinEqualsEnd = -1,
+        /// <summary>Represents the Start Radius = End property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartRadiusEqualsEnd = -1,
+        /// <summary>Represents the Start Rotation Is Dir property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartRotationIsDir = -1,
+        /// <summary>Represents the Dynamic Rotation property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        DynamicRotation = -1,
+        /// <summary>Represents the Use Object Color property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        UseObjectColor = -1,
+        /// <summary>Represents the Uniform Object Color property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        UniformObjectColor = -1,
+        /// <summary>The texture of the particles.</summary>
+        [FutureProofing("2.2")]
+        Texture = -1,
     }
 }
