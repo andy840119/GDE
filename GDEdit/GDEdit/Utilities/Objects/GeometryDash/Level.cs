@@ -405,8 +405,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "k50": // Binary Version
                     BinaryVersion = ToInt32(value);
                     break;
-                case "k79": // Time Spent
-                    BuildTime = ToInt32(value);
+                case "k79": // Unlisted
+                    Unlisted = valueType == "t /";
                     break;
                 case "k80": // Time Spent
                     BuildTime = ToInt32(value);

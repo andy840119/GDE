@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
+namespace GDEdit.Utilities.Objects.General.Shapes
 {
-    /// <summary>Represents a hitbox that has a radius property.</summary>
+    /// <summary>Represents a shape that has a radius property.</summary>
     public interface IHasRadius
     {
-        /// <summary>The radius of the hitbox.</summary>
+        /// <summary>The radius of the shape.</summary>
         double Radius { get; set; }
     }
 }

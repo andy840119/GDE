@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,6 +47,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\ApplicationDatabase.cs" />
@@ -167,16 +168,16 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItem.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\RotatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HitboxType.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Circle.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasHeight.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasWidth.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\IHasRadius.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\HorizontalLine.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Line.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\VerticalLine.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Rectangle.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Slope.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\Shape.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\Circle.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\IHasHeight.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\IHasWidth.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\IHasRadius.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\HorizontalLine.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\Line.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\VerticalLine.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
@@ -217,7 +218,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\WidthHeightHitbox.cs" />
+    <Compile Include="Utilities\Objects\General\Shapes\WidthHeightShape.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
