@@ -20,7 +20,5 @@ namespace GDE.App.Main.Containers
                 RelativeSizeAxes = Axes.Both
             });
         }
-
-        
     }
 }

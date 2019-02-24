@@ -1,25 +1,20 @@
 ﻿using GDE.App.Main.Colors;
+using GDE.App.Main.Containers;
+using GDE.App.Main.Overlays;
 using GDE.App.Main.UI;
 using GDE.App.Main.Screens.Menu.Components;
-using osu.Framework.Extensions.Color4Extensions;
+using GDEdit.Application;
+using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
-using osuTK;
-using osuTK.Graphics;
-using static GDEdit.Application.ApplicationDatabase;
-using GDEdit.Application;
-using GDEdit.Utilities.Objects.GeometryDash;
-using System.Collections.Generic;
 using osu.Framework.Configuration;
-using GDE.App.Main.Overlays;
-using osu.Framework.Input.Events;
-using osuTK.Input;
 using osu.Framework.Input.Bindings;
-using GDE.App.Main.Containers;
+using osuTK;
+using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Screens.Menu
 {
@@ -33,7 +28,6 @@ namespace GDE.App.Main.Screens.Menu
         {
             Name = "Unknown name",
             CreatorName = "Unkown creator"
-            
         });
 
         public MainScreen()
