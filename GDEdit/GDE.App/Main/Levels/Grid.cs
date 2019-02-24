@@ -1,13 +1,7 @@
-﻿using GDEdit.Application;
-using GDE.App.Main.Objects;
-using osu.Framework.Extensions.Color4Extensions;
+﻿using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics;
-using osu.Framework.Screens;
-using System;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
-using static GDEdit.Application.Database;
 using osuTK.Graphics;
 
 namespace GDE.App.Main.Levels
