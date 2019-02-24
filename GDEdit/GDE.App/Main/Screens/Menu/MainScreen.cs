@@ -15,7 +15,6 @@ using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
 using System.Collections.Generic;
 using osu.Framework.Configuration;
-using GDE.App.Main.Levels.Metas;
 using GDE.App.Main.Overlays;
 using osu.Framework.Input.Events;
 using osuTK.Input;
@@ -30,13 +29,11 @@ namespace GDE.App.Main.Screens.Menu
         private LevelCard Card;
         private Toolbar toolbar;
         private OverlayPopup PopUp;
-        private Bindable<Levels.Metas.Level> Level = new Bindable<Levels.Metas.Level>(new Levels.Metas.Level
+        private Bindable<Level> Level = new Bindable<Level>(new Level
         {
             Name = "Unknown name",
-            Song = new Song
-            {
-                Name = "Unknown name",
-            },
+            CreatorName = "Unkown creator"
+            
         });
 
         public MainScreen()
@@ -59,7 +56,8 @@ namespace GDE.App.Main.Screens.Menu
                             Delete = () =>
                             {
                                 PopUp.ToggleVisibility();
-                            }
+                            },
+                            Edit = () => Push(new Edit.Editor(0))
                         },
                         new Box
                         {
@@ -152,7 +150,7 @@ namespace GDE.App.Main.Screens.Menu
                         Margin = new MarginPadding(10),
                         Level =
                         {
-                            Value = new GDEdit.Utilities.Objects.GeometryDash.Level
+                            Value = new Level
                             {
                                 CreatorName = "Alten",
                                 Name = Databases[0].UserLevels[i].Name,
@@ -162,11 +160,14 @@ namespace GDE.App.Main.Screens.Menu
                     });
                 }
             }
+
+            Card.Selected.ValueChanged += NewSelection;
         }
 
         private void NewSelection(bool obj)
         {
-            //toolbar.Level = card1.Level;
+            toolbar.Level = Card.Level;
+            //TODO: make level editable from selection
         }
 
         public bool OnPressed(GlobalAction action)
@@ -184,23 +185,3 @@ namespace GDE.App.Main.Screens.Menu
         public bool OnReleased(GlobalAction action) => true;
     }
 }
-
-
-/*
- * new Levels.Metas.Level
-                            {
-                                Name = "Test Level",
-                                AuthorName = "Unknown author",
-                                Position = 0,
-                                Verified = false,
-                                Length = 0,
-                                Song =new Levels.Metas.Song
-                                {
-                                    AuthorName = "Unknown author",
-                                    Name = "Unknown name",
-                                    AuthorNG = "Unkown author NG",
-                                    ID = 000000,
-                                    Link = "Unkown link"
-                                },
-                            }
- */

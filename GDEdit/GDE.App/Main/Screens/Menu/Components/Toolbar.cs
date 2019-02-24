@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -7,7 +8,6 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Graphics;
 using osuTK;
 using System;
-using GDE.App.Main.Levels.Metas;
 
 namespace GDE.App.Main.Screens.Menu.Components
 {
@@ -15,19 +15,20 @@ namespace GDE.App.Main.Screens.Menu.Components
     {
         public Bindable<Level> Level = new Bindable<Level>(new Level
         {
-            AuthorName = "Unknown author",
+            //AuthorName = "Unknown author",
             Name = "Unknown name",
-            Position = 0,
-            Verified = false,
-            Length = 0,
-            Song = new Song
-            {
-                AuthorName = "Unknown author",
-                Name = "Unknown name",
-                AuthorNG = "Unkown author NG",
-                ID = 000000,
-                Link = "Unkown link"
-            },
+            //Position = 0,
+            //Verified = false,
+            //Length = 0,
+            //Song =new Song
+            //{
+            //AuthorName = "Unknown author",
+            //Name = "Unknown name",
+            //AuthorNG = "Unkown author NG",
+            //ID = 000000,
+            //Link = "Unkown link"
+            //},
+            CreatorName = "UnkownCreator",
         });
 
         public Action Edit;
@@ -62,7 +63,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Origin = Anchor.BottomLeft,
                             Margin = new MarginPadding(5),
                             Colour = GDEColors.FromHex("666666"),
-                            Text = Level.Value.Song.Name,
+                            Text = Level.Value.CreatorName,
                             TextSize = 25,
                         }
                     }
@@ -105,7 +106,7 @@ namespace GDE.App.Main.Screens.Menu.Components
         private void OnChanged(Level obj)
         {
             LevelName.Text = obj.Name;
-            SongName.Text = obj.Song.Name;
+            SongName.Text = obj.CreatorName;
         }
     }
 }

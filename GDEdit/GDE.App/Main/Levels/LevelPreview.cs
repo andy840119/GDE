@@ -13,10 +13,12 @@ namespace GDE.App.Main.Levels
     public class LevelPreview : Container
     {
         public bool AllowDrag = true;
+        private int index;
 
-        public LevelPreview()
+        public LevelPreview(int Index)
         {
-            //Databases.Add(new Database());
+            index = Index;
+            Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
 
@@ -37,28 +39,28 @@ namespace GDE.App.Main.Levels
             {
                 float scale = 1;
 
-                if (Databases[0].UserLevels[0].LevelObjects[i].Scaling > 0)
+                if (Databases[0].UserLevels[index].LevelObjects[i].Scaling > 0)
                 {
-                    scale = (float)Databases[0].UserLevels[0].LevelObjects[i].Scaling;
+                    scale = (float)Databases[index].UserLevels[0].LevelObjects[i].Scaling;
                 }
 
                 Vector2 size;
 
-                if (Databases[0].UserLevels[0].LevelObjects[i].FlippedVertically && Databases[0].UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                if (Databases[0].UserLevels[index].LevelObjects[i].FlippedVertically && Databases[0].UserLevels[index].LevelObjects[i].FlippedHorizontally)
                     size = new Vector2(-30 * scale, -30 * scale);
-                else if (Databases[0].UserLevels[0].LevelObjects[i].FlippedVertically)
+                else if (Databases[0].UserLevels[index].LevelObjects[i].FlippedVertically)
                     size = new Vector2(30 * scale, -30 * scale);
-                else if (Databases[0].UserLevels[0].LevelObjects[i].FlippedHorizontally)
+                else if (Databases[0].UserLevels[index].LevelObjects[i].FlippedHorizontally)
                     size = new Vector2(-30 * scale, 30 * scale);
                 else
                     size = new Vector2(30 * scale);
                  
                 Add(new ObjectBase
                 {
-                    ObjectID = Databases[0].UserLevels[0].LevelObjects[i].ObjectID,
-                    Position = new Vector2((float)Databases[0].UserLevels[0].LevelObjects[i].X, (float)-Databases[0].UserLevels[0].LevelObjects[i].Y),
+                    ObjectID = Databases[0].UserLevels[index].LevelObjects[i].ObjectID,
+                    Position = new Vector2((float)Databases[0].UserLevels[index].LevelObjects[i].X, (float)-Databases[0].UserLevels[0].LevelObjects[i].Y),
                     Size = size, // Set this to zoom scale later
-                    Rotation = (float)Databases[0].UserLevels[0].LevelObjects[i].Rotation, // fix soon:tm:
+                    Rotation = (float)Databases[0].UserLevels[index].LevelObjects[i].Rotation, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft
                 });

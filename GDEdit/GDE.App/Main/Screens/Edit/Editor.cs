@@ -13,9 +13,12 @@ namespace GDE.App.Main.Screens.Edit
     {
         private TextureStore texStore;
         private Box background;
+        private int index;
 
-        public Editor()
+        public Editor(int Index)
         {
+            index = Index;
+
             AddRange(new Drawable[]
             {
                 background = new Box
@@ -26,7 +29,7 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("287dff"),
                     Size = new Vector2(2048, 2048)
                 },
-                new LevelPreview
+                new LevelPreview(index)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre

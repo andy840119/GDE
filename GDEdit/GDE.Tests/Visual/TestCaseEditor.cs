@@ -10,7 +10,7 @@ namespace GDE.Tests.Visual
     {
         public TestCaseEditor()
         {
-            Add(new Editor());
+            Add(new Editor(0));
         }
     }
 }
