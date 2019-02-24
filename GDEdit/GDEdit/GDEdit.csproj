@@ -61,6 +61,8 @@
     <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
     <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleProperty1.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleGrouping.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\ColorChannelPlayerColor.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\Easing.cs" />
