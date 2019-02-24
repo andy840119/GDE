@@ -132,7 +132,7 @@ namespace GDE.App.Main.UI.Toolbar
                         {
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
-                            TextSize = text_size,
+                            Font = new FontUsage(size: text_size),
                             Margin = new MarginPadding { Horizontal = margin_horizontal, Vertical = MARGIN_VERTICAL },
                         },
                         BoldText = new SpriteText
@@ -141,7 +141,7 @@ namespace GDE.App.Main.UI.Toolbar
                             Alpha = 0,
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
-                            TextSize = text_size,
+                            Font = new FontUsage(size: text_size),
                             Margin = new MarginPadding { Horizontal = margin_horizontal, Vertical = MARGIN_VERTICAL },
                         }
                     };
