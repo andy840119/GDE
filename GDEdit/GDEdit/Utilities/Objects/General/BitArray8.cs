@@ -28,12 +28,7 @@
         /// <summary>Sets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to set.</param>
         /// <param name="b">The bit to set at the specified index.</param>
-        public void SetBit(int index, byte b)
-        {
-            int left = (bits >> (index + 1)) << (index + 1);
-            int right = (byte)(bits << (8 - index)) >> (8 - index);
-            bits = (byte)(left | (b << index) | right);
-        }
+        public void SetBit(int index, byte b) => bits = (byte)((byte)(bits & (byte)~(1 << index)) | (byte)(b << index));
         
         /// <summary>Gets or sets a bit of the <seealso cref="BitArray8"/> at the specified index.</summary>
         /// <param name="index">The index of the bit to get or set.</param>
