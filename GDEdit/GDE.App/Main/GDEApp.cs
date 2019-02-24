@@ -1,6 +1,8 @@
 ﻿using GDE.App.Main.Screens;
 using GDE.App.Main.Toasts;
 using GDE.App.Main.Tools;
+using GDE.App.Updater;
+using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osuTK;
@@ -32,6 +34,14 @@ namespace GDE.App.Main
             });
 
             new RavenLogger(this);
+        }
+
+        protected override void LoadComplete()
+        {
+            if (RuntimeInfo.OS == RuntimeInfo.Platform.Windows)
+                Add(new SquirrelUpdateManager());
+
+            base.LoadComplete();
         }
 
         protected override bool ExceptionHandler(Exception arg)
