@@ -19,5 +19,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
 
         /// <summary>Initializes a new instance of the <seealso cref="MagentaDashOrb"/> class.</summary>
         public MagentaDashOrb() : base() { }
+
+        /// <summary>Returns a clone of this <seealso cref="MagentaDashOrb"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new MagentaDashOrb());
     }
 }

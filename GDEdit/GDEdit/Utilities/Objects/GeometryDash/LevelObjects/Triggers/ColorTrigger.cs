@@ -13,8 +13,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Color trigger.</summary>
     public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
     {
-        private byte red, green, blue;
-        private short targetColorID;
+        private byte red = 255, green = 255, blue = 255;
+        private short targetColorID = 1;
         private float duration = 0.5f, opacity = 1;
 
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
@@ -115,6 +115,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         // Constructors like this are useless, so many fucking parameters are required
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="ColorTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new ColorTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as ColorTrigger;
+            c.TargetColorID = TargetColorID;
+            c.Duration = Duration;
+            c.Red = Red;
+            c.Green = Green;
+            c.Blue = Blue;
+            c.Opacity = Opacity;
+            c.CopiedColorID = CopiedColorID;
+            c.Blending = Blending;
+            c.CopyOpacity = CopyOpacity;
+            c.TintGround = TintGround;
+            c.HSVAdjustment = HSVAdjustment;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

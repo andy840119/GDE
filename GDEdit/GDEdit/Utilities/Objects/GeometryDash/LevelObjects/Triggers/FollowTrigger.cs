@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     public class FollowTrigger : Trigger, IHasDuration, IHasTargetGroupID, IHasSecondaryGroupID
     {
         private short targetGroupID, followGroupID;
-        private float duration = 0.5f, xMod, yMod;
+        private float duration = 0.5f, xMod = 1, yMod = 1;
 
         public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Follow;
 
@@ -80,6 +80,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             YMod = yMod;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="FollowTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new FollowTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as FollowTrigger;
+            c.Duration = Duration;
+            c.TargetGroupID = TargetGroupID;
+            c.FollowGroupID = FollowGroupID;
+            c.XMod = XMod;
+            c.YMod = YMod;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

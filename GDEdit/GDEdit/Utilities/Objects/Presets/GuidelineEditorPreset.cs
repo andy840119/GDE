@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
+using GDEdit.Utilities.Objects.General;
 
 namespace GDEdit.Utilities.Objects.Presets
 {
@@ -16,21 +17,25 @@ namespace GDEdit.Utilities.Objects.Presets
         /// <summary>The BPM of the preset.</summary>
         public double BPM;
         /// <summary>The time signature of the preset.</summary>
-        public (int Beats, int Denominator) TimeSignature;
+        public TimeSignature TimeSignature;
         /// <summary>The measures of the preset.</summary>
         public List<GuidelineEditorPresetMeasure> Measures;
 
         /// <summary>Creates a new instance of the <seealso cref="GuidelineEditorPreset"/> class.</summary>
-        public GuidelineEditorPreset()
-        {
-
-        }
+        public GuidelineEditorPreset() { }
         /// <summary>Creates a new instance of the <seealso cref="GuidelineEditorPreset"/> class.</summary>
         /// <param name="name">The name of the preset.</param>
         /// <param name="bpm">The BPM of the preset.</param>
         /// <param name="timeSignature">The time signature of the preset.</param>
         /// <param name="measures">The measures of the preset.</param>
         public GuidelineEditorPreset(string name, double bpm, (int, int) timeSignature, List<GuidelineEditorPresetMeasure> measures)
+            : this(name, bpm, new TimeSignature(timeSignature), measures) { }
+        /// <summary>Creates a new instance of the <seealso cref="GuidelineEditorPreset"/> class.</summary>
+        /// <param name="name">The name of the preset.</param>
+        /// <param name="bpm">The BPM of the preset.</param>
+        /// <param name="timeSignature">The time signature of the preset.</param>
+        /// <param name="measures">The measures of the preset.</param>
+        public GuidelineEditorPreset(string name, double bpm, TimeSignature timeSignature, List<GuidelineEditorPresetMeasure> measures)
         {
             Name = name;
             BPM = bpm;

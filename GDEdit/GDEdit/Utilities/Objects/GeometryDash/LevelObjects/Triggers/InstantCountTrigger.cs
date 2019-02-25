@@ -66,6 +66,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             Comparison = comparison;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="InstantCountTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new InstantCountTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as InstantCountTrigger;
+            c.TargetGroupID = TargetGroupID;
+            c.ItemID = ItemID;
+            c.TargetCount = TargetCount;
+            c.ActivateGroup = ActivateGroup;
+            c.Comparison = Comparison;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

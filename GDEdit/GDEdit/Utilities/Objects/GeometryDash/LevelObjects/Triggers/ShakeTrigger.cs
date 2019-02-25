@@ -50,6 +50,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             Interval = interval;
         }
 
-        // TODO: Add cloning method
+        /// <summary>Returns a clone of this <seealso cref="ShakeTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new ShakeTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as ShakeTrigger;
+            c.Duration = Duration;
+            c.Strength = Strength;
+            c.Interval = Interval;
+            return base.AddClonedInstanceInformation(c);
+        }
     }
 }

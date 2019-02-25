@@ -7,7 +7,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using osuTK;
 using osuTK.Graphics;
-using GDE.App.Main.Colours;
+using GDE.App.Main.Colors;
 using osu.Framework.Input.Events;
 using System;
 
@@ -28,10 +28,10 @@ namespace GDE.App.Main.UI.Tabs
 
             colours = new ColourInfo
             {
-                TopLeft = GDEColours.FromHex("353535"),
-                TopRight = GDEColours.FromHex("353535"),
-                BottomLeft = GDEColours.FromHex("272727"),
-                BottomRight = GDEColours.FromHex("272727")
+                TopLeft = GDEColors.FromHex("353535"),
+                TopRight = GDEColors.FromHex("353535"),
+                BottomLeft = GDEColors.FromHex("272727"),
+                BottomRight = GDEColors.FromHex("272727")
             };
 
             Children = new Drawable[]
