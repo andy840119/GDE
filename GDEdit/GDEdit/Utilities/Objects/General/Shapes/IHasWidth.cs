@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
+namespace GDEdit.Utilities.Objects.General.Shapes
 {
-    /// <summary>Represents a hitbox that has a width property.</summary>
+    /// <summary>Represents a shape that has a width property.</summary>
     public interface IHasWidth
     {
-        /// <summary>The width of the hitbox.</summary>
+        /// <summary>The width of the shape.</summary>
         double Width { get; set; }
     }
 }

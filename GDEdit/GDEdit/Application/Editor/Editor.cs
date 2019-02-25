@@ -112,6 +112,23 @@ namespace GDEdit.Application.Editor
                 SelectedObjects.Remove(o);
             SelectedObjectsRemoved?.Invoke(objects);
         }
+        /// <summary>Inverts the current selection.</summary>
+        public void InvertSelection()
+        {
+            LevelObjectCollection old;
+            SelectedObjects = Level.LevelObjects.Clone().RemoveRange(old = SelectedObjects.Clone());
+            SelectedObjectsAdded?.Invoke(SelectedObjects);
+            SelectedObjectsRemoved?.Invoke(old);
+        }
+        /// <summary>Selects a number of objects based on a condition.</summary>
+        /// <param name="predicate">The predicate to determine the objects to select.</param>
+        /// <param name="appendToSelection">Determines whether the new objects will be appended to the already existing selection.</param>
+        public void SelectObjects(Predicate<GeneralObject> predicate, bool appendToSelection = true)
+        {
+            if (!appendToSelection)
+                DeselectAll();
+            SelectObjects(GetObjects(predicate));
+        }
         /// <summary>Selects all objects.</summary>
         public void SelectAll()
         {
