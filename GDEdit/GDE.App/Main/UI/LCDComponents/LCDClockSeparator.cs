@@ -2,7 +2,7 @@
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osuTK;
-using static GDE.App.Main.UI.LCDComponents.LCDDigitBar;
+using static GDE.App.Main.UI.LCDComponents.LCDCharacterBar;
 
 namespace GDE.App.Main.UI.LCDComponents
 {

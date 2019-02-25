@@ -9,7 +9,7 @@ namespace GDE.Tests.Visual
 {
     public class TestCaseLCDClock : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDDigitBar), typeof(LCDDigit), typeof(LCDNumber) };
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDCharacterBar), typeof(LCDDigit), typeof(LCDNumber) };
 
         private Random r = new Random();
         private LCDNumber number;

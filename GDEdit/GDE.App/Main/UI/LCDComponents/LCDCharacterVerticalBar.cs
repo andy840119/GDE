@@ -4,9 +4,9 @@ using osuTK;
 
 namespace GDE.App.Main.UI.LCDComponents
 {
-    public class LCDDigitVerticalBar : LCDDigitBar
+    public class LCDCharacterVerticalBar : LCDCharacterBar
     {
-        public LCDDigitVerticalBar(bool enabled = false) : base(enabled) { }
+        public LCDCharacterVerticalBar(bool enabled = false) : base(enabled) { }
 
         protected override void InitializeBar()
         {

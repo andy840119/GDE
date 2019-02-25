@@ -3,7 +3,7 @@ using osu.Framework.Graphics.Containers;
 using osuTK;
 using System;
 using System.Collections.Generic;
-using static GDE.App.Main.UI.LCDComponents.LCDDigitBar;
+using static GDE.App.Main.UI.LCDComponents.LCDCharacterBar;
 
 namespace GDE.App.Main.UI.LCDComponents
 {
@@ -248,43 +248,43 @@ namespace GDE.App.Main.UI.LCDComponents
 
         private char c;
 
-        protected LCDDigitBar[] Bars = new LCDDigitBar[]
+        protected LCDCharacterBar[] Bars = new LCDCharacterBar[]
         {
-            new LCDDigitHorizontalBar
+            new LCDCharacterHorizontalBar
             {
                 Anchor = Anchor.TopCentre,
                 Origin = Anchor.Centre,
             },
-            new LCDDigitVerticalBar
+            new LCDCharacterVerticalBar
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
                 Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
-            new LCDDigitVerticalBar
+            new LCDCharacterVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
                 Y = -(DimensionSize * (SizeRatio + 1)) / 2f - Spacing,
             },
-            new LCDDigitHorizontalBar
+            new LCDCharacterHorizontalBar
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
             },
-            new LCDDigitVerticalBar
+            new LCDCharacterVerticalBar
             {
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
                 Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
-            new LCDDigitVerticalBar
+            new LCDCharacterVerticalBar
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.Centre,
                 Y = (DimensionSize * (SizeRatio + 1)) / 2f + Spacing,
             },
-            new LCDDigitHorizontalBar
+            new LCDCharacterHorizontalBar
             {
                 Anchor = Anchor.BottomCentre,
                 Origin = Anchor.Centre,

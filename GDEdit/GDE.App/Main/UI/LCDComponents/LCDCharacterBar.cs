@@ -5,7 +5,7 @@ using osuTK.Graphics;
 
 namespace GDE.App.Main.UI.LCDComponents
 {
-    public abstract class LCDDigitBar : Container
+    public abstract class LCDCharacterBar : Container
     {
         public static readonly Color4 EnabledColor = new Color4(255, 255, 255, 255);
         public static readonly Color4 InactiveColor = new Color4(96, 96, 96, 255);
@@ -38,7 +38,7 @@ namespace GDE.App.Main.UI.LCDComponents
             }
         }
 
-        public LCDDigitBar(bool enabled = false) : base()
+        public LCDCharacterBar(bool enabled = false) : base()
         {
             RelativeSizeAxes = Axes.None;
             Anchor = Anchor.Centre;
