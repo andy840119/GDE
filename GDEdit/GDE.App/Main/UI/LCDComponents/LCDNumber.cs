@@ -5,7 +5,7 @@ using System;
 
 namespace GDE.App.Main.UI.LCDComponents
 {
-    public class LCDNumber : FillFlowContainer
+    public class LCDNumber : LCDDisplay
     {
         private int v;
         private bool deactivateTrailingZeroes;
@@ -39,15 +39,9 @@ namespace GDE.App.Main.UI.LCDComponents
         public LCDNumber(int value = 0, int digitCount = 5, bool deactivateTrailingZeroes = true)
             : base()
         {
-            RelativeSizeAxes = Axes.None;
-            Anchor = Anchor.Centre;
-            Origin = Anchor.Centre;
-            Direction = FillDirection.Horizontal;
-            Spacing = new Vector2(20);
             digits = new LCDDigit[digitCount];
             for (int i = 0; i < digitCount; i++)
                 digits[i] = new LCDDigit();
-            Size = new Vector2(digitCount * (digits[0].Size.X + 20) - 20, digits[0].Size.Y);
             Children = digits;
             Value = value;
             DeactivateTrailingZeroes = deactivateTrailingZeroes;

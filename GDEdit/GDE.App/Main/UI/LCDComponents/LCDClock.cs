@@ -5,18 +5,14 @@ using System;
 
 namespace GDE.App.Main.UI.LCDComponents
 {
-    public class LCDClock : FillFlowContainer
+    public class LCDClock : LCDDisplay
     {
         private LCDNumber h, m, s;
         private LCDClockSeparator left, right;
 
         public LCDClock()
+            : base()
         {
-            RelativeSizeAxes = Axes.None;
-            Anchor = Anchor.Centre;
-            Origin = Anchor.Centre;
-            Direction = FillDirection.Horizontal;
-            Spacing = new Vector2(20);
             Children = new Drawable[]
             {
                 h = new LCDNumber(0, 2, true),
@@ -25,7 +21,6 @@ namespace GDE.App.Main.UI.LCDComponents
                 right = new LCDClockSeparator(),
                 s = new LCDNumber(0, 2, false),
             };
-            Size = new Vector2(h.Size.X * 3 + left.Size.X * 2 + (Children.Count - 1) * 20, h.Size.Y);
         }
 
         protected override void Update()
@@ -36,6 +31,7 @@ namespace GDE.App.Main.UI.LCDComponents
             m.Value = now.Minute;
             right.Active = !(s.DeactivateTrailingZeroes = h.Value == 0 && m.Value == 0);
             s.Value = now.Second;
+            base.Update();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.UI.LCDComponents;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
+using osuTK;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace GDE.Tests.Visual
         private Random r = new Random();
         private LCDNumber number;
         private LCDClock clock;
+        private LCDFPSDisplay fps;
 
         public TestCaseLCDClock()
         {
@@ -30,7 +32,13 @@ namespace GDE.Tests.Visual
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
                     Y = 100,
-                }
+                },
+                fps = new LCDFPSDisplay
+                {
+                    Origin = Anchor.Centre,
+                    Anchor = Anchor.Centre,
+                    Scale = new Vector2(0.33f),
+                },
             };
 
             AddSliderStep("Value", 0, 9999999, 0, v => number.Value = v);
