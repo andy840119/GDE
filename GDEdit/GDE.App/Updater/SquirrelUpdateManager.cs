@@ -33,12 +33,9 @@ namespace GDE.App.Updater
         private async void checkForUpdateAsync(bool useDeltaPatching = true)
         {
             bool scheduleRetry = true;
-
             try
             {
-                //TODO: Add releases to the official repo
-                if (updateManager == null) updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/AltenGD/GDE", "GDEdit", null, null, true);
-                //if (updateManager == null) updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/gd-edit/GDE", "GDEdit", null, null, true);
+                if (updateManager == null) updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/gd-edit/GDE", "GDEdit", null, null, true);
 
                 var info = await updateManager.CheckForUpdate(!useDeltaPatching);
                 if (info.ReleasesToApply.Count == 0)
