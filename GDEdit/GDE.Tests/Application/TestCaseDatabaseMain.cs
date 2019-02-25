@@ -26,37 +26,37 @@ namespace GDE.Tests.Application
                         new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 40,
+                            Font = new FontUsage(size: 40),
                             Text = "Name: " + Databases[0].UserLevels[0].Name
                         },
                         new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 15,
+                            Font = new FontUsage(size: 15),
                             Text = "Description: " + Databases[0].UserLevels[0].Description
                         },
                         new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                             Text = "Revision: " + Databases[0].UserLevels[0].Revision
                         },
                         new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                             Text = "Version: " + Databases[0].UserLevels[0].Version
                         },
                         new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                             Text = "Object count: " + Databases[0].UserLevels[0].ObjectCount
                         },
                         new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                             Text = "Length: " + Databases[0].UserLevels[0].Length
                         },
                     }
