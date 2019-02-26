@@ -10,7 +10,7 @@ using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Squirrel;
-using LogLevel = Splat.LogLevel;
+using static Splat.LogLevel;
 
 namespace GDE.App.Updater
 {
@@ -35,7 +35,8 @@ namespace GDE.App.Updater
             bool scheduleRetry = true;
             try
             {
-                if (updateManager == null) updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/gd-edit/GDE", "GDEdit", null, null, true);
+                if (updateManager == null)
+                    updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/gd-edit/GDE", "GDEdit", null, null, true);
 
                 var info = await updateManager.CheckForUpdate(!useDeltaPatching);
                 if (info.ReleasesToApply.Count == 0)
