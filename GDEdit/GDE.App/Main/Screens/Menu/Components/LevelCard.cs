@@ -1,49 +1,34 @@
 ﻿using GDE.App.Main.Colors;
+using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Configuration;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Graphics;
-using osuTK;
-using System;
 using osu.Framework.Input.Events;
-using GDEdit.Utilities.Objects.GeometryDash;
-using osuTK.Graphics;
+using osuTK;
 
 namespace GDE.App.Main.Screens.Menu.Components
 {
     public class LevelCard : ClickableContainer
     {
+        private Box selectionBar;
+        private Box hoverBox;
+        private SpriteText levelName, levelAuthor, levelLength;
+
         public Bindable<Level> Level = new Bindable<Level>(new Level
         {
-            //AuthorName = "Unknown author",
             Name = "Unknown name",
-            //Position = 0,
-            //Verified = false,
-            //Length = 0,
-            //Song =new Song
-            //{
-                //AuthorName = "Unknown author",
-                //Name = "Unknown name",
-                //AuthorNG = "Unkown author NG",
-                //ID = 000000,
-                //Link = "Unkown link"
-            //},
             CreatorName = "UnkownCreator",
         });
 
         public Bindable<bool> Selected = new Bindable<bool>(false);
 
-        private Box selectionBar;
-        private Box HoverBox;
-        private SpriteText levelName, levelAuthor, levelLength;
-
         public LevelCard()
         {
             Children = new Drawable[]
             {
-                HoverBox = new Box
+                hoverBox = new Box
                 {
                     RelativeSizeAxes = Axes.Both,
                     Colour = GDEColors.FromHex("161616")
@@ -82,7 +67,6 @@ namespace GDE.App.Main.Screens.Menu.Components
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
                     Margin = new MarginPadding(5),
-                    //Text = Level.Value.Length.ToString(),
                     Text = "Tiny",
                     TextSize = 20,
                     Colour = GDEColors.FromHex("aaaaaa")
@@ -97,26 +81,20 @@ namespace GDE.App.Main.Screens.Menu.Components
         {
             levelName.Text = obj.Name;
             levelAuthor.Text = obj.CreatorName;
-            //levelLength.Text = Level.Value.Length.ToString();
         }
 
-        private void OnSelected(bool obj)
-        {
-            if (obj == false)
-                selectionBar.FadeColour(GDEColors.FromHex("202020"), 200);
-            else
-                selectionBar.FadeColour(GDEColors.FromHex("00bc5c"), 200);
-        }
+        private void OnSelected(bool obj) =>
+            selectionBar.FadeColour(obj ? GDEColors.FromHex("202020") : GDEColors.FromHex("00bc5c"), 200);
 
         protected override bool OnHover(HoverEvent e)
         {
-            HoverBox.FadeColour(GDEColors.FromHex("1c1c1c"), 500);
+            hoverBox.FadeColour(GDEColors.FromHex("1c1c1c"), 500);
             return base.OnHover(e);
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            HoverBox.FadeColour(GDEColors.FromHex("161616"), 500);
+            hoverBox.FadeColour(GDEColors.FromHex("161616"), 500);
             base.OnHoverLost(e);
         }
 

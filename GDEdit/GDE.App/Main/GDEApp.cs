@@ -1,15 +1,11 @@
-﻿using GDE.App.Main.Screens.Menu;
-using GDE.App.Main.Screens;
+﻿using GDE.App.Main.Containers;
+using GDE.App.Main.Screens.Menu;
 using GDE.App.Main.Toasts;
 using GDE.App.Main.Tools;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osuTK;
 using System;
-using osu.Framework.Input.Events;
-using osuTK.Input;
-using osu.Framework.Input.Bindings;
-using GDE.App.Main.Containers;
 
 namespace GDE.App.Main
 {

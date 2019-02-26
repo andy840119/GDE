@@ -6,11 +6,12 @@ namespace GDE.App.Main.Containers
 {
     public class ZoomableContainer : Container
     {
-        public float currentZoom = 1;
-        public float maxZoom = 40;
-        public float minZoom = 0.05f;
-
         private readonly Container zoomedContent;
+
+        public float CurrentZoom = 1;
+        public float MaxZoom = 40;
+        public float MinZoom = 0.05f;
+
         protected override Container<Drawable> Content => zoomedContent;
 
         public ZoomableContainer()

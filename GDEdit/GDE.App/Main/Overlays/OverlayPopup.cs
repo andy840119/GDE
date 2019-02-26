@@ -5,24 +5,27 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Graphics;
 using osuTK;
-using System;
 using osuTK.Graphics;
+using System;
 
 namespace GDE.App.Main.Overlays
 {
     public class OverlayPopup : FocusedOverlayContainer
     {
         private string  text;
+        private SpriteText header;
+        private SpriteText body;
+        private Button cancel;
+        private Button ok;
 
         public string HeaderText
         {
             get => text;
             set
             {
-                if (text == value)
-                    return;
-                text = value;
+                if (text == value) return;
 
+                text = value;
                 header.Text = value;
             }
         }
@@ -34,28 +37,23 @@ namespace GDE.App.Main.Overlays
 
         public string Button1Text
         {
-            set => Button1.Text = value;
+            set => cancel.Text = value;
         }
 
         public string Button2Text
         {
-            set => Button2.Text = value;
+            set => ok.Text = value;
         }
 
-        public Color4 ConfirmButtonCol
+        public Color4 ConfirmButtonColor
         {
             set
             {
-                Button2.BackgroundColour = value;
+                ok.BackgroundColour = value;
             }
         }
 
-        private SpriteText header;
-        private SpriteText body;
-        private Button Button1;
-        private Button Button2;
-
-        public Action confirmAction;
+        public Action ConfirmAction;
 
         public OverlayPopup()
         {
@@ -94,20 +92,20 @@ namespace GDE.App.Main.Overlays
                         }
                     }
                 },
-                Button1 = new Button
+                cancel = new Button
                 {
                     BackgroundColour = GDEColors.FromHex("1E1E1E"),
                     Size = new Vector2(100, 50),
-                    Action = () =>ToggleVisibility(),
+                    Action = () => ToggleVisibility(),
                     Anchor = Anchor.BottomLeft,
                     Origin = Anchor.BottomLeft,
                     Margin = new MarginPadding(20)
                 },
-                Button2 = new Button
+                ok = new Button
                 {
                     BackgroundColour = GDEColors.FromHex("1E1E1E"),
                     Size = new Vector2(100, 50),
-                    Action = () => confirmAction?.Invoke(),
+                    Action = () => ConfirmAction?.Invoke(),
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
                     Margin = new MarginPadding(20)

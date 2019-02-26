@@ -21,9 +21,9 @@ namespace GDE.App.Main.Screens.Menu
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
         private FillFlowContainer levelList;
-        private LevelCard Card;
+        private LevelCard card;
         private Toolbar toolbar;
-        private OverlayPopup PopUp;
+        private OverlayPopup popUp;
         private Bindable<Level> Level = new Bindable<Level>(new Level
         {
             Name = "Unknown name",
@@ -49,7 +49,7 @@ namespace GDE.App.Main.Screens.Menu
                             Level = Level,
                             Delete = () =>
                             {
-                                PopUp.ToggleVisibility();
+                                popUp.ToggleVisibility();
                             },
                             Edit = () => Push(new Edit.Editor(0))
                         },
@@ -80,13 +80,13 @@ namespace GDE.App.Main.Screens.Menu
                                }
                            }
                         },
-                        PopUp = new OverlayPopup
+                        popUp = new OverlayPopup
                         {
                             HeaderText = "Woah there!",
                             BodyText = "Are you really sure you want to delete this level?",
                             Button1Text = "Cancel",
                             Button2Text = "Confirm",
-                            ConfirmButtonCol = GDEColors.FromHex("c6262e"),
+                            ConfirmButtonColor = GDEColors.FromHex("c6262e"),
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre,
                             Size = new Vector2(750, 270)
@@ -137,7 +137,7 @@ namespace GDE.App.Main.Screens.Menu
             {
                 for (var i = 0; i < Databases[0].UserLevels.Count; i++)
                 {
-                    levelList.Add(Card = new LevelCard
+                    levelList.Add(card = new LevelCard
                     {
                         RelativeSizeAxes = Axes.X,
                         Size = new Vector2(0.9f, 100),
@@ -155,12 +155,12 @@ namespace GDE.App.Main.Screens.Menu
                 }
             }
 
-            Card.Selected.ValueChanged += NewSelection;
+            card.Selected.ValueChanged += NewSelection;
         }
 
         private void NewSelection(bool obj)
         {
-            toolbar.Level = Card.Level;
+            toolbar.Level = card.Level;
             //TODO: make level editable from selection
         }
 

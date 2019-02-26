@@ -1,10 +1,9 @@
 ﻿using GDEdit.Application;
 using GDE.App.Main.Objects;
+using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Screens;
 using osu.Framework.Input.Events;
-using System;
 using osuTK;
 using static GDEdit.Application.ApplicationDatabase;
 
@@ -12,12 +11,12 @@ namespace GDE.App.Main.Levels
 {
     public class LevelPreview : Container
     {
+        private int i;
         public bool AllowDrag = true;
-        private int index;
 
         public LevelPreview(int Index)
         {
-            index = Index;
+            i = Index;
             Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
@@ -35,32 +34,34 @@ namespace GDE.App.Main.Levels
                 }
             }*/
 
+            var userLevel = Databases[0].UserLevels[i];
+
             for (var i = 0; i < 0; i++)
             {
                 float scale = 1;
 
-                if (Databases[0].UserLevels[index].LevelObjects[i].Scaling > 0)
+                if (userLevel.LevelObjects[i].Scaling > 0)
                 {
-                    scale = (float)Databases[index].UserLevels[0].LevelObjects[i].Scaling;
+                    scale = (float)Databases[this.i].UserLevels[0].LevelObjects[i].Scaling;
                 }
 
                 Vector2 size;
 
-                if (Databases[0].UserLevels[index].LevelObjects[i].FlippedVertically && Databases[0].UserLevels[index].LevelObjects[i].FlippedHorizontally)
+                if (userLevel.LevelObjects[i].FlippedVertically && userLevel.LevelObjects[i].FlippedHorizontally)
                     size = new Vector2(-30 * scale, -30 * scale);
-                else if (Databases[0].UserLevels[index].LevelObjects[i].FlippedVertically)
+                else if (userLevel.LevelObjects[i].FlippedVertically)
                     size = new Vector2(30 * scale, -30 * scale);
-                else if (Databases[0].UserLevels[index].LevelObjects[i].FlippedHorizontally)
+                else if (userLevel.LevelObjects[i].FlippedHorizontally)
                     size = new Vector2(-30 * scale, 30 * scale);
                 else
                     size = new Vector2(30 * scale);
-                 
+
                 Add(new ObjectBase
                 {
-                    ObjectID = Databases[0].UserLevels[index].LevelObjects[i].ObjectID,
-                    Position = new Vector2((float)Databases[0].UserLevels[index].LevelObjects[i].X, (float)-Databases[0].UserLevels[0].LevelObjects[i].Y),
+                    ObjectID = userLevel.LevelObjects[i].ObjectID,
+                    Position = new Vector2((float)userLevel.LevelObjects[i].X, (float)-userLevel.LevelObjects[i].Y),
                     Size = size, // Set this to zoom scale later
-                    Rotation = (float)Databases[0].UserLevels[index].LevelObjects[i].Rotation, // fix soon:tm:
+                    Rotation = (float)userLevel.LevelObjects[i].Rotation, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft
                 });

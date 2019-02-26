@@ -10,16 +10,16 @@ namespace GDE.App.Main.Screens
 {
     public class Lords : Screen
     {
-        private SpriteText Alfas;
-        private SpriteText Alten;
-        private FillFlowContainer Container;
-        private Button ExitButton;
+        private SpriteText alfas;
+        private SpriteText alten;
+        private FillFlowContainer container;
+        private Button exitButton;
 
         public Lords()
         {
             Children = new Drawable[]
             {
-                Container = new FillFlowContainer
+                container = new FillFlowContainer
                 {
                     RelativeSizeAxes = Axes.Both,
                     Direction = FillDirection.Horizontal,
@@ -27,14 +27,14 @@ namespace GDE.App.Main.Screens
                     Alpha = 0f,
                     Children = new Drawable[]
                     {
-                        Alfas = new SpriteText
+                        alfas = new SpriteText
                         {
                             Text = "AlFas",
                             TextSize = 170,
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
                         },
-                        Alten = new SpriteText
+                        alten = new SpriteText
                         {
                             Text = "Alten",
                             TextSize = 170,
@@ -43,7 +43,7 @@ namespace GDE.App.Main.Screens
                         }
                     }
                 },
-                ExitButton = new Button
+                exitButton = new Button
                 {
                     Text = "Exit",
                     Action = () => Exit(),
@@ -83,8 +83,8 @@ namespace GDE.App.Main.Screens
             welc.Delay(4000).FadeOutFromOne(1000);
             praise.Delay(4000).FadeInFromZero(1000);
             praise.Delay(6000).FadeOutFromOne(1000);
-            Container.Delay(7000).FadeInFromZero(2000);
-            ExitButton.Delay(7000).FadeInFromZero(2000);
+            container.Delay(7000).FadeInFromZero(2000);
+            exitButton.Delay(7000).FadeInFromZero(2000);
             base.OnEntering(last);
         }
     }

@@ -13,11 +13,11 @@ namespace GDE.App.Main.Screens.Edit
     {
         private TextureStore texStore;
         private Box background;
-        private int index;
+        private int i;
 
-        public Editor(int Index)
+        public Editor(int index)
         {
-            index = Index;
+            i = index;
 
             AddRange(new Drawable[]
             {

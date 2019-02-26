@@ -13,28 +13,16 @@ namespace GDE.App.Main.Screens.Menu.Components
 {
     public class Toolbar : Container
     {
+        private SpriteText levelName, songName;
+
         public Bindable<Level> Level = new Bindable<Level>(new Level
         {
-            //AuthorName = "Unknown author",
             Name = "Unknown name",
-            //Position = 0,
-            //Verified = false,
-            //Length = 0,
-            //Song =new Song
-            //{
-            //AuthorName = "Unknown author",
-            //Name = "Unknown name",
-            //AuthorNG = "Unkown author NG",
-            //ID = 000000,
-            //Link = "Unkown link"
-            //},
             CreatorName = "UnkownCreator",
         });
 
         public Action Edit;
         public Action Delete;
-
-        private SpriteText LevelName, SongName;
 
         public Toolbar()
         {
@@ -51,13 +39,13 @@ namespace GDE.App.Main.Screens.Menu.Components
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        LevelName = new SpriteText
+                        levelName = new SpriteText
                         {
                             Margin = new MarginPadding(5),
                             Text = Level.Value.Name,
                             TextSize = 30
                         },
-                        SongName = new SpriteText
+                        songName = new SpriteText
                         {
                             Anchor = Anchor.BottomLeft,
                             Origin = Anchor.BottomLeft,
@@ -105,8 +93,8 @@ namespace GDE.App.Main.Screens.Menu.Components
 
         private void OnChanged(Level obj)
         {
-            LevelName.Text = obj.Name;
-            SongName.Text = obj.CreatorName;
+            levelName.Text = obj.Name;
+            songName.Text = obj.CreatorName;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GDE.App.Main.Containers
     {
         public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
         {
-            new KeyBinding(new[] {InputKey.Alt, InputKey.Control, InputKey.F2}, GlobalAction.LordsKeys)
+            new KeyBinding(new[] { InputKey.Alt, InputKey.Control, InputKey.F2}, GlobalAction.LordsKeys )
         };
 
         public GlobalActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = KeyCombinationMatchingMode.Any, SimultaneousBindingMode simultaneousBindingMode = SimultaneousBindingMode.All)
