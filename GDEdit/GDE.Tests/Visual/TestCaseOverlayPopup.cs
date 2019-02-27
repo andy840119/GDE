@@ -23,7 +23,7 @@ namespace GDE.Tests.Visual
                     BodyText = "Message2",
                     Button1Text = "Button1",
                     Button2Text = "Button2",
-                    ConfirmButtonCol = GDEColors.FromHex("A9A9E3")
+                    ConfirmButtonColor = GDEColors.FromHex("A9A9E3")
                 }
             };
             AddStep("toggle", popup.ToggleVisibility);
