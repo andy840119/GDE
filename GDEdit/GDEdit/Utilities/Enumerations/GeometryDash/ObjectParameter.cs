@@ -249,12 +249,6 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>The Offset Y property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
         [FutureProofing("2.2")]
         OffsetY = -1,
-        /// <summary>The X Only property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
-        [FutureProofing("2.2")]
-        XOnly = -1,
-        /// <summary>The Y Only property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
-        [FutureProofing("2.2")]
-        YOnly = -1,
 
         /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
