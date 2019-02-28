@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
+
+namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
+{
+    /// <summary>Represents a Random trigger.</summary>
+    [FutureProofing("2.2")]
+    public class RandomTrigger : Trigger, IHasTargetGroupID, IHasSecondaryGroupID
+    {
+        private byte chance;
+        private short groupID1, groupID2;
+
+        public override int ObjectID => (int)TriggerType.Random;
+
+        /// <summary>The target Group ID of the trigger.</summary>
+        public int TargetGroupID
+        {
+            get => GroupID1;
+            set => GroupID1 = (short)value;
+        }
+        /// <summary>The secondary Group ID of the trigger.</summary>
+        public int SecondaryGroupID
+        {
+            get => GroupID2;
+            set => GroupID2 = (short)value;
+        }
+
+        /// <summary>The Chance property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Chance)]
+        public int Chance
+        {
+            get => chance;
+            set => chance = (byte)value;
+        }
+        /// <summary>The Group ID 1 of the trigger.</summary>
+        public int GroupID1
+        {
+            get => groupID1;
+            set => groupID1 = (short)value;
+        }
+        /// <summary>The Group ID 2 of the trigger.</summary>
+        public int GroupID2
+        {
+            get => groupID2;
+            set => groupID2 = (short)value;
+        }
+        /// <summary>The Activate Group property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ActivateGroup)]
+        public bool ActivateGroup
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
+
+        /// <summary>Initializes a new instance of the <seealso cref="RandomTrigger"/> class.</summary>
+        public RandomTrigger() { }
+        /// <summary>Initializes a new instance of the <seealso cref="RandomTrigger"/> class.</summary>
+        /// <param name="groupID1">The Group ID 1 of the trigger.</param>
+        /// <param name="groupID2">The Group ID 2 of the trigger.</param>
+        /// <param name="chance">The Chance property of the trigger.</param>
+        /// <param name="activateGroup">The Activate Group property of the trigger.</summary>
+        public RandomTrigger(int groupID1, int groupID2, int chance, bool activateGroup = false)
+        {
+            GroupID1 = groupID1;
+            GroupID2 = groupID2;
+            Chance = chance;
+            ActivateGroup = activateGroup;
+        }
+
+        /// <summary>Returns a clone of this <seealso cref="RandomTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new RandomTrigger());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as RandomTrigger;
+            c.GroupID1 = GroupID1;
+            c.GroupID2 = GroupID2;
+            c.Chance = Chance;
+            c.ActivateGroup = ActivateGroup;
+            return base.AddClonedInstanceInformation(c);
+        }
+    }
+}

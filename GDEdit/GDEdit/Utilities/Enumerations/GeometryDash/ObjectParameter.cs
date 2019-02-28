@@ -261,6 +261,10 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [FutureProofing("2.2")]
         LockY = -1,
 
+        /// <summary>The Chance property of the <seealso cref="RandomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        Chance = -1,
+
         /// <summary>The grouping of the custom particles.</summary>
         [FutureProofing("2.2")]
         Grouping = -1,
