@@ -250,6 +250,10 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [FutureProofing("2.2")]
         OffsetY = -1,
 
+        /// <summary>The Exit Static property of the <seealso cref="StaticCameraTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ExitStatic = -1,
+
         /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
         Reversed = -1,
