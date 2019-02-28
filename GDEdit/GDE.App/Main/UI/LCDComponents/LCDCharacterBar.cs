@@ -9,7 +9,7 @@ namespace GDE.App.Main.UI.LCDComponents
     {
         public static readonly Color4 EnabledColor = new Color4(255, 255, 255, 255);
         public static readonly Color4 InactiveColor = new Color4(96, 96, 96, 255);
-        public static readonly Color4 DisabledColor = new Color4(32, 32, 32, 255);
+        public static readonly Color4 DisabledColor = new Color4(16, 16, 16, 255);
 
         /// <summary>The size ratio of the box.</summary>
         public const int SizeRatio = 8;
