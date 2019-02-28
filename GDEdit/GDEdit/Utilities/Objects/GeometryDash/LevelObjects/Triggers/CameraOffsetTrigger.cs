@@ -46,7 +46,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         /// <summary>The Target Pos coordinates property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetPosCoordinates)]
-        public MoveTargetPosCoordinates TargetPosCoordinates { get; set; }
+        public TargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="CameraOffsetTrigger"/> class.</summary>
         public CameraOffsetTrigger() { }
@@ -54,7 +54,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="xOnly">The X Only property of the trigger.</param>
         /// <param name="yOnly">The Y Only property of the trigger.</param>
-        public CameraOffsetTrigger(double duration, MoveTargetPosCoordinates coordinates = MoveTargetPosCoordinates.Both)
+        public CameraOffsetTrigger(double duration, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
         {
             Duration = duration;
             TargetPosCoordinates = coordinates;
@@ -65,7 +65,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="offsetY">The Offset Y of the trigger.</param>
         /// <param name="xOnly">The X Only property of the trigger.</param>
         /// <param name="yOnly">The Y Only property of the trigger.</param>
-        public CameraOffsetTrigger(double duration, double offsetX, double offsetY, MoveTargetPosCoordinates coordinates = MoveTargetPosCoordinates.Both)
+        public CameraOffsetTrigger(double duration, double offsetX, double offsetY, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
             : this(duration, coordinates)
         {
             OffsetX = offsetX;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
-    /// <summary>This enumeration provides values for the coordinates to rely on the object in the Target Pos Group ID of a Move trigger.</summary>
-    public enum MoveTargetPosCoordinates : byte
+    /// <summary>This enumeration provides values for the coordinates to rely on from a position value of a trigger.</summary>
+    public enum TargetPosCoordinates : byte
     {
         /// <summary>Represents the value for both coordinates.</summary>
         Both,
