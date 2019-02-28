@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Static Camera trigger.</summary>
+    [FutureProofing("2.2")]
     public class StaticCameraTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID
     {
         private short targetGroupID;
