@@ -85,5 +85,7 @@
         Random = -1,
         /// <summary>Represents the Object ID value of the End trigger. (Reserved for future use)</summary>
         End = -1,
+        /// <summary>Represents the Object ID value of the Reverse trigger. (Reserved for future use)</summary>
+        Reverse = -1,
     }
 }
