@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
@@ -241,6 +242,13 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents whether the player switches direction of the orb <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
         OrbSwitchPlayerDirection = -1,
+
+        /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        Reversed = -1,
+        /// <summary>The Lock Y property of the <seealso cref="EndTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockY = -1,
 
         /// <summary>The grouping of the custom particles.</summary>
         [FutureProofing("2.2")]
