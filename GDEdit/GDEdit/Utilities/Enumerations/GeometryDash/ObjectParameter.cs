@@ -265,6 +265,10 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [FutureProofing("2.2")]
         Chance = -1,
 
+        /// <summary>The Zoom property of the <seealso cref="ZoomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        Zoom = -1,
+
         /// <summary>The grouping of the custom particles.</summary>
         [FutureProofing("2.2")]
         Grouping = -1,
