@@ -25,7 +25,7 @@ namespace GDE.App.Main.Screens
         {
             Databases.Add(new Database());
 
-            Children = new Drawable[]
+            AddRangeInternal(new Drawable[]
             {
                 new Box
                 {
@@ -91,7 +91,7 @@ namespace GDE.App.Main.Screens
                         Databases[0].CreateLevel(name.Text, desc.Text);
                     }
                 },
-            };
+            });
         }
     }
 }

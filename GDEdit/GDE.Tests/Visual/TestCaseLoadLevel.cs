@@ -19,7 +19,7 @@ namespace GDE.Tests.Visual
                 {
                     RelativeSizeAxes = Axes.Both,
                     AllowMultiline = true,
-                    TextSize = 40,
+                    Font = new FontUsage(size: 40),
                     Text = "Loaded: " + Databases[0].UserLevels[0].Name
                 }
             };

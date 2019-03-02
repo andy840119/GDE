@@ -48,15 +48,15 @@ namespace GDE.Tests.Visual
                     {
                         angle = new SpriteText
                         {
-                            TextSize = 25,
+                            Font = new FontUsage(size: 25),
                         },
                         radius = new SpriteText
                         {
-                            TextSize = 25,
+                            Font = new FontUsage(size: 25),
                         },
                         mousePosition = new SpriteText
                         {
-                            TextSize = 25,
+                            Font = new FontUsage(size: 25),
                         },
                     },
                 },

@@ -21,7 +21,7 @@ namespace GDE.App.Main.Screens
 
         public MainScreen()
         {
-            Children = new Drawable[]
+            AddRangeInternal(new Drawable[]
             {
                 new DrawSizePreservingFillContainer
                 {
@@ -73,8 +73,7 @@ namespace GDE.App.Main.Screens
                                             Anchor = Anchor.Centre,
                                             Position = new Vector2(0, 90),
                                             Text = "New level",
-                                            Font = @"OpenSans",
-                                            TextSize = 60
+                                            Font = new FontUsage("OpenSans", 60)
                                         },
                                         new SpriteIcon
                                         {
@@ -86,7 +85,7 @@ namespace GDE.App.Main.Screens
                                     },
                                     Action = () =>
                                     {
-                                        Push(new LevelCreation());
+                                        this.Push(new LevelCreation());
                                     }
                                 },
                                 new Button
@@ -112,8 +111,7 @@ namespace GDE.App.Main.Screens
                                             Anchor = Anchor.Centre,
                                             Position = new Vector2(0, 90),
                                             Text = "Edit existing level",
-                                            Font = @"OpenSans",
-                                            TextSize = 60
+                                            Font = new FontUsage("OpenSans", 60)
                                         },
                                         new SpriteIcon
                                         {
@@ -128,7 +126,7 @@ namespace GDE.App.Main.Screens
                         }
                     }
                 }
-            };
+            });
         }
     }
 }
