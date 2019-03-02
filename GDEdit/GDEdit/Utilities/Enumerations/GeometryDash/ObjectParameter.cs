@@ -239,36 +239,50 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents the linked Group ID of the <see cref="LevelObject"/>.</summary>
         LinkedGroupID = 108,
 
+        // Future-proofing
+        #region General
         /// <summary>Represents whether the player switches direction of the orb <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
         OrbSwitchPlayerDirection = -100,
-        
+        #endregion
+
+        #region Camera Offset Trigger
         /// <summary>The Offset X property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
         [FutureProofing("2.2")]
         OffsetX = -101,
         /// <summary>The Offset Y property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
         [FutureProofing("2.2")]
         OffsetY = -102,
+        #endregion
 
+        #region Static Camera Trigger
         /// <summary>The Exit Static property of the <seealso cref="StaticCameraTrigger"/>.</summary>
         [FutureProofing("2.2")]
         ExitStatic = -103,
+        #endregion
 
+        #region End Trigger
         /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
         Reversed = -104,
         /// <summary>The Lock Y property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
         LockY = -105,
+        #endregion
 
+        #region Random Trigger
         /// <summary>The Chance property of the <seealso cref="RandomTrigger"/>.</summary>
         [FutureProofing("2.2")]
         Chance = -106,
+        #endregion
 
+        #region Zoom Trigger
         /// <summary>The Zoom property of the <seealso cref="ZoomTrigger"/>.</summary>
         [FutureProofing("2.2")]
         Zoom = -107,
+        #endregion
 
+        #region Custom Particle Object
         /// <summary>The grouping of the custom particles.</summary>
         [FutureProofing("2.2")]
         Grouping = -108,
@@ -437,5 +451,6 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>The texture of the particles.</summary>
         [FutureProofing("2.2")]
         Texture = -163,
+        #endregion
     }
 }
