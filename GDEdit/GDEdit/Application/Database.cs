@@ -321,7 +321,7 @@ namespace GDEdit.Application
         #region Private Functions
         private async Task SetDecryptedLevelData()
         {
-            GetKeyIndices();
+            await GetKeyIndices();
             GetLevels();
         }
         private async Task SetDecryptedGamesave()
@@ -372,7 +372,7 @@ namespace GDEdit.Application
                 CustomObjects.Add(new CustomLevelObject(GetObjects(decryptedGamesave.Substring(currentIndex, decryptedGamesave.Find("</s>", currentIndex, decryptedGamesave.Length) - currentIndex))));
         }
         /// <summary>Gets the level declaration key indices of the level data. For internal use only.</summary>
-        private void GetKeyIndices()
+        private async Task GetKeyIndices()
         {
             LevelKeyStartIndices = new List<int>();
             int count = GetLevelCount();
@@ -385,7 +385,7 @@ namespace GDEdit.Application
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
-        private void GetLevels()
+        private async Task GetLevels()
         {
             UserLevels = new LevelCollection();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
