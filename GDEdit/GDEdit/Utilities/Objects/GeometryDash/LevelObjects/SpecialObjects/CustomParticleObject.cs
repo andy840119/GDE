@@ -418,7 +418,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         }
 
         /// <summary>Initializes a new empty instance of the <seealso cref="CustomParticleObject"/> class. For internal use only.</summary>
-        private CustomParticleObject() : base() { }
+        public CustomParticleObject() : base() { }
 
         /// <summary>Returns a clone of this <seealso cref="CustomParticleObject"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new CustomParticleObject());

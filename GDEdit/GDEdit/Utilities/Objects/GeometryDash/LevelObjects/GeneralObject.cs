@@ -332,6 +332,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return new ToggleTrigger();
                 case (int)TriggerType.Touch:
                     return new TouchTrigger();
+                // Future-proofing
+                case (int)TriggerType.StaticCamera:
+                    return new StaticCameraTrigger();
+                case (int)TriggerType.Zoom:
+                    return new ZoomTrigger();
+                case (int)TriggerType.CameraOffset:
+                    return new CameraOffsetTrigger();
+                case (int)TriggerType.Random:
+                    return new RandomTrigger();
+                case (int)TriggerType.End:
+                    return new EndTrigger();
+                case (int)TriggerType.Reverse:
+                    return new ReverseTrigger();
                 // Special objects
                 case (int)SpecialObjectType.TextObject:
                     return new TextObject();
@@ -339,6 +352,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return new CollisionBlock();
                 case (int)SpecialObjectType.CountTextObject:
                     return new CountTextObject();
+                // Future-proofing
+                case (int)SpecialObjectType.CustomParticleObject:
+                    return new CustomParticleObject();
                 // Orbs
                 case (int)OrbType.YellowOrb:
                     return new YellowOrb();
