@@ -47,7 +47,6 @@ namespace GDE.App.Updater
                 try
                 {
                     await updateManager.DownloadReleases(info.ReleasesToApply);
-
                     await updateManager.ApplyReleases(info);
                 }
                 catch (Exception e)
@@ -60,18 +59,14 @@ namespace GDE.App.Updater
                         scheduleRetry = false;
                     }
                     else
-                    {
                         Logger.Error(e, @"update failed!");
-                    }
                 }
             }
             catch (Exception) { }
             finally
             {
                 if (scheduleRetry)
-                {
                     Scheduler.AddDelayed(() => checkForUpdateAsync(), 6000 * 30);
-                }
             }
         }
 
