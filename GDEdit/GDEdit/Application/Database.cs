@@ -26,14 +26,16 @@ namespace GDEdit.Application
         private Task getPlayerName;
         private Task getCustomObjects;
         private Task getSongMetadata;
+        private Task getLevels;
 
-        #region Database State
+        #region Database Status
         public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave.Status;
         public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData.Status;
         public TaskStatus GetFolderNamesStatus => getFolderNames.Status;
         public TaskStatus GetPlayerNameStatus => getPlayerName.Status;
         public TaskStatus GetCustomObjectsStatus => getCustomObjects.Status;
         public TaskStatus GetSongMetadataStatus => getSongMetadata.Status;
+        public TaskStatus GetLevelsStatus => getLevels.Status;
         #endregion
 
         #region Constants
@@ -322,14 +324,14 @@ namespace GDEdit.Application
         private async Task SetDecryptedLevelData()
         {
             await GetKeyIndices();
-            GetLevels();
+            getLevels = GetLevels();
         }
         private async Task SetDecryptedGamesave()
         {
-            GetFolderNames();
-            GetPlayerName();
-            GetCustomObjects();
-            GetSongMetadata();
+            getFolderNames = GetFolderNames();
+            getPlayerName = GetPlayerName();
+            getCustomObjects = GetCustomObjects();
+            getSongMetadata = GetSongMetadata();
         }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
