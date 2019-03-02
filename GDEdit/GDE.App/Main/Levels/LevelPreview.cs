@@ -12,6 +12,7 @@ namespace GDE.App.Main.Levels
     public class LevelPreview : Container
     {
         private int i;
+
         public bool AllowDrag = true;
 
         public LevelPreview(int Index)
@@ -42,7 +43,7 @@ namespace GDE.App.Main.Levels
 
                 if (userLevel.LevelObjects[i].Scaling > 0)
                 {
-                    scale = (float)Databases[this.i].UserLevels[0].LevelObjects[i].Scaling;
+                    scale = (float)userLevel.LevelObjects[i].Scaling;
                 }
 
                 Vector2 size;

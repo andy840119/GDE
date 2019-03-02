@@ -10,8 +10,8 @@ namespace GDE.App.Main.Screens
 {
     public class Lords : Screen
     {
-        private SpriteText alfas;
-        private SpriteText alten;
+        private SpriteText Alfas;
+        private SpriteText Alten;
         private FillFlowContainer container;
         private Button exitButton;
 

@@ -24,7 +24,7 @@ namespace GDE.App.Main.Screens.Menu
         private LevelCard card;
         private Toolbar toolbar;
         private OverlayPopup popUp;
-        private Bindable<Level> Level = new Bindable<Level>(new Level
+        private Bindable<Level> level = new Bindable<Level>(new Level
         {
             Name = "Unknown name",
             CreatorName = "Unkown creator"
@@ -46,7 +46,7 @@ namespace GDE.App.Main.Screens.Menu
                         {
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 40),
-                            Level = Level,
+                            Level = level,
                             Delete = () =>
                             {
                                 popUp.ToggleVisibility();

@@ -84,7 +84,7 @@ namespace GDE.App.Main.Screens.Menu.Components
         }
 
         private void OnSelected(bool obj) =>
-            selectionBar.FadeColour(obj ? GDEColors.FromHex("202020") : GDEColors.FromHex("00bc5c"), 200);
+            selectionBar.FadeColour(GDEColors.FromHex(obj ? "202020" : "00bc5c"), 200);
 
         protected override bool OnHover(HoverEvent e)
         {

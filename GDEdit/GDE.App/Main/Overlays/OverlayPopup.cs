@@ -25,8 +25,7 @@ namespace GDE.App.Main.Overlays
             {
                 if (text == value) return;
 
-                text = value;
-                header.Text = value;
+                header.Text = text = value;
             }
         }
 
