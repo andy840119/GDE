@@ -18,7 +18,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         TextObject = 914,
         /// <summary>The object ID of the custom particle.</summary>
         [FutureProofing("2.2")]
-        CustomParticleObject = -1,
+        CustomParticleObject = -10,
 
         // General special object types
         /// <summary>Represents a rotating object (not a particular one).</summary>

@@ -78,25 +78,25 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
 
         /// <summary>Represents the Object ID value of the Static Camera trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        StaticCamera = -1,
+        StaticCamera = -11,
         /// <summary>Represents the Object ID value of the Zoom trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        Zoom = -1,
+        Zoom = -12,
         /// <summary>Represents the Object ID value of the Camera Offset trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        CameraOffset = -1,
+        CameraOffset = -13,
         /// <summary>Represents the Object ID value of the Random trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        Random = -1,
+        Random = -14,
         /// <summary>Represents the Object ID value of the End trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        End = -1,
+        End = -15,
         /// <summary>Represents the Object ID value of the Reverse trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        Reverse = -1,
+        Reverse = -16,
 
         /// <summary>Represents the Object ID value of the Scale trigger. (Reserved for future use)</summary>
         [FutureProofing("2.3")]
-        Scale = -1,
+        Scale = -17,
     }
 }
