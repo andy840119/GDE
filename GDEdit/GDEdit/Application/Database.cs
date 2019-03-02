@@ -20,6 +20,14 @@ namespace GDEdit.Application
         private string decryptedGamesave;
         private string decryptedLevelData;
 
+        private Task setDecryptedGamesave;
+        private Task setDecryptedLevelData;
+
+        #region Database State
+        public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave.Status;
+        public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData.Status;
+        #endregion
+
         #region Constants
         /// <summary>The default local data folder path of the game.</summary>
         public static readonly string GDLocalData = $@"{GetFolderPath(SpecialFolder.LocalApplicationData)}\GeometryDash";
@@ -67,10 +75,7 @@ namespace GDEdit.Application
             set
             {
                 decryptedGamesave = value;
-                GetFolderNames();
-                GetPlayerName();
-                GetCustomObjects();
-                GetSongMetadata();
+                setDecryptedGamesave = SetDecryptedGamesave();
             }
         }
         /// <summary>The decrypted form of the level data.</summary>
@@ -96,8 +101,7 @@ namespace GDEdit.Application
             set
             {
                 decryptedLevelData = value;
-                GetKeyIndices();
-                GetLevels();
+                setDecryptedLevelData = SetDecryptedLevelData();
             }
         }
         /// <summary>The custom objects.</summary>
@@ -303,6 +307,21 @@ namespace GDEdit.Application
         {
             UpdateLevelData();
             File.WriteAllText(GDLocalLevels, decryptedLevelData); // Write the level data
+        }
+        #endregion
+
+        #region Private Functions
+        private async Task SetDecryptedLevelData()
+        {
+            GetKeyIndices();
+            GetLevels();
+        }
+        private async Task SetDecryptedGamesave()
+        {
+            GetFolderNames();
+            GetPlayerName();
+            GetCustomObjects();
+            GetSongMetadata();
         }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
