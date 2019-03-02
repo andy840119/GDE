@@ -22,10 +22,18 @@ namespace GDEdit.Application
 
         private Task setDecryptedGamesave;
         private Task setDecryptedLevelData;
+        private Task getFolderNames;
+        private Task getPlayerName;
+        private Task getCustomObjects;
+        private Task getSongMetadata;
 
         #region Database State
         public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave.Status;
         public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData.Status;
+        public TaskStatus GetFolderNamesStatus => getFolderNames.Status;
+        public TaskStatus GetPlayerNameStatus => getPlayerName.Status;
+        public TaskStatus GetCustomObjectsStatus => getCustomObjects.Status;
+        public TaskStatus GetSongMetadataStatus => getSongMetadata.Status;
         #endregion
 
         #region Constants
@@ -351,7 +359,7 @@ namespace GDEdit.Application
         /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
         private int GetLevelCount() => decryptedLevelData.FindAll("<k>k_").Length;
         /// <summary>Gets the custom objects.</summary>
-        private void GetCustomObjects()
+        private async Task GetCustomObjects()
         {
             CustomObjects = new CustomLevelObjectCollection();
             int startIndex = decryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
@@ -389,7 +397,7 @@ namespace GDEdit.Application
             }
         }
 
-        private void GetPlayerName()
+        private async Task GetPlayerName()
         {
             int playerNameStartIndex = decryptedGamesave.FindFromEnd("<k>playerName</k><s>") + 20;
             int playerNameEndIndex = decryptedGamesave.FindFromEnd("</s><k>playerUserID</k>");
@@ -397,14 +405,14 @@ namespace GDEdit.Application
             UserName = decryptedGamesave.Substring(playerNameStartIndex, playerNameLength);
         }
         // TODO: Decide whether they're staying or not
-        private string GetUserID()
+        private async Task<string> GetUserID()
         {
             int userIDStartIndex = decryptedGamesave.FindFromEnd("<k>playerUserID</k><i>") + 22;
             int userIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>playerFrame</k>");
             int userIDLength = userIDEndIndex - userIDStartIndex;
             return decryptedGamesave.Substring(userIDStartIndex, userIDLength);
         }
-        private string GetAccountID()
+        private async Task<string> GetAccountID()
         {
             int accountIDStartIndex = decryptedGamesave.FindFromEnd("<k>GJA_003</k><i>") + 17;
             int accountIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>KBM_001</k>");
@@ -414,7 +422,7 @@ namespace GDEdit.Application
             else
                 return "0";
         }
-        private void GetFolderNames()
+        private async Task GetFolderNames()
         {
             FolderNames = new FolderNameCollection();
             int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
@@ -432,7 +440,7 @@ namespace GDEdit.Application
                 }
             }
         }
-        private void GetSongMetadata()
+        private async Task GetSongMetadata()
         {
             SongMetadataInformation = new SongMetadataCollection();
             int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;
