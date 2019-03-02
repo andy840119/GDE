@@ -11,6 +11,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static GDEdit.Application.Status;
 using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
@@ -36,6 +37,17 @@ namespace GDEdit.Utilities.Functions.GeometryDash
             DoneDecryptingGamesave = true;
             return isEncrypted;
         }
+        /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
+        /// <param name="gamesave">The string to return the decrypted gamesave.</param>
+        /// <returns>Returns a (bool, string), where the bool is equal to true if the gamesave is encrypted; otherwise false, and the string is equal to the final decrypted form of the gamesave.</returns>
+        public static async Task<(bool, string)> TryDecryptGamesaveAsync(string gamesave)
+        {
+            string decrypted = gamesave;
+            bool isEncrypted = CheckIfGamesaveIsEncrypted(gamesave);
+            if (isEncrypted)
+                decrypted = GDGamesaveDecrypt(gamesave);
+            return (isEncrypted, decrypted);
+        }
         public static bool CheckIfGamesaveIsEncrypted(string gamesave)
         {
             int checks = 0;
@@ -57,6 +69,17 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 levelData = GDGamesaveDecrypt(levelData);
             decrypted = levelData;
             return isEncrypted;
+        }
+        /// <summary>Returns the decrypted version of the level data after checking whether the level data is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
+        /// <param name="decrypted">The string to return the decrypted level data.</param>
+        /// <returns>Returns a (bool, string), where the bool is equal to true if the level data is encrypted; otherwise false, and the string is equal to the final decrypted form of the level data.</returns>
+        public static async Task<(bool, string)> TryDecryptLevelDataAsync(string levelData)
+        {
+            string decrypted = levelData;
+            bool isEncrypted = CheckIfLevelDataIsEncrypted(levelData);
+            if (isEncrypted)
+                decrypted = GDGamesaveDecrypt(levelData);
+            return (isEncrypted, decrypted);
         }
         public static bool CheckIfLevelDataIsEncrypted(string levelData)
         {
