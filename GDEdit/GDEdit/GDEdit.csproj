@@ -71,7 +71,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PlayerSize.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\MoveTargetPosCoordinates.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\TargetPosCoordinates.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\ObjectParameter.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PickupItemPickupMode.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PulseMode.cs" />
