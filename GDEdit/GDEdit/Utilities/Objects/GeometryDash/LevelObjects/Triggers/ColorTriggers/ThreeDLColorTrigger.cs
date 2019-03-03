@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public override int ObjectID => (int)TriggerType.ThreeDL;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new short TargetColorID => (short)(int)SpecialColorID.ThreeDL;
+        public new int TargetColorID => (int)SpecialColorID.ThreeDL;
 
         /// <summary>Initializes a new instance of the <seealso cref="ThreeDLColorTrigger"/> class.</summary>
         public ThreeDLColorTrigger() : base((int)SpecialColorID.ThreeDL) { }
@@ -22,7 +22,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public ThreeDLColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
-            : base(duration, (short)(int)SpecialColorID.ThreeDL, copyOpacity, tintGround) { }
+            : base(duration, (int)SpecialColorID.ThreeDL, copyOpacity, tintGround) { }
 
         /// <summary>Returns a clone of this <seealso cref="ThreeDLColorTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new ThreeDLColorTrigger());

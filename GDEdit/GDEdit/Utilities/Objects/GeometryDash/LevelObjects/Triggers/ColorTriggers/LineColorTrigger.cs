@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public override int ObjectID => (int)TriggerType.Line;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new short TargetColorID => (short)(int)SpecialColorID.Line;
+        public new int TargetColorID => (int)SpecialColorID.Line;
 
         /// <summary>Initializes a new instance of the <seealso cref="LineColorTrigger"/> class.</summary>
         public LineColorTrigger() : base((int)SpecialColorID.Line) { }
@@ -22,7 +22,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public LineColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
-            : base(duration, (short)(int)SpecialColorID.Line, copyOpacity, tintGround) { }
+            : base(duration, (int)SpecialColorID.Line, copyOpacity, tintGround) { }
 
         /// <summary>Returns a clone of this <seealso cref="LineColorTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new LineColorTrigger());

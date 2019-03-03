@@ -13,7 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public override int ObjectID => (int)TriggerType.Obj;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new short TargetColorID => (short)(int)SpecialColorID.Obj;
+        public new int TargetColorID => (int)SpecialColorID.Obj;
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjColorTrigger"/> class.</summary>
         public ObjColorTrigger() : base((int)SpecialColorID.Obj) { }
@@ -22,7 +22,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public ObjColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
-            : base(duration, (short)(int)SpecialColorID.Obj, copyOpacity, tintGround) { }
+            : base(duration, (int)SpecialColorID.Obj, copyOpacity, tintGround) { }
 
         /// <summary>Returns a clone of this <seealso cref="ObjColorTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new ObjColorTrigger());
