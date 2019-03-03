@@ -30,10 +30,10 @@ namespace GDE.App.Main.Screens.Edit
             //for (int i = 0; i < 10; i++)
             //    items.Add(new ToolbarMenuItem($"Item {i}", MenuItemType.Standard));
 
-            Children = new Drawable[]
+            AddRangeInternal(new Drawable[]
             {
                 toolbar = new ToolbarMenu(Direction.Horizontal)
-            };
+            });
         }
     }
 }
