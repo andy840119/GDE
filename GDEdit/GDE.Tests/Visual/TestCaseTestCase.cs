@@ -14,7 +14,7 @@ namespace GDE.Tests.Visual
             {
                 new SpriteText
                 {
-                    TextSize = 50,
+                    Font = new FontUsage(size: 50),
                     Text = "waitwhat"
                 }
             };

@@ -1,6 +1,7 @@
 ﻿using osu.Framework.Graphics;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Screens;
 
 namespace GDE.App.Main.Screens
 {
@@ -16,7 +17,10 @@ namespace GDE.App.Main.Screens
         [BackgroundDependencyLoader]
         private void load()
         {
-            Add(screen = new MainScreen());
+            Add(new ScreenStack(screen = new MainScreen())
+            {
+                RelativeSizeAxes = Axes.Both,
+            });
         }
     }
 }

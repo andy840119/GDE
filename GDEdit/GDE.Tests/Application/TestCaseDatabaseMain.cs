@@ -33,32 +33,32 @@ namespace GDE.Tests.Application
                         name = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 40,
+                            Font = new FontUsage(size: 40),
                         },
                         description = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 15,
+                            Font = new FontUsage(size: 15),
                         },
                         revision = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                         },
                         version = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                         },
                         objectCount = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
+                            Font = new FontUsage(size: 20),
                         },
                         length = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20
+                            Font = new FontUsage(size: 20),
                         },
                     }
                 },

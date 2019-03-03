@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
@@ -44,11 +45,12 @@ namespace GDEdit.Application
 
         #region Constants
         /// <summary>The default local data folder path of the game.</summary>
-        public static readonly string GDLocalData = $@"{GetFolderPath(SpecialFolder.LocalApplicationData)}\GeometryDash";
+        //TODO: Check platform with RuntimeInformation.IsOSPlatform() after mono implements such
+        public static readonly string GDLocalData = $@"{GetFolderPath(SpecialFolder.LocalApplicationData)}{(OSVersion.Platform == PlatformID.Unix ? "/Steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/" : @"\")}GeometryDash";
         /// <summary>The default game manager file path of the game.</summary>
-        public static readonly string GDGameManager = $@"{GDLocalData}\CCGameManager.dat";
+        public static readonly string GDGameManager = $@"{GDLocalData}{Path.DirectorySeparatorChar}CCGameManager.dat";
         /// <summary>The default local levels file path of the game.</summary>
-        public static readonly string GDLocalLevels = $@"{GDLocalData}\CCLocalLevels.dat";
+        public static readonly string GDLocalLevels = $@"{GDLocalData}{Path.DirectorySeparatorChar}CCLocalLevels.dat";
         #endregion
 
         #region Information

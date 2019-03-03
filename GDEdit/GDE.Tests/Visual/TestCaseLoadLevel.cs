@@ -26,7 +26,7 @@ namespace GDE.Tests.Visual
                 {
                     RelativeSizeAxes = Axes.Both,
                     AllowMultiline = true,
-                    TextSize = 40,
+                    Font = new FontUsage(size: 40),
                 }
             };
         }
