@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Pickup;
 
         /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetItemID)]
+        [ObjectStringMappable(ObjectParameter.ItemID)]
         public int TargetItemID
         {
             get => targetItemID;
