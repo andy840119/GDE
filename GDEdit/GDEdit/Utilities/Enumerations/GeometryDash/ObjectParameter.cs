@@ -452,5 +452,11 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [FutureProofing("2.2")]
         Texture = -163,
         #endregion
+
+        #region Scale Trigger
+        /// <summary>The Scaling Multiplier property of the <seealso cref="ScaleTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ScalingMultiplier = -164,
+        #endregion
     }
 }
