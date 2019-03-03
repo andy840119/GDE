@@ -156,8 +156,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             {
                 var speedSegments = new SpeedSegmentCollection();
                 speedSegments.Add(new SpeedSegment(StartingSpeed, 0));
-                foreach (SpeedPortal s in LevelObjects)
-                    if (s.Checked)
+                foreach (var o in LevelObjects)
+                    if (o is SpeedPortal s && s.Checked)
                         speedSegments.Add(new SpeedSegment(s.Speed, s.X)); // TODO: Add offset based on hitbox and scaling and rotation
                 return speedSegments;
             }
