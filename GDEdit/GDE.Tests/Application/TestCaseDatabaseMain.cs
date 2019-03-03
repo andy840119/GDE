@@ -67,16 +67,17 @@ namespace GDE.Tests.Application
 
         protected override void Update()
         {
-            if (!finishedLoading && (finishedLoading = database.DecryptLevelDataStatus >= TaskStatus.RanToCompletion))
+            if (!finishedLoading && (finishedLoading = database.GetLevelsStatus >= TaskStatus.RanToCompletion))
             {
                 if ((levels = database.UserLevels).Count > 0)
                 {
-                    name.Text = $"Name: {levels[0].Name}";
-                    description.Text = $"Name: {levels[0].Description}";
-                    revision.Text = $"Name: {levels[0].Revision}";
-                    version.Text = $"Name: {levels[0].Version}";
-                    objectCount.Text = $"Name: {levels[0].ObjectCount}";
-                    length.Text = $"Name: {levels[0].Length}";
+                    var level = levels[0];
+                    name.Text = $"Name: {level.Name}";
+                    description.Text = $"Description: {level.Description}";
+                    revision.Text = $"Revision: {level.Revision}";
+                    version.Text = $"Version: {level.Version}";
+                    objectCount.Text = $"Object Count: {level.ObjectCount}";
+                    length.Text = $"Length: {level.Length}";
                 }
                 else
                     name.Text = "No levels";
