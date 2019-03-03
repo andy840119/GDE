@@ -86,7 +86,7 @@ namespace GDEdit.Application
                 SetSongMetadataInGamesave();
                 return decryptedGamesave;
             }
-            set => SetDecryptedGamesave(value);
+            set => Task.Run(() => SetDecryptedGamesave(value));
         }
         /// <summary>The decrypted form of the level data.</summary>
         public string DecryptedLevelData
@@ -108,7 +108,7 @@ namespace GDEdit.Application
                 }
                 return decryptedLevelData;
             }
-            set => SetDecryptedLevelData(value);
+            set => Task.Run(() => SetDecryptedLevelData(value));
         }
         /// <summary>The custom objects.</summary>
         public CustomLevelObjectCollection CustomObjects { get; set; }
