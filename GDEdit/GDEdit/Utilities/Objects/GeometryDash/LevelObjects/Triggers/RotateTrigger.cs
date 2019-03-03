@@ -15,6 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, centerGroupID;
         private float duration = 0.5f, easingRate;
 
+        /// <summary>The Object ID of the Rotate trigger.</summary>
         public override int ObjectID => (int)TriggerType.Rotate;
 
         /// <summary>The duration of the trigger's effect.</summary>

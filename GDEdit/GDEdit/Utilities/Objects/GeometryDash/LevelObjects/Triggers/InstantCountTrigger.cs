@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private short targetGroupID, itemID;
 
+        /// <summary>The Object ID of the Instant Count trigger.</summary>
         public override int ObjectID => (int)TriggerType.InstantCount;
 
         /// <summary>The target Group ID of the trigger.</summary>

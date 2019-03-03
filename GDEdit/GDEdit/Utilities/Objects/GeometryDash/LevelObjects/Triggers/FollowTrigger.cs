@@ -15,6 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, followGroupID;
         private float duration = 0.5f, xMod = 1, yMod = 1;
 
+        /// <summary>The Object ID of the Follow trigger.</summary>
         public override int ObjectID => (int)TriggerType.Follow;
 
         /// <summary>The duration of the trigger's effect.</summary>

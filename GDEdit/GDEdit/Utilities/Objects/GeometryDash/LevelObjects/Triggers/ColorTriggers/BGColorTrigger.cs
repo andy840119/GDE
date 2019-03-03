@@ -10,6 +10,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     /// <summary>Represents a BG Color trigger.</summary>
     public class BGColorTrigger : ColorTrigger
     {
+        /// <summary>The Object ID of the BG Color trigger.</summary>
         public override int ObjectID => (int)TriggerType.BG;
         
         /// <summary>The target Color ID of the trigger.</summary>
