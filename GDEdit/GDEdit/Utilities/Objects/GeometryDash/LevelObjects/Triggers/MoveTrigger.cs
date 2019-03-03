@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, targetPosGroupID;
         private float duration = 0.5f, easingRate, moveX, moveY;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Move;
+        public override int ObjectID => (int)TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public double Duration

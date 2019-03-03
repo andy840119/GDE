@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
         private float duration = 0.5f, opacity = 1;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Alpha;
+        public override int ObjectID => (int)TriggerType.Alpha;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public double Duration

@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, targetColorID;
         private float fadeIn, hold, fadeOut;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pulse;
+        public override int ObjectID => (int)TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID

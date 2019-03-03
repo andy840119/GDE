@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private short targetItemID;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pickup;
+        public override int ObjectID => (int)TriggerType.Pickup;
 
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetItemID

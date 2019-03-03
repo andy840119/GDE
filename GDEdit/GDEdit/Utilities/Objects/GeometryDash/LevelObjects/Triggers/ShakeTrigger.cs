@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private float duration = 0.5f, strength, interval;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Shake;
+        public override int ObjectID => (int)TriggerType.Shake;
 
         /// <summary>The duration of the trigger's effect.</summary>
         public double Duration

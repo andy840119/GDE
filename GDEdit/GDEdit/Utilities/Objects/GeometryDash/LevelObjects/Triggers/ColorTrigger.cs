@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetColorID = 1;
         private float duration = 0.5f, opacity = 1;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
+        public override int ObjectID => (int)TriggerType.Color;
         
         /// <summary>The target Color ID of the trigger.</summary>
         public int TargetColorID

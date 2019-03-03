@@ -14,7 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private short targetGroupID;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.OnDeath;
+        public override int ObjectID => (int)TriggerType.OnDeath;
 
         /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID
