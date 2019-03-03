@@ -50,7 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionTrigger"/> class.</summary>
-        public CollisionTrigger() { }
+        public CollisionTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="CollisionTrigger"/> class.</summary>
         /// <param name="primaryBlockID">The primary Block ID of the trigger.</param>
         /// <param name="secondaryBlockID">The secondary Block ID of the trigger.</param>
@@ -58,6 +58,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="activateGroup">The Activate Group of the trigger.</param>
         /// <param name="triggerOnExit">The Trigger On Exit of the trigger.</param>
         public CollisionTrigger(int primaryBlockID, int secondaryBlockID, int targetGroupID, bool activateGroup = false, bool triggerOnExit = false)
+            : base()
         {
             PrimaryBlockID = primaryBlockID;
             SecondaryBlockID = secondaryBlockID;

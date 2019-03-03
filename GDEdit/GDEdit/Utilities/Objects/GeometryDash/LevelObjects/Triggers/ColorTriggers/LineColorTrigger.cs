@@ -16,7 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public new short TargetColorID => (short)(int)SpecialColorID.Line;
 
         /// <summary>Initializes a new instance of the <seealso cref="LineColorTrigger"/> class.</summary>
-        public LineColorTrigger() { }
+        public LineColorTrigger() : base((int)SpecialColorID.Line) { }
         /// <summary>Initializes a new instance of the <seealso cref="LineColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>

@@ -93,10 +93,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public HSVAdjustment HSVAdjustment { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
-        public ColorTrigger() { }
+        public ColorTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
         /// <param name="targetID">The target ID of the trigger.</param>
         public ColorTrigger(int targetID)
+            : base()
         {
             TargetColorID = targetID;
         }

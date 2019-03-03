@@ -27,11 +27,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int Count { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="PickupTrigger"/> class.</summary>
-        public PickupTrigger() { }
+        public PickupTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PickupTrigger"/> class.</summary>
         /// <param name="targetItemID">The target Item ID of the trigger.</param>
         /// <param name="count">The Count property of the trigger.</param>
         public PickupTrigger(int targetItemID, int count)
+            : base()
         {
             TargetItemID = targetItemID;
             Count = count;

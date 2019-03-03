@@ -16,7 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public new short TargetColorID => 2;
 
         /// <summary>Initializes a new instance of the <seealso cref="Color2ColorTrigger"/> class.</summary>
-        public Color2ColorTrigger() { }
+        public Color2ColorTrigger() : base(2) { }
         /// <summary>Initializes a new instance of the <seealso cref="Color2ColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>

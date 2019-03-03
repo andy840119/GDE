@@ -16,7 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public new short TargetColorID => (short)(int)SpecialColorID.GRND;
 
         /// <summary>Initializes a new instance of the <seealso cref="GRNDColorTrigger"/> class.</summary>
-        public GRNDColorTrigger() { }
+        public GRNDColorTrigger() : base((int)SpecialColorID.GRND) { }
         /// <summary>Initializes a new instance of the <seealso cref="GRNDColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>

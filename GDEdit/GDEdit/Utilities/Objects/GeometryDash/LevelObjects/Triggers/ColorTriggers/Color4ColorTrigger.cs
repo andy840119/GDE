@@ -16,7 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public new short TargetColorID => 4;
 
         /// <summary>Initializes a new instance of the <seealso cref="Color4ColorTrigger"/> class.</summary>
-        public Color4ColorTrigger() { }
+        public Color4ColorTrigger() : base(4) { }
         /// <summary>Initializes a new instance of the <seealso cref="Color4ColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>

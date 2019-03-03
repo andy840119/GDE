@@ -98,7 +98,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public HSVAdjustment HSVAdjustment { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="PulseTrigger"/> class.</summary>
-        public PulseTrigger() { }
+        public PulseTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PulseTrigger"/> class.</summary>
         /// <param name="fadeIn">The Fade In property of the trigger.</param>
         /// <param name="hold">The Hold property of the trigger.</param>
@@ -107,6 +107,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="pulseTargetType">The Pulse Target Type of the trigger.</param>
         /// <param name="pulseMode">The Pulse Mode of the trigger.</param>
         public PulseTrigger(double fadeIn, double hold, double fadeOut, int targetID, PulseTargetType pulseTargetType = PulseTargetType.ColorChannel, PulseMode pulseMode = PulseMode.Color)
+            : base()
         {
             FadeIn = fadeIn;
             Hold = hold;

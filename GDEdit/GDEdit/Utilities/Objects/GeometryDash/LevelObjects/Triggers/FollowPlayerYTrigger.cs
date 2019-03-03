@@ -55,11 +55,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int Offset { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowPlayerYTrigger"/> class.</summary>
-        public FollowPlayerYTrigger() { }
+        public FollowPlayerYTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="FollowPlayerYTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         public FollowPlayerYTrigger(double duration, int targetGroupID)
+            : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

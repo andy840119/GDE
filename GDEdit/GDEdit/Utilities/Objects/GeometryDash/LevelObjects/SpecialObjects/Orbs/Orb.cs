@@ -25,7 +25,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="Orb"/> class.</summary>
-        public Orb() : base() { }
+        public Orb()
+            : base()
+        {
+            base.ObjectID = ObjectID;
+        }
 
         /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
         /// <param name="cloned">The cloned instance to add the information to.</param>

@@ -16,7 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public new short TargetColorID => (short)(int)SpecialColorID.ThreeDL;
 
         /// <summary>Initializes a new instance of the <seealso cref="ThreeDLColorTrigger"/> class.</summary>
-        public ThreeDLColorTrigger() { }
+        public ThreeDLColorTrigger() : base((int)SpecialColorID.ThreeDL) { }
         /// <summary>Initializes a new instance of the <seealso cref="ThreeDLColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="copyOpacity">The Copy Opacity property of the trigger.</param>

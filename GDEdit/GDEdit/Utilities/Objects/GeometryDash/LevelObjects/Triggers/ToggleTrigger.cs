@@ -31,11 +31,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="ToggleTrigger"/> class.</summary>
-        public ToggleTrigger() { }
+        public ToggleTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="ToggleTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</summary>
         public ToggleTrigger(int targetGroupID, bool activateGroup = false)
+            : base()
         {
             TargetGroupID = targetGroupID;
             ActivateGroup = activateGroup;

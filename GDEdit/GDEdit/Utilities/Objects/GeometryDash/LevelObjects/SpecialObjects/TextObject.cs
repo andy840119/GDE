@@ -24,13 +24,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public string Text { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
-        public TextObject() : base() { }
+        public TextObject()
+            : base()
+        {
+            base.ObjectID = ObjectID;
+        }
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
         /// <param name="x">The X location of the object.</param>
         /// <param name="y">The Y location of the object.</param>
         /// <param name="text">The text of the text object.</param>
         public TextObject(double x, double y, string text = "")
-            : base()
+            : this()
         {
             X = x;
             Y = y;

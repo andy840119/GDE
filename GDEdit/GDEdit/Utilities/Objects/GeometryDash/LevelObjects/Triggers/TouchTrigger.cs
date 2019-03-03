@@ -41,13 +41,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public TouchToggleMode ToggleMode { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="TouchTrigger"/> class.</summary>
-        public TouchTrigger() { }
+        public TouchTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="TouchTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="holdMode">The Hold Mode property of the trigger.</param>
         /// <param name="dualMode">The Dual Mode property of the trigger.</param>
         /// <param name="toggleMode">The Toggle Mode property of the trigger.</param>
         public TouchTrigger(int targetGroupID, bool holdMode = false, bool dualMode = false, TouchToggleMode toggleMode = TouchToggleMode.Default)
+            : base()
         {
             TargetGroupID = targetGroupID;
             HoldMode = holdMode;

@@ -24,10 +24,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="StopTrigger"/> class.</summary>
-        public StopTrigger() { }
+        public StopTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="StopTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         public StopTrigger(int targetGroupID)
+            : base()
         {
             TargetGroupID = targetGroupID;
         }

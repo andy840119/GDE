@@ -30,7 +30,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="CountTextObject"/> class.</summary>
-        public CountTextObject() : base() { }
+        public CountTextObject()
+            : base()
+        {
+            base.ObjectID = ObjectID;
+        }
 
         /// <summary>Returns a clone of this <seealso cref="CountTextObject"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new CountTextObject());

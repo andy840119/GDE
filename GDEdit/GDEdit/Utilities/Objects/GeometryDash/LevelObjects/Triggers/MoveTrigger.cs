@@ -84,13 +84,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public MoveTargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="MoveTrigger"/> class.</summary>
-        public MoveTrigger() { }
+        public MoveTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="MoveTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="lockToPlayerX">The Lock to Player X property of the trigger.</param>
         /// <param name="lockToPlayerY">The Lock to Player Y property of the trigger.</param>
         public MoveTrigger(double duration, int targetGroupID, bool lockToPlayerX = false, bool lockToPlayerY = false)
+            : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

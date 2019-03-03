@@ -54,7 +54,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         
         /// <summary>Initializes a new instance of the <seealso cref="CountTrigger"/> class.</summary>
-        public CountTrigger() { }
+        public CountTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="CountTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="itemID">The Item ID of the trigger.</param>
@@ -62,6 +62,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="activateGroup">The Activate Group property of the trigger.</param>
         /// <param name="multiActivate">The Multi Activate property of the trigger.</param>
         public CountTrigger(int targetGroupID, int itemID, int targetCount, bool activateGroup = false, bool multiActivate = false)
+            : base()
         {
             TargetGroupID = targetGroupID;
             ItemID = itemID;

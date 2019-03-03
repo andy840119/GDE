@@ -38,12 +38,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="AlphaTrigger"/> class.</summary>
-        public AlphaTrigger() { }
+        public AlphaTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="AlphaTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="opacity">The Opacity property of the trigger.</param>
         public AlphaTrigger(double duration, int targetGroupID, double opacity)
+            : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

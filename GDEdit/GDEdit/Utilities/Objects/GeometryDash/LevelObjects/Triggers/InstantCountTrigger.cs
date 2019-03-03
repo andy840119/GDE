@@ -50,7 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public InstantCountComparison Comparison { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="InstantCountTrigger"/> class.</summary>
-        public InstantCountTrigger() { }
+        public InstantCountTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="InstantCountTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="itemID">The Item ID of the trigger.</param>
@@ -58,6 +58,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="activateGroup">The Activate Group property of the trigger.</param>
         /// <param name="comparison">The Comparison property of the trigger.</param>
         public InstantCountTrigger(int targetGroupID, int itemID, int targetCount, bool activateGroup = false, InstantCountComparison comparison = InstantCountComparison.Equals)
+            : base()
         {
             TargetGroupID = targetGroupID;
             ItemID = itemID;

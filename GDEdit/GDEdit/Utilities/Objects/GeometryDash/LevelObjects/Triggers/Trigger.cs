@@ -52,7 +52,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
-        public Trigger() { }
+        public Trigger()
+        {
+            base.ObjectID = ObjectID;
+        }
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
         /// <param name="touchTriggered">The Touch Triggered property of the trigger.</param>
         public Trigger(bool touchTriggered)

@@ -13,6 +13,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         public new abstract int ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="Portal"/> class.</summary>
-        public Portal() : base() { }
+        public Portal()
+            : base()
+        {
+            base.ObjectID = ObjectID;
+        }
     }
 }

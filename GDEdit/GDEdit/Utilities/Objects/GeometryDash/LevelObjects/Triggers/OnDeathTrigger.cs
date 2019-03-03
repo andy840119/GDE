@@ -31,11 +31,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="OnDeathTrigger"/> class.</summary>
-        public OnDeathTrigger() { }
+        public OnDeathTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="OnDeathTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</summary>
         public OnDeathTrigger(int targetGroupID, bool activateGroup = false)
+            : base()
         {
             TargetGroupID = targetGroupID;
             ActivateGroup = activateGroup;
