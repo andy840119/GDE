@@ -31,15 +31,15 @@ namespace GDEdit.Application
         private Task<(bool, string)> decryptLevelData;
 
         #region Database Status
-        public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave.Status;
-        public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData.Status;
-        public TaskStatus GetFolderNamesStatus => getFolderNames.Status;
-        public TaskStatus GetPlayerNameStatus => getPlayerName.Status;
-        public TaskStatus GetCustomObjectsStatus => getCustomObjects.Status;
-        public TaskStatus GetSongMetadataStatus => getSongMetadata.Status;
-        public TaskStatus GetLevelsStatus => getLevels.Status;
-        public TaskStatus DecryptGamesaveStatus => decryptGamesave.Status;
-        public TaskStatus DecryptLevelDataStatus => decryptLevelData.Status;
+        public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave?.Status ?? (TaskStatus)(-1);
+        public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetFolderNamesStatus => getFolderNames?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetPlayerNameStatus => getPlayerName?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetCustomObjectsStatus => getCustomObjects?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetSongMetadataStatus => getSongMetadata?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetLevelsStatus => getLevels?.Status ?? (TaskStatus)(-1);
+        public TaskStatus DecryptGamesaveStatus => decryptGamesave?.Status ?? (TaskStatus)(-1);
+        public TaskStatus DecryptLevelDataStatus => decryptLevelData?.Status ?? (TaskStatus)(-1);
         #endregion
 
         #region Constants
@@ -86,7 +86,7 @@ namespace GDEdit.Application
                 SetSongMetadataInGamesave();
                 return decryptedGamesave;
             }
-            set => Task.Run(() => SetDecryptedGamesave(value));
+            set => Task.Run(() => setDecryptedGamesave = SetDecryptedGamesave(value));
         }
         /// <summary>The decrypted form of the level data.</summary>
         public string DecryptedLevelData
@@ -108,7 +108,7 @@ namespace GDEdit.Application
                 }
                 return decryptedLevelData;
             }
-            set => Task.Run(() => SetDecryptedLevelData(value));
+            set => Task.Run(() => setDecryptedLevelData = SetDecryptedLevelData(value));
         }
         /// <summary>The custom objects.</summary>
         public CustomLevelObjectCollection CustomObjects { get; set; }
