@@ -24,24 +24,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public bool TouchTriggered
         {
             get => TriggerBools[0];
-            set
-            {
-                if (value && SpawnTriggered)
-                    SpawnTriggered = false;
-                TriggerBools[0] = value;
-            }
+            set => TriggerBools[0] = value;
         }
         /// <summary>The Spawn Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SpawnTriggered)]
         public bool SpawnTriggered
         {
             get => TriggerBools[1];
-            set
-            {
-                if (value && TouchTriggered)
-                    TouchTriggered = false;
-                TriggerBools[1] = value;
-            }
+            set => TriggerBools[1] = value;
         }
         /// <summary>The Multi Trigger property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.MultiTrigger)]
