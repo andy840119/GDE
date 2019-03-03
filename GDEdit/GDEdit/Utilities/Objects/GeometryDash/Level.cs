@@ -355,7 +355,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
                 default: // We need to know more about that suspicious new thing so we keep a log of it
                     Directory.CreateDirectory("ulsk");
-                    File.WriteAllText($@"ulsk\{key}.key", key);
+                    if (!File.Exists($@"ulsk\{key}.key"))
+                        File.WriteAllText($@"ulsk\{key}.key", key);
                     break;
             }
         }
