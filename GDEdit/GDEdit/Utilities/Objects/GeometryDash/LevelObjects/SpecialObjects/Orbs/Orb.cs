@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
 {
     /// <summary>Represents an orb.</summary>
-    public abstract class Orb : SpecialObject
+    public abstract class Orb : ConstantIDSpecialObject
     {
         /// <summary>Represents the Multi Activate property of the orb.</summary>
         [ObjectStringMappable(ObjectParameter.MultiActivate)]
