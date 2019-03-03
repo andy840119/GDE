@@ -1,8 +1,10 @@
 ﻿using GDEdit.Application;
+using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
+using System.Threading.Tasks;
 using static GDEdit.Application.ApplicationDatabase;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
@@ -10,9 +12,14 @@ namespace GDE.Tests.Application
 {
     public class TestCaseDatabaseMain : TestCase
     {
+        private Database database;
+        private LevelCollection levels;
+        private SpriteText name, description, revision, version, objectCount, length;
+        private bool finishedLoading;
+
         public TestCaseDatabaseMain()
         {
-            Databases.Add(new Database());
+            Databases.Add(database = new Database());
 
             Children = new[]
             {
@@ -23,45 +30,60 @@ namespace GDE.Tests.Application
                     Direction = FillDirection.Vertical,
                     Children = new[]
                     {
-                        new SpriteText
+                        name = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
                             TextSize = 40,
-                            Text = "Name: " + Databases[0].UserLevels[0].Name
                         },
-                        new SpriteText
+                        description = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
                             TextSize = 15,
-                            Text = "Description: " + Databases[0].UserLevels[0].Description
                         },
-                        new SpriteText
+                        revision = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
                             TextSize = 20,
-                            Text = "Revision: " + Databases[0].UserLevels[0].Revision
                         },
-                        new SpriteText
+                        version = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
                             TextSize = 20,
-                            Text = "Version: " + Databases[0].UserLevels[0].Version
                         },
-                        new SpriteText
+                        objectCount = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
                             TextSize = 20,
-                            Text = "Object count: " + Databases[0].UserLevels[0].ObjectCount
                         },
-                        new SpriteText
+                        length = new SpriteText
                         {
                             RelativeSizeAxes = Axes.X,
-                            TextSize = 20,
-                            Text = "Length: " + Databases[0].UserLevels[0].Length
+                            TextSize = 20
                         },
                     }
                 },
             };
+        }
+
+        protected override void Update()
+        {
+            if (!finishedLoading && (finishedLoading = database.DecryptLevelDataStatus >= TaskStatus.RanToCompletion))
+            {
+                if ((levels = database.UserLevels).Count > 0)
+                {
+                    name.Text = $"Name: {levels[0].Name}";
+                    description.Text = $"Name: {levels[0].Description}";
+                    revision.Text = $"Name: {levels[0].Revision}";
+                    version.Text = $"Name: {levels[0].Version}";
+                    objectCount.Text = $"Name: {levels[0].ObjectCount}";
+                    length.Text = $"Name: {levels[0].Length}";
+                }
+                else
+                    name.Text = "No levels";
+            }
+            if (!finishedLoading)
+                name.Text = "Loading";
+            base.Update();
         }
     }
 }

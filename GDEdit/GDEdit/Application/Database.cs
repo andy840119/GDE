@@ -33,13 +33,13 @@ namespace GDEdit.Application
         #region Database Status
         public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave.Status;
         public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData.Status;
-        public TaskStatus DecryptGamesaveStatus => decryptGamesave.Status;
-        public TaskStatus DecryptLevelDataStatus => decryptLevelData.Status;
         public TaskStatus GetFolderNamesStatus => getFolderNames.Status;
         public TaskStatus GetPlayerNameStatus => getPlayerName.Status;
         public TaskStatus GetCustomObjectsStatus => getCustomObjects.Status;
         public TaskStatus GetSongMetadataStatus => getSongMetadata.Status;
         public TaskStatus GetLevelsStatus => getLevels.Status;
+        public TaskStatus DecryptGamesaveStatus => decryptGamesave.Status;
+        public TaskStatus DecryptLevelDataStatus => decryptLevelData.Status;
         #endregion
 
         #region Constants
