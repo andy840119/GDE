@@ -20,30 +20,35 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The target Color ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetColorID)]
         public int TargetColorID
         {
             get => targetColorID;
             set => targetColorID = (short)value;
         }
         /// <summary>The red part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Red)]
         public int Red
         {
             get => red;
             set => red = (byte)value;
         }
         /// <summary>The green part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Green)]
         public int Green
         {
             get => green;
             set => green = (byte)value;
         }
         /// <summary>The blue part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Blue)]
         public int Blue
         {
             get => blue;

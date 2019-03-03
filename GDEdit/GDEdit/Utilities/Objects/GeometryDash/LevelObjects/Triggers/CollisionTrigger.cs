@@ -15,20 +15,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, primaryBlockID, secondaryBlockID;
 
         public override int ObjectID => (int)TriggerType.Collision;
-        
+
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The primary Block ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.BlockAID)]
         public int PrimaryBlockID
         {
             get => primaryBlockID;
             set => primaryBlockID = (short)value;
         }
         /// <summary>The secondary Block ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.BlockBID)]
         public int SecondaryBlockID
         {
             get => secondaryBlockID;
