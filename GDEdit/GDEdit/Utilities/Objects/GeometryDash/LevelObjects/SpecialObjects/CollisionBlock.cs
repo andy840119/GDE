@@ -10,12 +10,12 @@ using GDEdit.Utilities.Attributes;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a collision block.</summary>
-    public class CollisionBlock : SpecialObject, IHasPrimaryBlockID
+    public class CollisionBlock : ConstantIDSpecialObject, IHasPrimaryBlockID
     {
         private short blockID;
 
         /// <summary>The object ID of the collision block.</summary>
-        public new int ObjectID => (int)SpecialObjectType.CollisionBlock;
+        public override int ObjectID => (int)SpecialObjectType.CollisionBlock;
 
         /// <summary>The Block ID of the collision block.</summary>
         public int BlockID
@@ -38,11 +38,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="CollisionBlock"/> class.</summary>
-        public CollisionBlock()
-            : base()
-        {
-            base.ObjectID = ObjectID;
-        }
+        public CollisionBlock() : base() { }
 
         /// <summary>Returns a clone of this <seealso cref="CollisionBlock"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new CollisionBlock());

@@ -13,9 +13,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     /// <summary>Represents an orb.</summary>
     public abstract class Orb : SpecialObject
     {
-        /// <summary>The object ID of the orb.</summary>
-        public new abstract int ObjectID { get; }
-
         /// <summary>Represents the Multi Activate property of the orb.</summary>
         [ObjectStringMappable(ObjectParameter.MultiActivate)]
         public bool MultiActivate
@@ -25,11 +22,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="Orb"/> class.</summary>
-        public Orb()
-            : base()
-        {
-            base.ObjectID = ObjectID;
-        }
+        public Orb() : base() { }
 
         /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
         /// <param name="cloned">The cloned instance to add the information to.</param>

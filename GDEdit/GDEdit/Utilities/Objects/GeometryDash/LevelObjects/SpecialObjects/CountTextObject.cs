@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a count text object.</summary>
-    public class CountTextObject : SpecialObject, IHasPrimaryItemID
+    public class CountTextObject : ConstantIDSpecialObject, IHasPrimaryItemID
     {
         private short itemID;
 
         /// <summary>The object ID of the count text block.</summary>
-        public new int ObjectID => (int)SpecialObjectType.CountTextObject;
+        public override int ObjectID => (int)SpecialObjectType.CountTextObject;
 
         /// <summary>The Item ID the count text object displays.</summary>
         public int ItemID
@@ -30,11 +30,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="CountTextObject"/> class.</summary>
-        public CountTextObject()
-            : base()
-        {
-            base.ObjectID = ObjectID;
-        }
+        public CountTextObject() : base() { }
 
         /// <summary>Returns a clone of this <seealso cref="CountTextObject"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new CountTextObject());

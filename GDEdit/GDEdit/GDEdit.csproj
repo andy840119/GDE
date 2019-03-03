@@ -113,6 +113,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObjectCollection.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\ConstantIDSpecialObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CollisionBlock.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CountTextObject.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Utilities\Objects\General\Shapes\VerticalLine.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />

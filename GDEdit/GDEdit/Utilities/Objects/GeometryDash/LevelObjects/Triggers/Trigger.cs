@@ -9,15 +9,10 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
-    public abstract class Trigger : GeneralObject
+    public abstract class Trigger : ConstantIDObject
     {
         /// <summary>Contains the <seealso cref="bool"/> values of the trigger. Indices 0, 1, 2 are reserved for Touch Triggered, Spawn Triggered and Multi Trigger respectively.</summary>
         protected BitArray8 TriggerBools = new BitArray8();
-        
-        /// <summary>The Object ID of the trigger.</summary>
-        // IMPORTANT: If we want to change the object IDs of objects through some function, this has to be reworked
-        [ObjectStringMappable(ObjectParameter.ID)]
-        public new virtual int ObjectID { get; }
         
         /// <summary>The Touch Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TouchTriggered)]
@@ -42,10 +37,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
-        public Trigger()
-        {
-            base.ObjectID = ObjectID;
-        }
+        public Trigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
         /// <param name="touchTriggered">The Touch Triggered property of the trigger.</param>
         public Trigger(bool touchTriggered)
