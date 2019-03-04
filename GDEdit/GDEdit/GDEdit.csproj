@@ -56,7 +56,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
+    <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleProperty1.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleGrouping.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\ColorChannelPlayerColor.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\Easing.cs" />
@@ -65,7 +68,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PlayerSize.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\MoveTargetPosCoordinates.cs" />
+    <Compile Include="Utilities\Enumerations\GeometryDash\TargetPosCoordinates.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\ObjectParameter.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PickupItemPickupMode.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\PulseMode.cs" />
@@ -106,7 +109,9 @@
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\FolderNameCollection.cs" />
+    <Compile Include="Utilities\Objects\General\Color.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
+    <Compile Include="Utilities\Objects\General\SymmetricalRange.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\LevelColorChannels.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\GuidelineCollection.cs" />
@@ -133,6 +138,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\YellowPad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\Pad.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\AnimatedObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CustomParticleObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\HSpecialBlock.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\JSpecialBlock.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\SSpecialBlock.cs" />
@@ -179,6 +185,13 @@
     <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ScaleTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ZoomTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\EndTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\CameraOffsetTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\StaticCameraTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ReverseTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\RandomTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\SpecialColorTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
