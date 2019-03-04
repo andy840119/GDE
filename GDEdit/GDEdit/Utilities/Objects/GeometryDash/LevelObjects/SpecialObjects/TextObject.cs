@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a text object.</summary>
-    public class TextObject : SpecialObject
+    public class TextObject : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the text object.</summary>
-        public new short ObjectID => (short)(int)SpecialObjectType.TextObject;
+        public override int ObjectID => (int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
         [ObjectStringMappable(ObjectParameter.TextObjectText)]
@@ -30,7 +30,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         /// <param name="y">The Y location of the object.</param>
         /// <param name="text">The text of the text object.</param>
         public TextObject(double x, double y, string text = "")
-            : base()
+            : this()
         {
             X = x;
             Y = y;
