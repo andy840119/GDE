@@ -16,6 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private byte chance;
         private short groupID1, groupID2;
 
+        /// <summary>The Object ID of the Random trigger.</summary>
         public override int ObjectID => (int)TriggerType.Random;
 
         /// <summary>The target Group ID of the trigger.</summary>

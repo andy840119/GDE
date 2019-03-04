@@ -16,6 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short zoom;
         private float duration = 0.5f;
 
+        /// <summary>The Object ID of the Zoom trigger.</summary>
         public override int ObjectID => (int)TriggerType.Zoom;
 
         /// <summary>The duration of the trigger's effect.</summary>

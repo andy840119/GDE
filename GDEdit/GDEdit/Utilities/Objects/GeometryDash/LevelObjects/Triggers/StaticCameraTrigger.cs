@@ -16,6 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
         private float duration = 0.5f, easingRate;
 
+        /// <summary>The Object ID of the Static Camera trigger.</summary>
         public override int ObjectID => (int)TriggerType.StaticCamera;
 
         /// <summary>The duration of the trigger's effect.</summary>

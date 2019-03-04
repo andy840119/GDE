@@ -16,6 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, centerGroupID;
         private float duration = 0.5f, easingRate, scalingMultiplier;
 
+        /// <summary>The Object ID of the Scale trigger.</summary>
         public override int ObjectID => (int)TriggerType.Scale;
 
         /// <summary>The duration of the trigger's effect.</summary>
