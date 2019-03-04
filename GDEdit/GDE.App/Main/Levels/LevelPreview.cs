@@ -15,9 +15,9 @@ namespace GDE.App.Main.Levels
 
         public bool AllowDrag = true;
 
-        public LevelPreview(int Index)
+        public LevelPreview(int index)
         {
-            i = Index;
+            i = index;
             Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
