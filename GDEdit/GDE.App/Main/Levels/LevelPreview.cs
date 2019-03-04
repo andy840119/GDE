@@ -1,6 +1,5 @@
-﻿using GDEdit.Application;
-using GDE.App.Main.Objects;
-using GDEdit.Utilities.Objects.GeometryDash;
+﻿using GDE.App.Main.Objects;
+using GDEdit.Application;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
