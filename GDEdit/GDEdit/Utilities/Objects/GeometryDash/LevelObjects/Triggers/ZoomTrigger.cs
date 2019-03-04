@@ -19,6 +19,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public override int ObjectID => (int)TriggerType.Zoom;
 
         /// <summary>The duration of the trigger's effect.</summary>
+        [ObjectStringMappable(ObjectParameter.Duration)]
         public double Duration
         {
             get => duration;
