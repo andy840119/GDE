@@ -8,21 +8,21 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
 {
     /// <summary>Represents a BG Color trigger.</summary>
-    public class BGColorTrigger : ColorTrigger
+    public class BGColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the BG Color trigger.</summary>
         public override int ObjectID => (int)TriggerType.BG;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public new int TargetColorID => (int)SpecialColorID.BG;
+        public override int TargetColorID => (int)SpecialColorID.BG;
 
         /// <summary>Initializes a new instance of the <seealso cref="BGColorTrigger"/> class.</summary>
-        public BGColorTrigger() : base((int)SpecialColorID.BG) { }
+        public BGColorTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="BGColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="tintGround">The Tint Ground property of the trigger.</param>
         public BGColorTrigger(float duration, bool tintGround = false)
-            : base(duration, (int)SpecialColorID.BG, false, tintGround) { }
+            : base(duration, false, tintGround) { }
 
         /// <summary>Returns a clone of this <seealso cref="BGColorTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new BGColorTrigger());

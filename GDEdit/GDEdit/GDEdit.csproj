@@ -179,6 +179,7 @@
     <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\SpecialColorTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
