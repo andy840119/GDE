@@ -58,8 +58,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => scalingMultiplier = (float)value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
-        //[ObjectStringMappable(ObjectParameter.CenterGroupID)]
-        // Do not also map this property, the interface provides the definition for the one already.
+        [ObjectStringMappable(ObjectParameter.CenterGroupID)]
         public int CenterGroupID
         {
             get => centerGroupID;
