@@ -10,7 +10,7 @@ namespace GDE.App.Main.Screens
 {
     public class Lords : Screen
     {
-        private SpriteText Alfas;
+        private SpriteText AlFas;
         private SpriteText Alten;
         private FillFlowContainer container;
         private Button exitButton;
@@ -27,7 +27,7 @@ namespace GDE.App.Main.Screens
                     Alpha = 0f,
                     Children = new Drawable[]
                     {
-                        Alfas = new SpriteText
+                        AlFas = new SpriteText
                         {
                             Text = "AlFas",
                             TextSize = 170,
