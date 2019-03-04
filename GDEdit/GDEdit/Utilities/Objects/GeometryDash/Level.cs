@@ -156,8 +156,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             {
                 var speedSegments = new SpeedSegmentCollection();
                 speedSegments.Add(new SpeedSegment(StartingSpeed, 0));
-                foreach (SpeedPortal s in LevelObjects)
-                    if (s.Checked)
+                foreach (var o in LevelObjects)
+                    if (o is SpeedPortal s && s.Checked)
                         speedSegments.Add(new SpeedSegment(s.Speed, s.X)); // TODO: Add offset based on hitbox and scaling and rotation
                 return speedSegments;
             }
@@ -355,7 +355,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
                 default: // We need to know more about that suspicious new thing so we keep a log of it
                     Directory.CreateDirectory("ulsk");
-                    File.WriteAllText($@"ulsk\{key}.key", key);
+                    if (!File.Exists($@"ulsk\{key}.key"))
+                        File.WriteAllText($@"ulsk\{key}.key", key);
                     break;
             }
         }

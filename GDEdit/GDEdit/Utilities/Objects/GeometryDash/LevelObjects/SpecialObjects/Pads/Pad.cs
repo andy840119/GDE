@@ -11,11 +11,8 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
 {
     /// <summary>Represents a pad.</summary>
-    public abstract class Pad : SpecialObject
+    public abstract class Pad : ConstantIDSpecialObject
     {
-        /// <summary>The object ID of the pad.</summary>
-        public new abstract int ObjectID { get; }
-
         /// <summary>Initializes a new instance of the <seealso cref="Pad"/> class.</summary>
         public Pad() : base() { }
     }

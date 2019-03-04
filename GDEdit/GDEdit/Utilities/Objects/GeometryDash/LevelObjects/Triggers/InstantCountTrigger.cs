@@ -14,9 +14,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private short targetGroupID, itemID;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.InstantCount;
+        /// <summary>The Object ID of the Instant Count trigger.</summary>
+        public override int ObjectID => (int)TriggerType.InstantCount;
 
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -30,6 +32,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => itemID = (short)value;
         }
         /// <summary>The primary Item ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ItemID)]
         public int PrimaryItemID
         {
             get => ItemID;
@@ -50,7 +53,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public InstantCountComparison Comparison { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="InstantCountTrigger"/> class.</summary>
-        public InstantCountTrigger() { }
+        public InstantCountTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="InstantCountTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="itemID">The Item ID of the trigger.</param>
@@ -58,6 +61,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="activateGroup">The Activate Group property of the trigger.</param>
         /// <param name="comparison">The Comparison property of the trigger.</param>
         public InstantCountTrigger(int targetGroupID, int itemID, int targetCount, bool activateGroup = false, InstantCountComparison comparison = InstantCountComparison.Equals)
+            : base()
         {
             TargetGroupID = targetGroupID;
             ItemID = itemID;

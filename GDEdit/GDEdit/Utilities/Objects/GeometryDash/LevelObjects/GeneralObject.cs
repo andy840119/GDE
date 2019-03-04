@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
+using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.General;
@@ -122,8 +123,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         [ObjectStringMappable(ObjectParameter.GroupIDs)]
         public int[] GroupIDs
         {
-            get => groupIDs.Cast<int>() as int[];
-            set => groupIDs = value.Cast<short>() as short[];
+            get => groupIDs.CastToInt();
+            set => groupIDs = value.CastToShort();
         }
         /// <summary>The linked group ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.LinkedGroupID)]
@@ -251,9 +252,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             return cloned;
         }
 
+        // Reflection is FUN
         public T GetParameterWithID<T>(int ID)
         {
-            var properties = typeof(GeneralObject).GetProperties();
+            var properties = GetType().GetProperties();
             foreach (var p in properties)
                 if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key == ID)
                     return (T)p.GetValue(this);
@@ -261,11 +263,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         public void SetParameterWithID<T>(int ID, T newValue)
         {
-            // Reflection is FUN
-            var properties = typeof(GeneralObject).GetProperties();
+            var properties = GetType().GetProperties();
             foreach (var p in properties)
                 if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key == ID)
+                {
                     p.SetValue(this, newValue);
+                    return;
+                }
         }
         
         /// <summary>Determines whether the object's location is within a rectangle.</summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
@@ -20,20 +21,43 @@ namespace GDEdit.Application
         private string decryptedGamesave;
         private string decryptedLevelData;
 
+        private Task setDecryptedGamesave;
+        private Task setDecryptedLevelData;
+        private Task getFolderNames;
+        private Task getPlayerName;
+        private Task getCustomObjects;
+        private Task getSongMetadata;
+        private Task getLevels;
+        private Task<(bool, string)> decryptGamesave;
+        private Task<(bool, string)> decryptLevelData;
+
+        #region Database Status
+        public TaskStatus SetDecryptedGamesaveStatus => setDecryptedGamesave?.Status ?? (TaskStatus)(-1);
+        public TaskStatus SetDecryptedLevelDataStatus => setDecryptedLevelData?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetFolderNamesStatus => getFolderNames?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetPlayerNameStatus => getPlayerName?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetCustomObjectsStatus => getCustomObjects?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetSongMetadataStatus => getSongMetadata?.Status ?? (TaskStatus)(-1);
+        public TaskStatus GetLevelsStatus => getLevels?.Status ?? (TaskStatus)(-1);
+        public TaskStatus DecryptGamesaveStatus => decryptGamesave?.Status ?? (TaskStatus)(-1);
+        public TaskStatus DecryptLevelDataStatus => decryptLevelData?.Status ?? (TaskStatus)(-1);
+        #endregion
+
         #region Constants
         /// <summary>The default local data folder path of the game.</summary>
-        public static readonly string GDLocalData = $@"{GetFolderPath(SpecialFolder.LocalApplicationData)}\GeometryDash";
+        //TODO: Check platform with RuntimeInformation.IsOSPlatform() after mono implements such
+        public static readonly string GDLocalData = $@"{GetFolderPath(SpecialFolder.LocalApplicationData)}{(OSVersion.Platform == PlatformID.Unix ? "/Steam/steamapps/compatdata/322170/pfx/drive_c/users/steamuser/Local Settings/Application Data/" : @"\")}GeometryDash";
         /// <summary>The default game manager file path of the game.</summary>
-        public static readonly string GDGameManager = $@"{GDLocalData}\CCGameManager.dat";
+        public static readonly string GDGameManager = $@"{GDLocalData}{Path.DirectorySeparatorChar}CCGameManager.dat";
         /// <summary>The default local levels file path of the game.</summary>
-        public static readonly string GDLocalLevels = $@"{GDLocalData}\CCLocalLevels.dat";
+        public static readonly string GDLocalLevels = $@"{GDLocalData}{Path.DirectorySeparatorChar}CCLocalLevels.dat";
         #endregion
 
         #region Information
         /// <summary>The path for the game manager file.</summary>
-        public string GameManagerPath { get; }
+        public string GameManagerPath { get; private set; }
         /// <summary>The path for the local levels file.</summary>
-        public string LocalLevelsPath { get; }
+        public string LocalLevelsPath { get; private set; }
 
         // TODO: Split into LevelInfo and GameInfo
 
@@ -64,14 +88,7 @@ namespace GDEdit.Application
                 SetSongMetadataInGamesave();
                 return decryptedGamesave;
             }
-            set
-            {
-                decryptedGamesave = value;
-                GetFolderNames();
-                GetPlayerName();
-                GetCustomObjects();
-                GetSongMetadata();
-            }
+            set => Task.Run(() => setDecryptedGamesave = SetDecryptedGamesave(value));
         }
         /// <summary>The decrypted form of the level data.</summary>
         public string DecryptedLevelData
@@ -93,12 +110,7 @@ namespace GDEdit.Application
                 }
                 return decryptedLevelData;
             }
-            set
-            {
-                decryptedLevelData = value;
-                GetKeyIndices();
-                GetLevels();
-            }
+            set => Task.Run(() => setDecryptedLevelData = SetDecryptedLevelData(value));
         }
         /// <summary>The custom objects.</summary>
         public CustomLevelObjectCollection CustomObjects { get; set; }
@@ -115,9 +127,8 @@ namespace GDEdit.Application
         /// <param name="localLevelsPath">The file path of the local levels file of the game.</param>
         public Database(string gameManagerPath, string localLevelsPath)
         {
-            GameManagerPath = gameManagerPath;
-            TryDecryptLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath), out var d);
-            DecryptedLevelData = d;
+            Task.Run(() => SetDecryptedGamesave(File.ReadAllText(GameManagerPath = gameManagerPath)));
+            Task.Run(() => SetDecryptedLevelData(File.ReadAllText(LocalLevelsPath = localLevelsPath)));
         }
         #endregion
 
@@ -304,6 +315,22 @@ namespace GDEdit.Application
             UpdateLevelData();
             File.WriteAllText(GDLocalLevels, decryptedLevelData); // Write the level data
         }
+        #endregion
+
+        #region Private Functions
+        private async Task SetDecryptedGamesave(string gamesave)
+        {
+            decryptedGamesave = (await (decryptGamesave = TryDecryptGamesaveAsync(gamesave))).Item2;
+            getFolderNames = GetFolderNames();
+            getPlayerName = GetPlayerName();
+            getCustomObjects = GetCustomObjects();
+            getSongMetadata = GetSongMetadata();
+        }
+        private async Task SetDecryptedLevelData(string levelData)
+        {
+            decryptedLevelData = (await (decryptLevelData = TryDecryptLevelDataAsync(levelData))).Item2;
+            await (getLevels = GetLevels());
+        }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
         private int GetNextAvailableRevision(string levelName)
@@ -332,7 +359,7 @@ namespace GDEdit.Application
         /// <summary>Returns the level count as found in the level data by counting the occurences of the declaration keys.</summary>
         private int GetLevelCount() => decryptedLevelData.FindAll("<k>k_").Length;
         /// <summary>Gets the custom objects.</summary>
-        private void GetCustomObjects()
+        private async Task GetCustomObjects()
         {
             CustomObjects = new CustomLevelObjectCollection();
             int startIndex = decryptedGamesave.Find("<k>customObjectDict</k><d>") + 26;
@@ -358,9 +385,10 @@ namespace GDEdit.Application
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
-        private void GetLevels()
+        private async Task GetLevels()
         {
             UserLevels = new LevelCollection();
+            GetKeyIndices();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
@@ -370,7 +398,7 @@ namespace GDEdit.Application
             }
         }
 
-        private void GetPlayerName()
+        private async Task GetPlayerName()
         {
             int playerNameStartIndex = decryptedGamesave.FindFromEnd("<k>playerName</k><s>") + 20;
             int playerNameEndIndex = decryptedGamesave.FindFromEnd("</s><k>playerUserID</k>");
@@ -378,14 +406,14 @@ namespace GDEdit.Application
             UserName = decryptedGamesave.Substring(playerNameStartIndex, playerNameLength);
         }
         // TODO: Decide whether they're staying or not
-        private string GetUserID()
+        private async Task<string> GetUserID()
         {
             int userIDStartIndex = decryptedGamesave.FindFromEnd("<k>playerUserID</k><i>") + 22;
             int userIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>playerFrame</k>");
             int userIDLength = userIDEndIndex - userIDStartIndex;
             return decryptedGamesave.Substring(userIDStartIndex, userIDLength);
         }
-        private string GetAccountID()
+        private async Task<string> GetAccountID()
         {
             int accountIDStartIndex = decryptedGamesave.FindFromEnd("<k>GJA_003</k><i>") + 17;
             int accountIDEndIndex = decryptedGamesave.FindFromEnd("</i><k>KBM_001</k>");
@@ -395,7 +423,7 @@ namespace GDEdit.Application
             else
                 return "0";
         }
-        private void GetFolderNames()
+        private async Task GetFolderNames()
         {
             FolderNames = new FolderNameCollection();
             int foldersStartIndex = decryptedGamesave.FindFromEnd("<k>GLM_19</k><d>") + 16;
@@ -413,7 +441,7 @@ namespace GDEdit.Application
                 }
             }
         }
-        private void GetSongMetadata()
+        private async Task GetSongMetadata()
         {
             SongMetadataInformation = new SongMetadataCollection();
             int songMetadataStartIndex = decryptedGamesave.FindFromEnd("<k>MDLM_001</k><d>") + 18;

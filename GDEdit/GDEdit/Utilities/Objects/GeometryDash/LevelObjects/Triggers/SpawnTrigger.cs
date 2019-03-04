@@ -15,9 +15,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
         private float delay;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Spawn;
+        /// <summary>The Object ID of the Spawn trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Spawn;
 
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -39,12 +41,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpawnTrigger"/> class.</summary>
-        public SpawnTrigger() { }
+        public SpawnTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="SpawnTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="delay">The Delay property of the trigger.</param>
         /// <param name="editorDisable">The Editor Disable property of the trigger.</param>
         public SpawnTrigger(int targetGroupID, double delay, bool editorDisable = false)
+            : base()
         {
             TargetGroupID = targetGroupID;
             Delay = delay;
