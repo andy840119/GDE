@@ -35,11 +35,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="ZoomTrigger"/> class.</summary>
-        public ZoomTrigger() { }
+        public ZoomTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="ZoomTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="zoom">The Zoom property of the trigger.</param>
         public ZoomTrigger(double duration, int zoom, double opacity)
+             : base()
         {
             Duration = duration;
             Zoom = zoom;

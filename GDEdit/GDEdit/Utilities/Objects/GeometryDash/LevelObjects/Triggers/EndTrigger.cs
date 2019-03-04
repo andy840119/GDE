@@ -41,11 +41,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="EndTrigger"/> class.</summary>
-        public EndTrigger() { }
+        public EndTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="EndTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="reversed">The Reversed of the trigger.</param>
         public EndTrigger(int targetGroupID, bool reversed = false, bool lockY = false)
+             : base()
         {
             TargetGroupID = targetGroupID;
             Reversed = reversed;

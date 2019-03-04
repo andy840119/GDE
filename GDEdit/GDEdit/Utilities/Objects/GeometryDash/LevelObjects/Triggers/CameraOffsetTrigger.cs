@@ -54,12 +54,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public TargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="CameraOffsetTrigger"/> class.</summary>
-        public CameraOffsetTrigger() { }
+        public CameraOffsetTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="CameraOffsetTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="xOnly">The X Only property of the trigger.</param>
         /// <param name="yOnly">The Y Only property of the trigger.</param>
         public CameraOffsetTrigger(double duration, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
+             : base()
         {
             Duration = duration;
             TargetPosCoordinates = coordinates;

@@ -55,12 +55,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public TargetPosCoordinates TargetPosCoordinates { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="StaticCameraTrigger"/> class.</summary>
-        public StaticCameraTrigger() { }
+        public StaticCameraTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="StaticCameraTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="exitStatic">The Exit Static property of the trigger.</param>
         public StaticCameraTrigger(double duration, int targetGroupID, bool exitStatic = false, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
+             : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

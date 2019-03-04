@@ -64,13 +64,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="RandomTrigger"/> class.</summary>
-        public RandomTrigger() { }
+        public RandomTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="RandomTrigger"/> class.</summary>
         /// <param name="groupID1">The Group ID 1 of the trigger.</param>
         /// <param name="groupID2">The Group ID 2 of the trigger.</param>
         /// <param name="chance">The Chance property of the trigger.</param>
         /// <param name="activateGroup">The Activate Group property of the trigger.</summary>
         public RandomTrigger(int groupID1, int groupID2, int chance, bool activateGroup = false)
+             : base()
         {
             GroupID1 = groupID1;
             GroupID2 = groupID2;
