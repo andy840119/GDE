@@ -27,14 +27,14 @@ namespace GDE.App.Main.Screens
                     Alpha = 0f,
                     Children = new Drawable[]
                     {
-                        alfas = new SpriteText
+                        Alfas = new SpriteText
                         {
                             Text = "AlFas",
                             TextSize = 170,
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
                         },
-                        alten = new SpriteText
+                        Alten = new SpriteText
                         {
                             Text = "Alten",
                             TextSize = 170,
