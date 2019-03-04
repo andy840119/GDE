@@ -37,32 +37,21 @@ namespace GDE.App.Main.Levels
 
             var userLevel = Databases[0].UserLevels[i];
 
-            for (var i = 0; i < 0; i++)
+            foreach (var o in userLevel.LevelObjects)
             {
-                float scale = 1;
-
-                if (userLevel.LevelObjects[i].Scaling > 0)
-                {
-                    scale = (float)userLevel.LevelObjects[i].Scaling;
-                }
-
-                Vector2 size;
-
-                if (userLevel.LevelObjects[i].FlippedVertically && userLevel.LevelObjects[i].FlippedHorizontally)
-                    size = new Vector2(-30 * scale, -30 * scale);
-                else if (userLevel.LevelObjects[i].FlippedVertically)
-                    size = new Vector2(30 * scale, -30 * scale);
-                else if (userLevel.LevelObjects[i].FlippedHorizontally)
-                    size = new Vector2(-30 * scale, 30 * scale);
-                else
-                    size = new Vector2(30 * scale);
+                var size = new Vector2(30 * o.Scaling);
+                
+                if (o.FlippedVertically)
+                    size.Y = -size.Y;
+                if (o.FlippedHorizontally)
+                    size.X = -size.X;
 
                 Add(new ObjectBase
                 {
-                    ObjectID = userLevel.LevelObjects[i].ObjectID,
-                    Position = new Vector2((float)userLevel.LevelObjects[i].X, (float)-userLevel.LevelObjects[i].Y),
+                    ObjectID = o.ObjectID,
+                    Position = new Vector2((float)o.X, (float)-o.Y),
                     Size = size, // Set this to zoom scale later
-                    Rotation = (float)userLevel.LevelObjects[i].Rotation, // fix soon:tm:
+                    Rotation = (float)o.Rotation, // fix soon:tm:
                     Origin = Anchor.Centre,
                     Anchor = Anchor.CentreLeft
                 });
