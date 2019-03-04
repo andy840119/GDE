@@ -39,7 +39,7 @@ namespace GDE.App.Main.Levels
 
             foreach (var o in userLevel.LevelObjects)
             {
-                var size = new Vector2(30 * o.Scaling);
+                var size = new Vector2(30 * (float)o.Scaling);
                 
                 if (o.FlippedVertically)
                     size.Y = -size.Y;
