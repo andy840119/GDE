@@ -78,8 +78,6 @@ namespace GDE.App.Main.Objects
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
         public ObjectBase(int objectID = 1)
         {
-            lvlObj = new GeneralObject(objectID);
-
             Children = new Drawable[]
             {
                 obj = new Box
@@ -89,6 +87,8 @@ namespace GDE.App.Main.Objects
                     RelativeSizeAxes = Axes.Both
                 }
             };
+
+            UpdateObject(lvlObj = new GeneralObject(objectID));
         }
         
         [BackgroundDependencyLoader]
@@ -98,7 +98,17 @@ namespace GDE.App.Main.Objects
             UpdateObjectID(lvlObj.ObjectID);
         }
         
-        private void UpdateObjectID(int value) => obj.Texture = textureStore.Get($"Objects/{value}.png");
+        private void UpdateObject(GeneralObject o)
+        {
+            UpdateObjectID(o.ObjectID);
+            UpdateObjectX(o.X);
+            UpdateObjectY(o.Y);
+            UpdateFlippedHorizontally(o.FlippedHorizontally);
+            UpdateFlippedVertically(o.FlippedVertically);
+            UpdateObjectRotation(o.Rotation);
+            UpdateObjectScaling(o.Scaling);
+        }
+        private void UpdateObjectID(int value) => obj.Texture = textureStore?.Get($"Objects/{value}.png");
         private void UpdateObjectX(double value) => obj.X = (float)value;
         private void UpdateObjectY(double value) => obj.Y = (float)value;
         private void UpdateFlippedHorizontally(bool value) => obj.Width = SetSign(obj.Width, value);
