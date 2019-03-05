@@ -3,7 +3,6 @@ using GDEdit.Application;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
-using osuTK;
 using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Levels
@@ -20,19 +19,6 @@ namespace GDE.App.Main.Levels
             Databases.Add(new Database());
 
             AutoSizeAxes = Axes.Both;
-
-            // We will probably wont need this as of now, for optimization purposes only:tm:
-            /*for (var i = 0; i < 35; i++)
-            {
-                for (var j = 0; j < 50; j++)
-                {
-                    Add(new Grid
-                    {
-                        Size = new Vector2(30),
-                        Position = new Vector2(30 * j, 30 * i + 23)
-                    });
-                }
-            }*/
             
             foreach (var o in Databases[0].UserLevels[i].LevelObjects)
                 Add(new ObjectBase(o));
