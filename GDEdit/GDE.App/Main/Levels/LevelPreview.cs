@@ -21,11 +21,7 @@ namespace GDE.App.Main.Levels
             AutoSizeAxes = Axes.Both;
             
             foreach (var o in Databases[0].UserLevels[i].LevelObjects)
-                Add(new ObjectBase(o)
-                {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre
-                });
+                Add(new ObjectBase(o));
         }
 
         protected override bool OnDrag(DragEvent e)

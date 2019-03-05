@@ -78,6 +78,9 @@ namespace GDE.App.Main.Objects
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
         public ObjectBase(GeneralObject o)
         {
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
+
             Children = new Drawable[]
             {
                 obj = new Box
