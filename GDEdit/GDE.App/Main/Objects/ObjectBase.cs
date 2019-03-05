@@ -23,43 +23,43 @@ namespace GDE.App.Main.Objects
         public int ObjectID
         {
             get => lvlObj.ObjectID;
-            set => UpdateObjectID(value);
+            set => UpdateObjectID(lvlObj.ObjectID = value);
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX
         {
             get => lvlObj.X;
-            set => UpdateObjectX(value);
+            set => UpdateObjectX(lvlObj.X = value);
         }
         ///<summary>The Y position of the object.</summary>
         public double ObjectY
         {
             get => lvlObj.Y;
-            set => UpdateObjectY(value);
+            set => UpdateObjectY(lvlObj.Y = value);
         }
         ///<summary>Represents whether the object is flipped horizontally or not.</summary>
         public bool FlippedHorizontally
         {
             get => lvlObj.FlippedHorizontally;
-            set => UpdateFlippedHorizontally(value);
+            set => UpdateFlippedHorizontally(lvlObj.FlippedHorizontally = value);
         }
         ///<summary>Represents whether the object is flipped vertically or not.</summary>
         public bool FlippedVertically
         {
             get => lvlObj.FlippedVertically;
-            set => UpdateFlippedVertically(value);
+            set => UpdateFlippedVertically(lvlObj.FlippedVertically = value);
         }
         ///<summary>The rotation of the object.</summary>
         public double ObjectRotation
         {
             get => lvlObj.Rotation;
-            set => UpdateObjectRotation(value);
+            set => UpdateObjectRotation(lvlObj.Rotation = value);
         }
         ///<summary>The scaling of the object.</summary>
         public double ObjectScaling
         {
             get => lvlObj.Scaling;
-            set => UpdateObjectScaling(value);
+            set => UpdateObjectScaling(lvlObj.Scaling = value);
         }
         ///<summary>The Editor Layer 1 of the object.</summary>
         public int EL1
@@ -95,21 +95,16 @@ namespace GDE.App.Main.Objects
         private void load(TextureStore ts)
         {
             textureStore = ts;
-            UpdateObjectID();
+            UpdateObjectID(lvlObj.ObjectID);
         }
-
-        private void UpdateObjectID() => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID}.png");
-        private void UpdateObjectID(int value) => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID = value}.png");
-        private void UpdateObjectX(double value) => obj.X = (float)(lvlObj.X = value);
-        private void UpdateObjectY(double value) => obj.Y = (float)(lvlObj.Y = value);
-        private void UpdateFlippedHorizontally(bool value) => obj.Width = SetSign(obj.Width, lvlObj.FlippedHorizontally = value);
-        private void UpdateFlippedVertically(bool value) => obj.Height = SetSign(obj.Height, lvlObj.FlippedVertically = value);
-        private void UpdateObjectRotation(double value) => obj.Rotation = (float)(lvlObj.Rotation = value);
-        private void UpdateObjectScaling(double value)
-        {
-            obj.Size *= (float)(value / lvlObj.Scaling);
-            lvlObj.Scaling = value;
-        }
+        
+        private void UpdateObjectID(int value) => obj.Texture = textureStore.Get($"Objects/{value}.png");
+        private void UpdateObjectX(double value) => obj.X = (float)value;
+        private void UpdateObjectY(double value) => obj.Y = (float)value;
+        private void UpdateFlippedHorizontally(bool value) => obj.Width = SetSign(obj.Width, value);
+        private void UpdateFlippedVertically(bool value) => obj.Height = SetSign(obj.Height, value);
+        private void UpdateObjectRotation(double value) => obj.Rotation = (float)value;
+        private void UpdateObjectScaling(double value) => obj.Size = new Vector2((float)value); // TODO: Handle scaling better
 
         private float SetSign(float value, bool sign)
         {
