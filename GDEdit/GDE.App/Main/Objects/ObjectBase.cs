@@ -91,6 +91,7 @@ namespace GDE.App.Main.Objects
             };
         }
 
+        private void UpdateObjectID() => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID}.png");
         private void UpdateObjectID(int value) => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID = value}.png");
         private void UpdateObjectX(double value) => obj.X = (float)(lvlObj.X = value);
         private void UpdateObjectY(double value) => obj.Y = (float)(lvlObj.Y = value);
@@ -116,7 +117,8 @@ namespace GDE.App.Main.Objects
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
-            obj.Texture = (textureStore = ts).Get($"Objects/{ObjectID}.png");
+            textureStore = ts;
+            UpdateObjectID();
         }
     }
 }
