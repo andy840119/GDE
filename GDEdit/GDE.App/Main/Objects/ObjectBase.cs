@@ -16,37 +16,38 @@ namespace GDE.App.Main.Objects
     {
         private GeneralObject lvlObj;
         private Box obj;
+        private TextureStore textureStore;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
         public int ObjectID
         {
             get => lvlObj.ObjectID;
-            set => lvlObj.ObjectID = value;
+            set => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID = value}.png");
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX
         {
             get => lvlObj.X;
-            set => lvlObj.X = value;
+            set => obj.X = (float)(lvlObj.X = value);
         }
         ///<summary>The Y position of the object.</summary>
         public double ObjectY
         {
             get => lvlObj.Y;
-            set => lvlObj.Y = value;
+            set => obj.Y = (float)(lvlObj.Y = value);
         }
         ///<summary>Represents whether the object is flipped horizontally or not.</summary>
         public bool FlippedHorizontally
         {
             get => lvlObj.FlippedHorizontally;
-            set => lvlObj.FlippedHorizontally = value;
+            set => lvlObj.FlippedHorizontally = value; // TODO: Make it change the texture
         }
         ///<summary>Represents whether the object is flipped vertically or not.</summary>
         public bool FlippedVertically
         {
             get => lvlObj.FlippedVertically;
-            set => lvlObj.FlippedVertically = value;
+            set => lvlObj.FlippedVertically = value; // TODO: Make it change the texture
         }
         ///<summary>The rotation of the object.</summary>
         public double ObjectRotation
@@ -99,7 +100,7 @@ namespace GDE.App.Main.Objects
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
-            obj.Texture = ts.Get($"Objects/{ObjectID}.png");
+            obj.Texture = (textureStore = ts).Get($"Objects/{ObjectID}.png");
         }
     }
 }
