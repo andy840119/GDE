@@ -76,7 +76,7 @@ namespace GDE.App.Main.Objects
         #endregion
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
-        public ObjectBase(int objectID = 1)
+        public ObjectBase(GeneralObject o)
         {
             Children = new Drawable[]
             {
@@ -88,7 +88,8 @@ namespace GDE.App.Main.Objects
                 }
             };
 
-            UpdateObject(lvlObj = new GeneralObject(objectID));
+            Size = new Vector2(30);
+            UpdateObject(lvlObj = o);
         }
         
         [BackgroundDependencyLoader]
@@ -109,12 +110,12 @@ namespace GDE.App.Main.Objects
             UpdateObjectScaling(o.Scaling);
         }
         private void UpdateObjectID(int value) => obj.Texture = textureStore?.Get($"Objects/{value}.png");
-        private void UpdateObjectX(double value) => obj.X = (float)value;
-        private void UpdateObjectY(double value) => obj.Y = (float)value;
-        private void UpdateFlippedHorizontally(bool value) => obj.Width = SetSign(obj.Width, value);
-        private void UpdateFlippedVertically(bool value) => obj.Height = SetSign(obj.Height, value);
-        private void UpdateObjectRotation(double value) => obj.Rotation = (float)value;
-        private void UpdateObjectScaling(double value) => obj.Size = new Vector2((float)value); // TODO: Handle scaling better
+        private void UpdateObjectX(double value) => X = (float)value;
+        private void UpdateObjectY(double value) => Y = -(float)value;
+        private void UpdateFlippedHorizontally(bool value) => Width = SetSign(Width, !value);
+        private void UpdateFlippedVertically(bool value) => Height = SetSign(Height, !value);
+        private void UpdateObjectRotation(double value) => Rotation = (float)value;
+        private void UpdateObjectScaling(double value) => Scale = new Vector2((float)value);
 
         private float SetSign(float value, bool sign)
         {

@@ -33,28 +33,9 @@ namespace GDE.App.Main.Levels
                     });
                 }
             }*/
-
-            var userLevel = Databases[0].UserLevels[i];
-
-            foreach (var o in userLevel.LevelObjects)
-            {
-                var size = new Vector2(30 * (float)o.Scaling);
-                
-                if (o.FlippedVertically)
-                    size.Y = -size.Y;
-                if (o.FlippedHorizontally)
-                    size.X = -size.X;
-
-                Add(new ObjectBase
-                {
-                    ObjectID = o.ObjectID,
-                    Position = new Vector2((float)o.X, (float)-o.Y),
-                    Size = size, // Set this to zoom scale later
-                    Rotation = (float)o.Rotation, // fix soon:tm:
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.CentreLeft
-                });
-            }
+            
+            foreach (var o in Databases[0].UserLevels[i].LevelObjects)
+                Add(new ObjectBase(o));
         }
 
         protected override bool OnDrag(DragEvent e)
