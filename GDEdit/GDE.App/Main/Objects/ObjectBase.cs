@@ -90,23 +90,20 @@ namespace GDE.App.Main.Objects
                 }
             };
         }
+        
+        [BackgroundDependencyLoader]
+        private void load(TextureStore ts)
+        {
+            textureStore = ts;
+            UpdateObjectID();
+        }
 
         private void UpdateObjectID() => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID}.png");
         private void UpdateObjectID(int value) => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID = value}.png");
         private void UpdateObjectX(double value) => obj.X = (float)(lvlObj.X = value);
         private void UpdateObjectY(double value) => obj.Y = (float)(lvlObj.Y = value);
-        private void UpdateFlippedHorizontally(bool value)
-        {
-            if (lvlObj.FlippedHorizontally ^ value)
-                obj.Width = -obj.Width;
-            lvlObj.FlippedHorizontally = value;
-        }
-        private void UpdateFlippedVertically(bool value)
-        {
-            if (lvlObj.FlippedVertically ^ value)
-                obj.Height = -obj.Height;
-            lvlObj.FlippedVertically = value;
-        }
+        private void UpdateFlippedHorizontally(bool value) => obj.Width = SetSign(obj.Width, lvlObj.FlippedHorizontally = value);
+        private void UpdateFlippedVertically(bool value) => obj.Height = SetSign(obj.Height, lvlObj.FlippedVertically = value);
         private void UpdateObjectRotation(double value) => obj.Rotation = (float)(lvlObj.Rotation = value);
         private void UpdateObjectScaling(double value)
         {
@@ -114,11 +111,11 @@ namespace GDE.App.Main.Objects
             lvlObj.Scaling = value;
         }
 
-        [BackgroundDependencyLoader]
-        private void load(TextureStore ts)
+        private float SetSign(float value, bool sign)
         {
-            textureStore = ts;
-            UpdateObjectID();
+            if (!sign ^ value < 0)
+                return -value;
+            return value;
         }
     }
 }
