@@ -23,43 +23,43 @@ namespace GDE.App.Main.Objects
         public int ObjectID
         {
             get => lvlObj.ObjectID;
-            set => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID = value}.png");
+            set => UpdateObjectID(value);
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX
         {
             get => lvlObj.X;
-            set => obj.X = (float)(lvlObj.X = value);
+            set => UpdateObjectX(value);
         }
         ///<summary>The Y position of the object.</summary>
         public double ObjectY
         {
             get => lvlObj.Y;
-            set => obj.Y = (float)(lvlObj.Y = value);
+            set => UpdateObjectY(value);
         }
         ///<summary>Represents whether the object is flipped horizontally or not.</summary>
         public bool FlippedHorizontally
         {
             get => lvlObj.FlippedHorizontally;
-            set => lvlObj.FlippedHorizontally = value; // TODO: Make it change the texture
+            set => UpdateFlippedHorizontally(value);
         }
         ///<summary>Represents whether the object is flipped vertically or not.</summary>
         public bool FlippedVertically
         {
             get => lvlObj.FlippedVertically;
-            set => lvlObj.FlippedVertically = value; // TODO: Make it change the texture
+            set => UpdateFlippedVertically(value);
         }
         ///<summary>The rotation of the object.</summary>
         public double ObjectRotation
         {
             get => lvlObj.Rotation;
-            set => lvlObj.Rotation = value;
+            set => UpdateObjectRotation(value);
         }
         ///<summary>The scaling of the object.</summary>
         public double ObjectScaling
         {
             get => lvlObj.Scaling;
-            set => lvlObj.Scaling = value;
+            set => UpdateObjectScaling(value);
         }
         ///<summary>The Editor Layer 1 of the object.</summary>
         public int EL1
@@ -72,12 +72,6 @@ namespace GDE.App.Main.Objects
         {
             get => lvlObj.EL2;
             set => lvlObj.EL2 = value;
-        }
-        ///<summary>The Group IDs of the object.</summary>
-        public int[] GroupIDs
-        {
-            get => lvlObj.GroupIDs;
-            set => lvlObj.GroupIDs = value;
         }
         #endregion
 
@@ -95,6 +89,28 @@ namespace GDE.App.Main.Objects
                     RelativeSizeAxes = Axes.Both
                 }
             };
+        }
+
+        private void UpdateObjectID(int value) => obj.Texture = textureStore.Get($"Objects/{lvlObj.ObjectID = value}.png");
+        private void UpdateObjectX(double value) => obj.X = (float)(lvlObj.X = value);
+        private void UpdateObjectY(double value) => obj.Y = (float)(lvlObj.Y = value);
+        private void UpdateFlippedHorizontally(bool value)
+        {
+            if (lvlObj.FlippedHorizontally ^ value)
+                obj.Width = -obj.Width;
+            lvlObj.FlippedHorizontally = value;
+        }
+        private void UpdateFlippedVertically(bool value)
+        {
+            if (lvlObj.FlippedVertically ^ value)
+                obj.Height = -obj.Height;
+            lvlObj.FlippedVertically = value;
+        }
+        private void UpdateObjectRotation(double value) => obj.Rotation = (float)(lvlObj.Rotation = value);
+        private void UpdateObjectScaling(double value)
+        {
+            obj.Size *= (float)(value / lvlObj.Scaling);
+            lvlObj.Scaling = value;
         }
 
         [BackgroundDependencyLoader]
