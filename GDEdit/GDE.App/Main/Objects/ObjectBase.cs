@@ -105,30 +105,21 @@ namespace GDE.App.Main.Objects
         private void UpdateObject(GeneralObject o)
         {
             UpdateObjectID(o.ObjectID);
-
             UpdateObjectX(o.X);
             UpdateObjectY(o.Y);
-
             UpdateFlippedHorizontally(o.FlippedHorizontally);
             UpdateFlippedVertically(o.FlippedVertically);
-
             UpdateObjectRotation(o.Rotation);
-
             UpdateObjectScaling(o.Scaling);
         }
 
         private void UpdateObjectID(int value) => obj.Texture = textureStore?.Get($"Objects/{value}.png");
-
         private void UpdateObjectX(double value) => X = (float)value;
         private void UpdateObjectY(double value) => Y = -(float)value;
-
         private void UpdateFlippedHorizontally(bool value) => Width = SetSign(Width, !value);
         private void UpdateFlippedVertically(bool value) => Height = SetSign(Height, !value);
-
         private void UpdateObjectRotation(double value) => Rotation = (float)value;
-
         private void UpdateObjectScaling(double value) => Scale = new Vector2((float)value);
-
         private float SetSign(float value, bool sign)
         {
             if (!sign ^ value < 0)
