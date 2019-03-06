@@ -15,6 +15,6 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
-        public override bool IsPointWithinShape(Point point) => point.X == 0;
+        public override bool ContainsPoint(Point point) => point.X == 0;
     }
 }
