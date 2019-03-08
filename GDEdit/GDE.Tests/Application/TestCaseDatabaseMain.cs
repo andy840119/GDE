@@ -1,11 +1,11 @@
 ﻿using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using System.Threading.Tasks;
-using static GDEdit.Application.ApplicationDatabase;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDE.Tests.Application
@@ -19,8 +19,6 @@ namespace GDE.Tests.Application
 
         public TestCaseDatabaseMain()
         {
-            Databases.Add(database = new Database());
-
             Children = new[]
             {
                 new FillFlowContainer
@@ -63,6 +61,12 @@ namespace GDE.Tests.Application
                     }
                 },
             };
+        }
+
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection d)
+        {
+            database = d[0];
         }
 
         protected override void Update()

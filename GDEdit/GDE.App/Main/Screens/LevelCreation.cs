@@ -1,18 +1,14 @@
-﻿using osu.Framework.Extensions.Color4Extensions;
-using osu.Framework.Graphics.Containers;
+﻿using GDE.App.Main.Colors;
+using GDEdit.Application;
+using osu.Framework.Allocation;
+using osu.Framework.Extensions.Color4Extensions;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
-using GDE.App.Main.Colors;
-using GDE.App.Main.UI;
-using GDEdit.Application;
-using GDEdit.Application.Editor;
-using GDEdit.Utilities.Functions.GeometryDash;
-using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Screens
 {
@@ -21,10 +17,10 @@ namespace GDE.App.Main.Screens
         private TextBox name;
         private TextBox desc;
 
+        private DatabaseCollection databases;
+
         public LevelCreation()
         {
-            Databases.Add(new Database());
-
             AddRangeInternal(new Drawable[]
             {
                 new Box
@@ -88,10 +84,16 @@ namespace GDE.App.Main.Screens
                     },
                     Action = () =>
                     {
-                        Databases[0].CreateLevel(name.Text, desc.Text);
+                        databases[0].CreateLevel(name.Text, desc.Text);
                     }
                 },
             });
+        }
+
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection d)
+        {
+            databases = d;
         }
     }
 }
