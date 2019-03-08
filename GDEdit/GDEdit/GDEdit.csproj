@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Application\ApplicationDatabase.cs" />
     <Compile Include="Application\Database.cs" />
+    <Compile Include="Application\DatabaseCollection.cs" />
     <Compile Include="Application\Editor\Editor.cs" />
     <Compile Include="Application\Status.cs" />
     <Compile Include="Program.cs" />
