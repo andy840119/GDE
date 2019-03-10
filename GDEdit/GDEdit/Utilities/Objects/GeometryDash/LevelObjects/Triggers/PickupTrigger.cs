@@ -14,9 +14,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private short targetItemID;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pickup;
+        /// <summary>The Object ID of the Pickup trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Pickup;
 
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ItemID)]
         public int TargetItemID
         {
             get => targetItemID;
@@ -27,11 +29,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public int Count { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="PickupTrigger"/> class.</summary>
-        public PickupTrigger() { }
+        public PickupTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PickupTrigger"/> class.</summary>
         /// <param name="targetItemID">The target Item ID of the trigger.</param>
         /// <param name="count">The Count property of the trigger.</param>
         public PickupTrigger(int targetItemID, int count)
+            : base()
         {
             TargetItemID = targetItemID;
             Count = count;

@@ -15,29 +15,35 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, centerGroupID;
         private float duration = 0.5f, easingRate;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Rotate;
+        /// <summary>The Object ID of the Rotate trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Rotate;
 
         /// <summary>The duration of the trigger's effect.</summary>
+        [ObjectStringMappable(ObjectParameter.Duration)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The secondary Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         public int SecondaryGroupID
         {
             get => CenterGroupID;
             set => CenterGroupID = value;
         }
         /// <summary>The easing of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Easing)]
         public Easing Easing { get; set; }
         /// <summary>The Move Y of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.EasingRate)]
         public double EasingRate
         {
             get => easingRate;
@@ -57,8 +63,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => TriggerBools[3] = value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
-        //[ObjectStringMappable(ObjectParameter.CenterGroupID)]
-        // Do not also map this property, the interface provides the definition for the one already.
+        [ObjectStringMappable(ObjectParameter.CenterGroupID)]
         public int CenterGroupID
         {
             get => centerGroupID;
@@ -66,12 +71,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
-        public RotateTrigger() { }
+        public RotateTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="lockObjectRotation">The Lock Object Rotation property of the trigger.</param>
         public RotateTrigger(double duration, int targetGroupID, bool lockObjectRotation = false)
+            : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

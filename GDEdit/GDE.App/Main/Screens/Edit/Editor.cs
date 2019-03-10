@@ -19,7 +19,7 @@ namespace GDE.App.Main.Screens.Edit
         {
             i = index;
 
-            AddRange(new Drawable[]
+            AddRangeInternal(new Drawable[]
             {
                 background = new Box
                 {

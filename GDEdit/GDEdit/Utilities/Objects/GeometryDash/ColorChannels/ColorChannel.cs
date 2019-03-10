@@ -100,9 +100,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
                     case 17:
                         result.CopyOpacity = value == "1";
                         break;
+                    case 8:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 15:
+                    case 18:
+                        break;
                     default: // We need to know more about that suspicious new thing so we keep a log of it
                         Directory.CreateDirectory("ulscsk");
-                        File.WriteAllText($@"ulscsk\{key}.key", key.ToString());
+                        if (!File.Exists($@"ulscsk\{key}.key"))
+                            File.WriteAllText($@"ulscsk\{key}.key", key.ToString());
                         break;
                 }
             }

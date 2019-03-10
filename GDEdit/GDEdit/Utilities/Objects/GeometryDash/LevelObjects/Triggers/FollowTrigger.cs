@@ -15,21 +15,25 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, followGroupID;
         private float duration = 0.5f, xMod = 1, yMod = 1;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Follow;
+        /// <summary>The Object ID of the Follow trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Follow;
 
         /// <summary>The duration of the trigger's effect.</summary>
+        [ObjectStringMappable(ObjectParameter.Duration)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The secondary Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         public int SecondaryGroupID
         {
             get => FollowGroupID;
@@ -50,8 +54,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => yMod = (float)value;
         }
         /// <summary>The Follow Group ID property of the trigger.</summary>
-        //[ObjectStringMappable(ObjectParameter.FollowGroupID)]
-        // Do not also map this property, the interface provides the definition for the one already.
+        [ObjectStringMappable(ObjectParameter.FollowGroupID)]
         public int FollowGroupID
         {
             get => followGroupID;
@@ -59,11 +62,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="FollowTrigger"/> class.</summary>
-        public FollowTrigger() { }
+        public FollowTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="FollowTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         public FollowTrigger(double duration, int targetGroupID)
+            : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

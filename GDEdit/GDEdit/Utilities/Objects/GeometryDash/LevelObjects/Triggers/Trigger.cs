@@ -9,39 +9,25 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
-    public abstract class Trigger : GeneralObject
+    /// <summary>Represents a trigger.</summary>
+    public abstract class Trigger : ConstantIDObject
     {
         /// <summary>Contains the <seealso cref="bool"/> values of the trigger. Indices 0, 1, 2 are reserved for Touch Triggered, Spawn Triggered and Multi Trigger respectively.</summary>
         protected BitArray8 TriggerBools = new BitArray8();
-        
-        /// <summary>The Object ID of the trigger.</summary>
-        // IMPORTANT: If we want to change the object IDs of objects through some function, this has to be reworked
-        [ObjectStringMappable(ObjectParameter.ID)]
-        public new virtual int ObjectID { get; }
         
         /// <summary>The Touch Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TouchTriggered)]
         public bool TouchTriggered
         {
             get => TriggerBools[0];
-            set
-            {
-                if (value && SpawnTriggered)
-                    SpawnTriggered = false;
-                TriggerBools[0] = value;
-            }
+            set => TriggerBools[0] = value;
         }
         /// <summary>The Spawn Triggered property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SpawnTriggered)]
         public bool SpawnTriggered
         {
             get => TriggerBools[1];
-            set
-            {
-                if (value && TouchTriggered)
-                    TouchTriggered = false;
-                TriggerBools[1] = value;
-            }
+            set => TriggerBools[1] = value;
         }
         /// <summary>The Multi Trigger property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.MultiTrigger)]
@@ -52,7 +38,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
-        public Trigger() { }
+        public Trigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
         /// <param name="touchTriggered">The Touch Triggered property of the trigger.</param>
         public Trigger(bool touchTriggered)
