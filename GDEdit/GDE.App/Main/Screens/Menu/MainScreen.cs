@@ -50,7 +50,7 @@ namespace GDE.App.Main.Screens.Menu
                             {
                                 popUp.ToggleVisibility();
                             },
-                            Edit = () => Push(new Edit.Editor(0))
+                            Edit = () => this.Push(new Edit.Editor(0))
                         },
                         new Box
                         {
@@ -174,7 +174,7 @@ namespace GDE.App.Main.Screens.Menu
             switch (action)
             {
                 case GlobalAction.LordsKeys:
-                    Push(new Lords());
+                    this.Push(new Lords());
                     break;
             }
 

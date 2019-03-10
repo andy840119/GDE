@@ -46,7 +46,7 @@ namespace GDE.App.Main.Screens
                 exitButton = new Button
                 {
                     Text = "Exit",
-                    Action = Exit,
+                    Action = this.Exit,
                     Size = new Vector2(100, 50),
                     Anchor = Anchor.BottomLeft,
                     Origin = Anchor.BottomLeft,
