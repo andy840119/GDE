@@ -35,20 +35,14 @@ namespace GDE.Tests.Visual
                         {
                             Text = "Dark theme",
                             Size = new Vector2(80, 20),
-                            Action = () => 
-                            {
-                                hexValue.Value = "151515";
-                            },
+                            Action = () => hexValue.Value = "151515",
                             BackgroundColour = GDEColors.FromHex("1c1c1c")
                         },
                         new Button
                         {
                             Text = "Light theme",
                             Size = new Vector2(80, 20),
-                            Action = () =>
-                            {
-                                hexValue.Value = "e5e5e5";
-                            },
+                            Action = () => hexValue.Value = "e5e5e5",
                             BackgroundColour = GDEColors.FromHex("1c1c1c")
                         }
                     }
