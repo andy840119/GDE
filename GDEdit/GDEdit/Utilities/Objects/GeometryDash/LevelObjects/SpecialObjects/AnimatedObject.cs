@@ -13,7 +13,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents an animated object.</summary>
     public class AnimatedObject : SpecialObject
     {
+        /// <summary>The valid object IDs of the special object.</summary>
         protected override int[] ValidObjectIDs => ObjectLists.AnimatedObjectList;
+        /// <summary>The name as a string of the special object.</summary>
         protected override string SpecialObjectTypeName => "animated object";
 
         /// <summary>Initializes a new empty instance of the <seealso cref="AnimatedObject"/> class. For internal use only.</summary>

@@ -43,6 +43,24 @@ namespace GDEdit.Utilities.Functions.Extensions
             return result;
         }
 
+        /// <summary>Casts all the elements of the <seealso cref="int"/> array to <seealso cref="short"/> and returns the <seealso cref="short"/> array.</summary>
+        /// <param name="a">The array of <seealso cref="int"/> whose elements to cast.</param>
+        public static short[] CastToShort(this int[] a)
+        {
+            short[] result = new short[a.Length];
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)a[i];
+            return result;
+        }
+        /// <summary>Casts all the elements of the <seealso cref="short"/> array to <seealso cref="int"/> and returns the <seealso cref="int"/> array.</summary>
+        /// <param name="a">The array of <seealso cref="short"/> whose elements to cast.</param>
+        public static int[] CastToInt(this short[] a)
+        {
+            int[] result = new int[a.Length];
+            for (int i = 0; i < a.Length; i++)
+                result[i] = a[i];
+            return result;
+        }
         /// <summary>Returns the maximum value within the array of integers.</summary>
         /// <param name="numbers">The array of integers whose maximum value to retrieve.</param>
         public static int Max(this int[] numbers)

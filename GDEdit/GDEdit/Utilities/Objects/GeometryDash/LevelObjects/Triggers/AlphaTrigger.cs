@@ -15,15 +15,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID;
         private float duration = 0.5f, opacity = 1;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Alpha;
+        /// <summary>The Object ID of the Alpha trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Alpha;
 
         /// <summary>The duration of the trigger's effect.</summary>
+        [ObjectStringMappable(ObjectParameter.Duration)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -38,12 +41,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="AlphaTrigger"/> class.</summary>
-        public AlphaTrigger() { }
+        public AlphaTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="AlphaTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="opacity">The Opacity property of the trigger.</param>
         public AlphaTrigger(double duration, int targetGroupID, double opacity)
+            : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;

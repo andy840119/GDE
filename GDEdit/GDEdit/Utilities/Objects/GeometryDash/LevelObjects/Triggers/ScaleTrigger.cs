@@ -9,14 +9,15 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
-    /// <summary>Represents a Rotate trigger.</summary>
-    public class RotateTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
+    /// <summary>Represents a Scale trigger.</summary>
+    [FutureProofing("2.3")]
+    public class ScaleTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
         private short targetGroupID, centerGroupID;
-        private float duration = 0.5f, easingRate;
+        private float duration = 0.5f, easingRate, scalingMultiplier;
 
-        /// <summary>The Object ID of the Rotate trigger.</summary>
-        public override int ObjectID => (int)TriggerType.Rotate;
+        /// <summary>The Object ID of the Scale trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Scale;
 
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.Duration)]
@@ -49,18 +50,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => easingRate;
             set => easingRate = (float)value;
         }
-        /// <summary>The Degrees property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Degrees)]
-        public int Degrees { get; set; }
-        /// <summary>The Times 360 property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Times360)]
-        public int Times360 { get; set; }
-        /// <summary>The Lock Object Rotation property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.LockObjectRotation)]
-        public bool LockObjectRotation
+        /// <summary>The Scaling Multiplier property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ScalingMultiplier)]
+        public double ScalingMultiplier
         {
-            get => TriggerBools[3];
-            set => TriggerBools[3] = value;
+            get => scalingMultiplier;
+            set => scalingMultiplier = (float)value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CenterGroupID)]
@@ -70,62 +65,53 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => centerGroupID = (short)value;
         }
 
-        /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
-        public RotateTrigger() : base() { }
-        /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ScaleTrigger"/> class.</summary>
+        public ScaleTrigger() : base() { }
+        /// <summary>Initializes a new instance of the <seealso cref="ScaleTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        /// <param name="lockObjectRotation">The Lock Object Rotation property of the trigger.</param>
-        public RotateTrigger(double duration, int targetGroupID, bool lockObjectRotation = false)
-            : base()
+        public ScaleTrigger(double duration, int targetGroupID)
+             : base()
         {
             Duration = duration;
             TargetGroupID = targetGroupID;
-            LockObjectRotation = lockObjectRotation;
         }
-        /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ScaleTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        /// <param name="degrees">The Degrees property of the trigger.</param>
-        /// <param name="times360">The Times 360 property of the trigger.</param>
-        /// <param name="lockObjectRotation">The Lock Object Rotation property of the trigger.</param>
-        public RotateTrigger(double duration, int targetGroupID, int degrees, int times360, bool lockObjectRotation = false)
-            : this(duration, targetGroupID, lockObjectRotation)
+        /// <param name="scaling">The Scaling property of the trigger.</param>
+        public ScaleTrigger(double duration, int targetGroupID, double scaling)
+            : this(duration, targetGroupID)
         {
-            Degrees = degrees;
-            Times360 = times360;
+            Scaling = scaling;
         }
-        /// <summary>Initializes a new instance of the <seealso cref="RotateTrigger"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="ScaleTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
-        /// <param name="degrees">The Degrees property of the trigger.</param>
-        /// <param name="times360">The Times 360 property of the trigger.</param>
+        /// <param name="scaling">The Scaling property of the trigger.</param>
         /// <param name="easing">The easing of the trigger.</param>
         /// <param name="easingRate">The easing rate of the trigger.</param>
-        /// <param name="lockObjectRotation">The Lock Object Rotation property of the trigger.</param>
-        public RotateTrigger(double duration, int targetGroupID, Easing easing, double easingRate, int degrees, int times360, bool lockObjectRotation = false)
-            : this(duration, targetGroupID, degrees, times360, lockObjectRotation)
+        public ScaleTrigger(double duration, int targetGroupID, Easing easing, double easingRate, double scaling)
+            : this(duration, targetGroupID, scaling)
         {
             Easing = easing;
             EasingRate = easingRate;
         }
 
-        /// <summary>Returns a clone of this <seealso cref="RotateTrigger"/>.</summary>
-        public override GeneralObject Clone() => AddClonedInstanceInformation(new RotateTrigger());
+        /// <summary>Returns a clone of this <seealso cref="ScaleTrigger"/>.</summary>
+        public override GeneralObject Clone() => AddClonedInstanceInformation(new ScaleTrigger());
 
         /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
         /// <param name="cloned">The cloned instance to add the information to.</param>
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
-            var c = cloned as RotateTrigger;
+            var c = cloned as ScaleTrigger;
             c.Duration = Duration;
             c.TargetGroupID = TargetGroupID;
             c.CenterGroupID = CenterGroupID;
             c.Easing = Easing;
             c.EasingRate = EasingRate;
-            c.Degrees = Degrees;
-            c.Times360 = Times360;
-            c.LockObjectRotation = LockObjectRotation;
+            c.ScalingMultiplier = ScalingMultiplier;
             c.CenterGroupID = CenterGroupID;
             return base.AddClonedInstanceInformation(c);
         }

@@ -17,33 +17,39 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, targetColorID;
         private float fadeIn, hold, fadeOut;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Pulse;
+        /// <summary>The Object ID of the Pulse trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
             set => targetGroupID = (short)value;
         }
         /// <summary>The target Color ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetColorID)]
         public int TargetColorID
         {
             get => targetColorID;
             set => targetColorID = (short)value;
         }
         /// <summary>The red part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Red)]
         public int Red
         {
             get => red;
             set => red = (byte)value;
         }
         /// <summary>The green part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Green)]
         public int Green
         {
             get => green;
             set => green = (byte)value;
         }
         /// <summary>The blue part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Blue)]
         public int Blue
         {
             get => blue;
@@ -98,7 +104,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public HSVAdjustment HSVAdjustment { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="PulseTrigger"/> class.</summary>
-        public PulseTrigger() { }
+        public PulseTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="PulseTrigger"/> class.</summary>
         /// <param name="fadeIn">The Fade In property of the trigger.</param>
         /// <param name="hold">The Hold property of the trigger.</param>
@@ -107,6 +113,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="pulseTargetType">The Pulse Target Type of the trigger.</param>
         /// <param name="pulseMode">The Pulse Mode of the trigger.</param>
         public PulseTrigger(double fadeIn, double hold, double fadeOut, int targetID, PulseTargetType pulseTargetType = PulseTargetType.ColorChannel, PulseMode pulseMode = PulseMode.Color)
+            : base()
         {
             FadeIn = fadeIn;
             Hold = hold;

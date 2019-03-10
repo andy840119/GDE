@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDEdit.Utilities.Enumerations.GeometryDash
 {
@@ -236,7 +238,225 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         AnimationSpeed = 107,
         /// <summary>Represents the linked Group ID of the <see cref="LevelObject"/>.</summary>
         LinkedGroupID = 108,
+
+        // Future-proofing
+        #region General
         /// <summary>Represents whether the player switches direction of the orb <see cref="LevelObject"/>.</summary>
-        OrbSwitchPlayerDirection = -1
+        [FutureProofing("2.2")]
+        OrbSwitchPlayerDirection = -100,
+        #endregion
+
+        #region Camera Offset Trigger
+        /// <summary>The Offset X property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        OffsetX = -101,
+        /// <summary>The Offset Y property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        OffsetY = -102,
+        #endregion
+
+        #region Static Camera Trigger
+        /// <summary>The Exit Static property of the <seealso cref="StaticCameraTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ExitStatic = -103,
+        #endregion
+
+        #region End Trigger
+        /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        Reversed = -104,
+        /// <summary>The Lock Y property of the <seealso cref="EndTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockY = -105,
+        #endregion
+
+        #region Random Trigger
+        /// <summary>The Chance property of the <seealso cref="RandomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        Chance = -106,
+        #endregion
+
+        #region Zoom Trigger
+        /// <summary>The Zoom property of the <seealso cref="ZoomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        Zoom = -107,
+        #endregion
+
+        #region Custom Particle Object
+        /// <summary>The grouping of the custom particles.</summary>
+        [FutureProofing("2.2")]
+        Grouping = -108,
+        /// <summary>The property 1 of the custom particles.</summary>
+        [FutureProofing("2.2")]
+        Property1 = -109, // TODO: Figure out what this does
+        /// <summary>The maximum number of particles that will be alive simultaneously.</summary>
+        [FutureProofing("2.2")]
+        MaxParticles = -110,
+        /// <summary>The duration of the particle creation.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleDuration = -111, // Using already implemented Duration property?
+        /// <summary>The lifetime of the particle creation.</summary>
+        [FutureProofing("2.2")]
+        Lifetime = -112,
+        /// <summary>The Lifetime +- property.</summary>
+        [FutureProofing("2.2")]
+        LifetimeAdjustment = -113,
+        /// <summary>The Emission property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        Emission = -114,
+        /// <summary>The angle of the particles and the center.</summary>
+        [FutureProofing("2.2")]
+        Angle = -115,
+        /// <summary>The Angle +- property.</summary>
+        [FutureProofing("2.2")]
+        AngleAdjustment = -116,
+        /// <summary>The speed at which the particles move.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleSpeed = -117, // Using already implemented Speed property?
+        /// <summary>The Speed +- property.</summary>
+        [FutureProofing("2.2")]
+        SpeedAdjustment = -118,
+        /// <summary>The PosVarX property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        PosVarX = -119,
+        /// <summary>The PosVarY +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        PosVarY = -120,
+        /// <summary>The GravityX property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        GravityX = -121,
+        /// <summary>The GravityY +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        GravityY = -122,
+        /// <summary>The AccelRad property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelRad = -123,
+        /// <summary>The AccelRad +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelRadAdjustment = -124,
+        /// <summary>The AccelTan property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelTan = -125,
+        /// <summary>The AccelTan +- property (unknown functionality).</summary>
+        [FutureProofing("2.2")]
+        AccelTanAdjustment = -126,
+        /// <summary>The size during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartSize = -127,
+        /// <summary>The StartSize +- property.</summary>
+        [FutureProofing("2.2")]
+        StartSizeAdjustment = -128,
+        /// <summary>The size during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndSize = -129,
+        /// <summary>The EndSize +- property.</summary>
+        [FutureProofing("2.2")]
+        EndSizeAdjustment = -130,
+        /// <summary>The rotation during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartSpin = -131,
+        /// <summary>The StartSpin +- property.</summary>
+        [FutureProofing("2.2")]
+        StartSpinAdjustment = -132,
+        /// <summary>The rotation during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndSpin = -133,
+        /// <summary>The EndSpin +- property.</summary>
+        [FutureProofing("2.2")]
+        EndSpinAdjustment = -134,
+        /// <summary>The alpha value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartA = -135,
+        /// <summary>The Start_A +- property.</summary>
+        [FutureProofing("2.2")]
+        StartAAdjustment = -136,
+        /// <summary>The red value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartR = -137,
+        /// <summary>The Start_R +- property.</summary>
+        [FutureProofing("2.2")]
+        StartRAdjustment = -138,
+        /// <summary>The green value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartG = -139,
+        /// <summary>The Start_G +- property.</summary>
+        [FutureProofing("2.2")]
+        StartGAdjustment = -140,
+        /// <summary>The blue value of the color during the start of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        StartB = -141,
+        /// <summary>The Start_B +- property.</summary>
+        [FutureProofing("2.2")]
+        StartBAdjustment = -142,
+        /// <summary>The alpha value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndA = -143,
+        /// <summary>The End_A +- property.</summary>
+        [FutureProofing("2.2")]
+        EndAAdjustment = -144,
+        /// <summary>The red value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndR = -145,
+        /// <summary>The End_R +- property.</summary>
+        [FutureProofing("2.2")]
+        EndRAdjustment = -146,
+        /// <summary>The green value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndG = -147,
+        /// <summary>The End_G +- property.</summary>
+        [FutureProofing("2.2")]
+        EndGAdjustment = -148,
+        /// <summary>The blue value of the color during the end of the particle's life.</summary>
+        [FutureProofing("2.2")]
+        EndB = -149,
+        /// <summary>The End_B +- property.</summary>
+        [FutureProofing("2.2")]
+        EndBAdjustment = -150,
+        /// <summary>The Fade In property.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleFadeIn = -151, // Using already implemented FadeIn property?
+        /// <summary>The Fade In +- property.</summary>
+        [FutureProofing("2.2")]
+        FadeInAdjustment = -152,
+        /// <summary>The Fade Out property.</summary>
+        [FutureProofing("2.2")]
+        CustomParticleFadeOut = -153, // Using already implemented FadeOut property?
+        /// <summary>The Fade Out +- property.</summary>
+        [FutureProofing("2.2")]
+        FadeOutAdjustment = -154,
+        /// <summary>Represents the Additive property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        Additive = -155,
+        /// <summary>Represents the Start Size = End property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartSizeEqualsEnd = -156,
+        /// <summary>Represents the Start Spin = End property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartSpinEqualsEnd = -157,
+        /// <summary>Represents the Start Radius = End property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartRadiusEqualsEnd = -158,
+        /// <summary>Represents the Start Rotation Is Dir property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        StartRotationIsDir = -159,
+        /// <summary>Represents the Dynamic Rotation property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        DynamicRotation = -160,
+        /// <summary>Represents the Use Object Color property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        UseObjectColor = -161,
+        /// <summary>Represents the Uniform Object Color property of the custom particle object.</summary>
+        [FutureProofing("2.2")]
+        UniformObjectColor = -162,
+        /// <summary>The texture of the particles.</summary>
+        [FutureProofing("2.2")]
+        Texture = -163,
+        #endregion
+
+        #region Scale Trigger
+        /// <summary>The Scaling Multiplier property of the <seealso cref="ScaleTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ScalingMultiplier = -164,
+        #endregion
     }
 }

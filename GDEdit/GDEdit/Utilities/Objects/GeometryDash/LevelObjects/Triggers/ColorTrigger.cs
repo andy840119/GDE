@@ -17,33 +17,39 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetColorID = 1;
         private float duration = 0.5f, opacity = 1;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Color;
-        
+        /// <summary>The Object ID of the Color trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Color;
+
         /// <summary>The target Color ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetColorID)]
         public int TargetColorID
         {
             get => targetColorID;
             set => targetColorID = (short)value;
         }
         /// <summary>The duration of the trigger's effect.</summary>
+        [ObjectStringMappable(ObjectParameter.Duration)]
         public double Duration
         {
             get => duration;
             set => duration = (float)value;
         }
         /// <summary>The red part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Red)]
         public int Red
         {
             get => red;
             set => red = (byte)value;
         }
         /// <summary>The green part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Green)]
         public int Green
         {
             get => green;
             set => green = (byte)value;
         }
         /// <summary>The blue part of the color.</summary>
+        [ObjectStringMappable(ObjectParameter.Blue)]
         public int Blue
         {
             get => blue;
@@ -93,10 +99,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public HSVAdjustment HSVAdjustment { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
-        public ColorTrigger() { }
+        public ColorTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
         /// <param name="targetID">The target ID of the trigger.</param>
         public ColorTrigger(int targetID)
+            : base()
         {
             TargetColorID = targetID;
         }

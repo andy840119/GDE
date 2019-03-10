@@ -15,9 +15,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private byte animationID;
         private short targetGroupID;
 
-        public override int ObjectID => (int)Enumerations.GeometryDash.TriggerType.Animate;
-        
+        /// <summary>The Object ID of the Animate trigger.</summary>
+        public override int ObjectID => (int)TriggerType.Animate;
+
         /// <summary>The target Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
         public int TargetGroupID
         {
             get => targetGroupID;
@@ -32,11 +34,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="AnimateTrigger"/> class.</summary>
-        public AnimateTrigger() { }
+        public AnimateTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="AnimateTrigger"/> class.</summary>
         /// <param name="targetGroupID">The target Group ID of the trigger.</param>
         /// <param name="animationID">The Animation ID property of the trigger.</summary>
         public AnimateTrigger(int targetGroupID, int animationID)
+            : base()
         {
             TargetGroupID = targetGroupID;
             AnimationID = animationID;
