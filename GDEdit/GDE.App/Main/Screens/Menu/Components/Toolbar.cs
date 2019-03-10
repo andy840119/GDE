@@ -1,11 +1,11 @@
 ﻿using GDE.App.Main.Colors;
 using GDEdit.Utilities.Objects.GeometryDash;
-using osu.Framework.Configuration;
+using osu.Framework.Bindables;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Graphics;
 using osuTK;
 using System;
 
@@ -91,10 +91,10 @@ namespace GDE.App.Main.Screens.Menu.Components
             Level.ValueChanged += OnChanged;
         }
 
-        private void OnChanged(Level obj)
+        private void OnChanged(ValueChangedEvent<Level> value)
         {
-            levelName.Text = obj.Name;
-            songName.Text = obj.CreatorName;
+            levelName.Text = value.NewValue.Name;
+            songName.Text = value.NewValue.CreatorName;
         }
     }
 }

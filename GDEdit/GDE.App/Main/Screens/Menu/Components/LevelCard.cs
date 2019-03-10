@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Colors;
 using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Bindables;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -67,31 +68,28 @@ namespace GDE.App.Main.Screens.Menu.Components
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
                     Margin = new MarginPadding(5),
-                    Text = "Tiny",
+                    Text = Level.Value.Length.ToString(),
                     TextSize = 20,
                     Colour = GDEColors.FromHex("aaaaaa")
                 }
             };
 
             Selected.ValueChanged += OnSelected;
-            Level.ValueChanged += OnlevelChange;
+            Level.ValueChanged += OnLevelChange;
         }
 
-        private void OnlevelChange(Level obj)
+        private void OnSelected(ValueChangedEvent<bool> value) => selectionBar.FadeColour(GDEColors.FromHex(value.NewValue ? "202020" : "00bc5c"), 200);
+        private void OnLevelChange(ValueChangedEvent<Level> value)
         {
-            levelName.Text = obj.Name;
-            levelAuthor.Text = obj.CreatorName;
+            levelName.Text = value.NewValue.Name;
+            levelAuthor.Text = value.NewValue.CreatorName;
         }
-
-        private void OnSelected(bool obj) =>
-            selectionBar.FadeColour(GDEColors.FromHex(obj ? "202020" : "00bc5c"), 200);
 
         protected override bool OnHover(HoverEvent e)
         {
             hoverBox.FadeColour(GDEColors.FromHex("1c1c1c"), 500);
             return base.OnHover(e);
         }
-
         protected override void OnHoverLost(HoverLostEvent e)
         {
             hoverBox.FadeColour(GDEColors.FromHex("161616"), 500);

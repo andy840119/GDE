@@ -17,7 +17,7 @@ namespace GDE.App.Main.Screens
 
         public Lords()
         {
-            Children = new Drawable[]
+            InternalChildren = new Drawable[]
             {
                 container = new FillFlowContainer
                 {
@@ -56,14 +56,14 @@ namespace GDE.App.Main.Screens
             };
         }
         
-        protected override void OnEntering(Screen last)
+        public override void OnEntering(IScreen last)
         {
             SpriteText welc;
             SpriteText praise;
             Alpha = 0;
 
             this.Delay(1000).FadeInFromZero(2000);
-            Add(welc = new SpriteText
+            AddInternal(welc = new SpriteText
             {
                 Text = "Welcome...",
                 TextSize = 70,
@@ -71,7 +71,7 @@ namespace GDE.App.Main.Screens
                 Origin = Anchor.Centre
             });
 
-            Add(praise = new SpriteText
+            AddInternal(praise = new SpriteText
             {
                 Text = "Now come and praise us",
                 TextSize = 70,

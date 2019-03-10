@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using osu.Framework.Bindables;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -49,7 +50,7 @@ namespace GDE.Tests.Visual
                 },
                 themedBox = new Box
                 {
-                    Colour = GDEColors.FromHex(hexValue),
+                    Colour = GDEColors.FromHex(hexValue.Value),
                     Size = new Vector2(190),
                     Origin = Anchor.TopRight,
                     Anchor = Anchor.TopRight
@@ -60,14 +61,14 @@ namespace GDE.Tests.Visual
             hexBox.Current.ValueChanged += HexBoxChanged;
         }
 
-        private void HexBoxChanged(string obj)
+        private void HexBoxChanged(ValueChangedEvent<string> value)
         {
-            hexValue.Value = obj;
+            hexValue.Value = value.NewValue;
         }
 
-        private void HexChanged(string obj)
+        private void HexChanged(ValueChangedEvent<string> value)
         {
-            themedBox.FadeColour(GDEColors.FromHex(obj), 500);
+            themedBox.FadeColour(GDEColors.FromHex(value.NewValue), 500);
         }
     }
 }

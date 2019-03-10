@@ -1,25 +1,26 @@
 ﻿using GDE.App.Main.Colors;
 using GDE.App.Main.Containers;
 using GDE.App.Main.Overlays;
-using GDE.App.Main.UI;
 using GDE.App.Main.Screens.Menu.Components;
+using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Allocation;
+using osu.Framework.Bindables;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Graphics;
-using osu.Framework.Screens;
-using osu.Framework.Configuration;
 using osu.Framework.Input.Bindings;
+using osu.Framework.Screens;
 using osuTK;
-using static GDEdit.Application.ApplicationDatabase;
 
 namespace GDE.App.Main.Screens.Menu
 {
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
+        private Database database;
         private FillFlowContainer levelList;
         private LevelCard card;
         private Toolbar toolbar;
@@ -32,9 +33,7 @@ namespace GDE.App.Main.Screens.Menu
 
         public MainScreen()
         {
-            Databases.Add(new Database());
-
-            Children = new Drawable[]
+            InternalChildren = new Drawable[]
             {
                 new DrawSizePreservingFillContainer
                 {
@@ -95,9 +94,9 @@ namespace GDE.App.Main.Screens.Menu
                 }
             };
 
-            if (Databases[0].UserLevels.Count == 0)
+            if (database.UserLevels.Count == 0)
             {
-                Add(new FillFlowContainer
+                AddInternal(new FillFlowContainer
                 {
                     Direction = FillDirection.Vertical,
                     Anchor = Anchor.Centre,
@@ -135,7 +134,7 @@ namespace GDE.App.Main.Screens.Menu
             }
             else
             {
-                for (var i = 0; i < Databases[0].UserLevels.Count; i++)
+                for (var i = 0; i < database.UserLevels.Count; i++)
                 {
                     levelList.Add(card = new LevelCard
                     {
@@ -147,8 +146,8 @@ namespace GDE.App.Main.Screens.Menu
                             Value = new Level
                             {
                                 CreatorName = "Alten",
-                                Name = Databases[0].UserLevels[i].Name,
-                                LevelObjects = Databases[0].UserLevels[i].LevelObjects
+                                Name = database.UserLevels[i].Name,
+                                LevelObjects = database.UserLevels[i].LevelObjects
                             }
                         }
                     });
@@ -158,7 +157,13 @@ namespace GDE.App.Main.Screens.Menu
             card.Selected.ValueChanged += NewSelection;
         }
 
-        private void NewSelection(bool obj)
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection databases)
+        {
+            database = databases[0];
+        }
+
+        private void NewSelection(ValueChangedEvent<bool> obj)
         {
             toolbar.Level = card.Level;
             //TODO: make level editable from selection
