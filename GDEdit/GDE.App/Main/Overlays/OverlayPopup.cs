@@ -12,44 +12,39 @@ namespace GDE.App.Main.Overlays
 {
     public class OverlayPopup : FocusedOverlayContainer
     {
-        private string  text;
         private SpriteText header;
         private SpriteText body;
-        private Button cancel;
-        private Button ok;
+        private Button button1;
+        private Button button2;
 
         public string HeaderText
         {
-            get => text;
-            set
-            {
-                if (text == value) return;
-
-                header.Text = text = value;
-            }
+            get => header.Text;
+            set => header.Text = value;
         }
 
         public string BodyText
         {
+            get => body.Text;
             set => body.Text = value;
         }
 
         public string Button1Text
         {
-            set => cancel.Text = value;
+            get => button1.Text;
+            set => button1.Text = value;
         }
 
         public string Button2Text
         {
-            set => ok.Text = value;
+            get => button2.Text;
+            set => button2.Text = value;
         }
 
         public Color4 ConfirmButtonColor
         {
-            set
-            {
-                ok.BackgroundColour = value;
-            }
+            get => button2.BackgroundColour;
+            set => button2.BackgroundColour = value;
         }
 
         public Action ConfirmAction;
@@ -91,16 +86,16 @@ namespace GDE.App.Main.Overlays
                         }
                     }
                 },
-                cancel = new Button
+                button1 = new Button
                 {
                     BackgroundColour = GDEColors.FromHex("1E1E1E"),
                     Size = new Vector2(100, 50),
-                    Action = () => ToggleVisibility(),
+                    Action = ToggleVisibility,
                     Anchor = Anchor.BottomLeft,
                     Origin = Anchor.BottomLeft,
                     Margin = new MarginPadding(20)
                 },
-                ok = new Button
+                button2 = new Button
                 {
                     BackgroundColour = GDEColors.FromHex("1E1E1E"),
                     Size = new Vector2(100, 50),
