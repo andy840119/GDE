@@ -25,28 +25,28 @@ namespace GDEdit.Utilities.Objects.General
         /// <param name="entryHandler">The method to invoke on each entry during the XML document's analysis.</param>
         public void AnalyzeXMLInformation(XMLEntryHandler entryHandler)
         {
-            string startKeyString = "<k>";
-            string endKeyString = "</k><";
-            int IDStart;
-            int IDEnd;
-            int valueTypeStart;
-            int valueTypeEnd;
-            int valueStart;
-            int valueEnd;
-            string valueType;
-            string value;
+            const string startKeyString = "<k>";
+            const string endKeyString = "</k><";
+            int IDStart, IDEnd;
+            int valueTypeStart, valueTypeEnd;
+            int valueStart, valueEnd;
+            string valueType, value;
+
             for (int i = 0; i < Document.Length;)
             {
                 IDStart = Document.Find(startKeyString, i, Document.Length) + startKeyString.Length;
                 if (IDStart <= startKeyString.Length)
                     break;
                 IDEnd = Document.Find(endKeyString, IDStart, Document.Length);
+
                 valueTypeStart = IDEnd + endKeyString.Length;
                 valueTypeEnd = Document.Find(">", valueTypeStart, Document.Length);
                 valueType = Document.Substring(valueTypeStart, valueTypeEnd - valueTypeStart);
+
                 valueStart = valueTypeEnd + 1;
                 valueEnd = valueType[valueType.Length - 1] != '/' ? Document.Find($"</{valueType}>", valueStart, Document.Length) : valueStart;
                 value = Document.Substring(valueStart, valueEnd - valueStart);
+
                 string s = Document.Substring(IDStart, IDEnd - IDStart);
                 entryHandler?.Invoke(s, value, valueType);
                 i = valueEnd;
