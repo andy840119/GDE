@@ -9,6 +9,7 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Functions.GeometryDash;
+using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
@@ -189,7 +190,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string RawLevel
         {
             get => GetRawLevel();
-            set => GetRawInformation(value);
+            set => new XMLAnalyzer(value).AnalyzeXMLInformation(GetRawParameterInformation);
         }
         #endregion
 
@@ -270,35 +271,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             for (int i = 0; i < split.Length; i += 2)
                 GetLevelStringParameterInformation(split[i], split[i + 1]);
             LevelObjects = GetObjects(GetObjectString(levelString));
-        }
-        private void GetRawInformation(string raw)
-        {
-            string startKeyString = "<k>";
-            string endKeyString = "</k><";
-            int IDStart;
-            int IDEnd;
-            int valueTypeStart;
-            int valueTypeEnd;
-            int valueStart;
-            int valueEnd;
-            string valueType;
-            string value;
-            for (int i = 0; i < raw.Length;)
-            {
-                IDStart = raw.Find(startKeyString, i, raw.Length) + startKeyString.Length;
-                if (IDStart <= startKeyString.Length)
-                    break;
-                IDEnd = raw.Find(endKeyString, IDStart, raw.Length);
-                valueTypeStart = IDEnd + endKeyString.Length;
-                valueTypeEnd = raw.Find(">", valueTypeStart, raw.Length);
-                valueType = raw.Substring(valueTypeStart, valueTypeEnd - valueTypeStart);
-                valueStart = valueTypeEnd + 1;
-                valueEnd = valueType[valueType.Length - 1] != '/' ? raw.Find($"</{valueType}>", valueStart, raw.Length) : valueStart;
-                value = raw.Substring(valueStart, valueEnd - valueStart);
-                string s = raw.Substring(IDStart, IDEnd - IDStart);
-                GetRawParameterInformation(s, value, valueType);
-                i = valueEnd;
-            }
         }
         private void GetLevelStringParameterInformation(string key, string value)
         {
