@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Objects;
 using GDEdit.Application;
+using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -14,20 +15,20 @@ namespace GDE.App.Main.Levels
 
         public bool AllowDrag = true;
 
+        public Level Level => database.UserLevels[i];
+
         public LevelPreview(int index)
         {
             i = index;
-
             AutoSizeAxes = Axes.Both;
-            
-            foreach (var o in database.UserLevels[i].LevelObjects)
-                Add(new ObjectBase(o));
         }
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
+            foreach (var o in Level.LevelObjects)
+                Add(new ObjectBase(o));
         }
 
         protected override bool OnDrag(DragEvent e)
