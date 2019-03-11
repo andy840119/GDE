@@ -31,4 +31,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Main\Overlays\Level\" />
+  </ItemGroup>
+
 </Project>

@@ -50,15 +50,9 @@ namespace GDE.App.Main
 
             var config = new FrameworkConfigManager(storage);
 
-            config.Set(FrameworkSetting.WindowMode, WindowMode.Windowed);
-            config.Set(FrameworkSetting.WindowedSize, new Size(1280, 720));
-
-            Window.WindowBorder = WindowBorder.Fixed;
             Window.Title = @"GD Edit";
 
             host.ExceptionThrown += ExceptionHandler;
-
-            Window.SetupWindow(config);
         }
 
         private static int allowableExceptions = DebugUtils.IsDebugBuild ? 0 : 1;

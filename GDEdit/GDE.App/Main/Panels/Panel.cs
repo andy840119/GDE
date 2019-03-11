@@ -60,11 +60,7 @@ namespace GDE.App.Main.Panels
                                 Horizontal = 5,
                                 Vertical = 7
                             },
-                            Action = () => 
-                            {
-                                pin.Rotation = AllowDrag ? 45 : 0;
-                                AllowDrag = !AllowDrag;
-                            }
+                            Action = () => pin.Rotation = (AllowDrag = !AllowDrag) ? 0 : 45
                         },
                     }
                 },
@@ -90,7 +86,6 @@ namespace GDE.App.Main.Panels
             this.ScaleTo(new Vector2(1, 1), 500, Easing.OutExpo);
             base.PopIn();
         }
-
         protected override void PopOut()
         {
             this.ScaleTo(new Vector2(1, 0), 500, Easing.OutExpo);
@@ -105,9 +100,7 @@ namespace GDE.App.Main.Panels
             Position += e.Delta;
             return true;
         }
-
-        protected override bool OnDragEnd(DragEndEvent e) => true;
-
         protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
+        protected override bool OnDragEnd(DragEndEvent e) => true;
     }
 }
