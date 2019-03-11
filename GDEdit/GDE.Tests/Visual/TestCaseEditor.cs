@@ -1,8 +1,7 @@
-﻿using osu.Framework.Graphics;
+﻿using GDE.App.Main.Screens.Edit;
+using osu.Framework.Graphics;
+using osu.Framework.Screens;
 using osu.Framework.Testing;
-using osu.Framework.Graphics.Sprites;
-using System.ComponentModel;
-using GDE.App.Main.Screens.Edit;
 
 namespace GDE.Tests.Visual
 {
@@ -10,7 +9,10 @@ namespace GDE.Tests.Visual
     {
         public TestCaseEditor()
         {
-            Add(new Editor(0));
+            Add(new ScreenStack(new Editor(0))
+            {
+                RelativeSizeAxes = Axes.Both
+            });
         }
     }
 }
