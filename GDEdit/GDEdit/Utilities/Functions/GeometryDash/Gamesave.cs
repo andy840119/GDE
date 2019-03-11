@@ -12,7 +12,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static GDEdit.Application.Status;
 using static GDEdit.Utilities.Information.GeometryDash.LevelObjectInformation;
 using static System.Convert;
 
@@ -32,7 +31,6 @@ namespace GDEdit.Utilities.Functions.GeometryDash
         {
             bool isEncrypted = CheckIfGamesaveIsEncrypted(gamesave);
             decrypted = isEncrypted ? GDGamesaveDecrypt(gamesave) : gamesave;
-            DoneDecryptingGamesave = true;
             return isEncrypted;
         }
         /// <summary>Returns the decrypted version of the gamesave after checking whether the gamesave is encrypted or not asynchronously. Returns a tuple containing the result of the operation.</summary>
