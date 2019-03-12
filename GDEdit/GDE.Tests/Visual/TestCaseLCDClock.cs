@@ -21,13 +21,25 @@ namespace GDE.Tests.Visual
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
             RelativeSizeAxes = Axes.Both;
+            CreateDrawables();
+
+            AddSliderStep("Value", 0, 9999999, 0, v => number.Value = v);
+            AddStep("Increase number", () => number.Value += number.Value < 9999999 ? 1 : 0);
+            AddStep("Decrease number", () => number.Value -= number.Value > 0 ? 1 : 0);
+            AddStep("Set random value", () => number.TransformTo("Value", r.Next(0, 10000000), 1250, Easing.OutQuint));
+            AddToggleStep("Include time milliseconds", v => CreateDrawables(v));
+        }
+
+        private void CreateDrawables(bool includeMS = false)
+        {
             Children = new Drawable[]
             {
                 number = new LCDNumber(0, 7, true)
                 {
+                    Value = number?.Value ?? 0,
                     Y = -100,
                 },
-                clock = new LCDClock
+                clock = new LCDClock(includeMS)
                 {
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
@@ -40,11 +52,6 @@ namespace GDE.Tests.Visual
                     Scale = new Vector2(0.33f),
                 },
             };
-
-            AddSliderStep("Value", 0, 9999999, 0, v => number.Value = v);
-            AddStep("Increase number", () => number.Value += number.Value < 9999999 ? 1 : 0);
-            AddStep("Decrease number", () => number.Value -= number.Value > 0 ? 1 : 0);
-            AddStep("Set random value", () => number.TransformTo("Value", r.Next(0, 10000000), 1250, Easing.OutQuint));
         }
     }
 }
