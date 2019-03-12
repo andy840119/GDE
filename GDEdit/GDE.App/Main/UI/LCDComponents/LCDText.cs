@@ -82,10 +82,7 @@ namespace GDE.App.Main.UI.LCDComponents
             Value = value;
         }
 
-        public override LCDDisplay CreateLCDComponent()
-        {
-            throw new Exception("Cannot create an LCD component of this polytext segment.");
-        }
+        public override LCDDisplay CreateLCDComponent() => throw new Exception("Cannot create an LCD component of this polytext segment.");
     }
     public class PolyTextStringSegment : PolyTextSegment<string>
     {
@@ -97,7 +94,8 @@ namespace GDE.App.Main.UI.LCDComponents
     {
         public int Digits { get; }
 
-        public PolyTextIntSegment(int value, int digits = 3) : base(value)
+        public PolyTextIntSegment(int value, int digits = 3)
+            : base(value)
         {
             Digits = digits;
         }
