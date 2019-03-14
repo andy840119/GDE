@@ -60,6 +60,7 @@
     <Compile Include="Utilities\Attributes\ColorStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectIDAttribute.cs" />
     <Compile Include="Utilities\Attributes\LevelStringMappableAttribute.cs" />
+    <Compile Include="Utilities\Attributes\SongMetadataStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleProperty1.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleGrouping.cs" />
