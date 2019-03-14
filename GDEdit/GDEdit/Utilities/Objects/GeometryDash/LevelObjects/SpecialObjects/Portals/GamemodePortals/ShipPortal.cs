@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a ship portal.</summary>
+    [ObjectID(PortalType.Ship)]
     public class ShipPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the ship portal.</summary>

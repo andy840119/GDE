@@ -11,6 +11,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Pulse trigger.</summary>
+    [ObjectID(TriggerType.Pulse)]
     public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
     {
         private byte red = 255, green = 255, blue = 255;

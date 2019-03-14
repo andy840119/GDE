@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents an Animate trigger.</summary>
+    [ObjectID(TriggerType.Animate)]
     public class AnimateTrigger : Trigger, IHasTargetGroupID
     {
         private byte animationID;

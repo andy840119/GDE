@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Stop trigger.</summary>
+    [ObjectID(TriggerType.Stop)]
     public class StopTrigger : Trigger, IHasTargetGroupID
     {
         private short targetGroupID;

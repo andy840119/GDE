@@ -11,6 +11,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Color trigger.</summary>
+    [ObjectID(TriggerType.Color)]
     public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
     {
         private byte red = 255, green = 255, blue = 255;

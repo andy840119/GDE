@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Collision trigger.</summary>
+    [ObjectID(TriggerType.Collision)]
     public class CollisionTrigger : Trigger, IHasTargetGroupID, IHasPrimaryBlockID, IHasSecondaryBlockID
     {
         private short targetGroupID, primaryBlockID, secondaryBlockID;

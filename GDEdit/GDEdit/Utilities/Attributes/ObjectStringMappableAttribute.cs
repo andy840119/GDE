@@ -11,15 +11,17 @@ namespace GDEdit.Utilities.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
     public sealed class ObjectStringMappableAttribute : Attribute
     {
+        /// <summary>The key the property represents in the object string.</summary>
+        public int Key { get; }
+
+        /// <summary>Initializes a new instance of the <seealso cref="ObjectStringMappableAttribute"/> class.</summary>
+        /// <param name="key">The key the property represents in the object string.</param>
         public ObjectStringMappableAttribute(int key)
         {
             Key = key;
         }
-        public ObjectStringMappableAttribute(ObjectParameter key)
-        {
-            Key = (int)key;
-        }
-        
-        public int Key;
+        /// <summary>Initializes a new instance of the <seealso cref="ObjectStringMappableAttribute"/> class.</summary>
+        /// <param name="key">The key the property represents in the object string.</param>
+        public ObjectStringMappableAttribute(ObjectParameter key) : this((int)key) { }
     }
 }

@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Zoom trigger.</summary>
     [FutureProofing("2.2")]
+    [ObjectID(TriggerType.Zoom)]
     public class ZoomTrigger : Trigger, IHasDuration
     {
         private short zoom;

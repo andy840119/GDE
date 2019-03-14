@@ -1,4 +1,5 @@
-﻿using GDEdit.Utilities.Functions.Extensions;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
 using System;
 using System.Collections.Generic;
@@ -13,23 +14,31 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     public class SongMetadata
     {
         /// <summary>The ID of the song.</summary>
+        [SongMetadataStringMappable(1)]
         public int ID { get; set; }
         /// <summary>The title of the song.</summary>
+        [SongMetadataStringMappable(2)]
         public string Title { get; set; }
         /// <summary>The artist of the song.</summary>
+        [SongMetadataStringMappable(4)]
         public string Artist { get; set; }
         /// <summary>The size of the song in MB.</summary>
+        [SongMetadataStringMappable(5)]
         public double SongSizeMB { get; set; }
         /// <summary>The URL to the song on Newgrounds.</summary>
         public string URL => $"https://www.newgrounds.com/audio/listen/{ID}";
         /// <summary>The download link of the song.</summary>
+        [SongMetadataStringMappable(10)]
         public string DownloadLink { get; set; }
 
         /// <summary>The value of the unknown key 3.</summary>
+        [SongMetadataStringMappable(3)]
         public int UnknownKey3 { get; set; }
         /// <summary>The value of the unknown key 7.</summary>
+        [SongMetadataStringMappable(7)]
         public string UnknownKey7 { get; set; }
         /// <summary>The value of the unknown key 9.</summary>
+        [SongMetadataStringMappable(9)]
         public int UnknownKey9 { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>

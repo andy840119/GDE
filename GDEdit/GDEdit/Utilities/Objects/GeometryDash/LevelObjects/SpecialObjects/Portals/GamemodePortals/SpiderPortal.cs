@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a spider portal.</summary>
+    [ObjectID(PortalType.Spider)]
     public class SpiderPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the spider portal.</summary>

@@ -26,31 +26,42 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
         public string LevelNameWithRevision => $"{Name}{(Revision > 0 ? $" (Rev. {Revision})" : "")}";
         /// <summary>The name of the level.</summary>
+        [LevelStringMappable("k2")]
         public string Name { get; set; }
         /// <summary>The description of the level.</summary>
+        [LevelStringMappable("k3")]
         public string Description { get; set; }
         /// <summary>The name of the creator.</summary>
+        [LevelStringMappable("k5")]
         public string CreatorName { get; set; }
         /// <summary>The revision of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k46")]
         public int Revision { get; set; }
         /// <summary>The attempts made in the level.</summary>
+        [LevelStringMappable("k18")]
         public int Attempts { get; set; }
         /// <summary>The ID of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k1")]
         public int ID { get; set; }
         /// <summary>The version of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k16")]
         public int Version { get; set; }
         /// <summary>The folder of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k84")]
         public int Folder { get; set; }
         /// <summary>The password of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k41")]
         public int Password { get; set; }
         /// <summary>The binary version of the game the level was created on.</summary>
+        [LevelStringMappable("k50")]
         public int BinaryVersion { get; set; }
         /// <summary>The time spent in the editor building the level in seconds.</summary>
+        [LevelStringMappable("k80")]
         public int BuildTime { get; set; }
         /// <summary>The time spent in the editor building the level.</summary>
         public TimeSpan TotalBuildTime
@@ -60,14 +71,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         }
         /// <summary>Determines whether the level has been verified or not.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k14")]
         public bool VerifiedStatus { get; set; }
         /// <summary>Determines whether the level has been uploaded or not.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k15")]
         public bool UploadedStatus { get; set; }
         /// <summary>Determines whether the level is unlisted or not.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k79")]
         public bool Unlisted { get; set; }
         /// <summary>The length of the level.</summary>
+        [LevelStringMappable("k23")]
         public LevelLength Length => LevelLengthConversion.GetLevelLength(TimeLength.TotalSeconds);
         /// <summary>The length of the level as a <seealso cref="TimeSpan"/> object.</summary>
         public TimeSpan TimeLength
@@ -85,55 +100,72 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         // Level properties
         /// <summary>The official song ID used in the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k8")]
         public int OfficialSongID { get; set; }
         /// <summary>The custom song ID used in the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("k45")]
         public int CustomSongID { get; set; }
         /// <summary>The song offset of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA13")]
         public int SongOffset { get; set; }
         /// <summary>The fade in property of the song of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA15")]
         public bool FadeIn { get; set; }
         /// <summary>The fade out property of the song of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA16")]
         public bool FadeOut { get; set; }
 
         /// <summary>The starting speed of the player when the level begins.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA4")]
         public Speed StartingSpeed { get; set; }
         /// <summary>The starting gamemode of the player when the level begins.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA2")]
         public Gamemode StartingGamemode { get; set; }
         /// <summary>The starting size of the player when the level begins.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA3")]
         public PlayerSize StartingSize { get; set; }
         /// <summary>The Dual Mode property of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA8")]
         public bool DualMode { get; set; }
         /// <summary>The 2-Player Mode property of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA10")]
         public bool TwoPlayerMode { get; set; }
         /// <summary>The inversed gravity property of the level (there is no ability to set that from the game itself without hacking the gamesave).</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA11")]
         public bool InversedGravity { get; set; }
         /// <summary>The background texture property of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA6")]
         public int BackgroundTexture { get; set; }
         /// <summary>The ground texture property of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA7")]
         public int GroundTexture { get; set; }
         /// <summary>The ground line property of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA17")]
         public int GroundLine { get; set; }
         /// <summary>The font property of the level.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kA18")]
         public int Font { get; set; }
         /// <summary>The level's guidelines.</summary>
+        [LevelStringMappable("kA14")]
         public GuidelineCollection Guidelines { get; set; } = new GuidelineCollection();
         /// <summary>The level's objects.</summary>
         public LevelObjectCollection LevelObjects { get; set; } = new LevelObjectCollection();
         /// <summary>The color channels of the level.</summary>
+        [LevelStringMappable("kS38")]
         public LevelColorChannels ColorChannels { get; private set; }
 
         /// <summary>The level object count.</summary>
@@ -167,16 +199,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         // Editor stuff
         /// <summary>The X position of the camera.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kI1")]
         public double CameraX { get; set; }
         /// <summary>The Y position of the camera.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kI2")]
         public double CameraY { get; set; }
         /// <summary>The zoom of the camera.</summary>
         [CommonMergedProperty]
+        [LevelStringMappable("kI3")]
         public double CameraZoom { get; set; }
 
         // Strings
         /// <summary>The level string in its decrypted form.</summary>
+        [LevelStringMappable("k4")]
         public string LevelString
         {
             get => GetLevelString();

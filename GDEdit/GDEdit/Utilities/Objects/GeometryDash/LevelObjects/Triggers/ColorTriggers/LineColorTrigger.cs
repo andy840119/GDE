@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
 {
     /// <summary>Represents a Line Color trigger.</summary>
+    [ObjectID(TriggerType.Line)]
     public class LineColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the Line Color trigger.</summary>

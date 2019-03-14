@@ -1,4 +1,5 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.General;
 using System;
 using System.Collections.Generic;
@@ -14,24 +15,34 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
     public class ColorChannel
     {
         /// <summary>The red color value of the <seealso cref="ColorChannel"/>.</summary>
+        [ColorStringMappable(1)]
         public int Red { get; set; }
         /// <summary>The green color value of the <seealso cref="ColorChannel"/>.</summary>
+        [ColorStringMappable(2)]
         public int Green { get; set; }
         /// <summary>The blue color value of the <seealso cref="ColorChannel"/>.</summary>
+        [ColorStringMappable(3)]
         public int Blue { get; set; }
         /// <summary>The copied player color of the <seealso cref="ColorChannel"/>.</summary>
+        [ColorStringMappable(4)]
         public ColorChannelPlayerColor CopiedPlayerColor { get; set; }
         /// <summary>The Blending property of the color channel.</summary>
+        [ColorStringMappable(5)]
         public bool Blending { get; set; }
         /// <summary>The Color Channel ID of the color channel.</summary>
+        [ColorStringMappable(6)]
         public int ColorChannelID { get; set; }
         /// <summary>The opacity of the color channel.</summary>
+        [ColorStringMappable(7)]
         public double Opacity { get; set; }
         /// <summary>The Color Channel ID of the copied color channel.</summary>
+        [ColorStringMappable(9)]
         public int CopiedColorID { get; set; }
         /// <summary>The HSV adjustment of the copied color channel.</summary>
+        [ColorStringMappable(10)]
         public HSVAdjustment CopiedColorHSV { get; set; }
         /// <summary>The Copy Opacity property of the color channel.</summary>
+        [ColorStringMappable(17)]
         public bool CopyOpacity { get; set; }
 
         /// <summary>Initializes a new empty instance of the <seealso cref="ColorChannel"/> class. For private usage only.</summary>

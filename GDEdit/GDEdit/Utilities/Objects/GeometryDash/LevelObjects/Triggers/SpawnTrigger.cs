@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Spawn trigger.</summary>
+    [ObjectID(TriggerType.Spawn)]
     public class SpawnTrigger : Trigger, IHasTargetGroupID
     {
         private short targetGroupID;

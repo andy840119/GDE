@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
 {
     /// <summary>Represents a blue pad.</summary>
+    [ObjectID(PadType.BluePad)]
     public class BluePad : Pad
     {
         /// <summary>The object ID of the blue pad.</summary>
