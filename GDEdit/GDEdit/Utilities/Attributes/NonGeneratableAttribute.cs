@@ -4,7 +4,7 @@ using GDEdit.Utilities.Objects.GeometryDash;
 namespace GDEdit.Utilities.Attributes
 {
     /// <summary>Marks a <seealso cref="LevelObject"/> that may not be explicitly generated in the editor.</summary>
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public class NonGeneratableAttribute : Attribute
     {
         /// <summary>The exception message to show upon attempting to generate that <seealso cref="LevelObject"/>.</summary>
