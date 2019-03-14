@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Attributes
     public sealed class GuidelineStringMappableAttribute : Attribute
     {
         /// <summary>The key the property represents in the guideline string.</summary>
-        public string Key { get; set; }
+        public string Key { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="GuidelineStringMappableAttribute"/> class.</summary>
         /// <param name="key">The key the property represents in the guideline string.</param>

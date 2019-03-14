@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Attributes
     public sealed class LevelStringMappableAttribute : Attribute
     {
         /// <summary>The key the property represents in the level string.</summary>
-        public string Key { get; set; }
+        public string Key { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="LevelStringMappableAttribute"/> class.</summary>
         /// <param name="key">The key the property represents in the level string.</param>
