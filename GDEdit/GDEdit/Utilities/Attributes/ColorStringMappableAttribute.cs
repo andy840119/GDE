@@ -12,11 +12,11 @@ namespace GDEdit.Utilities.Attributes
     public sealed class ColorStringMappableAttribute : Attribute
     {
         /// <summary>The key the property represents in the color string.</summary>
-        public string Key { get; }
+        public int Key { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ColorStringMappableAttribute"/> class.</summary>
         /// <param name="key">The key the property represents in the color string.</param>
-        public ColorStringMappableAttribute(string key)
+        public ColorStringMappableAttribute(int key)
         {
             Key = key;
         }
