@@ -46,6 +46,18 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                     return 3;
                 case TriggerType.Color4:
                     return 4;
+                case TriggerType.BG:
+                    return (int)SpecialColorID.BG;
+                case TriggerType.GRND:
+                    return (int)SpecialColorID.GRND;
+                case TriggerType.GRND2:
+                    return (int)SpecialColorID.GRND2;
+                case TriggerType.Obj:
+                    return (int)SpecialColorID.Obj;
+                case TriggerType.Line:
+                    return (int)SpecialColorID.Line;
+                case TriggerType.ThreeDL:
+                    return (int)SpecialColorID.ThreeDL;
                 default:
                     throw new ArgumentException("Invalid color trigger type");
             }
