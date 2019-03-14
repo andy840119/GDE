@@ -58,6 +58,7 @@
     <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
     <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectIDAttribute.cs" />
+    <Compile Include="Utilities\Attributes\LevelStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleProperty1.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleGrouping.cs" />
