@@ -1,4 +1,5 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
 {
-    // TODO: Create an attribute to mark this and other potential unusable objects
     /// <summary>Represents a yellow teleportation portal. Should not be available to be created through the editor.</summary>
+    [NonGeneratable]
     public class YellowTeleportationPortal : Portal
     {
         // This is static to avoid getting the exact same value more than once
