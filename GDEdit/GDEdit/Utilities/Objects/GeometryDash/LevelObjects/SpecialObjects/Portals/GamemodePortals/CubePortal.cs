@@ -1,4 +1,5 @@
 ﻿
+using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.GeometryDash;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a cube portal.</summary>
+    [ObjectID(PortalType.Cube)]
     public class CubePortal : GamemodePortal
     {
         /// <summary>The object ID of the cube portal.</summary>

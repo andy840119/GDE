@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents an On Death trigger.</summary>
+    [ObjectID(TriggerType.OnDeath)]
     public class OnDeathTrigger : Trigger, IHasTargetGroupID
     {
         private short targetGroupID;

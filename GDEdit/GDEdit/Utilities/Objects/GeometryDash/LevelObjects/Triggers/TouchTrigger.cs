@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Touch trigger.</summary>
+    [ObjectID(TriggerType.Touch)]
     public class TouchTrigger : Trigger, IHasTargetGroupID
     {
         private short targetGroupID;

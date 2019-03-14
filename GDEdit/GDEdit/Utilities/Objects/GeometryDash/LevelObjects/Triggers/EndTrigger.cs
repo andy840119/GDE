@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents an End trigger.</summary>
     [FutureProofing("2.2")]
+    [ObjectID(TriggerType.End)]
     public class EndTrigger : Trigger, IHasTargetGroupID
     {
         private short targetGroupID;

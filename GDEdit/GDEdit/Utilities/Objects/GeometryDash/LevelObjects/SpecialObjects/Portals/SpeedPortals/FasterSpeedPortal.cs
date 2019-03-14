@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals
 {
     /// <summary>Represents a faster speed portal in the game.</summary>
+    [ObjectID(PortalType.FasterSpeed)]
     public class FasterSpeedPortal : SpeedPortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the faster speed portal.</summary>

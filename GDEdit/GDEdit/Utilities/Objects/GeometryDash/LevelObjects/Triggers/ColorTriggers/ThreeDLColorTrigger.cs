@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
 {
     /// <summary>Represents a 3DL Color trigger.</summary>
+    [ObjectID(TriggerType.ThreeDL)]
     public class ThreeDLColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the 3DL Color trigger.</summary>

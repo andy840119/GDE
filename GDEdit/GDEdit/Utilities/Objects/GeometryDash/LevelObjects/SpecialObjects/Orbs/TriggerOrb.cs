@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
 {
     /// <summary>Represents a trigger orb.</summary>
+    [ObjectID(OrbType.TriggerOrb)]
     public class TriggerOrb : Orb, IHasTargetGroupID
     {
         private short targetGroupID;

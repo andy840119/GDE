@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
 {
     /// <summary>Represents a yellow teleportation portal. Should not be available to be created through the editor.</summary>
     [NonGeneratable("Cannot create an instance of the yellow teleportation portal without assigning it to a blue teleportation portal.")]
+    [ObjectID(PortalType.YellowTeleportation)]
     public class YellowTeleportationPortal : Portal
     {
         // This is static to avoid getting the exact same value more than once

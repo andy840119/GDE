@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Follow Player Y trigger.</summary>
+    [ObjectID(TriggerType.FollowPlayerY)]
     public class FollowPlayerYTrigger : Trigger, IHasDuration, IHasTargetGroupID
     {
         private short targetGroupID;

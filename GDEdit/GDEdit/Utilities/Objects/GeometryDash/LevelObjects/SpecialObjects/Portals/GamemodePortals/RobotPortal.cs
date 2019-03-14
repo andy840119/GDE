@@ -1,4 +1,5 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.GeometryDash;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a robot portal.</summary>
+    [ObjectID(PortalType.Robot)]
     public class RobotPortal : GamemodePortal
     {
         /// <summary>The object ID of the robot portal.</summary>

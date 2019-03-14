@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a wave portal.</summary>
+    [ObjectID(PortalType.Wave)]
     public class WavePortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the wave portal.</summary>

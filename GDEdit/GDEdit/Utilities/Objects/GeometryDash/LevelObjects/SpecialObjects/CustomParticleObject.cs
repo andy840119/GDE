@@ -12,7 +12,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a custom particle object.</summary>
     [FutureProofing("2.2")]
-    public class CustomParticleObject : SpecialObject
+    [ObjectID(SpecialObjectType.CustomParticleObject)]
+    public class CustomParticleObject : ConstantIDSpecialObject
     {
         /// <summary>Represents the infinite duration constant for the Duration property.</summary>
         public const double InfiniteDuration = -1;
@@ -23,7 +24,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         private SymmetricalRange<int> startSize, endSize, startSpin, endSpin;
         private SymmetricalRange<float> lifetime, angle, speed, accelRad, accelTan, fadeIn, fadeOut;
         private SymmetricalRange<Color> start, end;
-        
+
+        /// <summary>The object ID of the custom particle object.</summary>
+        public override int ObjectID => (int)SpecialObjectType.CustomParticleObject;
+
         #region Motion
         /// <summary>The grouping of the custom particles.</summary>
         [ObjectStringMappable(ObjectParameter.Grouping)]

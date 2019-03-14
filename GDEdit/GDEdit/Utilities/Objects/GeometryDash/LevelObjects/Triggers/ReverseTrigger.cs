@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Reverse trigger.</summary>
     [FutureProofing("2.2")]
+    [ObjectID(TriggerType.Reverse)]
     public class ReverseTrigger : Trigger
     {
         public override int ObjectID => (int)TriggerType.Reverse;

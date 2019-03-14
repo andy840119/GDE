@@ -1,4 +1,5 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.SpecialBlocks
 {
     /// <summary>Represents the H special block.</summary>
+    [ObjectID(SpecialBlockType.H)]
     public class HSpecialBlock : SpecialBlock
     {
         /// <summary>The object ID of the H special block.</summary>

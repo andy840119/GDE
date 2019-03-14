@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Shake trigger.</summary>
+    [ObjectID(TriggerType.Shake)]
     public class ShakeTrigger : Trigger, IHasDuration
     {
         private float duration = 0.5f, strength, interval;

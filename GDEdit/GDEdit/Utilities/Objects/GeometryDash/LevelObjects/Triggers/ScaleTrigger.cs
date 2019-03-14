@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Scale trigger.</summary>
     [FutureProofing("2.3")]
+    [ObjectID(TriggerType.Scale)]
     public class ScaleTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
         private short targetGroupID, centerGroupID;

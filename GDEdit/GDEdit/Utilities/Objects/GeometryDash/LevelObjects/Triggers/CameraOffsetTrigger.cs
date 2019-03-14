@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Camera Offset trigger.</summary>
     [FutureProofing("2.2")]
+    [ObjectID(TriggerType.CameraOffset)]
     public class CameraOffsetTrigger : Trigger, IHasDuration, IHasEasing
     {
         private float duration = 0.5f, easingRate, offsetX, offsetY;

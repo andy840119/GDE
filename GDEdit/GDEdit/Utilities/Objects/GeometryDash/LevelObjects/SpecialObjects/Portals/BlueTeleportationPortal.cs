@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
 {
     /// <summary>Represents a blue teleportation portal.</summary>
+    [ObjectID(PortalType.BlueTeleportation)]
     public class BlueTeleportationPortal : Portal
     {
         private YellowTeleportationPortal linkedYellowTeleportationPortal;
