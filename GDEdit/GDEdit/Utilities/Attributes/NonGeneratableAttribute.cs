@@ -7,5 +7,14 @@ namespace GDEdit.Utilities.Attributes
     [AttributeUsage(AttributeTargets.Class)]
     public class NonGeneratableAttribute : Attribute
     {
+        /// <summary>The exception message to show upon attempting to generate that <seealso cref="LevelObject"/>.</summary>
+        public string ExceptionMessage { get; }
+
+        /// <summary>Creates a new instance of the <seealso cref="NonGeneratableAttribute"/> attribute.</summary>
+        /// <param name="exceptionMessage">The exception message to show upon attempting to generate that <seealso cref="LevelObject"/>.</param>
+        public NonGeneratableAttribute(string exceptionMessage = null)
+        {
+            ExceptionMessage = exceptionMessage;
+        }
     }
 }
