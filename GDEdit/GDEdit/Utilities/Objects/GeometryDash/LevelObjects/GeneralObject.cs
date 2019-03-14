@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using GDEdit.Utilities.Attributes;
+﻿using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
-using GDEdit.Utilities.Functions.GeometryDash;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.SpecialBlocks;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
