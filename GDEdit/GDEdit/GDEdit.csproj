@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
     <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
-    <Compile Include="Utilities\Attributes\GuidelineStringMappableAttribute.cs" />
+    <Compile Include="Utilities\Attributes\ColorStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectIDAttribute.cs" />
     <Compile Include="Utilities\Attributes\LevelStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
