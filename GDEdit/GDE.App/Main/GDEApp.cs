@@ -5,6 +5,7 @@ using GDE.App.Main.Tools;
 using GDE.App.Updater;
 using osu.Framework;
 using osu.Framework.Allocation;
+using osu.Framework.Screens;
 using osu.Framework.Graphics;
 using osuTK;
 using System;
@@ -13,7 +14,6 @@ namespace GDE.App.Main
 {
     public class GDEApp : GDEAppBase
     {
-        private MainScreen screen;
         private ToastNotification notification;
 
         [BackgroundDependencyLoader]
@@ -21,24 +21,21 @@ namespace GDE.App.Main
         {
             Children = new Drawable[]
             {
-                new GlobalActionContainer
+                new ScreenStack(new MainScreen())
                 {
-                    RelativeSizeAxes = Axes.Both,
-                    Children = new Drawable[]
+                    RelativeSizeAxes = Axes.Both
+                },
+                notification = new ToastNotification
+                {
+                    Anchor = Anchor.BottomCentre,
+                    Origin = Anchor.BottomCentre,
+                    Size = new Vector2(600, 30),
+                    Margin = new MarginPadding
                     {
-                        screen = new MainScreen(),
-                        notification = new ToastNotification
-                        {
-                            Anchor = Anchor.BottomCentre,
-                            Origin = Anchor.BottomCentre,
-                            Size = new Vector2(600, 30),
-                            Margin = new MarginPadding
-                            {
-                                Bottom = 5
-                            }
-                        }
+                        Bottom = 5
                     }
-                }
+                },
+                new GlobalActionContainer()
             };
 
             new RavenLogger(this);

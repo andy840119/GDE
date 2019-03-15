@@ -46,7 +46,7 @@ namespace GDE.App.Main.Screens.Menu
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 40),
                             Level = level,
-                            Delete = popUp.ToggleVisibility,
+                            Delete = () => popUp.ToggleVisibility(),
                             Edit = () => this.Push(new Edit.Editor(0))
                         },
                         new Box
