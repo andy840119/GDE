@@ -15,12 +15,18 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Screens;
 using osuTK;
+using System.Threading.Tasks;
 
 namespace GDE.App.Main.Screens.Menu
 {
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
+        private bool finishedLoading;
+        private bool ranMoreThanOnce = false;
+
+        private SpriteText loadWarning;
         private Database database;
+        private LevelCollection levels;
         private FillFlowContainer levelList;
         private LevelCard card;
         private Toolbar toolbar;
@@ -86,78 +92,98 @@ namespace GDE.App.Main.Screens.Menu
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre,
                             Size = new Vector2(750, 270)
+                        },
+                        loadWarning = new SpriteText
+                        {
+                            Origin = Anchor.Centre,
+                            Anchor = Anchor.Centre,
+                            Text = "Loading please wait",
+                            Font = new FontUsage(size: 60)
                         }
                     }
                 }
             };
-
-            if (database.UserLevels.Count == 0)
-            {
-                AddInternal(new FillFlowContainer
-                {
-                    Direction = FillDirection.Vertical,
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    Spacing = new Vector2(0, 30),
-                    Children = new Drawable[]
-                    {
-                        new SpriteIcon
-                        {
-                            Anchor = Anchor.Centre,
-                            Origin = Anchor.Centre,
-                            Icon = FontAwesome.fa_times,
-                            Size = new Vector2(192),
-                            Colour = GDEColors.FromHex("666666")
-                        },
-                        new SpriteText
-                        {
-                            Anchor = Anchor.Centre,
-                            Origin = Anchor.Centre,
-                            Text = "There doesn't seem to be anything here...",
-                            Font = @"OpenSans",
-                            TextSize = 24,
-                            Colour = GDEColors.FromHex("666666")
-                        },
-                        new Button
-                        {
-                            Anchor = Anchor.Centre,
-                            Origin = Anchor.Centre,
-                            Size = new Vector2(220, 32),
-                            Text = "Create a new level",
-                            BackgroundColour = GDEColors.FromHex("242424")
-                        }
-                    }
-                });
-            }
-            else
-            {
-                for (var i = 0; i < database.UserLevels.Count; i++)
-                {
-                    levelList.Add(card = new LevelCard
-                    {
-                        RelativeSizeAxes = Axes.X,
-                        Size = new Vector2(0.9f, 100),
-                        Margin = new MarginPadding(10),
-                        Level =
-                        {
-                            Value = new Level
-                            {
-                                CreatorName = "Alten",
-                                Name = database.UserLevels[i].Name,
-                                LevelObjects = database.UserLevels[i].LevelObjects
-                            }
-                        }
-                    });
-                }
-            }
-
-            card.Selected.ValueChanged += NewSelection;
         }
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
+        }
+
+        protected override void Update()
+        {
+            if (!finishedLoading && (finishedLoading = database.GetLevelsStatus >= TaskStatus.RanToCompletion))
+            {
+                if ((levels = database.UserLevels).Count == 0)
+                {
+                    AddInternal(new FillFlowContainer
+                    {
+                        Direction = FillDirection.Vertical,
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre,
+                        Spacing = new Vector2(0, 30),
+                        Children = new Drawable[]
+                        {
+                            new SpriteIcon
+                            {
+                                Anchor = Anchor.Centre,
+                                Origin = Anchor.Centre,
+                                Icon = FontAwesome.fa_times,
+                                Size = new Vector2(192),
+                                Colour = GDEColors.FromHex("666666")
+                            },
+                            new SpriteText
+                            {
+                                Anchor = Anchor.Centre,
+                                Origin = Anchor.Centre,
+                                Text = "There doesn't seem to be anything here...",
+                                Font = @"OpenSans",
+                                TextSize = 24,
+                                Colour = GDEColors.FromHex("666666")
+                            },
+                            new Button
+                            {
+                                Anchor = Anchor.Centre,
+                                Origin = Anchor.Centre,
+                                Size = new Vector2(220, 32),
+                                Text = "Create a new level",
+                                BackgroundColour = GDEColors.FromHex("242424")
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    if(!ranMoreThanOnce)
+                    {
+                        for (var i = 0; i < database.UserLevels.Count; i++)
+                        {
+                            levelList.Add(card = new LevelCard
+                            {
+                                RelativeSizeAxes = Axes.X,
+                                Size = new Vector2(0.9f, 100),
+                                Margin = new MarginPadding(10),
+                                Level =
+                                {
+                                    Value = new Level
+                                    {
+                                        CreatorName = "Alten",
+                                        Name = database.UserLevels[i].Name,
+                                        LevelObjects = database.UserLevels[i].LevelObjects
+                                    }
+                                }
+                            });
+                        }
+
+                        loadWarning.Text = "";
+                        ranMoreThanOnce = true;
+                    }
+                }
+
+                card.Selected.ValueChanged += NewSelection;
+            }
+            base.Update();
         }
 
         private void NewSelection(ValueChangedEvent<bool> obj)
