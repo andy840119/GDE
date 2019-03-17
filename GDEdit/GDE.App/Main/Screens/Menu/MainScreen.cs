@@ -155,7 +155,7 @@ namespace GDE.App.Main.Screens.Menu
                 }
                 else
                 {
-                    if(!ranMoreThanOnce)
+                    if (!ranMoreThanOnce)
                     {
                         for (var i = 0; i < database.UserLevels.Count; i++)
                         {
