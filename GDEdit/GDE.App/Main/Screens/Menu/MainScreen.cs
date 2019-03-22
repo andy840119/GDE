@@ -177,11 +177,9 @@ namespace GDE.App.Main.Screens.Menu
                     loadWarning.Text = "";
                     alreadyRun = true;
                 }
-
             }
 
             card.Selected.ValueChanged += NewSelection;
-
             base.Update();
         }
 
