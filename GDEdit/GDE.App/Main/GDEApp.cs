@@ -5,8 +5,8 @@ using GDE.App.Main.Tools;
 using GDE.App.Updater;
 using osu.Framework;
 using osu.Framework.Allocation;
-using osu.Framework.Screens;
 using osu.Framework.Graphics;
+using osu.Framework.Screens;
 using osuTK;
 using System;
 

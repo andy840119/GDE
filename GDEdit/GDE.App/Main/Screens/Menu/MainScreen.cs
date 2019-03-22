@@ -22,7 +22,7 @@ namespace GDE.App.Main.Screens.Menu
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
         private bool finishedLoading;
-        private bool ranMoreThanOnce = false;
+        private bool alreadyRun = false;
 
         private SpriteText loadWarning;
         private Database database;
@@ -153,36 +153,35 @@ namespace GDE.App.Main.Screens.Menu
                         }
                     });
                 }
-                else
+                else if(!alreadyRun)
                 {
-                    if (!ranMoreThanOnce)
+                    for (var i = 0; i < database.UserLevels.Count; i++)
                     {
-                        for (var i = 0; i < database.UserLevels.Count; i++)
+                        levelList.Add(card = new LevelCard
                         {
-                            levelList.Add(card = new LevelCard
+                            RelativeSizeAxes = Axes.X,
+                            Size = new Vector2(0.9f, 100),
+                            Margin = new MarginPadding(10),
+                            Level =
                             {
-                                RelativeSizeAxes = Axes.X,
-                                Size = new Vector2(0.9f, 100),
-                                Margin = new MarginPadding(10),
-                                Level =
+                                Value = new Level
                                 {
-                                    Value = new Level
-                                    {
-                                        CreatorName = "Alten",
-                                        Name = database.UserLevels[i].Name,
-                                        LevelObjects = database.UserLevels[i].LevelObjects
-                                    }
+                                    CreatorName = "Alten",
+                                    Name = database.UserLevels[i].Name,
+                                    LevelObjects = database.UserLevels[i].LevelObjects
                                 }
-                            });
-                        }
-
-                        loadWarning.Text = "";
-                        ranMoreThanOnce = true;
+                            }
+                        });
                     }
+
+                    loadWarning.Text = "";
+                    alreadyRun = true;
                 }
 
-                card.Selected.ValueChanged += NewSelection;
             }
+
+            card.Selected.ValueChanged += NewSelection;
+
             base.Update();
         }
 
