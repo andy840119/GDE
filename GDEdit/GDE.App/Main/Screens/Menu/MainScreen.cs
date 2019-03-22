@@ -153,7 +153,7 @@ namespace GDE.App.Main.Screens.Menu
                         }
                     });
                 }
-                else if(!alreadyRun)
+                else if (!alreadyRun)
                 {
                     for (var i = 0; i < database.UserLevels.Count; i++)
                     {
