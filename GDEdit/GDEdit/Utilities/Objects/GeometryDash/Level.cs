@@ -21,6 +21,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     /// <summary>Represents a level in the game.</summary>
     public class Level
     {
+        private Task loadLS;
+
+        /// <summary>Indicates if the entire level has been successfully loaded.</summary>
+        public bool IsFullyLoaded => loadLS?.Status >= TaskStatus.RanToCompletion;
+
         #region Properties
         // Metadata
         /// <summary>Returns the name of the level followed by its revision if needed.</summary>
@@ -218,8 +223,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get => GetLevelString();
             set
             {
-                TryDecryptLevelString(value, out var decryptedLevelString);
-                GetLevelStringInformation(decryptedLevelString);
+                loadLS = Task.Run(() =>
+                {
+                    TryDecryptLevelString(value, out var decryptedLevelString);
+                    GetLevelStringInformation(decryptedLevelString);
+                });
             }
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
