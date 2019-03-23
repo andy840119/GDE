@@ -8,11 +8,10 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Testing;
-using osuTK;
 using osuTK.Graphics;
 using System;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseLevel
 {
     public class TestCaseHitbox : TestCase
     {

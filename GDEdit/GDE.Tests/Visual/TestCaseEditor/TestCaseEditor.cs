@@ -3,7 +3,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseEditor
 {
     public class TestCaseEditor : TestCase
     {
