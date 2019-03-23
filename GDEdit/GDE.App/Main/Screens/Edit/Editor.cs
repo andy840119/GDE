@@ -6,6 +6,9 @@ using osu.Framework.Screens;
 using osuTK;
 using GDE.App.Main.Colors;
 using GDE.App.Main.Levels;
+using GDE.App.Main.Screens.Edit;
+using GDEdit.Application;
+using GDEdit.Utilities.Objects.GeometryDash;
 
 namespace GDE.App.Main.Screens.Edit
 {
@@ -14,6 +17,9 @@ namespace GDE.App.Main.Screens.Edit
         private TextureStore texStore;
         private Box background;
         private int i;
+
+        private Database database;
+        private Level level => database.UserLevels[0];
 
         public Editor(int index)
         {
@@ -26,14 +32,21 @@ namespace GDE.App.Main.Screens.Edit
                     Origin = Anchor.BottomLeft,
                     Anchor = Anchor.BottomLeft,
                     Depth = float.MaxValue,
-                    Colour = GDEColors.FromHex("287dff"),
+                    Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
+                },
+                new Components.Tools()
+                {
+                    Size = new Vector2(150, 300),
+                    //Object = level.LevelObjects[0],
+                    Anchor = Anchor.CentreLeft,
+                    Origin = Anchor.CentreLeft
                 },
                 new LevelPreview(index)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
-                }
+                },
             });
         }
 

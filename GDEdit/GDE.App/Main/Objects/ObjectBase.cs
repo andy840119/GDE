@@ -1,77 +1,85 @@
-﻿using GDEdit.Utilities.Information.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDE.App.Main.Containers;
+using GDE.App.Main.UI;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics;
+using osu.Framework.Input.Bindings;
+using osu.Framework.Input.Events;
 using osuTK;
+using osuTK.Graphics;
 using System;
 
 namespace GDE.App.Main.Objects
 {
     // Change this into a Drawable instead of a Container in a later commit
     ///<summary>A drawable <seealso cref="GeneralObject"/>.</summary>
-    public class ObjectBase : Container
+    public class ObjectBase : Container, IKeyBindingHandler<GlobalAction>
     {
-        private GeneralObject lvlObj;
         private Box obj;
         private TextureStore textureStore;
+
+        public GeneralObject LevelObject;
+        public readonly ObjectBase Object;
+        public SelectionState State;
+        public Action Selected;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
         public int ObjectID
         {
-            get => lvlObj.ObjectID;
-            set => UpdateObjectID(lvlObj.ObjectID = value);
+            get => LevelObject.ObjectID;
+            set => UpdateObjectID(LevelObject.ObjectID = value);
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX
         {
-            get => lvlObj.X;
-            set => UpdateObjectX(lvlObj.X = value);
+            get => LevelObject.X;
+            set => UpdateObjectX(LevelObject.X = value);
         }
         ///<summary>The Y position of the object.</summary>
         public double ObjectY
         {
-            get => lvlObj.Y;
-            set => UpdateObjectY(lvlObj.Y = value);
+            get => LevelObject.Y;
+            set => UpdateObjectY(LevelObject.Y = value);
         }
         ///<summary>Represents whether the object is flipped horizontally or not.</summary>
         public bool FlippedHorizontally
         {
-            get => lvlObj.FlippedHorizontally;
-            set => UpdateFlippedHorizontally(lvlObj.FlippedHorizontally = value);
+            get => LevelObject.FlippedHorizontally;
+            set => UpdateFlippedHorizontally(LevelObject.FlippedHorizontally = value);
         }
         ///<summary>Represents whether the object is flipped vertically or not.</summary>
         public bool FlippedVertically
         {
-            get => lvlObj.FlippedVertically;
-            set => UpdateFlippedVertically(lvlObj.FlippedVertically = value);
+            get => LevelObject.FlippedVertically;
+            set => UpdateFlippedVertically(LevelObject.FlippedVertically = value);
         }
         ///<summary>The rotation of the object.</summary>
         public double ObjectRotation
         {
-            get => lvlObj.Rotation;
-            set => UpdateObjectRotation(lvlObj.Rotation = value);
+            get => LevelObject.Rotation;
+            set => UpdateObjectRotation(LevelObject.Rotation = value);
         }
         ///<summary>The scaling of the object.</summary>
         public double ObjectScaling
         {
-            get => lvlObj.Scaling;
-            set => UpdateObjectScaling(lvlObj.Scaling = value);
+            get => LevelObject.Scaling;
+            set => UpdateObjectScaling(LevelObject.Scaling = value);
         }
         ///<summary>The Editor Layer 1 of the object.</summary>
         public int EL1
         {
-            get => lvlObj.EL1;
-            set => lvlObj.EL1 = value;
+            get => LevelObject.EL1;
+            set => LevelObject.EL1 = value;
         }
         ///<summary>The Editor Layer 2 of the object.</summary>
         public int EL2
         {
-            get => lvlObj.EL2;
-            set => lvlObj.EL2 = value;
+            get => LevelObject.EL2;
+            set => LevelObject.EL2 = value;
         }
         #endregion
 
@@ -92,14 +100,14 @@ namespace GDE.App.Main.Objects
             };
 
             Size = new Vector2(30);
-            UpdateObject(lvlObj = o);
+            UpdateObject(LevelObject = o);
         }
         
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
             textureStore = ts;
-            UpdateObjectID(lvlObj.ObjectID);
+            UpdateObjectID(LevelObject.ObjectID);
         }
         
         private void UpdateObject(GeneralObject o)
@@ -126,5 +134,61 @@ namespace GDE.App.Main.Objects
                 return -value;
             return value;
         }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            if (State == SelectionState.Selected)
+            {
+                this.FadeColour(Color4.White, 200);
+                State = SelectionState.NotSelected;
+            }
+            else
+            {
+                this.FadeColour(Color4.LightGreen, 200);
+                State = SelectionState.Selected;
+            }
+
+            Selected?.Invoke();
+
+            return base.OnClick(e);
+        }
+
+        public bool OnPressed(GlobalAction action)
+        {
+            Console.WriteLine(action);
+
+            if (State == SelectionState.Selected)
+                switch (action)
+                {
+                    case GlobalAction.objMoveRight:
+                        ObjectX += 10;
+                        break;
+                    case GlobalAction.objMoveLeft:
+                        ObjectX -= 10;
+                        break;
+                    case GlobalAction.objMoveUp:
+                        ObjectY += 10;
+                        break;
+                    case GlobalAction.objMoveDown:
+                        ObjectY -= 10;
+                        break;
+                    case GlobalAction.objMoveRightSmall:
+                        ObjectX += 5;
+                        break;
+                    case GlobalAction.objMoveLeftSmall:
+                        ObjectX -= 5;
+                        break;
+                    case GlobalAction.objMoveUpSmall:
+                        ObjectY += 5;
+                        break;
+                    case GlobalAction.objMoveDownSmall:
+                        ObjectY -= 5;
+                        break;
+                }
+
+            return true;
+        }
+
+        public bool OnReleased(GlobalAction action) => true;
     }
 }
