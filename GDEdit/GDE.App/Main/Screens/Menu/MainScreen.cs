@@ -179,7 +179,7 @@ namespace GDE.App.Main.Screens.Menu
                 }
             }
 
-            card.Selected.ValueChanged += NewSelection;
+            //card.Selected.ValueChanged += NewSelection;
             base.Update();
         }
 

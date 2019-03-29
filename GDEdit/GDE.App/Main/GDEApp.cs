@@ -21,9 +21,16 @@ namespace GDE.App.Main
         {
             Children = new Drawable[]
             {
-                new ScreenStack(new MainScreen())
+                new GlobalActionContainer
                 {
-                    RelativeSizeAxes = Axes.Both
+                    RelativeSizeAxes = Axes.Both,
+                    Children = new Drawable[]
+                    {
+                        new ScreenStack(new MainScreen())
+                        {
+                            RelativeSizeAxes = Axes.Both
+                        },
+                    }   
                 },
                 notification = new ToastNotification
                 {
@@ -34,8 +41,7 @@ namespace GDE.App.Main
                     {
                         Bottom = 5
                     }
-                },
-                new GlobalActionContainer()
+                }
             };
 
             new RavenLogger(this);

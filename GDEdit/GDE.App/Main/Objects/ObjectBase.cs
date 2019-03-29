@@ -1,24 +1,22 @@
 ﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
-using GDE.App.Main.Containers;
 using GDE.App.Main.UI;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics;
-using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Graphics;
 using System;
+using osu.Framework.Graphics.Sprites;
 
 namespace GDE.App.Main.Objects
 {
     // Change this into a Drawable instead of a Container in a later commit
     ///<summary>A drawable <seealso cref="GeneralObject"/>.</summary>
-    public class ObjectBase : Container, IKeyBindingHandler<GlobalAction>
+    public class ObjectBase : Sprite
     {
-        private Box obj;
         private TextureStore textureStore;
 
         public GeneralObject LevelObject;
@@ -88,16 +86,7 @@ namespace GDE.App.Main.Objects
         {
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
-
-            Children = new Drawable[]
-            {
-                obj = new Box
-                {
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.Centre,
-                    RelativeSizeAxes = Axes.Both
-                }
-            };
+            RelativeSizeAxes = Axes.Both;
 
             Size = new Vector2(30);
             UpdateObject(LevelObject = o);
@@ -109,7 +98,7 @@ namespace GDE.App.Main.Objects
             textureStore = ts;
             UpdateObjectID(LevelObject.ObjectID);
         }
-        
+
         private void UpdateObject(GeneralObject o)
         {
             UpdateObjectID(o.ObjectID);
@@ -121,7 +110,7 @@ namespace GDE.App.Main.Objects
             UpdateObjectScaling(o.Scaling);
         }
 
-        private void UpdateObjectID(int value) => obj.Texture = textureStore?.Get($"Objects/{value}.png");
+        private void UpdateObjectID(int value) => Texture = textureStore?.Get($"Objects/{value}.png");
         private void UpdateObjectX(double value) => X = (float)value;
         private void UpdateObjectY(double value) => Y = -(float)value;
         private void UpdateFlippedHorizontally(bool value) => Width = SetSign(Width, !value);
@@ -152,43 +141,5 @@ namespace GDE.App.Main.Objects
 
             return base.OnClick(e);
         }
-
-        public bool OnPressed(GlobalAction action)
-        {
-            Console.WriteLine(action);
-
-            if (State == SelectionState.Selected)
-                switch (action)
-                {
-                    case GlobalAction.objMoveRight:
-                        ObjectX += 10;
-                        break;
-                    case GlobalAction.objMoveLeft:
-                        ObjectX -= 10;
-                        break;
-                    case GlobalAction.objMoveUp:
-                        ObjectY += 10;
-                        break;
-                    case GlobalAction.objMoveDown:
-                        ObjectY -= 10;
-                        break;
-                    case GlobalAction.objMoveRightSmall:
-                        ObjectX += 5;
-                        break;
-                    case GlobalAction.objMoveLeftSmall:
-                        ObjectX -= 5;
-                        break;
-                    case GlobalAction.objMoveUpSmall:
-                        ObjectY += 5;
-                        break;
-                    case GlobalAction.objMoveDownSmall:
-                        ObjectY -= 5;
-                        break;
-                }
-
-            return true;
-        }
-
-        public bool OnReleased(GlobalAction action) => true;
     }
 }
