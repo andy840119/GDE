@@ -39,17 +39,17 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                new Components.Tools()
+                Preview = new LevelPreview(index)
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre
+                },
+                new Components.Tools(Preview)
                 {
                     Size = new Vector2(150, 300),
                     //Object = level.LevelObjects[0],
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
-                },
-                Preview = new LevelPreview(index)
-                {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre
                 },
             });
 
