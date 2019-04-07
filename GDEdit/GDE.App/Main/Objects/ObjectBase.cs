@@ -22,7 +22,7 @@ namespace GDE.App.Main.Objects
         public GeneralObject LevelObject;
         public readonly ObjectBase Object;
         public SelectionState State;
-        public Action Selected;
+        public EventHandler Selected;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
@@ -125,18 +125,10 @@ namespace GDE.App.Main.Objects
 
         protected override bool OnClick(ClickEvent e)
         {
-            if (State == SelectionState.Selected)
-            {
-                this.FadeColour(Color4.White, 200);
-                State = SelectionState.NotSelected;
-            }
-            else
-            {
-                this.FadeColour(Color4.LightGreen, 200);
-                State = SelectionState.Selected;
-            }
+            this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.LightGreen, 200);
+            State ^= SelectionState.Selected;
 
-            Selected?.Invoke();
+            Selected?.Invoke(this, EventArgs.Empty);
 
             return base.OnClick(e);
         }

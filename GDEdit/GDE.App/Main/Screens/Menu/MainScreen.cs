@@ -15,6 +15,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Screens;
 using osuTK;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GDE.App.Main.Screens.Menu
@@ -28,7 +29,7 @@ namespace GDE.App.Main.Screens.Menu
         private Database database;
         private LevelCollection levels;
         private FillFlowContainer levelList;
-        private LevelCard card;
+        private List<LevelCard> card = new List<LevelCard>();
         private Toolbar toolbar;
         private OverlayPopup popUp;
         private Bindable<Level> level = new Bindable<Level>(new Level
@@ -39,7 +40,7 @@ namespace GDE.App.Main.Screens.Menu
 
         public MainScreen()
         {
-            InternalChildren = new Drawable[]
+            AddRangeInternal(new Drawable[]
             {
                 new DrawSizePreservingFillContainer
                 {
@@ -102,7 +103,14 @@ namespace GDE.App.Main.Screens.Menu
                         }
                     }
                 }
-            };
+            });
+
+            level.ValueChanged += Level_ValueChanged;
+        }
+
+        private void Level_ValueChanged(ValueChangedEvent<Level> obj)
+        {
+            System.Console.WriteLine(obj.NewValue.Name);
         }
 
         [BackgroundDependencyLoader]
@@ -157,11 +165,12 @@ namespace GDE.App.Main.Screens.Menu
                 {
                     for (var i = 0; i < database.UserLevels.Count; i++)
                     {
-                        levelList.Add(card = new LevelCard
+                        card.Add(new LevelCard
                         {
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(0.9f, 100),
                             Margin = new MarginPadding(10),
+                            index = i,
                             Level =
                             {
                                 Value = new Level
@@ -174,19 +183,24 @@ namespace GDE.App.Main.Screens.Menu
                         });
                     }
 
+                    foreach (var i in card)
+                    {
+                        levelList.Add(card[i.index]);
+
+                        card[i.index].Action = () =>
+                        {
+                            toolbar.Edit = () => this.Push(new Edit.Editor(i.index));
+                            popUp.ConfirmAction = () => database.UserLevels.Remove(i.Level.Value);
+                            level.Value = card[i.index].Level.Value;
+                        };
+                    }
+
                     loadWarning.Text = "";
                     alreadyRun = true;
                 }
             }
 
-            //card.Selected.ValueChanged += NewSelection;
             base.Update();
-        }
-
-        private void NewSelection(ValueChangedEvent<bool> obj)
-        {
-            toolbar.Level = card.Level;
-            //TODO: make level editable from selection
         }
 
         public bool OnPressed(GlobalAction action)

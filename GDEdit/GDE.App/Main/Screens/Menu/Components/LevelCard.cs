@@ -25,6 +25,8 @@ namespace GDE.App.Main.Screens.Menu.Components
 
         public Bindable<bool> Selected = new Bindable<bool>(false);
 
+        public int index;
+
         public LevelCard()
         {
             Children = new Drawable[]

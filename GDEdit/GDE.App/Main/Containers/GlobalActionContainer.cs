@@ -12,15 +12,15 @@ namespace GDE.App.Main.Containers
         public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
         {
             //Object Manipulation
-            new KeyBinding(InputKey.D, GlobalAction.objMoveRight),
-            new KeyBinding(InputKey.A, GlobalAction.objMoveLeft),
-            new KeyBinding(InputKey.W, GlobalAction.objMoveUp),
-            new KeyBinding(InputKey.S, GlobalAction.objMoveDown),
+            new KeyBinding(InputKey.D, GlobalAction.ObjMoveRight),
+            new KeyBinding(InputKey.A, GlobalAction.ObjMoveLeft),
+            new KeyBinding(InputKey.W, GlobalAction.ObjMoveUp),
+            new KeyBinding(InputKey.S, GlobalAction.ObjMoveDown),
 
-            new KeyBinding(new[] { InputKey.Shift, InputKey.D }, GlobalAction.objMoveRightSmall),
-            new KeyBinding(new[] { InputKey.Shift, InputKey.A }, GlobalAction.objMoveLeftSmall),
-            new KeyBinding(new[] { InputKey.Shift, InputKey.W }, GlobalAction.objMoveRightSmall),
-            new KeyBinding(new[] { InputKey.Shift, InputKey.S }, GlobalAction.objMoveRightSmall),
+            new KeyBinding(new[] { InputKey.Shift, InputKey.D }, GlobalAction.ObjMoveRightSmall),
+            new KeyBinding(new[] { InputKey.Shift, InputKey.A }, GlobalAction.ObjMoveLeftSmall),
+            new KeyBinding(new[] { InputKey.Shift, InputKey.W }, GlobalAction.ObjMoveRightSmall),
+            new KeyBinding(new[] { InputKey.Shift, InputKey.S }, GlobalAction.ObjMoveRightSmall),
 
             //Others
             new KeyBinding(new[] { InputKey.Alt, InputKey.Control, InputKey.F2 }, GlobalAction.LordsKeys),
@@ -36,14 +36,14 @@ namespace GDE.App.Main.Containers
     {
         //Object Manipulation
         [Description("Manipulates the objects")]
-        objMoveRight,
-        objMoveLeft,
-        objMoveUp,
-        objMoveDown,
-        objMoveRightSmall,
-        objMoveLeftSmall,
-        objMoveUpSmall,
-        objMoveDownSmall,
+        ObjMoveRight,
+        ObjMoveLeft,
+        ObjMoveUp,
+        ObjMoveDown,
+        ObjMoveRightSmall,
+        ObjMoveLeftSmall,
+        ObjMoveUpSmall,
+        ObjMoveDownSmall,
 
         //Others
         [Description("Toggles the lords screen")]
