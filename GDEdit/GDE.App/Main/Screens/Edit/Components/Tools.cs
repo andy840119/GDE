@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using GDE.App.Main.Levels;
 using GDE.App.Main.Objects;
 using GDE.App.Main.UI;
 using GDEdit.Application;
@@ -24,9 +25,13 @@ namespace GDE.App.Main.Screens.Edit.Components
         private Database database;
         private Level level => database.UserLevels[0];
 
-        public GeneralObject Object;
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection databases)
+        {
+            database = databases[0];
+        }
 
-        public Tools()
+        public Tools(LevelPreview Level)
         {
             Children = new Drawable[]
             {
@@ -54,7 +59,8 @@ namespace GDE.App.Main.Screens.Edit.Components
                     {
                         ObjAdd = new Button
                         {
-                            Action = () => level.LevelObjects.Add(new GeneralObject()),
+                            //Wont do anything as of now.
+                            //Action = () => level.LevelObjects.Add(new GeneralObject()),
                             Text = "Add Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
@@ -62,7 +68,12 @@ namespace GDE.App.Main.Screens.Edit.Components
                         },
                         ObjRemove = new Button
                         {
-                            Action = () => level.LevelObjects.Remove(Object),
+                            Action = () => 
+                            {
+                                foreach (var o in Level.Objects)
+                                    if (o.State == SelectionState.Selected)
+                                        level.LevelObjects.Remove(o.LevelObject);
+                            },
                             Text = "Remove Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
