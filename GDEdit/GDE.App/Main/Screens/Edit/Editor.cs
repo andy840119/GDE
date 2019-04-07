@@ -9,6 +9,7 @@ using GDE.App.Main.Levels;
 using GDE.App.Main.Screens.Edit;
 using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Input;
 
 namespace GDE.App.Main.Screens.Edit
 {
@@ -19,7 +20,10 @@ namespace GDE.App.Main.Screens.Edit
         private int i;
 
         private Database database;
+        private LevelPreview Preview;
         private Level level => database.UserLevels[0];
+
+        private InputManager inputManager;
 
         public Editor(int index)
         {
@@ -42,12 +46,14 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
-                new LevelPreview(index)
+                Preview = new LevelPreview(index)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
                 },
             });
+
+            inputManager = GetContainingInputManager();
         }
 
         [BackgroundDependencyLoader]

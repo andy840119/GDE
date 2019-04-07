@@ -10,6 +10,8 @@ using osuTK;
 using osuTK.Graphics;
 using System;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Input.Bindings;
+using GDE.App.Main.Containers;
 
 namespace GDE.App.Main.Objects
 {

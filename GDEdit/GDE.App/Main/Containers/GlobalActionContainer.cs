@@ -17,16 +17,13 @@ namespace GDE.App.Main.Containers
             new KeyBinding(InputKey.W, GlobalAction.ObjMoveUp),
             new KeyBinding(InputKey.S, GlobalAction.ObjMoveDown),
 
-            new KeyBinding(new[] { InputKey.Shift, InputKey.D }, GlobalAction.ObjMoveRightSmall),
-            new KeyBinding(new[] { InputKey.Shift, InputKey.A }, GlobalAction.ObjMoveLeftSmall),
-            new KeyBinding(new[] { InputKey.Shift, InputKey.W }, GlobalAction.ObjMoveRightSmall),
-            new KeyBinding(new[] { InputKey.Shift, InputKey.S }, GlobalAction.ObjMoveRightSmall),
+            new KeyBinding(InputKey.Shift, GlobalAction.ObjMoveModifier),
 
             //Others
             new KeyBinding(new[] { InputKey.Alt, InputKey.Control, InputKey.F2 }, GlobalAction.LordsKeys),
         };
 
-        public GlobalActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = KeyCombinationMatchingMode.Any, SimultaneousBindingMode simultaneousBindingMode = SimultaneousBindingMode.All)
+        public GlobalActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = KeyCombinationMatchingMode.Exact, SimultaneousBindingMode simultaneousBindingMode = SimultaneousBindingMode.All)
             : base(simultaneousBindingMode, keyCombinationMatchingMode)
         {
         }
@@ -40,10 +37,7 @@ namespace GDE.App.Main.Containers
         ObjMoveLeft,
         ObjMoveUp,
         ObjMoveDown,
-        ObjMoveRightSmall,
-        ObjMoveLeftSmall,
-        ObjMoveUpSmall,
-        ObjMoveDownSmall,
+        ObjMoveModifier,
 
         //Others
         [Description("Toggles the lords screen")]
