@@ -132,10 +132,11 @@ namespace GDE.App.Main.Objects
             State ^= SelectionState.Selected;
 
             //could be optimized, but lack knowledge lmfao
-            if (State == SelectionState.Selected)
-                editor.SelectedObjects.Add(LevelObject);
-            else
-                editor.SelectedObjects.Remove(LevelObject);
+            if (editor != null)
+                if (State == SelectionState.Selected)
+                    editor.SelectedObjects.Add(LevelObject);
+                else
+                    editor.SelectedObjects.Remove(LevelObject);
 
             Selected?.Invoke(this, EventArgs.Empty);
 

@@ -9,7 +9,7 @@ namespace GDE.Tests.Visual.TestCaseEditor
     {
         public TestCaseEditor()
         {
-            Add(new ScreenStack(new Editor(0))
+            Add(new ScreenStack(new Editor(0, null))
             {
                 RelativeSizeAxes = Axes.Both
             });

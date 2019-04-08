@@ -80,7 +80,8 @@ namespace GDE.App.Main.Screens.Menu.Components
             Level.ValueChanged += OnLevelChange;
         }
 
-        private void OnSelected(ValueChangedEvent<bool> value) => selectionBar.FadeColour(GDEColors.FromHex(value.NewValue ? "202020" : "00bc5c"), 200);
+        private void OnSelected(ValueChangedEvent<bool> value) => selectionBar.FadeColour(GDEColors.FromHex(value.OldValue ? "202020" : "00bc5c"), 200);
+
         private void OnLevelChange(ValueChangedEvent<Level> value)
         {
             levelName.Text = value.NewValue.Name;

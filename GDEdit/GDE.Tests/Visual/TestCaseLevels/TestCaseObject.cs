@@ -21,7 +21,7 @@ namespace GDE.Tests.Visual.TestCaseLevel
                     Colour = new Color4(95, 95, 95, 255),
                     RelativeSizeAxes = Axes.Both
                 },
-                obj = new ObjectBase(new GeneralObject())
+                obj = new ObjectBase(new GeneralObject(), null)
                 {
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
