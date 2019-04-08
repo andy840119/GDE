@@ -54,7 +54,7 @@ namespace GDE.App.Main.Screens.Menu
                             Size = new Vector2(1f, 40),
                             Level = level,
                             Delete = () => popUp.ToggleVisibility(),
-                            Edit = () => this.Push(new Edit.Editor(0))
+                            Edit = () => this.Push(new Edit.Editor(0, level.Value))
                         },
                         new Box
                         {
@@ -189,7 +189,7 @@ namespace GDE.App.Main.Screens.Menu
 
                         card[i.index].Action = () =>
                         {
-                            toolbar.Edit = () => this.Push(new Edit.Editor(i.index));
+                            toolbar.Edit = () => this.Push(new Edit.Editor(i.index, i.Level.Value));
                             popUp.ConfirmAction = () => database.UserLevels.Remove(i.Level.Value);
                             level.Value = card[i.index].Level.Value;
                         };

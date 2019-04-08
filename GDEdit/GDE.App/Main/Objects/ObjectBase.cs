@@ -1,8 +1,6 @@
 ﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDE.App.Main.UI;
 using osu.Framework.Allocation;
-using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
@@ -10,8 +8,7 @@ using osuTK;
 using osuTK.Graphics;
 using System;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Input.Bindings;
-using GDE.App.Main.Containers;
+using GDEdit.Application.Editor;
 
 namespace GDE.App.Main.Objects
 {
@@ -25,6 +22,8 @@ namespace GDE.App.Main.Objects
         public readonly ObjectBase Object;
         public SelectionState State;
         public EventHandler Selected;
+
+        private Editor editor;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
@@ -84,8 +83,10 @@ namespace GDE.App.Main.Objects
         #endregion
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
-        public ObjectBase(GeneralObject o)
+        public ObjectBase(GeneralObject o, Editor Editor)
         {
+            editor = Editor;
+
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
 
@@ -127,8 +128,14 @@ namespace GDE.App.Main.Objects
 
         protected override bool OnClick(ClickEvent e)
         {
-            this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.LightGreen, 200);
+            this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 200);
             State ^= SelectionState.Selected;
+
+            //could be optimized, but lack knowledge lmfao
+            if (State == SelectionState.Selected)
+                editor.SelectedObjects.Add(LevelObject);
+            else
+                editor.SelectedObjects.Remove(LevelObject);
 
             Selected?.Invoke(this, EventArgs.Empty);
 

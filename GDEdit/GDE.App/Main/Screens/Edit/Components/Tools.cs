@@ -3,6 +3,7 @@ using GDE.App.Main.Levels;
 using GDE.App.Main.Objects;
 using GDE.App.Main.UI;
 using GDEdit.Application;
+using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
@@ -31,7 +32,8 @@ namespace GDE.App.Main.Screens.Edit.Components
             database = databases[0];
         }
 
-        public Tools(LevelPreview Level)
+        //yet again
+        public Tools(LevelPreview Level, GDEdit.Application.Editor.Editor editor)
         {
             Children = new Drawable[]
             {
@@ -70,9 +72,13 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             Action = () => 
                             {
-                                foreach (var o in Level.Objects)
-                                    if (o.State == SelectionState.Selected)
-                                        level.LevelObjects.Remove(o.LevelObject);
+                                editor.SelectedObjects.Clear();
+
+                                //Always defaults to 0, so fix that
+                                for (var i = 0; i < editor.SelectedObjects.Count; i++)
+                                {
+                                    Level.Objects[i].Dispose();
+	                            }
                             },
                             Text = "Remove Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),

@@ -21,12 +21,24 @@ namespace GDE.App.Main.Screens.Edit
 
         private Database database;
         private LevelPreview Preview;
-        private Level level => database.UserLevels[0];
+        private Level level => database.UserLevels[i];
 
-        private InputManager inputManager;
+        //yeah i feel disgusted from this aswell, but sadly theres no other way
+        private GDEdit.Application.Editor.Editor editor;
 
-        public Editor(int index)
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection databases, TextureStore ts)
         {
+            database = databases[0];
+
+            texStore = ts;
+            background.Texture = texStore.Get("Backgrounds/game_bg_01_001-uhd.png");
+        }
+
+        public Editor(int index, Level level)
+        {
+            editor = new GDEdit.Application.Editor.Editor(level);
+
             i = index;
 
             AddRangeInternal(new Drawable[]
@@ -39,28 +51,18 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                Preview = new LevelPreview(index)
+                Preview = new LevelPreview(index, editor)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
                 },
-                new Components.Tools(Preview)
+                new Components.Tools(Preview, editor)
                 {
                     Size = new Vector2(150, 300),
-                    //Object = level.LevelObjects[0],
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
             });
-
-            inputManager = GetContainingInputManager();
-        }
-
-        [BackgroundDependencyLoader]
-        private void load(TextureStore ts)
-        {
-            texStore = ts;
-            background.Texture = texStore.Get("Backgrounds/game_bg_01_001-uhd.png");
         }
     }
 }
