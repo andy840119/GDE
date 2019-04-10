@@ -16,12 +16,9 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         public double SlopeRatio => Math.Tan(Rotation * Math.PI / 180);
 
         /// <summary>Initializes a new instance of the <seealso cref="Line"/> class.</summary>
+        /// <param name="position">The position of the line.</param>
         /// <param name="rotation">The rotation of the line.</param>
-        public Line(double rotation)
-            : base()
-        {
-            Rotation = rotation;
-        }
+        public Line(Point position, double rotation) : base(position) => Rotation = rotation;
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>

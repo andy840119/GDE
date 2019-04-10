@@ -11,11 +11,13 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     public class Rectangle : WidthHeightShape, IHasWidth, IHasHeight
     {
         /// <summary>Initializes a new instance of the <seealso cref="Rectangle"/> class.</summary>
+        /// <param name="position">The position of the rectangle.</param>
         /// <param name="both">The length of both dimensions of the rectangular shape.</param>
-        public Rectangle(double both) : base(both) { }
+        public Rectangle(Point position, double both) : base(position, both) { }
         /// <summary>Initializes a new instance of the <seealso cref="Rectangle"/> class.</summary>
+        /// <param name="position">The position of the rectangle.</param>
         /// <param name="width">The width of the rectangular shape.</param>
         /// <param name="height">The height of the rectangular shape.</param>
-        public Rectangle(double width, double height) : base(width, height) { }
+        public Rectangle(Point position, double width, double height) : base(position, width, height) { }
     }
 }

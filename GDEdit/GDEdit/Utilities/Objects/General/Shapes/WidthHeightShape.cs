@@ -16,13 +16,15 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         public double Height { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="WidthHeightShape"/> class.</summary>
+        /// <param name="position">The position of the shape.</param>
         /// <param name="both">The length of both dimensions of the shape.</param>
-        public WidthHeightShape(double both) : this(both, both) { }
+        public WidthHeightShape(Point position, double both) : this(position, both, both) { }
         /// <summary>Initializes a new instance of the <seealso cref="WidthHeightShape"/> class.</summary>
+        /// <param name="position">The position of the shape.</param>
         /// <param name="width">The width of the shape.</param>
         /// <param name="height">The height of the shape.</param>
-        public WidthHeightShape(double width, double height)
-            : base()
+        public WidthHeightShape(Point position, double width, double height)
+            : base(position)
         {
             Width = width;
             Height = height;

@@ -14,12 +14,14 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         public double SlopeRatio => Height / Width;
 
         /// <summary>Initializes a new instance of the <seealso cref="Slope"/> class.</summary>
+        /// <param name="position">The position of the slope shape.</param>
         /// <param name="both">The length of both dimensions of the slope shape.</param>
-        public Slope(double both) : base(both) { }
+        public Slope(Point position, double both) : base(position, both) { }
         /// <summary>Initializes a new instance of the <seealso cref="Slope"/> class.</summary>
+        /// <param name="position">The position of the slope shape.</param>
         /// <param name="width">The width of the slope shape.</param>
         /// <param name="height">The height of the slope shape.</param>
-        public Slope(double width, double height) : base(width, height) { }
+        public Slope(Point position, double width, double height) : base(position, width, height) { }
 
         /// <summary>Returns the distance between the center of the shape and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>

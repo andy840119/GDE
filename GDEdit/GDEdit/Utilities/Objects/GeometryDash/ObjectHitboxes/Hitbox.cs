@@ -18,20 +18,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <summary>The position of the hitbox.</summary>
         public Point Position
         {
-            get => position;
-            set => position = value;
+            get => Shape.Position;
+            set => Shape.Position = value;
         }
         /// <summary>The X position of the hitbox.</summary>
         public double X
         {
-            get => position.X;
-            set => position.X = value;
+            get => Shape.X;
+            set => Shape.X = value;
         }
         /// <summary>The Y position of the hitbox.</summary>
         public double Y
         {
-            get => position.Y;
-            set => position.Y = value;
+            get => Shape.Y;
+            set => Shape.Y = value;
         }
 
         /// <summary>The shape of the hitbox.</summary>
@@ -52,7 +52,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
         /// <param name="x">The X position of the hitbox.</param>
         /// <param name="y">The Y position of the hitbox.</param>
-        /// <param name="shape">The shapeof the hitbox.</param>
+        /// <param name="shape">The shape of the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
         public Hitbox(double x, double y, Shape shape, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), shape, behavior) { }
 

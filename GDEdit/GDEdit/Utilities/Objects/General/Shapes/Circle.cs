@@ -15,11 +15,7 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Initializes a new instance of the <seealso cref="Circle"/> class.</summary>
         /// <param name="radius">The radius of the circular shape.</param>
-        public Circle(double radius)
-            : base()
-        {
-            Radius = radius;
-        }
+        public Circle(Point position, double radius) : base(position) => Radius = radius;
 
         /// <summary>Returns the distance between the center of the circular shape and its edge. The rotation parameter is ignored for obvious mathematical reasons.</summary>
         /// <param name="rotation">A useless parameter.</param>
