@@ -12,7 +12,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     public class Hitbox
     {
         /// <summary>The rotation of the hitbox.</summary>
-        public double Rotation { get; set; }
+        public double Rotation
+        {
+            get => Shape.Rotation;
+            set => Shape.Rotation = value;
+        }
         /// <summary>The position of the hitbox.</summary>
         public Point Position
         {
@@ -48,15 +52,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 
         /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
-        public double GetRadiusAtRotation(double rotation) => Shape.GetRadiusAtRotation(rotation + Rotation);
+        public double GetRadiusAtRotation(double rotation) => Shape.GetRadiusAtRotation(rotation);
 
         /// <summary>Determines whether a point is within this shape.</summary>
         /// <param name="p">The point to determine whether it's within this shape.</param> 
-        public bool IsPointWithinHitbox(Point p) => IsPointWithinHitbox(p, Rotation);
-        /// <summary>Determines whether a point is within the hitbox. The provided point is moved to a point relative to <seealso cref="Point.Zero"/> instead of the hitbox's position.</summary>
-        /// <param name="point">The point's location.</param>
-        /// <param name="hitboxRotation">The rotation of the hitbox.</param>
-        public bool IsPointWithinHitbox(Point point, double hitboxRotation) => Shape.ContainsPoint(Point.Zero.Rotate(point - Position, hitboxRotation));
+        public bool IsPointWithinHitbox(Point p) => Shape.ContainsPoint(p);
 
         /// <summary>Determines whether the provided hitbox is unnecessary. This evaluates to <see langword="true"/> if the provided hitbox is contained within this hitbox and has the same behavior, otherwise <see langword="false"/>.</summary>
         /// <param name="h">The hitbox to check whether it is unnecessary.</param>

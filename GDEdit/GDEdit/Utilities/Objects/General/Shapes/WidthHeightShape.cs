@@ -17,14 +17,16 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Initializes a new instance of the <seealso cref="WidthHeightShape"/> class.</summary>
         /// <param name="position">The position of the shape.</param>
+        /// <param name="rotation">The rotation of the shape.</param>
         /// <param name="both">The length of both dimensions of the shape.</param>
-        public WidthHeightShape(Point position, double both) : this(position, both, both) { }
+        public WidthHeightShape(Point position, double rotation, double both) : this(position, rotation, both, both) { }
         /// <summary>Initializes a new instance of the <seealso cref="WidthHeightShape"/> class.</summary>
         /// <param name="position">The position of the shape.</param>
+        /// <param name="rotation">The rotation of the shape.</param>
         /// <param name="width">The width of the shape.</param>
         /// <param name="height">The height of the shape.</param>
-        public WidthHeightShape(Point position, double width, double height)
-            : base(position)
+        public WidthHeightShape(Point position, double rotation, double width, double height)
+            : base(position, rotation)
         {
             Width = width;
             Height = height;
@@ -32,7 +34,7 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Returns the distance between the center of the shape and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
-        public override double GetRadiusAtRotation(double rotation)
+        protected override double CalculateRadiusAtRotation(double rotation)
         {
             double r = rotation % 180;
             if (r == 0)
@@ -61,8 +63,8 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         /// <param name="point">The point's location.</param>
         public override bool ContainsPoint(Point point)
         {
-            Point start = new Point(-Width / 2, -Height / 2);
-            Point end = new Point(Width / 2, Height / 2);
+            Point start = new Point(-Width / 2, -Height / 2) + Position;
+            Point end = new Point(Width / 2, Height / 2) + Position;
             return start <= point && point <= end;
         }
     }

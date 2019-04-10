@@ -15,16 +15,16 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Initializes a new instance of the <seealso cref="Circle"/> class.</summary>
         /// <param name="radius">The radius of the circular shape.</param>
-        public Circle(Point position, double radius) : base(position) => Radius = radius;
+        public Circle(Point position, double radius) : base(position, 0) => Radius = radius;
 
         /// <summary>Returns the distance between the center of the circular shape and its edge. The rotation parameter is ignored for obvious mathematical reasons.</summary>
         /// <param name="rotation">A useless parameter.</param>
-        public override double GetRadiusAtRotation(double rotation) => Radius;
+        protected override double CalculateRadiusAtRotation(double rotation) => Radius;
         /// <summary>Returns the maximum distance between the center of the shape and its edge.</summary>
         public override double GetMaxRadius() => Radius;
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
-        public override bool ContainsPoint(Point point) => point.DistanceFrom(Point.Zero) <= Radius;
+        public override bool ContainsPoint(Point point) => point.DistanceFrom(Position) <= Radius;
     }
 }

@@ -12,6 +12,8 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     {
         private Point position;
 
+        /// <summary>The rotation of the shape in degrees.</summary>
+        public double Rotation { get; set; }
         /// <summary>The position of the shape.</summary>
         public Point Position
         {
@@ -33,7 +35,12 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Initializes a new instance of the <seealso cref="Shape"/> class.</summary>
         /// <param name="position">The position of the shape.</param>
-        public Shape(Point position) => Position = position;
+        /// <param name="rotation">The rotation of the shape in degrees.</param>
+        public Shape(Point position, double rotation)
+        {
+            Position = position;
+            Rotation = rotation;
+        }
 
         /// <summary>Determines whether this shape overlaps with another shape.</summary>
         /// <param name="shape">The shape to check whether it overlaps with this shape.</param>
@@ -41,8 +48,8 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         {
             double distance = Position.DistanceFrom(shape.Position);
             double deg = Position.GetAngle(shape.Position) * 180 / Math.PI;
-            double a = GetRadiusAtRotation(deg);
-            double b = shape.GetRadiusAtRotation(-deg);
+            double a = CalculateRadiusAtRotation(deg);
+            double b = shape.CalculateRadiusAtRotation(-deg);
             return a + b <= distance;
         }
         /// <summary>Determines whether this shape contains another shape.</summary>
@@ -57,9 +64,12 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Returns the distance between the center of the shape and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
-        public abstract double GetRadiusAtRotation(double rotation);
+        public double GetRadiusAtRotation(double rotation) => CalculateRadiusAtRotation(rotation + Rotation);
         /// <summary>Returns the maximum distance between the center of the shape and its edge.</summary>
         public abstract double GetMaxRadius();
+        /// <summary>Returns the distance between the center of the shape and its edge.</summary>
+        /// <param name="rotation">The rotation in degrees to get the distance at.</param>
+        protected abstract double CalculateRadiusAtRotation(double rotation);
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
