@@ -54,8 +54,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
         public double GetRadiusAtRotation(double rotation) => Shape.GetRadiusAtRotation(rotation);
 
-        /// <summary>Determines whether a point is within this shape.</summary>
-        /// <param name="p">The point to determine whether it's within this shape.</param> 
+        /// <summary>Determines whether a point is within this hitbox.</summary>
+        /// <param name="p">The point to determine whether it's within this hitbox.</param> 
         public bool IsPointWithinHitbox(Point p) => Shape.ContainsPoint(p);
 
         /// <summary>Determines whether the provided hitbox is unnecessary. This evaluates to <see langword="true"/> if the provided hitbox is contained within this hitbox and has the same behavior, otherwise <see langword="false"/>.</summary>
