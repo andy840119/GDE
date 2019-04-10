@@ -41,20 +41,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 
         /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
         /// <param name="position">The position of the hitbox.</param>
-        /// <param name="type">The hitbox type of the hitbox.</param>
+        /// <param name="shape">The shape of the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
-        public Hitbox(Point position, Shape type, HitboxBehavior behavior = HitboxBehavior.Platform)
+        public Hitbox(Point position, Shape shape, HitboxBehavior behavior = HitboxBehavior.Platform)
         {
             Position = position;
-            Shape = type;
+            Shape = shape;
             Behavior = behavior;
         }
         /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
         /// <param name="x">The X position of the hitbox.</param>
         /// <param name="y">The Y position of the hitbox.</param>
-        /// <param name="type">The hitbox type of the hitbox.</param>
+        /// <param name="shape">The shapeof the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
-        public Hitbox(double x, double y, Shape type, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), type, behavior) { }
+        public Hitbox(double x, double y, Shape shape, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), shape, behavior) { }
 
         /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
