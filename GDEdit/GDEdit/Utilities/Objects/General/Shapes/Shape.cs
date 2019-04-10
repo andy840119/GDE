@@ -35,6 +35,26 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         /// <param name="position">The position of the shape.</param>
         public Shape(Point position) => Position = position;
 
+        /// <summary>Determines whether this shape overlaps with another shape.</summary>
+        /// <param name="shape">The shape to check whether it overlaps with this shape.</param>
+        public bool OverlapsWithAnotherShape(Shape shape)
+        {
+            double distance = Position.DistanceFrom(shape.Position);
+            double deg = Position.GetAngle(shape.Position) * 180 / Math.PI;
+            double a = GetRadiusAtRotation(deg);
+            double b = shape.GetRadiusAtRotation(-deg);
+            return a + b <= distance;
+        }
+        /// <summary>Determines whether this shape contains another shape.</summary>
+        /// <param name="shape">The shape to check whether it is contained this shape.</param>
+        public bool ContainsShape(Shape shape)
+        {
+            double distance = Position.DistanceFrom(shape.Position);
+            double a = GetMaxRadius();
+            double b = shape.GetMaxRadius();
+            return b + distance <= a;
+        }
+
         /// <summary>Returns the distance between the center of the shape and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
         public abstract double GetRadiusAtRotation(double rotation);

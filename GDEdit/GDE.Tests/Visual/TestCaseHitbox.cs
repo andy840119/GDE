@@ -24,7 +24,7 @@ namespace GDE.Tests.Visual
 
         public TestCaseHitbox()
         {
-            hitbox = new Hitbox(new Point(50), new Rectangle(new Point(50), 100, 213));
+            hitbox = new Hitbox(new Rectangle(new Point(50), 100, 213));
 
             Children = new Drawable[]
             {

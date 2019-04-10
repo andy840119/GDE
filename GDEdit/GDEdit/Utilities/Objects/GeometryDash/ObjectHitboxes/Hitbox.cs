@@ -11,8 +11,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     /// <summary>Represents an object hitbox.</summary>
     public class Hitbox
     {
-        private Point position;
-
         /// <summary>The rotation of the hitbox.</summary>
         public double Rotation { get; set; }
         /// <summary>The position of the hitbox.</summary>
@@ -40,56 +38,29 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         public HitboxBehavior Behavior { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
-        /// <param name="position">The position of the hitbox.</param>
         /// <param name="shape">The shape of the hitbox.</param>
         /// <param name="behavior">The behavior of the hitbox.</param>
-        public Hitbox(Point position, Shape shape, HitboxBehavior behavior = HitboxBehavior.Platform)
+        public Hitbox(Shape shape, HitboxBehavior behavior = HitboxBehavior.Platform)
         {
-            Position = position;
             Shape = shape;
             Behavior = behavior;
         }
-        /// <summary>Initializes a new instance of the <seealso cref="Hitbox"/> class.</summary>
-        /// <param name="x">The X position of the hitbox.</param>
-        /// <param name="y">The Y position of the hitbox.</param>
-        /// <param name="shape">The shape of the hitbox.</param>
-        /// <param name="behavior">The behavior of the hitbox.</param>
-        public Hitbox(double x, double y, Shape shape, HitboxBehavior behavior = HitboxBehavior.Platform) : this(new Point(x, y), shape, behavior) { }
 
         /// <summary>Returns the distance between the center of the hitbox and its edge.</summary>
         /// <param name="rotation">The rotation in degrees to get the distance at.</param>
         public double GetRadiusAtRotation(double rotation) => Shape.GetRadiusAtRotation(rotation + Rotation);
 
-        /// <summary>Determines whether a point is within this hitbox.</summary>
-        /// <param name="p">The point to determine whether it's within this hitbox.</param>
+        /// <summary>Determines whether a point is within this shape.</summary>
+        /// <param name="p">The point to determine whether it's within this shape.</param> 
         public bool IsPointWithinHitbox(Point p) => IsPointWithinHitbox(p, Rotation);
         /// <summary>Determines whether a point is within the hitbox. The provided point is moved to a point relative to <seealso cref="Point.Zero"/> instead of the hitbox's position.</summary>
         /// <param name="point">The point's location.</param>
         /// <param name="hitboxRotation">The rotation of the hitbox.</param>
         public bool IsPointWithinHitbox(Point point, double hitboxRotation) => Shape.ContainsPoint(Point.Zero.Rotate(point - Position, hitboxRotation));
 
-        /// <summary>Determines whether this hitbox overlaps with another hitbox.</summary>
-        /// <param name="h">The hitbox to check whether it overlaps with this one.</param>
-        public bool OverlapsWithAnotherHitbox(Hitbox h)
-        {
-            double distance = Position.DistanceFrom(h.Position);
-            double deg = Position.GetAngle(h.Position) * 180 / Math.PI;
-            double a = Shape.GetRadiusAtRotation(deg);
-            double b = h.Shape.GetRadiusAtRotation(-deg);
-            return a + b <= distance;
-        }
-        /// <summary>Determines whether this hitbox contains another hitbox.</summary>
-        /// <param name="h">The hitbox to check whether it is contained this hitbox.</param>
-        public bool ContainsHitbox(Hitbox h)
-        {
-            double distance = Position.DistanceFrom(h.Position);
-            double a = Shape.GetMaxRadius();
-            double b = h.Shape.GetMaxRadius();
-            return b + distance <= a;
-        }
         /// <summary>Determines whether the provided hitbox is unnecessary. This evaluates to <see langword="true"/> if the provided hitbox is contained within this hitbox and has the same behavior, otherwise <see langword="false"/>.</summary>
         /// <param name="h">The hitbox to check whether it is unnecessary.</param>
-        public bool IsUnnecessaryHitbox(Hitbox h) => h.Behavior == Behavior && ContainsHitbox(h);
+        public bool IsUnnecessaryHitbox(Hitbox h) => h.Behavior == Behavior && Shape.ContainsShape(h.Shape);
     }
 
     /// <summary>Represents a hitbox behavior.</summary>
