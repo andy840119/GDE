@@ -1,4 +1,6 @@
-﻿using GDEdit.Utilities.Functions.Extensions;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Functions.Extensions;
+using GDEdit.Utilities.Objects.General;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +14,46 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     public class SongMetadata
     {
         /// <summary>The ID of the song.</summary>
+        [SongMetadataStringMappable(1)]
         public int ID { get; set; }
         /// <summary>The title of the song.</summary>
+        [SongMetadataStringMappable(2)]
         public string Title { get; set; }
         /// <summary>The artist of the song.</summary>
+        [SongMetadataStringMappable(4)]
         public string Artist { get; set; }
         /// <summary>The size of the song in MB.</summary>
+        [SongMetadataStringMappable(5)]
         public double SongSizeMB { get; set; }
         /// <summary>The URL to the song on Newgrounds.</summary>
         public string URL => $"https://www.newgrounds.com/audio/listen/{ID}";
         /// <summary>The download link of the song.</summary>
+        [SongMetadataStringMappable(10)]
         public string DownloadLink { get; set; }
 
         /// <summary>The value of the unknown key 3.</summary>
+        [SongMetadataStringMappable(3)]
         public int UnknownKey3 { get; set; }
         /// <summary>The value of the unknown key 7.</summary>
+        [SongMetadataStringMappable(7)]
         public string UnknownKey7 { get; set; }
         /// <summary>The value of the unknown key 9.</summary>
+        [SongMetadataStringMappable(9)]
         public int UnknownKey9 { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>
         public SongMetadata() { }
 
+        /// <summary>Initializes a new instance of the <seealso cref="SongMetadata"/> class.</summary>
+        /// <param name="data">The data of the <seealso cref="SongMetadata"/>.</param>
+        public SongMetadata(string data)
+        {
+            new XMLAnalyzer(data).AnalyzeXMLInformation(GetSongMetadataParameterInformation);
+        }
+
         /// <summary>Parses the data into a <seealso cref="SongMetadata"/> instance.</summary>
         /// <param name="data">The data to parse into a <seealso cref="SongMetadata"/> instance.</param>
-        public static SongMetadata Parse(string data)
-        {
-            var s = new SongMetadata();
-            s.GetSongMetadataInformation(data);
-            return s;
-        }
+        public static SongMetadata Parse(string data) => new SongMetadata(data);
 
         private void GetSongMetadataParameterInformation(string key, string value, string valueType)
         {
@@ -73,35 +85,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     break;
                 default: // Not something we care about
                     break;
-            }
-        }
-        private void GetSongMetadataInformation(string data)
-        {
-            string startKeyString = "<k>";
-            string endKeyString = "</k><";
-            int IDStart;
-            int IDEnd;
-            int valueTypeStart;
-            int valueTypeEnd;
-            int valueStart;
-            int valueEnd;
-            string valueType;
-            string value;
-            for (int i = 0; i < data.Length;)
-            {
-                IDStart = data.Find(startKeyString, i, data.Length) + startKeyString.Length;
-                if (IDStart <= startKeyString.Length)
-                    break;
-                IDEnd = data.Find(endKeyString, IDStart, data.Length);
-                valueTypeStart = IDEnd + endKeyString.Length;
-                valueTypeEnd = data.Find(">", valueTypeStart, data.Length);
-                valueType = data.Substring(valueTypeStart, valueTypeEnd - valueTypeStart);
-                valueStart = valueTypeEnd + 1;
-                valueEnd = valueType[valueType.Length - 1] != '/' ? data.Find($"</{valueType}>", valueStart, data.Length) : valueStart;
-                value = data.Substring(valueStart, valueEnd - valueStart);
-                string s = data.Substring(IDStart, IDEnd - IDStart);
-                GetSongMetadataParameterInformation(s, value, valueType);
-                i = valueEnd;
             }
         }
 

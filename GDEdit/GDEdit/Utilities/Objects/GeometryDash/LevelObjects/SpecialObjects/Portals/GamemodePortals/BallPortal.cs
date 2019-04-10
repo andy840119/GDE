@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a ball portal.</summary>
+    [ObjectID(PortalType.Ball)]
     public class BallPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the ball portal.</summary>

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.GamemodePortals
 {
     /// <summary>Represents a UFO portal.</summary>
+    [ObjectID(PortalType.UFO)]
     public class UFOPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the UFO portal.</summary>

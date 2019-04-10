@@ -11,6 +11,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Random trigger.</summary>
     [FutureProofing("2.2")]
+    [ObjectID(TriggerType.Random)]
     public class RandomTrigger : Trigger, IHasTargetGroupID, IHasSecondaryGroupID
     {
         private byte chance;

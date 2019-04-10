@@ -16,50 +16,50 @@ namespace GDE.App.Main.Objects
     {
         private GeneralObject lvlObj;
         private Box obj;
-        private TextureStore texStore;
+        private TextureStore textureStore;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
         public int ObjectID
         {
             get => lvlObj.ObjectID;
-            set => lvlObj.ObjectID = value;
+            set => UpdateObjectID(lvlObj.ObjectID = value);
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX
         {
             get => lvlObj.X;
-            set => lvlObj.X = value;
+            set => UpdateObjectX(lvlObj.X = value);
         }
         ///<summary>The Y position of the object.</summary>
         public double ObjectY
         {
             get => lvlObj.Y;
-            set => lvlObj.Y = value;
+            set => UpdateObjectY(lvlObj.Y = value);
         }
         ///<summary>Represents whether the object is flipped horizontally or not.</summary>
         public bool FlippedHorizontally
         {
             get => lvlObj.FlippedHorizontally;
-            set => lvlObj.FlippedHorizontally = value;
+            set => UpdateFlippedHorizontally(lvlObj.FlippedHorizontally = value);
         }
         ///<summary>Represents whether the object is flipped vertically or not.</summary>
         public bool FlippedVertically
         {
             get => lvlObj.FlippedVertically;
-            set => lvlObj.FlippedVertically = value;
+            set => UpdateFlippedVertically(lvlObj.FlippedVertically = value);
         }
         ///<summary>The rotation of the object.</summary>
         public double ObjectRotation
         {
             get => lvlObj.Rotation;
-            set => lvlObj.Rotation = value;
+            set => UpdateObjectRotation(lvlObj.Rotation = value);
         }
         ///<summary>The scaling of the object.</summary>
         public double ObjectScaling
         {
             get => lvlObj.Scaling;
-            set => lvlObj.Scaling = value;
+            set => UpdateObjectScaling(lvlObj.Scaling = value);
         }
         ///<summary>The Editor Layer 1 of the object.</summary>
         public int EL1
@@ -73,40 +73,58 @@ namespace GDE.App.Main.Objects
             get => lvlObj.EL2;
             set => lvlObj.EL2 = value;
         }
-        ///<summary>The Group IDs of the object.</summary>
-        public int[] GroupIDs
-        {
-            get => lvlObj.GroupIDs;
-            set => lvlObj.GroupIDs = value;
-        }
         #endregion
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
-        public ObjectBase(int objectID = 1)
+        public ObjectBase(GeneralObject o)
         {
-            lvlObj = new GeneralObject(objectID);
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
 
             Children = new Drawable[]
             {
                 obj = new Box
                 {
-                    Size = new Vector2(100),
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
+                    RelativeSizeAxes = Axes.Both
                 }
             };
-        }
 
+            Size = new Vector2(30);
+            UpdateObject(lvlObj = o);
+        }
+        
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
-            texStore = ts;
+            textureStore = ts;
+            UpdateObjectID(lvlObj.ObjectID);
+        }
+        
+        private void UpdateObject(GeneralObject o)
+        {
+            UpdateObjectID(o.ObjectID);
+            UpdateObjectX(o.X);
+            UpdateObjectY(o.Y);
+            UpdateFlippedHorizontally(o.FlippedHorizontally);
+            UpdateFlippedVertically(o.FlippedVertically);
+            UpdateObjectRotation(o.Rotation);
+            UpdateObjectScaling(o.Scaling);
         }
 
-        protected override void Update()
+        private void UpdateObjectID(int value) => obj.Texture = textureStore?.Get($"Objects/{value}.png");
+        private void UpdateObjectX(double value) => X = (float)value;
+        private void UpdateObjectY(double value) => Y = -(float)value;
+        private void UpdateFlippedHorizontally(bool value) => Width = SetSign(Width, !value);
+        private void UpdateFlippedVertically(bool value) => Height = SetSign(Height, !value);
+        private void UpdateObjectRotation(double value) => Rotation = (float)value;
+        private void UpdateObjectScaling(double value) => Scale = new Vector2((float)value);
+        private float SetSign(float value, bool sign)
         {
-            obj.Texture = texStore.Get($"Objects/{ObjectID}.png");
-            base.Update();
+            if (!sign ^ value < 0)
+                return -value;
+            return value;
         }
     }
 }

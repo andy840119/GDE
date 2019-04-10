@@ -1,4 +1,5 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals
 {
     /// <summary>Represents a yellow mirror portal.</summary>
+    [ObjectID(PortalType.YellowMirror)]
     public class YellowMirrorPortal : Portal
     {
         /// <summary>The object ID of the yellow mirror portal.</summary>

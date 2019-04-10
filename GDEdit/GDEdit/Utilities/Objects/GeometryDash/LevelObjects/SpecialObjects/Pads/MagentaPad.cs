@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
 {
     /// <summary>Represents a magenta pad.</summary>
+    [ObjectID(PadType.MagentaPad)]
     public class MagentaPad : Pad
     {
         /// <summary>The object ID of the magenta pad.</summary>

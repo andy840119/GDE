@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a text object.</summary>
+    [ObjectID(SpecialObjectType.TextObject)]
     public class TextObject : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the text object.</summary>

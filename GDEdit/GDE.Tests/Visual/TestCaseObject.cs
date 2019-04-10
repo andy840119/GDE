@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Objects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
@@ -20,7 +21,7 @@ namespace GDE.Tests.Visual
                     Colour = new Color4(95, 95, 95, 255),
                     RelativeSizeAxes = Axes.Both
                 },
-                obj = new ObjectBase
+                obj = new ObjectBase(new GeneralObject())
                 {
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,

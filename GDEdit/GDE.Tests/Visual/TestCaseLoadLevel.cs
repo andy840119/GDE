@@ -1,10 +1,10 @@
 ﻿using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using System.Threading.Tasks;
-using static GDEdit.Application.ApplicationDatabase;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDE.Tests.Visual
@@ -18,8 +18,6 @@ namespace GDE.Tests.Visual
 
         public TestCaseLoadLevel()
         {
-            Databases.Add(database = new Database());
-
             Children = new Drawable[]
             {
                 levelName = new SpriteText
@@ -29,6 +27,12 @@ namespace GDE.Tests.Visual
                     Font = new FontUsage(size: 40),
                 }
             };
+        }
+
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection d)
+        {
+            database = d[0];
         }
 
         protected override void Update()

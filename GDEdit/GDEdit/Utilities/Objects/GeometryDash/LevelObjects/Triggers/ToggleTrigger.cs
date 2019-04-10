@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Toggle trigger.</summary>
+    [ObjectID(TriggerType.Toggle)]
     public class ToggleTrigger : Trigger, IHasTargetGroupID
     {
         private short targetGroupID;

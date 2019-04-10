@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Alpha trigger.</summary>
+    [ObjectID(TriggerType.Alpha)]
     public class AlphaTrigger : Trigger, IHasDuration, IHasTargetGroupID
     {
         private short targetGroupID;

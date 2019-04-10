@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
 {
     /// <summary>Represents a blue orb.</summary>
+    [ObjectID(OrbType.BlueOrb)]
     public class BlueOrb : Orb
     {
         /// <summary>The object ID of the blue orb.</summary>

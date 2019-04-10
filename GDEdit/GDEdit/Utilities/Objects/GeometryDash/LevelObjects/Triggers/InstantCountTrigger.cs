@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents an Instant Count trigger.</summary>
+    [ObjectID(TriggerType.InstantCount)]
     public class InstantCountTrigger : Trigger, IHasTargetGroupID, IHasPrimaryItemID
     {
         private short targetGroupID, itemID;

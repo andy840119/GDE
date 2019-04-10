@@ -10,6 +10,7 @@ using GDEdit.Utilities.Attributes;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
     /// <summary>Represents a collision block.</summary>
+    [ObjectID(SpecialObjectType.CollisionBlock)]
     public class CollisionBlock : ConstantIDSpecialObject, IHasPrimaryBlockID
     {
         private short blockID;

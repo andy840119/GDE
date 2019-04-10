@@ -10,6 +10,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Pickup trigger.</summary>
+    [ObjectID(TriggerType.Pickup)]
     public class PickupTrigger : Trigger, IHasTargetItemID
     {
         private short targetItemID;
