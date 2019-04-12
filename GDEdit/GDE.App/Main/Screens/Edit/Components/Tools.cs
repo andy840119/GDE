@@ -72,13 +72,15 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             Action = () => 
                             {
-                                editor.SelectedObjects.Clear();
-
                                 //Always defaults to 0, so fix that
-                                for (var i = 0; i < editor.SelectedObjects.Count; i++)
+                                foreach (var o in ObjectBase.DrawableSelectedObjects)
                                 {
-                                    Level.Objects[i].Dispose();
-	                            }
+                                    //Hide it for now
+                                    o.Hide();
+                                }
+
+                                ObjectBase.DrawableSelectedObjects.Clear();
+                                editor.SelectedObjects.Clear();
                             },
                             Text = "Remove Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),

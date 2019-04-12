@@ -9,6 +9,8 @@ using osuTK.Graphics;
 using System;
 using osu.Framework.Graphics.Sprites;
 using GDEdit.Application.Editor;
+using osu.Framework.Logging;
+using System.Collections.Generic;
 
 namespace GDE.App.Main.Objects
 {
@@ -17,13 +19,13 @@ namespace GDE.App.Main.Objects
     public class ObjectBase : Sprite
     {
         private TextureStore textureStore;
+        private Editor editor;
 
         public GeneralObject LevelObject;
         public readonly ObjectBase Object;
         public SelectionState State;
         public EventHandler Selected;
-
-        private Editor editor;
+        public static List<ObjectBase> DrawableSelectedObjects;
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
@@ -92,6 +94,8 @@ namespace GDE.App.Main.Objects
 
             Size = new Vector2(30);
             UpdateObject(LevelObject = o);
+
+            DrawableSelectedObjects = new List<ObjectBase>();
         }
         
         [BackgroundDependencyLoader]
@@ -133,10 +137,20 @@ namespace GDE.App.Main.Objects
 
             //could be optimized, but lack knowledge lmfao
             if (editor != null)
+            {
                 if (State == SelectionState.Selected)
+                {
                     editor.SelectedObjects.Add(LevelObject);
+                    DrawableSelectedObjects.Add(this);
+                }
                 else
+                {
                     editor.SelectedObjects.Remove(LevelObject);
+                    DrawableSelectedObjects.Remove(this);
+                }
+
+                Logger.Log($"Added/Removed new object to Selected Objects (now {editor.SelectedObjects.Count})");
+            }
 
             Selected?.Invoke(this, EventArgs.Empty);
 

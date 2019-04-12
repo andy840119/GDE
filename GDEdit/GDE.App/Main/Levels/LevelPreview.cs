@@ -40,7 +40,8 @@ namespace GDE.App.Main.Levels
             database = databases[0];
 
             foreach (var o in Level.LevelObjects)
-                Add(new ObjectBase(o, editor));
+                if (!IsDisposed)
+                    Add(new ObjectBase(o, editor));
         }
 
         protected override bool OnDrag(DragEvent e)
