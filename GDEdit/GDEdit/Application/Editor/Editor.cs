@@ -38,13 +38,13 @@ namespace GDEdit.Application.Editor
         public LevelObjectCollection ObjectClipboard = new LevelObjectCollection();
         #endregion
 
-        #region Functions
+        #region Editor Function Toggles
         /// <summary>Indicates whether the Swipe option is enabled or not.</summary>
-        public bool Swipe;
+        public bool Swipe { get; set; }
         /// <summary>Indicates whether the Grid Snap option is enabled or not.</summary>
-        public bool GridSnap;
+        public bool GridSnap { get; set; }
         /// <summary>Indicates whether the Free Move option is enabled or not.</summary>
-        public bool FreeMove;
+        public bool FreeMove { get; set; }
         #endregion
 
         #region Editor Preferences
@@ -77,12 +77,16 @@ namespace GDEdit.Application.Editor
         #region Events
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
         public event Action<bool> DualLayerModeChanged;
+
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsAdded;
         /// <summary>Occurs when new objects have been removed from the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsRemoved;
         /// <summary>Occurs when all objects have been deselected.</summary>
         public event Action AllObjectsDeselected;
+
+        /// <summary>Occurs when the selected objects have been moved.</summary>
+        public event MovedObjectsHandler SelectedObjectsMoved;
         #endregion
 
         #region Constructors
@@ -187,35 +191,51 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Object Editing
-        // Add events for these methods?
         #region Object Movement
         /// <summary>Moves the selected objects by an amount on the X axis.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
         public void MoveX(double x)
         {
             if (x != 0)
+            {
                 foreach (var o in SelectedObjects)
                     o.X += x;
+                SelectedObjectsMoved?.Invoke(SelectedObjects, new Point(x, 0));
+            }
         }
         /// <summary>Moves the selected objects by an amount on the Y axis.</summary>
         /// <param name="y">The offset of Y to move the objects by.</param>
         public void MoveY(double y)
         {
             if (y != 0)
+            {
                 foreach (var o in SelectedObjects)
                     o.Y += y;
+                SelectedObjectsMoved?.Invoke(SelectedObjects, new Point(0, y));
+            }
         }
         /// <summary>Moves the selected objects by an amount.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
         /// <param name="y">The offset of Y to move the objects by.</param>
-        public void Move(double x, double y)
-        {
-            MoveX(x);
-            MoveY(y);
-        }
+        public void Move(double x, double y) => Move(new Point(x, y));
         /// <summary>Moves the selected objects by an amount.</summary>
         /// <param name="p">The point indicating the movement of the objects across the field.</param>
-        public void Move(Point p) => Move(p.X, p.Y);
+        public void Move(Point p)
+        {
+            if (p.Y == 0)
+                MoveX(p.X);
+            else if (p.X == 0)
+                MoveY(p.Y);
+            else
+            {
+                foreach (var o in SelectedObjects)
+                {
+                    o.X += p.X;
+                    o.Y += p.Y;
+                }
+                SelectedObjectsMoved?.Invoke(SelectedObjects, p);
+            }
+        }
         #endregion
         #region Object Rotation
         /// <summary>Rotates the selected objects by an amount.</summary>
@@ -462,4 +482,9 @@ namespace GDEdit.Application.Editor
         }
         #endregion
     }
+
+    /// <summary>Represents a function that contains information about an object movement action.</summary>
+    /// <param name="objects">The objects that were moved.</param>
+    /// <param name="offset">The offset of the movement function.</param>
+    public delegate void MovedObjectsHandler(LevelObjectCollection objects, Point offset);
 }
