@@ -89,6 +89,8 @@ namespace GDEdit.Application.Editor
         public event MovedObjectsHandler SelectedObjectsMoved;
         /// <summary>Occurs when the selected objects have been rotated.</summary>
         public event RotatedObjectsHandler SelectedObjectsRotated;
+        /// <summary>Occurs when the selected objects have been scaled.</summary>
+        public event ScaledObjectsHandler SelectedObjectsScaled;
         #endregion
 
         #region Constructors
@@ -278,12 +280,15 @@ namespace GDEdit.Application.Editor
         {
             foreach (var o in SelectedObjects)
                 o.Scaling *= scaling;
+            Point? median = null;
             if (!individually)
             {
-                var median = GetMedianPoint();
+                var m = GetMedianPoint();
+                median = m;
                 foreach (var o in SelectedObjects)
-                    o.Location = (median - o.Location) * scaling + median;
+                    o.Location = (m - o.Location) * scaling + m;
             }
+            SelectedObjectsScaled?.Invoke(SelectedObjects, scaling, median);
         }
         /// <summary>Scales the selected objects by an amount based on a specific central point.</summary>
         /// <param name="scaling">The scaling to apply to all the objects.</param>
@@ -295,6 +300,7 @@ namespace GDEdit.Application.Editor
                 o.Scaling *= scaling;
                 o.Location = (center - o.Location) * scaling + center;
             }
+            SelectedObjectsScaled?.Invoke(SelectedObjects, scaling, center);
         }
         #endregion
         #region Object Flipping
@@ -498,4 +504,9 @@ namespace GDEdit.Application.Editor
     /// <param name="offset">The offset of the rotation function.</param>
     /// <param name="centralPoint">The central point of the rotation (<see langword="null"/> to indicate an individual rotation).</param>
     public delegate void RotatedObjectsHandler(LevelObjectCollection objects, double offset, Point? centralPoint);
+    /// <summary>Represents a function that contains information about an object scaling action.</summary>
+    /// <param name="objects">The objects that were scaled.</param>
+    /// <param name="scaling">The offset of the scaling function.</param>
+    /// <param name="centralPoint">The central point of the scaling (<see langword="null"/> to indicate an individual scaling).</param>
+    public delegate void ScaledObjectsHandler(LevelObjectCollection objects, double scaling, Point? centralPoint);
 }
