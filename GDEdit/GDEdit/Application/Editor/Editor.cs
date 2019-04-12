@@ -91,6 +91,10 @@ namespace GDEdit.Application.Editor
         public event RotatedObjectsHandler SelectedObjectsRotated;
         /// <summary>Occurs when the selected objects have been scaled.</summary>
         public event ScaledObjectsHandler SelectedObjectsScaled;
+        /// <summary>Occurs when the selected objects have been flipped horizontally.</summary>
+        public event FlippedObjectsHorizontallyHandler SelectedObjectsFlippedHorizontally;
+        /// <summary>Occurs when the selected objects have been flipped vertically.</summary>
+        public event FlippedObjectsVerticallyHandler SelectedObjectsFlippedVertically;
         #endregion
 
         #region Constructors
@@ -310,12 +314,15 @@ namespace GDEdit.Application.Editor
         {
             foreach (var o in SelectedObjects)
                 o.FlippedHorizontally = !o.FlippedHorizontally;
+            Point? median = null;
             if (!individually)
             {
-                var median = GetMedianPoint();
+                var m = GetMedianPoint();
+                median = m;
                 foreach (var o in SelectedObjects)
-                    o.X = 2 * median.X - o.X;
+                    o.X = 2 * m.X - o.X;
             }
+            SelectedObjectsFlippedHorizontally?.Invoke(SelectedObjects, median);
         }
         /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
         /// <param name="center">The central point to take into account while flipping all objects.</param>
@@ -326,6 +333,7 @@ namespace GDEdit.Application.Editor
                 o.FlippedHorizontally = !o.FlippedHorizontally;
                 o.X = 2 * center.X - o.X;
             }
+            SelectedObjectsFlippedHorizontally?.Invoke(SelectedObjects, center);
         }
         /// <summary>Flips the selected objects vertically.</summary>
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
@@ -333,12 +341,15 @@ namespace GDEdit.Application.Editor
         {
             foreach (var o in SelectedObjects)
                 o.FlippedVertically = !o.FlippedVertically;
+            Point? median = null;
             if (!individually)
             {
-                var median = GetMedianPoint();
+                var m = GetMedianPoint();
+                median = m;
                 foreach (var o in SelectedObjects)
-                    o.Y = 2 * median.Y - o.Y;
+                    o.Y = 2 * m.Y - o.Y;
             }
+            SelectedObjectsFlippedVertically?.Invoke(SelectedObjects, median);
         }
         /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
         /// <param name="center">The central point to take into account while flipping all objects.</param>
@@ -349,6 +360,7 @@ namespace GDEdit.Application.Editor
                 o.FlippedVertically = !o.FlippedVertically;
                 o.Y = 2 * center.Y - o.Y;
             }
+            SelectedObjectsFlippedVertically?.Invoke(SelectedObjects, center);
         }
         #endregion
         #endregion
@@ -509,4 +521,12 @@ namespace GDEdit.Application.Editor
     /// <param name="scaling">The offset of the scaling function.</param>
     /// <param name="centralPoint">The central point of the scaling (<see langword="null"/> to indicate an individual scaling).</param>
     public delegate void ScaledObjectsHandler(LevelObjectCollection objects, double scaling, Point? centralPoint);
+    /// <summary>Represents a function that contains information about a horizontal object flipping action.</summary>
+    /// <param name="objects">The objects that were flipped horizontally.</param>
+    /// <param name="centralPoint">The central point of the horizontal flipping (<see langword="null"/> to indicate an individual horizontal flipping).</param>
+    public delegate void FlippedObjectsHorizontallyHandler(LevelObjectCollection objects, Point? centralPoint);
+    /// <summary>Represents a function that contains information about a vertical object flipping action.</summary>
+    /// <param name="objects">The objects that were flipped vertically.</param>
+    /// <param name="centralPoint">The central point of the vertical flipping (<see langword="null"/> to indicate an individual vertical flipping).</param>
+    public delegate void FlippedObjectsVerticallyHandler(LevelObjectCollection objects, Point? centralPoint);
 }
