@@ -78,21 +78,23 @@ namespace GDE.App.Main.Screens.Menu.Components
                 }
             };
 
-            this.search = search;
+            if (search != null)
+                this.search = search;
 
             Selected.ValueChanged += OnSelected;
             Level.ValueChanged += OnLevelChange;
 
-            search.Criteria.ValueChanged += criteria =>
-            {
-                if (!criteria.NewValue.Equals(""))
-                    if (criteria.NewValue.Contains(Level.Value.Name))
-                        Show();
-                    else
+            if (search != null)
+                search.Criteria.ValueChanged += criteria =>
+                {
+                    if (!criteria.NewValue.Equals(""))
+                        if (criteria.NewValue.Contains(Level.Value.Name))
+                            Show();
+                        else
                         Hide();
-                else
-                    Show();
-            };
+                    else
+                        Show();
+                };
         }
 
         private void OnSelected(ValueChangedEvent<bool> value) => selectionBar.FadeColour(GDEColors.FromHex(value.OldValue ? "202020" : "00bc5c"), 200);
