@@ -87,6 +87,8 @@ namespace GDEdit.Application.Editor
 
         /// <summary>Occurs when the selected objects have been moved.</summary>
         public event MovedObjectsHandler SelectedObjectsMoved;
+        /// <summary>Occurs when the selected objects have been rotated.</summary>
+        public event RotatedObjectsHandler SelectedObjectsRotated;
         #endregion
 
         #region Constructors
@@ -245,12 +247,15 @@ namespace GDEdit.Application.Editor
         {
             foreach (var o in SelectedObjects)
                 o.Rotation += rotation;
+            Point? median = null;
             if (!individually)
             {
-                var median = GetMedianPoint();
+                var m = GetMedianPoint();
+                median = m;
                 foreach (var o in SelectedObjects)
-                    o.Location = o.Location.Rotate(median, rotation);
+                    o.Location = o.Location.Rotate(m, rotation);
             }
+            SelectedObjectsRotated?.Invoke(SelectedObjects, rotation, median);
         }
         /// <summary>Rotates the selected objects by an amount based on a specific central point.</summary>
         /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
@@ -262,6 +267,7 @@ namespace GDEdit.Application.Editor
                 o.Rotation += rotation;
                 o.Location = o.Location.Rotate(center, rotation);
             }
+            SelectedObjectsRotated?.Invoke(SelectedObjects, rotation, center);
         }
         #endregion
         #region Object Scaling
@@ -487,4 +493,9 @@ namespace GDEdit.Application.Editor
     /// <param name="objects">The objects that were moved.</param>
     /// <param name="offset">The offset of the movement function.</param>
     public delegate void MovedObjectsHandler(LevelObjectCollection objects, Point offset);
+    /// <summary>Represents a function that contains information about an object rotation action.</summary>
+    /// <param name="objects">The objects that were rotated.</param>
+    /// <param name="offset">The offset of the rotation function.</param>
+    /// <param name="centralPoint">The central point of the rotation (<see langword="null"/> to indicate an individual rotation).</param>
+    public delegate void RotatedObjectsHandler(LevelObjectCollection objects, double offset, Point? centralPoint);
 }
