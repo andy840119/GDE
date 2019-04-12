@@ -15,12 +15,12 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Initializes a new instance of the <seealso cref="Slope"/> class.</summary>
         /// <param name="position">The position of the slope shape.</param>
-        /// <param name="rotation">The rotation of the slope shape.</param>
+        /// <param name="rotation">The rotation of the slope shape in degrees.</param>
         /// <param name="both">The length of both dimensions of the slope shape.</param>
         public Slope(Point position, double rotation, double both) : base(position, rotation, both) { }
         /// <summary>Initializes a new instance of the <seealso cref="Slope"/> class.</summary>
         /// <param name="position">The position of the slope shape.</param>
-        /// <param name="rotation">The rotation of the slope shape.</param>
+        /// <param name="rotation">The rotation of the slope shape in degrees.</param>
         /// <param name="width">The width of the slope shape.</param>
         /// <param name="height">The height of the slope shape.</param>
         public Slope(Point position, double rotation, double width, double height) : base(position, rotation, width, height) { }

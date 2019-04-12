@@ -17,7 +17,7 @@ namespace GDEdit.Utilities.Objects.General.Shapes
 
         /// <summary>Initializes a new instance of the <seealso cref="Line"/> class.</summary>
         /// <param name="position">The position of the line.</param>
-        /// <param name="rotation">The rotation of the line.</param>
+        /// <param name="rotation">The rotation of the line in degrees.</param>
         public Line(Point position, double rotation) : base(position, rotation) { }
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>

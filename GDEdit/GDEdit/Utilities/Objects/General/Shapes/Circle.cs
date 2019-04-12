@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         public double Radius { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="Circle"/> class.</summary>
+        /// <param name="position">The position of the shape.</param>
         /// <param name="radius">The radius of the circular shape.</param>
         public Circle(Point position, double radius) : base(position, 0) => Radius = radius;
 
