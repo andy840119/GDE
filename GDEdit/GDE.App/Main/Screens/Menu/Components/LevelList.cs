@@ -5,6 +5,7 @@ using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
 using GDEdit.Application;
+using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -76,6 +77,11 @@ namespace GDE.App.Main.Screens.Menu.Components
             searchQuery.Current.ValueChanged += obj =>
             {
                 Console.WriteLine(obj.NewValue);
+                foreach (var c in Cards)
+                    if (obj.NewValue.MatchesSearchCriteria(c.Level.Value.LevelNameWithRevision))
+                        c.Show();
+                    else
+                        c.Hide();
             };
         }
 
