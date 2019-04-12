@@ -10,6 +10,7 @@ using GDE.App.Main.Screens.Edit;
 using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Input;
+using GDE.App.Main.Tools;
 
 namespace GDE.App.Main.Screens.Edit
 {
@@ -38,6 +39,12 @@ namespace GDE.App.Main.Screens.Edit
         public Editor(int index, Level level)
         {
             editor = new GDEdit.Application.Editor.Editor(level);
+
+            RPC.updatePresence(editor.Level.LevelNameWithRevision, "Editing a level", new DiscordRPC.Assets
+            {
+                LargeImageKey = "gde",
+                LargeImageText = "GD Edit"
+            });
 
             i = index;
 

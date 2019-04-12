@@ -2,6 +2,7 @@
 using GDE.App.Main.Containers;
 using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
+using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
@@ -41,6 +42,12 @@ namespace GDE.App.Main.Screens.Menu
 
         public MainScreen()
         {
+            RPC.updatePresence("Looking for levels", null, new DiscordRPC.Assets
+            {
+                LargeImageKey = "gde",
+                LargeImageText = "GD Edit"
+            });
+
             AddRangeInternal(new Drawable[]
             {
                 new DrawSizePreservingFillContainer

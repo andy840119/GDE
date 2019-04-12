@@ -14,7 +14,6 @@ using System.Collections.Generic;
 
 namespace GDE.App.Main.Objects
 {
-    // Change this into a Drawable instead of a Container in a later commit
     ///<summary>A drawable <seealso cref="GeneralObject"/>.</summary>
     public class ObjectBase : Sprite
     {
@@ -135,7 +134,6 @@ namespace GDE.App.Main.Objects
             this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 200);
             State ^= SelectionState.Selected;
 
-            //could be optimized, but lack knowledge lmfao
             if (editor != null)
             {
                 if (State == SelectionState.Selected)
