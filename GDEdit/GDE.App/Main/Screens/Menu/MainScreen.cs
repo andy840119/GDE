@@ -13,6 +13,7 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK;
 using System.Collections.Generic;
@@ -105,12 +106,12 @@ namespace GDE.App.Main.Screens.Menu
                 }
             });
 
-            level.ValueChanged += Level_ValueChanged;
+            level.ValueChanged += ChangeLevel;
         }
 
-        private void Level_ValueChanged(ValueChangedEvent<Level> obj)
+        private void ChangeLevel(ValueChangedEvent<Level> obj)
         {
-            System.Console.WriteLine(obj.NewValue.Name);
+            Logger.Log($"Changed level to: {obj.NewValue.LevelNameWithRevision}.");
         }
 
         [BackgroundDependencyLoader]
@@ -181,6 +182,8 @@ namespace GDE.App.Main.Screens.Menu
                                 }
                             }
                         });
+
+                        Logger.Log($"Loaded: {database.UserLevels[i].LevelNameWithRevision}.");
                     }
 
                     foreach (var i in card)
@@ -197,6 +200,8 @@ namespace GDE.App.Main.Screens.Menu
 
                     loadWarning.Text = "";
                     alreadyRun = true;
+
+                    Logger.Log("Loaded all levels successfully.");
                 }
             }
 
