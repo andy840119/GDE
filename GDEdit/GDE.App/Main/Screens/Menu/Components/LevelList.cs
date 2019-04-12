@@ -29,7 +29,6 @@ namespace GDE.App.Main.Screens.Menu.Components
         private Database database;
         private LevelCollection levels;
         private TextBox searchQuery;
-        private SearchCriteria search;
         private bool finishedLoading;
         private bool alreadyRun;
 
@@ -72,15 +71,11 @@ namespace GDE.App.Main.Screens.Menu.Components
                    }
                 },
             };
-            search = new SearchCriteria();
-
-            search.Criteria.Value = searchQuery.Current.Value;
 
             Cards = new List<LevelCard>();
             searchQuery.Current.ValueChanged += obj =>
             {
                 Console.WriteLine(obj.NewValue);
-                search.Criteria.Value = obj.NewValue;
             };
         }
 
@@ -133,7 +128,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                 {
                     for (var i = 0; i < database.UserLevels.Count; i++)
                     {
-                        Cards.Add(new LevelCard(search)
+                        Cards.Add(new LevelCard
                         {
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(0.9f, 60),

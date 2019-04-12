@@ -18,7 +18,6 @@ namespace GDE.App.Main.Screens.Menu.Components
         private Box selectionBar;
         private Box hoverBox;
         private SpriteText levelName, levelAuthor, levelLength;
-        private SearchCriteria search;
 
         public Bindable<Level> Level = new Bindable<Level>(new Level
         {
@@ -29,7 +28,7 @@ namespace GDE.App.Main.Screens.Menu.Components
         public Bindable<bool> Selected = new Bindable<bool>(false);
         public int index;
 
-        public LevelCard(SearchCriteria search)
+        public LevelCard()
         {
             Children = new Drawable[]
             {
@@ -78,21 +77,8 @@ namespace GDE.App.Main.Screens.Menu.Components
                 }
             };
 
-            this.search = search;
-
             Selected.ValueChanged += OnSelected;
             Level.ValueChanged += OnLevelChange;
-
-            search.Criteria.ValueChanged += criteria =>
-            {
-                if (!criteria.NewValue.Equals(""))
-                    if (criteria.NewValue.Contains(Level.Value.Name))
-                        Show();
-                    else
-                        Hide();
-                else
-                    Show();
-            };
         }
 
         private void OnSelected(ValueChangedEvent<bool> value) => selectionBar.FadeColour(GDEColors.FromHex(value.OldValue ? "202020" : "00bc5c"), 200);
