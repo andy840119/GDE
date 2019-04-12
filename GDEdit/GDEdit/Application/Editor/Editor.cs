@@ -95,6 +95,13 @@ namespace GDEdit.Application.Editor
         public event FlippedObjectsHorizontallyHandler SelectedObjectsFlippedHorizontally;
         /// <summary>Occurs when the selected objects have been flipped vertically.</summary>
         public event FlippedObjectsVerticallyHandler SelectedObjectsFlippedVertically;
+
+        /// <summary>Occurs when the selected objects have been copied to the clipboard.</summary>
+        public event ObjectsCopiedHandler SelectedObjectsCopied;
+        /// <summary>Occurs when objects been pasted from the clipboard.</summary>
+        public event ObjectsPastedHandler SelectedObjectsPasted;
+        /// <summary>Occurs when objects been ViPriNized.</summary>
+        public event ObjectsCopyPastedHandler SelectedObjectsCopyPasted;
         #endregion
 
         #region Constructors
@@ -368,8 +375,10 @@ namespace GDEdit.Application.Editor
         /// <summary>Copy the selected objects and add them to the clipboard.</summary>
         public void Copy()
         {
-            ObjectClipboard.Clear();
+            var old = ObjectClipboard;
+            ObjectClipboard = new LevelObjectCollection();
             ObjectClipboard.AddRange(SelectedObjects);
+            SelectedObjectsCopied?.Invoke(ObjectClipboard, old);
         }
         /// <summary>Pastes the copied objects on the clipboard provided a central position to place them.</summary>
         /// <param name="center">The central position which will determine the position of the pasted objects.</param>
@@ -382,9 +391,15 @@ namespace GDEdit.Application.Editor
             foreach (var o in newObjects)
                 o.Location += distance;
             Level.LevelObjects.AddRange(newObjects);
+            SelectedObjectsPasted?.Invoke(newObjects, center);
         }
         /// <summary>ViPriNizes all the selected objects.</summary>
-        public void CopyPaste() => Level.LevelObjects.AddRange(SelectedObjects.Clone());
+        public void CopyPaste()
+        {
+            var cloned = SelectedObjects.Clone();
+            Level.LevelObjects.AddRange(cloned);
+            SelectedObjectsCopyPasted(cloned, SelectedObjects);
+        }
 
         /// <summary>Resets the unused color channels.</summary>
         public void ResetUnusedColors()
@@ -528,4 +543,16 @@ namespace GDEdit.Application.Editor
     /// <param name="objects">The objects that were flipped vertically.</param>
     /// <param name="centralPoint">The central point of the vertical flipping (<see langword="null"/> to indicate an individual vertical flipping).</param>
     public delegate void FlippedObjectsVerticallyHandler(LevelObjectCollection objects, Point? centralPoint);
+    /// <summary>Represents a function that contains information about an object copy action.</summary>
+    /// <param name="newObjects">The new objects that were copied.</param>
+    /// <param name="oldObjects">The old copied objects.</param>
+    public delegate void ObjectsCopiedHandler(LevelObjectCollection newObjects, LevelObjectCollection oldObjects);
+    /// <summary>Represents a function that contains information about an object paste action.</summary>
+    /// <param name="objects">The objects that were pasted.</param>
+    /// <param name="centralPoint">The central point of the pasted objects.</param>
+    public delegate void ObjectsPastedHandler(LevelObjectCollection objects, Point centralPoint);
+    /// <summary>Represents a function that contains information about an object copy-paste action.</summary>
+    /// <param name="newObjects">The new copies of the original objects.</param>
+    /// <param name="oldObjects">The original objects that were copied.</param>
+    public delegate void ObjectsCopyPastedHandler(LevelObjectCollection newObjects, LevelObjectCollection oldObjects);
 }
