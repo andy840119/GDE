@@ -11,10 +11,11 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     public class VerticalLine : Line
     {
         /// <summary>Initializes a new instance of the <seealso cref="VerticalLine"/> class.</summary>
-        public VerticalLine() : base(90) { }
+        /// <param name="position">The position of the vertical line.</param>
+        public VerticalLine(Point position) : base(position, 90) { }
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
-        public override bool IsPointWithinShape(Point point) => point.X == 0;
+        public override bool ContainsPoint(Point point) => point.X == Position.X;
     }
 }
