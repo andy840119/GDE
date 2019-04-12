@@ -30,7 +30,7 @@ namespace GDE.App.Main.Screens.Menu
         private SpriteText loadWarning;
         private Database database;
         private LevelCollection levels;
-        private FillFlowContainer levelList;
+        private LevelList levelList;
         private List<LevelCard> card = new List<LevelCard>();
         private Toolbar toolbar;
         private OverlayPopup popUp;
@@ -74,22 +74,10 @@ namespace GDE.App.Main.Screens.Menu
                                 Top = 40
                             },
                         },
-                        new ScrollContainer
+                        levelList = new LevelList
                         {
-                           RelativeSizeAxes = Axes.Y,
-                           Width = 260,
-                           Margin = new MarginPadding
-                           {
-                               Top = 40
-                           },
-                           Children = new Drawable[]
-                           {
-                               levelList = new FillFlowContainer
-                               {
-                                   RelativeSizeAxes = Axes.Both,
-                                   Direction = FillDirection.Vertical,
-                               }
-                           }
+                            RelativeSizeAxes = Axes.Y,
+                            Width = 260,
                         },
                         popUp = new OverlayPopup
                         {
@@ -114,6 +102,15 @@ namespace GDE.App.Main.Screens.Menu
             });
 
             level.ValueChanged += ChangeLevel;
+
+            levelList.LevelSelected = () =>
+            {
+                toolbar.Edit = () => this.Push(new Edit.Editor(levelList.LevelIndex, levelList.Cards[levelList.LevelIndex].Level.Value));
+                popUp.ConfirmAction = () => database.UserLevels.Remove(levelList.Cards[levelList.LevelIndex].Level.Value);
+                level.Value = levelList.Cards[levelList.LevelIndex].Level.Value;
+            };
+
+            levelList.CompletedLoading = () => loadWarning.Text = null;
         }
 
         private void ChangeLevel(ValueChangedEvent<Level> obj)
@@ -125,94 +122,6 @@ namespace GDE.App.Main.Screens.Menu
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
-        }
-
-        protected override void Update()
-        {
-            if (!finishedLoading && (finishedLoading = database.GetLevelsStatus >= TaskStatus.RanToCompletion))
-            {
-                if ((levels = database.UserLevels).Count == 0)
-                {
-                    AddInternal(new FillFlowContainer
-                    {
-                        Direction = FillDirection.Vertical,
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
-                        Spacing = new Vector2(0, 30),
-                        Children = new Drawable[]
-                        {
-                            new SpriteIcon
-                            {
-                                Anchor = Anchor.Centre,
-                                Origin = Anchor.Centre,
-                                Icon = FontAwesome.fa_times,
-                                Size = new Vector2(192),
-                                Colour = GDEColors.FromHex("666666")
-                            },
-                            new SpriteText
-                            {
-                                Anchor = Anchor.Centre,
-                                Origin = Anchor.Centre,
-                                Text = "There doesn't seem to be anything here...",
-                                Font = @"OpenSans",
-                                TextSize = 24,
-                                Colour = GDEColors.FromHex("666666")
-                            },
-                            new Button
-                            {
-                                Anchor = Anchor.Centre,
-                                Origin = Anchor.Centre,
-                                Size = new Vector2(220, 32),
-                                Text = "Create a new level",
-                                BackgroundColour = GDEColors.FromHex("242424")
-                            }
-                        }
-                    });
-                }
-                else if (!alreadyRun)
-                {
-                    for (var i = 0; i < database.UserLevels.Count; i++)
-                    {
-                        card.Add(new LevelCard
-                        {
-                            RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(0.9f, 100),
-                            Margin = new MarginPadding(10),
-                            index = i,
-                            Level =
-                            {
-                                Value = new Level
-                                {
-                                    CreatorName = "Alten",
-                                    Name = database.UserLevels[i].Name,
-                                    LevelObjects = database.UserLevels[i].LevelObjects
-                                }
-                            }
-                        });
-
-                        Logger.Log($"Loaded: {database.UserLevels[i].LevelNameWithRevision}.");
-                    }
-
-                    foreach (var i in card)
-                    {
-                        levelList.Add(card[i.index]);
-
-                        card[i.index].Action = () =>
-                        {
-                            toolbar.Edit = () => this.Push(new Edit.Editor(i.index, i.Level.Value));
-                            popUp.ConfirmAction = () => database.UserLevels.Remove(i.Level.Value);
-                            level.Value = card[i.index].Level.Value;
-                        };
-                    }
-
-                    loadWarning.Text = "";
-                    alreadyRun = true;
-
-                    Logger.Log("Loaded all levels successfully.");
-                }
-            }
-
-            base.Update();
         }
 
         public bool OnPressed(GlobalAction action)
