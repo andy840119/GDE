@@ -13,7 +13,7 @@ namespace GDE.App.Main.Screens.Menu.Components
 {
     public class Toolbar : Container
     {
-        private SpriteText levelName, songName;
+        public SpriteText LevelName, SongName;
 
         public Bindable<Level> Level = new Bindable<Level>(new Level
         {
@@ -39,13 +39,13 @@ namespace GDE.App.Main.Screens.Menu.Components
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        levelName = new SpriteText
+                        LevelName = new SpriteText
                         {
                             Margin = new MarginPadding(5),
                             Text = Level.Value.Name,
                             TextSize = 30
                         },
-                        songName = new SpriteText
+                        SongName = new SpriteText
                         {
                             Anchor = Anchor.BottomLeft,
                             Origin = Anchor.BottomLeft,
@@ -93,8 +93,8 @@ namespace GDE.App.Main.Screens.Menu.Components
 
         private void OnChanged(ValueChangedEvent<Level> value)
         {
-            levelName.Text = value.NewValue.Name;
-            songName.Text = value.NewValue.CreatorName;
+            LevelName.Text = value.NewValue.Name;
+            SongName.Text = value.NewValue.CreatorName;
         }
     }
 }

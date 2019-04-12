@@ -28,6 +28,8 @@ namespace GDE.App.Main.Screens.Menu.Components
         private FillFlowContainer levelList;
         private Database database;
         private LevelCollection levels;
+        private TextBox searchQuery;
+        private SearchCriteria search;
         private bool finishedLoading;
         private bool alreadyRun;
 
@@ -40,36 +42,53 @@ namespace GDE.App.Main.Screens.Menu.Components
         {
             Children = new Drawable[]
             {
+                searchQuery = new TextBox
+                {
+                    Size = new Vector2(230, 40),
+                    Margin = new MarginPadding
+                    {
+                        Top = 5,
+                        Left = 10
+                    }
+                },
                 new ScrollContainer
                 {
-                   RelativeSizeAxes = Axes.Y,
-                   Width = 260,
+                   RelativeSizeAxes = Axes.Both,
                    Margin = new MarginPadding
                    {
-                       Top = 40
+                       Top = 5,
                    },
                    Children = new Drawable[]
                    {
                        levelList = new FillFlowContainer
                        {
-                           RelativeSizeAxes = Axes.Both,
-                           Direction = FillDirection.Vertical,
+                           LayoutDuration = 100,
+                           LayoutEasing = Easing.Out,
+                           Spacing = new Vector2(1, 1),
+                           RelativeSizeAxes = Axes.X,
+                           AutoSizeAxes = Axes.Y,
+                           Padding = new MarginPadding(5)
                        }
                    }
-                }
+                },
             };
+            search = new SearchCriteria();
+
+            search.Criteria.Value = searchQuery.Current.Value;
 
             Cards = new List<LevelCard>();
+            searchQuery.Current.ValueChanged += obj =>
+            {
+                Console.WriteLine(obj.NewValue);
+                search.Criteria.Value = obj.NewValue;
+            };
         }
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
-        }
 
-        protected override void Update()
-        {
             if (!finishedLoading && (finishedLoading = database.GetLevelsStatus >= TaskStatus.RanToCompletion))
             {
                 if ((levels = database.UserLevels).Count == 0)
@@ -114,10 +133,10 @@ namespace GDE.App.Main.Screens.Menu.Components
                 {
                     for (var i = 0; i < database.UserLevels.Count; i++)
                     {
-                        Cards.Add(new LevelCard
+                        Cards.Add(new LevelCard(search)
                         {
                             RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(0.9f, 100),
+                            Size = new Vector2(0.9f, 60),
                             Margin = new MarginPadding(10),
                             index = i,
                             Level =
@@ -143,6 +162,14 @@ namespace GDE.App.Main.Screens.Menu.Components
                             LevelIndex = i.index;
                             LevelSelected?.Invoke();
                         };
+
+                        Cards[i.index].Selected.ValueChanged += obj =>
+                        {
+                            if (obj.NewValue == true)
+                                foreach (var j in Cards)
+                                    if (j != Cards[i.index] && j.Selected.Value == true)
+                                        j.Selected.Value = false;
+                        };
                     }
 
                     CompletedLoading?.Invoke();
@@ -151,8 +178,6 @@ namespace GDE.App.Main.Screens.Menu.Components
                     Logger.Log("Loaded all levels successfully.");
                 }
             }
-
-            base.Update();
         }
     }
 }

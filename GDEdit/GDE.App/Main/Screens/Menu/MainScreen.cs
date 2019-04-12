@@ -24,12 +24,8 @@ namespace GDE.App.Main.Screens.Menu
 {
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
-        private bool finishedLoading;
-        private bool alreadyRun = false;
-
         private SpriteText loadWarning;
         private Database database;
-        private LevelCollection levels;
         private LevelList levelList;
         private List<LevelCard> card = new List<LevelCard>();
         private Toolbar toolbar;
@@ -78,6 +74,11 @@ namespace GDE.App.Main.Screens.Menu
                         {
                             RelativeSizeAxes = Axes.Y,
                             Width = 260,
+                            Padding = new MarginPadding
+                            {
+                                Top = 40,
+                                Bottom = 40
+                            }
                         },
                         popUp = new OverlayPopup
                         {
@@ -105,6 +106,8 @@ namespace GDE.App.Main.Screens.Menu
 
             levelList.LevelSelected = () =>
             {
+                toolbar.LevelName.Text = levelList.Cards[levelList.LevelIndex].Level.Value.Name;
+                toolbar.SongName.Text = levelList.Cards[levelList.LevelIndex].Level.Value.CustomSongID.ToString();
                 toolbar.Edit = () => this.Push(new Edit.Editor(levelList.LevelIndex, levelList.Cards[levelList.LevelIndex].Level.Value));
                 popUp.ConfirmAction = () => database.UserLevels.Remove(levelList.Cards[levelList.LevelIndex].Level.Value);
                 level.Value = levelList.Cards[levelList.LevelIndex].Level.Value;

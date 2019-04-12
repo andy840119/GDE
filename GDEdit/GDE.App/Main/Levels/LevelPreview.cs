@@ -17,7 +17,6 @@ namespace GDE.App.Main.Levels
     {
         private readonly int i;
         private Database database;
-        private readonly ObjectBase objects;
         private bool modifier;
 
         public IReadOnlyList<ObjectBase> Objects => Children;
