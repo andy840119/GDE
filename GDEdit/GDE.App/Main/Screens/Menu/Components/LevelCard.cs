@@ -19,11 +19,7 @@ namespace GDE.App.Main.Screens.Menu.Components
         private Box hoverBox;
         private SpriteText levelName, levelAuthor, levelLength;
 
-        public Bindable<Level> Level = new Bindable<Level>(new Level
-        {
-            Name = "Unknown name",
-            CreatorName = "UnkownCreator",
-        });
+        public Bindable<Level> Level = new Bindable<Level>();
 
         public Bindable<bool> Selected = new Bindable<bool>(false);
         public int index;
@@ -55,12 +51,12 @@ namespace GDE.App.Main.Screens.Menu.Components
                     {
                         levelName = new SpriteText
                         {
-                            Text = Level.Value.Name,
+                            Text = Level.Value?.Name ?? "Unknown Name",
                             TextSize = 30
                         },
                         levelAuthor = new SpriteText
                         {
-                            Text = Level.Value.CreatorName,
+                            Text = Level.Value?.CreatorName ?? "Unknown Creator",
                             TextSize = 20,
                             Colour = GDEColors.FromHex("aaaaaa")
                         }
@@ -71,7 +67,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
                     Margin = new MarginPadding(5),
-                    Text = Level.Value.Length.ToString(),
+                    Text = Level.Value?.Length.ToString() ?? "Tiny",
                     TextSize = 20,
                     Colour = GDEColors.FromHex("aaaaaa")
                 }
