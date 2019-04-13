@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using GDE.App.Main.Colors;
 using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Configuration;
@@ -71,7 +73,6 @@ namespace GDE.App.Main.Screens.Menu.Components
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,
                     Margin = new MarginPadding(5),
-                    Text = Level.Value.Length.ToString(),
                     TextSize = 20,
                     Colour = GDEColors.FromHex("aaaaaa")
                 }
@@ -104,6 +105,16 @@ namespace GDE.App.Main.Screens.Menu.Components
         {
             Selected.Value = !Selected.Value;
             return base.OnClick(e);
+        }
+
+        protected override void Update()
+        {
+            if (Level.Value.IsFullyLoaded)
+                levelLength.Text = Level.Value.TimeLength.ToString(@"m\:ss");
+            else
+                return;
+
+            base.Update();
         }
     }
 }
