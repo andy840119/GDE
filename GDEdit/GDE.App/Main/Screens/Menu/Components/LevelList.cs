@@ -142,12 +142,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             index = i,
                             Level =
                             {
-                                Value = new Level
-                                {
-                                    CreatorName = "Alten",
-                                    Name = database.UserLevels[i].Name,
-                                    LevelObjects = database.UserLevels[i].LevelObjects
-                                }
+                                Value = database.UserLevels[i]
                             }
                         });
 
