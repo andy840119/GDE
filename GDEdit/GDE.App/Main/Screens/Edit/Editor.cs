@@ -40,15 +40,11 @@ namespace GDE.App.Main.Screens.Edit
         {
             editor = new GDEdit.Application.Editor.Editor(level);
 
-            try
+            RPC.updatePresence(editor.Level.Name, "Editing a level", new DiscordRPC.Assets
             {
-                RPC.updatePresence(editor.Level.Name, "Editing a level", new DiscordRPC.Assets
-                {
-                    LargeImageKey = "gde",
-                    LargeImageText = "GD Edit"
-                });
-            }
-            catch { }
+                LargeImageKey = "gde",
+                LargeImageText = "GD Edit"
+            });
 
             i = index;
 

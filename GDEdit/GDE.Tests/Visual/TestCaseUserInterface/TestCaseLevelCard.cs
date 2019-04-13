@@ -13,7 +13,7 @@ namespace GDE.Tests.Visual.TestCaseUserInterface
         {
             Children = new Drawable[]
             {
-                card = new LevelCard(null)
+                card = new LevelCard()
                 {
                     Size = new Vector2(250, 100),
                     Origin = Anchor.Centre,
