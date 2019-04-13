@@ -12,9 +12,11 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.Transforms;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Logging;
@@ -31,6 +33,8 @@ namespace GDE.App.Main.Screens.Edit.Components
     {
         protected override string Name => "Object Addition";
 
+        private int selectedObjectID;
+        private ObjectButton currentlyActiveButton;
         private FillFlowContainer container;
 
         public ObjectAdditionPanel(GDEdit.Application.Editor.Editor editor)
@@ -48,38 +52,54 @@ namespace GDE.App.Main.Screens.Edit.Components
 
             for (var i = 1; i < 10; i++)
             {
-                ObjectButton ObjButton;
+                ObjectButton objectButton;
 
-                container.Add(ObjButton = new ObjectButton
+                container.Add(objectButton = new ObjectButton(i)
                 {
                     Size = new Vector2(40),
-                    Object =
-                    {
-                        ObjectID = i
-                    }
                 });
 
-                //Your turn alex.
-                //ObjButton.Action = () => 
-                //{
+                objectButton.Action = () =>
+                {
+                    if (objectButton.ToggleActive())
+                    {
+                        if (currentlyActiveButton != null)
+                            currentlyActiveButton.Active = false;
+                        currentlyActiveButton = objectButton;
+                    }
+                    else if (currentlyActiveButton == objectButton)
+                        currentlyActiveButton = null;
+                    selectedObjectID = objectButton.ObjectID;
+                    // I would not recommend using that
                     //ToggleVisibility();
-                //}
+                };
             }
         }
 
         private class ObjectButton : Button
         {
-            public ObjectBase Object;
+            private bool active;
 
-            public ObjectButton()
+            public bool Active
+            {
+                get => active;
+                set => this.TransformTo("BackgroundColour", GDEColors.FromHex((active = value) ? "383" : "333"));
+            }
+            public int ObjectID => Object.ObjectID;
+            public ObjectBase Object { get; }
+
+            public ObjectButton(int objectID = 1)
             {
                 BackgroundColour = GDEColors.FromHex("333");
 
-                Add(Object = new ObjectBase(new GeneralObject(), null)
+                Add(Object = new ObjectBase(new GeneralObject(objectID), null)
                 {
                     Depth = -1,
                 });
             }
+
+            /// <summary>Inverts the Active property and returns the new value.</summary>
+            public bool ToggleActive() => Active = !Active;
         }
     }
 }
