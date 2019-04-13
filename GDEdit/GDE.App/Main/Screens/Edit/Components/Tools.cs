@@ -23,6 +23,7 @@ namespace GDE.App.Main.Screens.Edit.Components
     {
         private Button ObjAdd;
         private Button ObjRemove;
+        private ObjectAdditionPanel panel;
         private Database database;
         private Level level => database.UserLevels[0];
 
@@ -37,6 +38,11 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             Children = new Drawable[]
             {
+                panel = new ObjectAdditionPanel(editor)
+                {
+                    Size = new Vector2(335, 557),
+                    Position = new Vector2(DrawWidth + 10, DrawHeight / 2)
+                },
                 new Container
                 {
                     RelativeSizeAxes = Axes.Both,
@@ -61,8 +67,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     {
                         ObjAdd = new Button
                         {
-                            //Wont do anything as of now.
-                            //Action = () => level.LevelObjects.Add(new GeneralObject()),
+                            Action = panel.ToggleVisibility,
                             Text = "Add Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,

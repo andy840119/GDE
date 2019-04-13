@@ -24,6 +24,7 @@ namespace GDE.App.Main.Objects
         public readonly ObjectBase Object;
         public SelectionState State;
         public EventHandler Selected;
+        public bool Selectable = true;
         public static List<ObjectBase> DrawableSelectedObjects;
 
         #region Level Object Variables
@@ -96,7 +97,21 @@ namespace GDE.App.Main.Objects
 
             DrawableSelectedObjects = new List<ObjectBase>();
         }
-        
+
+        /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
+        public ObjectBase(int ID, Editor Editor)
+        {
+            editor = Editor;
+
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
+
+            Size = new Vector2(30);
+            UpdateObject(LevelObject = new GeneralObject(ID));
+
+            DrawableSelectedObjects = new List<ObjectBase>();
+        }
+
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
@@ -131,11 +146,11 @@ namespace GDE.App.Main.Objects
 
         protected override bool OnClick(ClickEvent e)
         {
-            this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 200);
-            State ^= SelectionState.Selected;
-
-            if (editor != null)
+            if (editor != null && Selectable)
             {
+                this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 200);
+                State ^= SelectionState.Selected;
+
                 if (State == SelectionState.Selected)
                 {
                     editor.SelectedObjects.Add(LevelObject);

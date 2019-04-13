@@ -16,7 +16,7 @@ namespace GDE.Tests.Visual.TestCaseUserInterface
                 panel = new Panel
                 {
                     Size = new Vector2(335, 557),
-                    Text = "TestCasePanel"
+                    Name = "TestCasePanel"
                 }
             };
 
