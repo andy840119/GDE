@@ -139,7 +139,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(0.9f, 60),
                             Margin = new MarginPadding(10),
-                            index = i,
+                            Index = i,
                             Level =
                             {
                                 Value = database.UserLevels[i]
@@ -149,22 +149,22 @@ namespace GDE.App.Main.Screens.Menu.Components
                         Logger.Log($"Loaded: {database.UserLevels[i].LevelNameWithRevision}.");
                     }
 
-                    foreach (var i in Cards)
+                    foreach (var c in Cards)
                     {
-                        levelList.Add(Cards[i.index]);
+                        levelList.Add(Cards[c.Index]);
 
-                        Cards[i.index].Action = () =>
+                        Cards[c.Index].Action = () =>
                         {
-                            LevelIndex = i.index;
-                            LevelSelected?.Invoke();
                         };
 
-                        Cards[i.index].Selected.ValueChanged += obj =>
+                        Cards[c.Index].Selected.ValueChanged += obj =>
                         {
-                            if (obj.NewValue == true)
+                            if (obj.NewValue)
                                 foreach (var j in Cards)
-                                    if (j != Cards[i.index] && j.Selected.Value == true)
+                                    if (j != Cards[c.Index] && j.Selected.Value)
                                         j.Selected.Value = false;
+                            LevelIndex = obj.NewValue ? c.Index : -1;
+                            LevelSelected?.Invoke();
                         };
                     }
 

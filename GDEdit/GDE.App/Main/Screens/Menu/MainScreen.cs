@@ -27,14 +27,10 @@ namespace GDE.App.Main.Screens.Menu
         private SpriteText loadWarning;
         private Database database;
         private LevelList levelList;
-        private List<LevelCard> card = new List<LevelCard>();
+        private List<LevelCard> cards = new List<LevelCard>();
         private Toolbar toolbar;
         private OverlayPopup popUp;
-        private Bindable<Level> level = new Bindable<Level>(new Level
-        {
-            Name = "Unknown name",
-            CreatorName = "Unkown creator"
-        });
+        private Bindable<Level> level = new Bindable<Level>();
 
         public MainScreen()
         {
@@ -106,11 +102,12 @@ namespace GDE.App.Main.Screens.Menu
 
             levelList.LevelSelected = () =>
             {
-                toolbar.LevelName.Text = levelList.Cards[levelList.LevelIndex].Level.Value.Name;
-                toolbar.SongName.Text = levelList.Cards[levelList.LevelIndex].Level.Value.CustomSongID.ToString();
-                toolbar.Edit = () => this.Push(new Edit.Editor(levelList.LevelIndex, levelList.Cards[levelList.LevelIndex].Level.Value));
-                popUp.ConfirmAction = () => database.UserLevels.Remove(levelList.Cards[levelList.LevelIndex].Level.Value);
-                level.Value = levelList.Cards[levelList.LevelIndex].Level.Value;
+                var selectedLevel = levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
+                toolbar.LevelName.Text = selectedLevel?.Name;
+                toolbar.SongName.Text = selectedLevel?.CustomSongID.ToString() ?? "";
+                toolbar.Edit = () => this.Push(new Edit.Editor(levelList.LevelIndex, selectedLevel));
+                popUp.ConfirmAction = () => database.UserLevels.Remove(selectedLevel);
+                level.Value = selectedLevel;
             };
 
             levelList.CompletedLoading = () => loadWarning.Text = null;
@@ -118,7 +115,7 @@ namespace GDE.App.Main.Screens.Menu
 
         private void ChangeLevel(ValueChangedEvent<Level> obj)
         {
-            Logger.Log($"Changed level to: {obj.NewValue.LevelNameWithRevision}.");
+            Logger.Log($"Changed level to: {obj.NewValue?.LevelNameWithRevision ?? "null"}.");
         }
 
         [BackgroundDependencyLoader]

@@ -24,7 +24,7 @@ namespace GDE.App.Main.Screens.Menu.Components
         public Bindable<Level> Level = new Bindable<Level>();
 
         public Bindable<bool> Selected = new Bindable<bool>(false);
-        public int index;
+        public int Index;
 
         public LevelCard()
         {
