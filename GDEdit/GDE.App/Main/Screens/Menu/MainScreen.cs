@@ -17,6 +17,7 @@ using osu.Framework.Input.Bindings;
 using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -52,9 +53,7 @@ namespace GDE.App.Main.Screens.Menu
                         {
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 40),
-                            Level = level,
                             Delete = () => popUp.ToggleVisibility(),
-                            Edit = () => this.Push(new Edit.Editor(0, level.Value))
                         },
                         new Box
                         {
@@ -98,16 +97,16 @@ namespace GDE.App.Main.Screens.Menu
                 }
             });
 
+            toolbar.Level.BindTo(level);
             level.ValueChanged += ChangeLevel;
 
             levelList.LevelSelected = () =>
             {
                 var selectedLevel = levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
-                toolbar.LevelName.Text = selectedLevel?.Name;
-                toolbar.SongName.Text = selectedLevel?.CustomSongID.ToString() ?? "";
-                toolbar.Edit = () => this.Push(new Edit.Editor(levelList.LevelIndex, selectedLevel));
-                popUp.ConfirmAction = () => database.UserLevels.Remove(selectedLevel);
                 level.Value = selectedLevel;
+                toolbar.Level.TriggerChange(); // Fuck why is this necessary?
+                toolbar.Edit = levelList.LevelIndex > -1 ? (Action)(() => this.Push(new Edit.Editor(levelList.LevelIndex, selectedLevel))) : null;
+                popUp.ConfirmAction = () => database.UserLevels.Remove(selectedLevel);
             };
 
             levelList.CompletedLoading = () => loadWarning.Text = null;

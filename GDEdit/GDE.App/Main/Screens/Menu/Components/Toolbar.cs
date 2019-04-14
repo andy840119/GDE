@@ -15,11 +15,7 @@ namespace GDE.App.Main.Screens.Menu.Components
     {
         public SpriteText LevelName, SongName;
 
-        public Bindable<Level> Level = new Bindable<Level>(new Level
-        {
-            Name = "Unknown name",
-            CreatorName = "UnkownCreator",
-        });
+        public Bindable<Level> Level = new Bindable<Level>();
 
         public Action Edit;
         public Action Delete;
@@ -42,7 +38,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                         LevelName = new SpriteText
                         {
                             Margin = new MarginPadding(5),
-                            Text = Level.Value.Name,
+                            Text = "No level selected",
                             TextSize = 30
                         },
                         SongName = new SpriteText
@@ -51,7 +47,6 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Origin = Anchor.BottomLeft,
                             Margin = new MarginPadding(5),
                             Colour = GDEColors.FromHex("666666"),
-                            Text = Level.Value.CreatorName,
                             TextSize = 25,
                         }
                     }
@@ -93,8 +88,8 @@ namespace GDE.App.Main.Screens.Menu.Components
 
         private void OnChanged(ValueChangedEvent<Level> value)
         {
-            LevelName.Text = value.NewValue.Name;
-            SongName.Text = value.NewValue.CreatorName;
+            LevelName.Text = value.NewValue?.Name ?? "No level selected";
+            SongName.Text = value.NewValue?.CustomSongID.ToString();
         }
     }
 }

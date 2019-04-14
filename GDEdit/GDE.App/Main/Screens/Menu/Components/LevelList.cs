@@ -153,10 +153,6 @@ namespace GDE.App.Main.Screens.Menu.Components
                     {
                         levelList.Add(Cards[c.Index]);
 
-                        Cards[c.Index].Action = () =>
-                        {
-                        };
-
                         Cards[c.Index].Selected.ValueChanged += obj =>
                         {
                             if (obj.NewValue)
