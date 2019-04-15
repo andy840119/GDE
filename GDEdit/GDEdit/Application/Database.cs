@@ -457,8 +457,9 @@ namespace GDEdit.Application
                 int currentIndex = songMetadataStartIndex;
                 while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
                 {
-                    int endingIndex = decryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
-                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
+                    int startingIndex = decryptedGamesave.Find("</k><d>", currentIndex, songMetadataEndIndex) + 7;
+                    int endingIndex = currentIndex = decryptedGamesave.Find("</d>", startingIndex, songMetadataEndIndex);
+                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(startingIndex, endingIndex - startingIndex)));
                 }
             }
         }

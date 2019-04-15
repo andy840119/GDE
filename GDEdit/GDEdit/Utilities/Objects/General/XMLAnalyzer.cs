@@ -35,7 +35,7 @@ namespace GDEdit.Utilities.Objects.General
             for (int i = 0; i < Document.Length;)
             {
                 IDStart = Document.Find(startKeyString, i, Document.Length) + startKeyString.Length;
-                if (IDStart <= startKeyString.Length)
+                if (IDStart < startKeyString.Length)
                     break;
                 IDEnd = Document.Find(endKeyString, IDStart, Document.Length);
 

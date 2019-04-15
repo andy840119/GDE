@@ -15,6 +15,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
 using static System.Convert;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
+using static GDEdit.Utilities.Information.GeometryDash.SongInformation;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
@@ -261,6 +262,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        /// <summary>Returns the metadata of the song, given the song metadata collection found in the database.</summary>
+        /// <param name="metadata">The song metadata collection of the database, based on which the song metadata is retrieved.</param>
+        public SongMetadata GetSongMetadata(SongMetadataCollection metadata) => CustomSongID == 0 ? OfficialSongMetadata[OfficialSongID] : metadata.Find(s => s.ID == CustomSongID);
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>

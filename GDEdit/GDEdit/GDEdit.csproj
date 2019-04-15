@@ -102,6 +102,7 @@
     <Compile Include="Utilities\Information\GeometryDash\LevelObjectInformation.cs" />
     <Compile Include="Utilities\Information\GeometryDash\ObjectLists.cs" />
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
+    <Compile Include="Utilities\Information\GeometryDash\SongInformation.cs" />
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
     <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />

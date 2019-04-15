@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GDE.App.Main.Colors;
+using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
@@ -12,14 +13,20 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
+using static System.Threading.Tasks.TaskStatus;
 
 namespace GDE.App.Main.Screens.Menu.Components
 {
     public class LevelCard : ClickableContainer
     {
+        private bool gottenLength;
+        private bool gottenSongMetadata;
+
+        private Database database;
+
         private Box selectionBar;
         private Box hoverBox;
-        private SpriteText levelName, levelAuthor, levelLength;
+        private SpriteText levelName, levelSong, levelLength;
 
         public Bindable<Level> Level = new Bindable<Level>();
 
@@ -56,9 +63,9 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Text = Level.Value?.Name ?? "Unknown Name",
                             TextSize = 30
                         },
-                        levelAuthor = new SpriteText
+                        levelSong = new SpriteText
                         {
-                            Text = Level.Value?.CreatorName ?? "Unknown Creator",
+                            Text = "SongAuthor - SongTitle",
                             TextSize = 20,
                             Colour = GDEColors.FromHex("aaaaaa")
                         }
@@ -79,12 +86,17 @@ namespace GDE.App.Main.Screens.Menu.Components
             Level.ValueChanged += OnLevelChange;
         }
 
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection databases)
+        {
+            database = databases[0];
+        }
+
         private void OnSelected(ValueChangedEvent<bool> value) => selectionBar.FadeColour(GDEColors.FromHex(value.OldValue ? "202020" : "00bc5c"), 200);
 
         private void OnLevelChange(ValueChangedEvent<Level> value)
         {
             levelName.Text = value.NewValue.Name;
-            levelAuthor.Text = value.NewValue.CreatorName;
         }
 
         protected override bool OnHover(HoverEvent e)
@@ -106,11 +118,20 @@ namespace GDE.App.Main.Screens.Menu.Components
 
         protected override void Update()
         {
-            if (Level.Value.IsFullyLoaded)
+            if (!gottenSongMetadata)
+            {
+                SongMetadata metadata = null;
+                if (gottenSongMetadata = database != null && database.GetSongMetadataStatus >= RanToCompletion)
+                    metadata = Level.Value.GetSongMetadata(database.SongMetadataInformation);
+                levelSong.Text = metadata != null ? $"{metadata.Artist} - {metadata.Title}" : "Song information unavailable";
+            }
+
+            if (!gottenLength && Level.Value.IsFullyLoaded)
                 levelLength.Text = Level.Value.TimeLength.ToString(@"m\:ss");
             else
                 return;
 
+            gottenLength = true;
             base.Update();
         }
     }
