@@ -17,11 +17,11 @@ namespace GDE.App.Main.Levels
     {
         private readonly int i;
         private Database database;
+        private Editor editor;
         private bool modifier;
 
         public IReadOnlyList<ObjectBase> Objects => Children;
         public bool AllowDrag = true;
-        private Editor editor;
 
         public Level Level => database.UserLevels[i];
 
@@ -39,8 +39,7 @@ namespace GDE.App.Main.Levels
             database = databases[0];
 
             foreach (var o in Level.LevelObjects)
-                if (!IsDisposed)
-                    Add(new ObjectBase(o, editor));
+                Add(new ObjectBase(o, editor));
         }
 
         protected override bool OnDrag(DragEvent e)
