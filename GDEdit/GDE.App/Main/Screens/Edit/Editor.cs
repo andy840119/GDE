@@ -1,20 +1,20 @@
-﻿using osu.Framework.Allocation;
+﻿using GDE.App.Main.Colors;
+using GDE.App.Main.Levels;
+using GDE.App.Main.Screens.Edit.Components;
+using GDE.App.Main.Tools;
+using GDEdit.Application;
+using GDEdit.Application.Editor;
+using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Allocation;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osuTK;
-using GDE.App.Main.Colors;
-using GDE.App.Main.Levels;
-using GDE.App.Main.Screens.Edit;
-using GDEdit.Application;
-using GDEdit.Utilities.Objects.GeometryDash;
-using osu.Framework.Input;
-using GDE.App.Main.Tools;
 
 namespace GDE.App.Main.Screens.Edit
 {
-    public class Editor : Screen
+    public class EditorScreen : Screen
     {
         private TextureStore texStore;
         private Box background;
@@ -24,8 +24,7 @@ namespace GDE.App.Main.Screens.Edit
         private LevelPreview Preview;
         private Level level => database.UserLevels[i];
 
-        //yeah i feel disgusted from this aswell, but sadly theres no other way
-        private GDEdit.Application.Editor.Editor editor;
+        private Editor editor;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -36,9 +35,9 @@ namespace GDE.App.Main.Screens.Edit
             background.Texture = texStore.Get("Backgrounds/game_bg_01_001-uhd.png");
         }
 
-        public Editor(int index, Level level)
+        public EditorScreen(int index, Level level)
         {
-            editor = new GDEdit.Application.Editor.Editor(level);
+            editor = new Editor(level);
 
             RPC.updatePresence(editor.Level.Name, "Editing a level", new DiscordRPC.Assets
             {
@@ -63,7 +62,7 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
                 },
-                new Components.Tools(Preview, editor)
+                new EditorTools(Preview, editor)
                 {
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,

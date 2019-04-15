@@ -25,13 +25,14 @@ namespace GDE.App.Main.Screens.Menu
 {
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
-        private SpriteText loadWarning;
         private Database database;
+
+        private SpriteText loadWarning;
         private LevelList levelList;
-        private List<LevelCard> cards = new List<LevelCard>();
         private Toolbar toolbar;
         private OverlayPopup popUp;
         private Bindable<Level> level = new Bindable<Level>();
+        private List<LevelCard> cards = new List<LevelCard>();
 
         public MainScreen()
         {
@@ -105,7 +106,7 @@ namespace GDE.App.Main.Screens.Menu
                 var selectedLevel = levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
                 level.Value = selectedLevel;
                 toolbar.Level.TriggerChange(); // Fuck why is this necessary?
-                toolbar.Edit = levelList.LevelIndex > -1 ? (Action)(() => this.Push(new Edit.Editor(levelList.LevelIndex, selectedLevel))) : null;
+                toolbar.Edit = levelList.LevelIndex > -1 ? (Action)(() => this.Push(new Edit.EditorScreen(levelList.LevelIndex, selectedLevel))) : null;
                 popUp.ConfirmAction = () => database.UserLevels.Remove(selectedLevel);
             };
 

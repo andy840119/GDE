@@ -7,6 +7,7 @@ using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
 using GDEdit.Application;
+using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
@@ -37,7 +38,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         private ObjectButton currentlyActiveButton;
         private FillFlowContainer container;
 
-        public ObjectAdditionPanel(GDEdit.Application.Editor.Editor editor)
+        public ObjectAdditionPanel(Editor editor)
         {
             Add(container = new FillFlowContainer
             {

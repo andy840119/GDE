@@ -1,15 +1,15 @@
-﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
-using GDE.App.Main.UI;
+﻿using GDE.App.Main.UI;
+using GDEdit.Application.Editor;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
-using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.Textures;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using System;
-using osu.Framework.Graphics.Sprites;
-using GDEdit.Application.Editor;
-using osu.Framework.Logging;
 using System.Collections.Generic;
 
 namespace GDE.App.Main.Objects

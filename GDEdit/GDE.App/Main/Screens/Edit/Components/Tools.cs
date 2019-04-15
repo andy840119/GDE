@@ -19,10 +19,10 @@ using System.Linq;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
-    public class Tools : Container
+    public class EditorTools : Container
     {
-        private Button ObjAdd;
-        private Button ObjRemove;
+        private Button addObject;
+        private Button removeObject;
         private ObjectAdditionPanel panel;
         private Database database;
         private Level level => database.UserLevels[0];
@@ -33,8 +33,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             database = databases[0];
         }
 
-        //yet again
-        public Tools(LevelPreview Level, GDEdit.Application.Editor.Editor editor)
+        public EditorTools(LevelPreview level, Editor editor)
         {
             Children = new Drawable[]
             {
@@ -65,7 +64,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     Padding = new MarginPadding(15),
                     Children = new Drawable[]
                     {
-                        ObjAdd = new Button
+                        addObject = new Button
                         {
                             Action = panel.ToggleVisibility,
                             Text = "Add Object",
@@ -73,7 +72,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 30)
                         },
-                        ObjRemove = new Button
+                        removeObject = new Button
                         {
                             Action = () => 
                             {
@@ -85,7 +84,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                                 }
 
                                 ObjectBase.DrawableSelectedObjects.Clear();
-                                editor.SelectedObjects.Clear();
+                                editor.DeselectAll();
                             },
                             Text = "Remove Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
