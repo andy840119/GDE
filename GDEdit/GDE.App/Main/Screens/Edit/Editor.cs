@@ -22,7 +22,7 @@ namespace GDE.App.Main.Screens.Edit
         private int i;
 
         private Database database;
-        private LevelPreview Preview;
+        private LevelPreview preview;
         private Level level => database.UserLevels[i];
 
         private Editor editor;
@@ -58,12 +58,12 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                Preview = new LevelPreview(index, editor)
+                preview = new LevelPreview(index, editor)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
                 },
-                new EditorTools(Preview, editor)
+                new EditorTools(preview, editor)
                 {
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
