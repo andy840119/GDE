@@ -1,4 +1,5 @@
-﻿using GDE.App.Main.Colors;
+﻿using DiscordRPC;
+using GDE.App.Main.Colors;
 using GDE.App.Main.Levels;
 using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.Tools;
@@ -39,7 +40,7 @@ namespace GDE.App.Main.Screens.Edit
         {
             editor = new Editor(level);
 
-            RPC.updatePresence(editor.Level.Name, "Editing a level", new DiscordRPC.Assets
+            RPC.UpdatePresence(editor.Level.Name, "Editing a level", new Assets
             {
                 LargeImageKey = "gde",
                 LargeImageText = "GD Edit"

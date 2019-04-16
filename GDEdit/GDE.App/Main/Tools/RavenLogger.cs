@@ -41,14 +41,14 @@ namespace GDE.App.Main.Tools
                         return;
 
                     lastException = exception;
-                    queuePendingTask(raven.CaptureAsync(new SentryEvent(exception)));
+                    QueuePendingTask(raven.CaptureAsync(new SentryEvent(exception)));
                 }
                 else
                     raven.AddTrail(new Breadcrumb(entry.Target.ToString(), BreadcrumbType.Navigation) { Message = entry.Message });
             };
         }
 
-        private void queuePendingTask(Task<string> task)
+        private void QueuePendingTask(Task<string> task)
         {
             lock (tasks)
                 tasks.Add(task);

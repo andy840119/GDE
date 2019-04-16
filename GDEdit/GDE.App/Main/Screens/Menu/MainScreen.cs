@@ -1,4 +1,5 @@
-﻿using GDE.App.Main.Colors;
+﻿using DiscordRPC;
+using GDE.App.Main.Colors;
 using GDE.App.Main.Containers;
 using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
@@ -36,7 +37,7 @@ namespace GDE.App.Main.Screens.Menu
 
         public MainScreen()
         {
-            RPC.updatePresence("Looking for levels", null, new DiscordRPC.Assets
+            RPC.UpdatePresence("Looking for levels", null, new Assets
             {
                 LargeImageKey = "gde",
                 LargeImageText = "GD Edit"
