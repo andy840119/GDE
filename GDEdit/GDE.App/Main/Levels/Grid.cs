@@ -35,6 +35,8 @@ namespace GDE.App.Main.Levels
 
         public Grid()
         {
+            RelativeSizeAxes = Axes.Both;
+
             Children = new Drawable[]
             {
                 gridContainer = new Container
