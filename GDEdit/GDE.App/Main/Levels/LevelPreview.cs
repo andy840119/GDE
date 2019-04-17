@@ -48,7 +48,7 @@ namespace GDE.App.Main.Levels
                 return false;
 
             Position += e.Delta;
-            return true;
+            return base.OnDrag(e);
         }
 
         protected override bool OnDragEnd(DragEndEvent e) => true;

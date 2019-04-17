@@ -10,6 +10,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK;
 
@@ -26,6 +27,7 @@ namespace GDE.App.Main.Screens.Edit
         private Level level => database.UserLevels[i];
 
         private Editor editor;
+        private Grid grid;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -69,7 +71,20 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
+                grid = new Grid(),
             });
+        }
+
+        protected override bool OnDrag(DragEvent e)
+        {
+            grid.GridPosition += e.Delta;
+            return base.OnDrag(e);
+        }
+
+        protected override bool OnScroll(ScrollEvent e)
+        {
+            grid.GridPosition += e.ScrollDelta;
+            return base.OnScroll(e);
         }
     }
 }
