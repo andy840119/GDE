@@ -107,13 +107,16 @@ namespace GDE.App.Main.Screens.Menu.Components
         protected override void Update()
         {
             // Since song metadata display works in the same way as the level card; logic has to be shared to avoid this ugly code copy-paste
-            if (!gottenSongMetadata && Level.Value != null)
-            {
-                SongMetadata metadata = null;
-                if (gottenSongMetadata = database != null && database.GetSongMetadataStatus >= RanToCompletion)
-                    metadata = Level.Value.GetSongMetadata(database.SongMetadataInformation);
-                SongName.Text = metadata != null ? $"{metadata.Artist} - {metadata.Title}" : "Song information unavailable";
-            }
+            if (!gottenSongMetadata)
+                if (!(gottenSongMetadata = Level.Value == null))
+                {
+                    SongMetadata metadata = null;
+                    if (gottenSongMetadata = database != null && database.GetSongMetadataStatus >= RanToCompletion)
+                        metadata = Level.Value.GetSongMetadata(database.SongMetadataInformation);
+                    SongName.Text = metadata != null ? $"{metadata.Artist} - {metadata.Title}" : "Song information unavailable";
+                }
+                else
+                    SongName.Text = null;
         }
     }
 }
