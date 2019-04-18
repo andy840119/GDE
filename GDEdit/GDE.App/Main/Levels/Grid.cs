@@ -41,22 +41,13 @@ namespace GDE.App.Main.Levels
             {
                 gridContainer = new Container
                 {
-                    BorderColour = Color4.Black.Opacity(0.7f),
                     BorderThickness = 2,
                     Masking = true,
                     RelativeSizeAxes = Axes.Both,
-                    Children = gridLineDrawables = new Drawable[]
-                    {
-                        new Box
-                        {
-                            RelativeSizeAxes = Axes.Both,
-                            Colour = new Color4(128, 128, 128, 128),
-                            AlwaysPresent = true,
-                        }
-                    },
-                    //AlwaysPresent = true,
                 }
             };
+
+            UpdateGridLines();
         }
 
         private void UpdateGridLines()
@@ -65,9 +56,15 @@ namespace GDE.App.Main.Levels
             // This is currently a small test
             var gridLines = new Drawable[200];
             for (int i = 0; i < 100; i++)
-                gridLines[i] = new HorizontalGridLine(30 * i);
+                gridLines[i] = new HorizontalGridLine(30 * i)
+                {
+                    Colour = Color4.Black.Opacity(0.7f)
+                };
             for (int i = 0; i < 100; i++)
-                gridLines[100 + i] = new VerticalGridLine(30 * i);
+                gridLines[100 + i] = new VerticalGridLine(30 * i)
+                {
+                    Colour = Color4.Black.Opacity(0.7f)
+                };
 
             gridContainer.Children = gridLineDrawables = gridLines;
         }
