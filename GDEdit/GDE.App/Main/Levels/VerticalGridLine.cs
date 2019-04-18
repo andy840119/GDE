@@ -7,6 +7,6 @@ namespace GDE.App.Main.Levels
 {
     public class VerticalGridLine : GridLine
     {
-        public VerticalGridLine() : base() => RelativeSizeAxes = Axes.Y;
+        public VerticalGridLine(float x) : base(x, 0) => RelativeSizeAxes = Axes.Y;
     }
 }

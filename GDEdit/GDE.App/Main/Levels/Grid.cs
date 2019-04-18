@@ -53,7 +53,8 @@ namespace GDE.App.Main.Levels
                             Colour = new Color4(128, 128, 128, 128),
                             AlwaysPresent = true,
                         }
-                    }
+                    },
+                    //AlwaysPresent = true,
                 }
             };
         }
@@ -64,15 +65,9 @@ namespace GDE.App.Main.Levels
             // This is currently a small test
             var gridLines = new Drawable[200];
             for (int i = 0; i < 100; i++)
-                gridLines[i] = new HorizontalGridLine
-                {
-                    Y = 30 * i
-                };
+                gridLines[i] = new HorizontalGridLine(30 * i);
             for (int i = 0; i < 100; i++)
-                gridLines[100 + i] = new VerticalGridLine
-                {
-                    X = 30 * i
-                };
+                gridLines[100 + i] = new VerticalGridLine(30 * i);
 
             gridContainer.Children = gridLineDrawables = gridLines;
         }

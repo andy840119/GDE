@@ -60,6 +60,7 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
+                grid = new Grid(),
                 preview = new LevelPreview(index, editor)
                 {
                     Anchor = Anchor.Centre,
@@ -71,7 +72,6 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
-                grid = new Grid(),
             });
         }
 
@@ -80,6 +80,8 @@ namespace GDE.App.Main.Screens.Edit
             grid.GridPosition += e.Delta;
             return base.OnDrag(e);
         }
+        protected override bool OnDragStart(DragStartEvent e) => true;
+        protected override bool OnDragEnd(DragEndEvent e) => true;
 
         protected override bool OnScroll(ScrollEvent e)
         {
