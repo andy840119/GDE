@@ -1,4 +1,5 @@
 ﻿using GDEdit.Application;
+using GDEdit.Application.Editor;
 using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Configuration;
@@ -32,16 +33,19 @@ namespace GDE.App.Main
         [BackgroundDependencyLoader]
         private void load()
         {
-            dependencies.Cache(this);
-            dependencies.Cache(storage);
-            dependencies.CacheAs(new DatabaseCollection());
-
             Resources.AddStore(new DllResourceStore(mainResourceFile));
 
             Fonts = new FontStore(new GlyphStore(Resources, @"Fonts/OpenSans"));
             Fonts.AddStore(new GlyphStore(Resources, @"Fonts/FontAwesome"));
 
             dependencies.Cache(Fonts);
+            dependencies.Cache(storage);
+
+            dependencies.Cache(this);
+
+            dependencies.Cache(new Editor(null));
+
+            dependencies.CacheAs(new DatabaseCollection());
         }
 
         public override void SetHost(GameHost host)
