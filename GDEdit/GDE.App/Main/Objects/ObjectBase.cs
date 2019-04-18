@@ -18,7 +18,8 @@ namespace GDE.App.Main.Objects
     public class ObjectBase : Sprite
     {
         private TextureStore textureStore;
-        private Editor editor;
+        [Resolved]
+        private Editor editor { get; set; }
 
         public GeneralObject LevelObject;
         public readonly ObjectBase Object;
@@ -85,10 +86,8 @@ namespace GDE.App.Main.Objects
         #endregion
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
-        public ObjectBase(GeneralObject o, Editor Editor)
+        public ObjectBase(GeneralObject o)
         {
-            editor = Editor;
-
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
 
@@ -99,18 +98,7 @@ namespace GDE.App.Main.Objects
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
-        public ObjectBase(int ID, Editor Editor)
-        {
-            editor = Editor;
-
-            Anchor = Anchor.Centre;
-            Origin = Anchor.Centre;
-
-            Size = new Vector2(30);
-            UpdateObject(LevelObject = new GeneralObject(ID));
-
-            DrawableSelectedObjects = new List<ObjectBase>();
-        }
+        public ObjectBase(int ID) : this(GeneralObject.GetNewObjectInstance(ID)) { }
 
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
@@ -148,11 +136,12 @@ namespace GDE.App.Main.Objects
         {
             if (editor != null && Selectable)
             {
-                this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 200);
+                this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 50);
                 State ^= SelectionState.Selected;
 
                 if (State == SelectionState.Selected)
                 {
+                    editor.SelectObjects(new LevelObjectCollection(LevelObject));
                     editor.SelectedObjects.Add(LevelObject);
                     DrawableSelectedObjects.Add(this);
                 }

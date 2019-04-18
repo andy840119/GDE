@@ -41,6 +41,7 @@ namespace GDE.App.Main.Screens.Edit
         public EditorScreen(int index, Level level)
         {
             editor = new Editor(level);
+            // TODO: Inject editor into dependencies to work with the other things
 
             RPC.UpdatePresence(editor.Level.Name, "Editing a level", new Assets
             {
@@ -61,12 +62,12 @@ namespace GDE.App.Main.Screens.Edit
                     Size = new Vector2(2048, 2048)
                 },
                 grid = new Grid(),
-                preview = new LevelPreview(index, editor)
+                preview = new LevelPreview(index)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
                 },
-                new EditorTools(preview, editor)
+                new EditorTools(preview)
                 {
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
@@ -87,6 +88,19 @@ namespace GDE.App.Main.Screens.Edit
         {
             grid.GridPosition += e.ScrollDelta;
             return base.OnScroll(e);
+        }
+
+        protected override bool OnKeyDown(KeyDownEvent e)
+        {
+            if (e.ShiftPressed)
+                editor.Swipe = true;
+            return base.OnKeyDown(e);
+        }
+        protected override bool OnKeyUp(KeyUpEvent e)
+        {
+            if (e.ShiftPressed)
+                editor.Swipe = false;
+            return base.OnKeyUp(e);
         }
     }
 }

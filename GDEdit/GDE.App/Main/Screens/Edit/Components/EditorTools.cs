@@ -21,8 +21,11 @@ namespace GDE.App.Main.Screens.Edit.Components
 {
     public class EditorTools : Container
     {
+        [Resolved]
+        private Editor editor { get; set; }
+
         private Button addObject;
-        private Button removeObject;
+        private Button deleteSelectedObjects;
         private ObjectAdditionPanel panel;
         private Database database;
         private Level level => database.UserLevels[0];
@@ -33,11 +36,11 @@ namespace GDE.App.Main.Screens.Edit.Components
             database = databases[0];
         }
 
-        public EditorTools(LevelPreview level, Editor editor)
+        public EditorTools(LevelPreview level)
         {
             Children = new Drawable[]
             {
-                panel = new ObjectAdditionPanel(editor)
+                panel = new ObjectAdditionPanel()
                 {
                     Size = new Vector2(335, 557),
                     Position = new Vector2(DrawWidth + 10, DrawHeight / 2)
@@ -72,7 +75,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 30)
                         },
-                        removeObject = new Button
+                        deleteSelectedObjects = new Button
                         {
                             Action = () => 
                             {
@@ -84,9 +87,9 @@ namespace GDE.App.Main.Screens.Edit.Components
                                 }
 
                                 ObjectBase.DrawableSelectedObjects.Clear();
-                                editor.DeselectAll();
+                                editor?.DeselectAll();
                             },
-                            Text = "Remove Object",
+                            Text = "Delete Selected Objects",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 30)

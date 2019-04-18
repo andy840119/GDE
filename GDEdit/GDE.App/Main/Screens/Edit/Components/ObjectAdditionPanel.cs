@@ -38,7 +38,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         private ObjectButton currentlyActiveButton;
         private FillFlowContainer container;
 
-        public ObjectAdditionPanel(Editor editor)
+        public ObjectAdditionPanel()
         {
             Add(container = new FillFlowContainer
             {
@@ -93,7 +93,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 BackgroundColour = GDEColors.FromHex("333");
 
-                Add(Object = new ObjectBase(new GeneralObject(objectID), null)
+                Add(Object = new ObjectBase(new GeneralObject(objectID))
                 {
                     Depth = -1,
                 });

@@ -15,9 +15,12 @@ namespace GDE.App.Main.Levels
 {
     public class LevelPreview : Container<ObjectBase>, IKeyBindingHandler<GlobalAction>
     {
+        [Resolved]
+        private Editor editor { get; set; }
+
         private readonly int i;
+
         private Database database;
-        private Editor editor;
         private bool modifier;
 
         public IReadOnlyList<ObjectBase> Objects => Children;
@@ -25,9 +28,8 @@ namespace GDE.App.Main.Levels
 
         public Level Level => database.UserLevels[i];
 
-        public LevelPreview(int index, Editor Editor)
+        public LevelPreview(int index)
         {
-            editor = Editor;
             i = index;
 
             AutoSizeAxes = Axes.Both;
@@ -39,7 +41,7 @@ namespace GDE.App.Main.Levels
             database = databases[0];
 
             foreach (var o in Level.LevelObjects)
-                Add(new ObjectBase(o, editor));
+                Add(new ObjectBase(o));
         }
 
         protected override bool OnDrag(DragEvent e)
