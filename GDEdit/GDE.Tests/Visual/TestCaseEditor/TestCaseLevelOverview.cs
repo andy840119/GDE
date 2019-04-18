@@ -19,7 +19,7 @@ namespace GDE.Tests.Visual.TestCaseEditor
                     Colour = new Color4(95, 95, 95, 255),
                     RelativeSizeAxes = Axes.Both
                 },
-                lvlOverview = new LevelPreview(0, null)
+                lvlOverview = new LevelPreview(0)
             };
         }
     }
