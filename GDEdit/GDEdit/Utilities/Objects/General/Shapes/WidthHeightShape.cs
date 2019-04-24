@@ -67,5 +67,11 @@ namespace GDEdit.Utilities.Objects.General.Shapes
             Point end = new Point(Width / 2, Height / 2) + Position;
             return start <= point && point <= end;
         }
+
+        protected override bool EqualsInheritably(Shape shape)
+        {
+            var other = shape as WidthHeightShape;
+            return Width == other.Width && Height == other.Height;
+        }
     }
 }

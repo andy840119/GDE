@@ -61,6 +61,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <summary>Determines whether the provided hitbox is unnecessary. This evaluates to <see langword="true"/> if the provided hitbox is contained within this hitbox and has the same behavior, otherwise <see langword="false"/>.</summary>
         /// <param name="h">The hitbox to check whether it is unnecessary.</param>
         public bool IsUnnecessaryHitbox(Hitbox h) => h.Behavior == Behavior && Shape.ContainsShape(h.Shape);
+
+        public static bool operator ==(Hitbox left, Hitbox right) => left.Behavior == right.Behavior && left.Position == right.Position && left.Rotation == right.Rotation && left.Shape == right.Shape;
+        public static bool operator !=(Hitbox left, Hitbox right) => left.Behavior != right.Behavior || left.Position != right.Position || left.Rotation != right.Rotation || left.Shape != right.Shape;
     }
 
     /// <summary>Represents a hitbox behavior.</summary>
