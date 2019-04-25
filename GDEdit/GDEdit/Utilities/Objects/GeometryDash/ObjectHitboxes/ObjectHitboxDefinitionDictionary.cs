@@ -12,8 +12,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
     /// <summary>Represents a dictionary that contains <seealso cref="ObjectHitboxDefinition"/>s and encapsulates useful manipulation functions. All definitions are unique per value, which means that object IDs and hitboxes have to be unique across the entire dictionary.</summary>
     public class ObjectHitboxDefinitionDictionary : IDictionary<List<int>, Hitbox>, ICollection<ObjectHitboxDefinition>
     {
-        // TOOD: Fix function naming (in)consistency
-
         private List<ObjectHitboxDefinition> list;
         private List<int> allIDs;
 
@@ -76,10 +74,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         public ObjectHitboxDefinition Find(Hitbox hitbox) => list.Find(d => d.Hitbox == hitbox);
         /// <summary>Returns the <seealso cref="ObjectHitboxDefinition"/> that is common among the specified object IDs.</summary>
         /// <param name="objectIDs">The object IDs to get the common <seealso cref="ObjectHitboxDefinition"/>.</param>
-        public ObjectHitboxDefinition GetCommonObjectIDDefinition(List<int> objectIDs)
+        public ObjectHitboxDefinition GetCommonObjectHitboxDefinition(List<int> objectIDs)
         {
             if (objectIDs.Count == 1)
-                return GetObjectIDDefinition(objectIDs[0]);
+                return GetObjectHitboxDefinition(objectIDs[0]);
             if (objectIDs.Count == 0)
                 throw new ArgumentException("The provided list is empty.");
             foreach (var d in list)
@@ -225,7 +223,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         {
             try
             {
-                value = GetCommonObjectIDHitbox(key);
+                value = GetCommonHitbox(key);
                 return true;
             }
             catch
@@ -237,7 +235,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 
         /// <summary>Gets the <seealso cref="ObjectHitboxDefinition"/> that contains a specified object ID.</summary>
         /// <param name="objectID">The object ID that is contained in the returned <seealso cref="ObjectHitboxDefinition"/>.</param>
-        public ObjectHitboxDefinition GetObjectIDDefinition(int objectID)
+        public ObjectHitboxDefinition GetObjectHitboxDefinition(int objectID)
         {
             foreach (var d in list)
                 if (d.ObjectIDs.Contains(objectID))
@@ -246,22 +244,22 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         }
         /// <summary>Gets the <seealso cref="Hitbox"/> of a specified object ID.</summary>
         /// <param name="objectID">The object ID whose <seealso cref="Hitbox"/> to get.</param>
-        public Hitbox GetObjectIDHitbox(int objectID) => GetObjectIDDefinition(objectID).Hitbox;
+        public Hitbox GetHitbox(int objectID) => GetObjectHitboxDefinition(objectID).Hitbox;
         /// <summary>Sets the <seealso cref="Hitbox"/> of a specified object ID.</summary>
         /// <param name="objectID">The object ID whose <seealso cref="Hitbox"/> to set.</param>
         /// <param name="hitbox">The <seealso cref="Hitbox"/> to set.</param>
-        public void SetObjectIDHitbox(int objectID, Hitbox hitbox)
+        public void SetHitbox(int objectID, Hitbox hitbox)
         {
             RemoveDefinition(objectID);
             Add(objectID, hitbox);
         }
         /// <summary>Gets the <seealso cref="Hitbox"/> of the specified object IDs. Returns <see langword="null"/> if the object IDs' <seealso cref="Hitbox"/> is not common. Throws respective exceptions on other errors.</summary>
         /// <param name="objectIDs">The object IDs whose common <seealso cref="Hitbox"/> to get.</param>
-        public Hitbox GetCommonObjectIDHitbox(List<int> objectIDs) => GetCommonObjectIDDefinition(objectIDs).Hitbox;
+        public Hitbox GetCommonHitbox(List<int> objectIDs) => GetCommonObjectHitboxDefinition(objectIDs).Hitbox;
         /// <summary>Sets the <seealso cref="Hitbox"/> of a specified object ID. Returns <see langword="null"/> if the object IDs' <seealso cref="Hitbox"/> is not common. Throws respective exceptions on other errors.</summary>
         /// <param name="objectIDs">The object ID whose <seealso cref="Hitbox"/> to set.</param>
         /// <param name="hitbox">The <seealso cref="Hitbox"/> to set.</param>
-        public void SetCommonObjectIDHitbox(List<int> objectIDs, Hitbox hitbox)
+        public void SetCommonHitbox(List<int> objectIDs, Hitbox hitbox)
         {
             RemoveMultipleDefinitions(objectIDs);
             Add(objectIDs, hitbox);
@@ -271,15 +269,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
         /// <param name="objectID">The object ID whose <seealso cref="Hitbox"/> to get or set.</param>
         public Hitbox this[int objectID]
         {
-            get => GetObjectIDHitbox(objectID);
-            set => SetObjectIDHitbox(objectID, value);
+            get => GetHitbox(objectID);
+            set => SetHitbox(objectID, value);
         }
         /// <summary>Gets or sets the <seealso cref="Hitbox"/> of the specified object IDs.</summary>
         /// <param name="objectIDs">The object IDs whose <seealso cref="Hitbox"/> to get or set.</param>
         public Hitbox this[List<int> objectIDs]
         {
-            get => GetCommonObjectIDHitbox(objectIDs);
-            set => SetCommonObjectIDHitbox(objectIDs, value);
+            get => GetCommonHitbox(objectIDs);
+            set => SetCommonHitbox(objectIDs, value);
         }
 
         private void RemoveFromAllIDs(List<int> objectIDs)
