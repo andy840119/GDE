@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEdit.Utilities.Functions.Extensions;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
 {
@@ -26,5 +27,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
             ObjectIDs = objectIDs;
             Hitbox = hitbox;
         }
+
+        /// <summary>Determines whether this equals another object. It is recommended to use the <seealso cref="Equals(ObjectHitboxDefinition)"/> method if the object is certainly an <seealso cref="ObjectHitboxDefinition"/>.</summary>
+        /// <param name="obj">The other object to compare this with.</param>
+        public override bool Equals(object obj) => (obj is ObjectHitboxDefinition other) && Equals(other);
+        /// <summary>Determines whether this <seealso cref="ObjectHitboxDefinition"/> equals another <seealso cref="ObjectHitboxDefinition"/>.</summary>
+        /// <param name="obj">The other <seealso cref="ObjectHitboxDefinition"/> to compare this with.</param>
+        public bool Equals(ObjectHitboxDefinition other) => other.ObjectIDs.ContainsAll(ObjectIDs) && other.Hitbox == Hitbox;
+
+        public static bool operator ==(ObjectHitboxDefinition left, ObjectHitboxDefinition right) => left.Equals(right);
+        public static bool operator !=(ObjectHitboxDefinition left, ObjectHitboxDefinition right) => !left.Equals(right);
     }
 }
