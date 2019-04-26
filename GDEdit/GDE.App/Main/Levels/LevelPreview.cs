@@ -9,7 +9,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Bindings;
-using osu.Framework.Input.Events;
 using System.Collections.Generic;
 
 namespace GDE.App.Main.Levels
@@ -45,8 +44,6 @@ namespace GDE.App.Main.Levels
             foreach (var o in Level.LevelObjects)
                 Add(new ObjectBase(o));
         }
-
-        public override bool HandlePositionalInput => editorScreen.HandlePositionalInput;
 
         public bool OnPressed(GlobalAction action)
         {

@@ -86,8 +86,6 @@ namespace GDE.App.Main.Screens.Edit
             });
         }
 
-        public override bool HandlePositionalInput => camera.HandlePositionalInput;
-
         protected override bool OnDrag(DragEvent e)
         {
             foreach (var child in camera.Children)
