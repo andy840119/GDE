@@ -28,6 +28,7 @@ namespace GDE.App.Main.Screens.Edit
 
         private Editor editor;
         private Grid grid;
+        private Camera camera;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -63,43 +64,38 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                grid = new Grid(),
-                preview = new LevelPreview(this, index)
-                {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre
-                },
                 new EditorTools(preview)
                 {
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
+                camera = new Camera(editor)
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Children = new Drawable[]
+                    {
+                        grid = new Grid(),
+                        preview = new LevelPreview(this, index)
+                        {
+                            Anchor = Anchor.Centre,
+                            Origin = Anchor.Centre
+                        },
+                    }
+                },
             });
         }
 
+        public override bool HandlePositionalInput => camera.HandlePositionalInput;
+
         protected override bool OnDrag(DragEvent e)
         {
-            grid.GridPosition += e.Delta;
+            foreach (var child in camera.Children)
+            {
+                child.Position += e.Delta;
+            }
 
-            preview.Position += e.Delta;
             return base.OnDrag(e);
-        }
-
-        protected override bool OnDragEnd(DragEndEvent e) => base.OnDragEnd(e);
-        protected override bool OnDragStart(DragStartEvent e) => base.OnDragStart(e);
-
-        protected override bool OnKeyDown(KeyDownEvent e)
-        {
-            if (e.ShiftPressed)
-                editor.Swipe = true;
-            return base.OnKeyDown(e);
-        }
-        protected override bool OnKeyUp(KeyUpEvent e)
-        {
-            if (e.ShiftPressed)
-                editor.Swipe = false;
-            return base.OnKeyUp(e);
         }
     }
 }

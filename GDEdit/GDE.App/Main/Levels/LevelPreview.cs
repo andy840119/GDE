@@ -18,7 +18,6 @@ namespace GDE.App.Main.Levels
     {
         private EditorScreen editorScreen;
 
-
         private readonly int i;
 
         private Database database;
@@ -27,7 +26,6 @@ namespace GDE.App.Main.Levels
 
         public IReadOnlyList<ObjectBase> Objects => Children;
         public bool AllowDrag = true;
-
 
         public Level Level => database.UserLevels[i];
 
@@ -49,8 +47,6 @@ namespace GDE.App.Main.Levels
         }
 
         public override bool HandlePositionalInput => editorScreen.HandlePositionalInput;
-        protected override bool OnDrag(DragEvent e) => base.OnDrag(e);
-        protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
 
         public bool OnPressed(GlobalAction action)
         {
