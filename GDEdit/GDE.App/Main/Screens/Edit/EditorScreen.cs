@@ -64,12 +64,6 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                new EditorTools(preview)
-                {
-                    Size = new Vector2(150, 300),
-                    Anchor = Anchor.CentreLeft,
-                    Origin = Anchor.CentreLeft
-                },
                 camera = new Camera(editor)
                 {
                     RelativeSizeAxes = Axes.Both,
@@ -83,6 +77,12 @@ namespace GDE.App.Main.Screens.Edit
                         },
                     }
                 },
+                new EditorTools(preview)
+                {
+                    Size = new Vector2(150, 300),
+                    Anchor = Anchor.CentreLeft,
+                    Origin = Anchor.CentreLeft
+                }
             });
         }
 
