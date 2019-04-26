@@ -6,6 +6,7 @@ using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
 using GDEdit.Application;
+using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -86,7 +87,16 @@ namespace GDE.App.Main.Screens.Menu
                             ConfirmButtonColor = GDEColors.FromHex("c6262e"),
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre,
-                            Size = new Vector2(750, 270)
+                            Size = new Vector2(750, 270),
+                            ConfirmAction = () =>
+                            {
+                                var selectedLevel = levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
+
+                                //if (selectedLevel != null)
+                                    //database. delete level here
+
+                                levelList.Remove(levelList.Cards[levelList.LevelIndex]);
+                            }
                         },
                         loadWarning = new SpriteText
                         {

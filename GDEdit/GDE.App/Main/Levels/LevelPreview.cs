@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Containers;
 using GDE.App.Main.Objects;
+using GDE.App.Main.Screens.Edit;
 using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
@@ -15,21 +16,24 @@ namespace GDE.App.Main.Levels
 {
     public class LevelPreview : Container<ObjectBase>, IKeyBindingHandler<GlobalAction>
     {
-        [Resolved]
-        private Editor editor { get; set; }
+        private EditorScreen editorScreen;
+
 
         private readonly int i;
 
         private Database database;
+
         private bool modifier;
 
         public IReadOnlyList<ObjectBase> Objects => Children;
         public bool AllowDrag = true;
 
+
         public Level Level => database.UserLevels[i];
 
-        public LevelPreview(int index)
+        public LevelPreview(EditorScreen editorScreen, int index)
         {
+            this.editorScreen = editorScreen;
             i = index;
 
             AutoSizeAxes = Axes.Both;
@@ -44,16 +48,8 @@ namespace GDE.App.Main.Levels
                 Add(new ObjectBase(o));
         }
 
-        protected override bool OnDrag(DragEvent e)
-        {
-            if (!AllowDrag)
-                return false;
-
-            Position += e.Delta;
-            return base.OnDrag(e);
-        }
-
-        protected override bool OnDragEnd(DragEndEvent e) => true;
+        public override bool HandlePositionalInput => editorScreen.HandlePositionalInput;
+        protected override bool OnDrag(DragEvent e) => base.OnDrag(e);
         protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
 
         public bool OnPressed(GlobalAction action)

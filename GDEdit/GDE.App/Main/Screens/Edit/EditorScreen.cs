@@ -40,6 +40,8 @@ namespace GDE.App.Main.Screens.Edit
 
         public EditorScreen(int index, Level level)
         {
+            RelativeSizeAxes = Axes.Both;
+
             editor = new Editor(level);
             // TODO: Inject editor into dependencies to work with the other things
 
@@ -62,7 +64,7 @@ namespace GDE.App.Main.Screens.Edit
                     Size = new Vector2(2048, 2048)
                 },
                 grid = new Grid(),
-                preview = new LevelPreview(index)
+                preview = new LevelPreview(this, index)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
@@ -79,16 +81,13 @@ namespace GDE.App.Main.Screens.Edit
         protected override bool OnDrag(DragEvent e)
         {
             grid.GridPosition += e.Delta;
+
+            preview.Position += e.Delta;
             return base.OnDrag(e);
         }
-        protected override bool OnDragStart(DragStartEvent e) => true;
-        protected override bool OnDragEnd(DragEndEvent e) => true;
 
-        protected override bool OnScroll(ScrollEvent e)
-        {
-            grid.GridPosition += e.ScrollDelta;
-            return base.OnScroll(e);
-        }
+        protected override bool OnDragEnd(DragEndEvent e) => base.OnDragEnd(e);
+        protected override bool OnDragStart(DragStartEvent e) => base.OnDragStart(e);
 
         protected override bool OnKeyDown(KeyDownEvent e)
         {
