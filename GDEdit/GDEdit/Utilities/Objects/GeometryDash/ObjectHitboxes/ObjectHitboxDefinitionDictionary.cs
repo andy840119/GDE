@@ -117,15 +117,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
                 list.Add(definition);
             else
                 f.ObjectIDs.AddRange(definition.ObjectIDs);
-            if (allIDs != null)
-                allIDs.AddRange(definition.ObjectIDs);
+            allIDs?.AddRange(definition.ObjectIDs);
             Validate();
         }
 
         /// <summary>Clears the dictionary.</summary>
         public void Clear()
         {
-            allIDs.Clear();
+            allIDs?.Clear();
             list.Clear();
         }
 
@@ -178,8 +177,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes
             foreach (var d in list)
                 if (d.ObjectIDs.Remove(objectID))
                 {
-                    if (allIDs != null)
-                        allIDs.Remove(objectID);
+                    allIDs?.Remove(objectID);
                     if (d.ObjectIDs.Count == 0)
                         list.Remove(d);
                     return true;
