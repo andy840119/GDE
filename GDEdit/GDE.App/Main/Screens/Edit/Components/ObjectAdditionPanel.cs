@@ -20,6 +20,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Transforms;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
+using osu.Framework.Input.Events;
 using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK;
@@ -37,9 +38,11 @@ namespace GDE.App.Main.Screens.Edit.Components
         private int selectedObjectID;
         private ObjectButton currentlyActiveButton;
         private FillFlowContainer container;
+        private Camera camera;
 
-        public ObjectAdditionPanel()
+        public ObjectAdditionPanel(Camera camera)
         {
+            this.camera = camera;
             Add(container = new FillFlowContainer
             {
                 RelativeSizeAxes = Axes.Both,
@@ -67,12 +70,12 @@ namespace GDE.App.Main.Screens.Edit.Components
                         if (currentlyActiveButton != null)
                             currentlyActiveButton.Active = false;
                         currentlyActiveButton = objectButton;
+
+                        //Add(new GhostObject(objectButton.Object.LevelObject, camera));
                     }
                     else if (currentlyActiveButton == objectButton)
                         currentlyActiveButton = null;
                     selectedObjectID = objectButton.ObjectID;
-                    // I would not recommend using that
-                    //ToggleVisibility();
                 };
             }
         }
@@ -84,7 +87,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             public bool Active
             {
                 get => active;
-                set => this.TransformTo("BackgroundColour", GDEColors.FromHex((active = value) ? "383" : "333"));
+                set => this.TransformTo(nameof(BackgroundColour), GDEColors.FromHex((active = value) ? "383" : "333"));
             }
             public int ObjectID => Object.ObjectID;
             public ObjectBase Object { get; }
@@ -96,11 +99,42 @@ namespace GDE.App.Main.Screens.Edit.Components
                 Add(Object = new ObjectBase(new GeneralObject(objectID))
                 {
                     Depth = -1,
+                    Selectable = false
                 });
             }
 
             /// <summary>Inverts the Active property and returns the new value.</summary>
             public bool ToggleActive() => Active = !Active;
         }
+
+        /*private class GhostObject : ObjectBase
+        {
+            private Vector2 lastMousePosition;
+            //forgot the name lo
+            private Vector2 threshold = new Vector2(5);
+
+            private Camera camera;
+
+            public GhostObject(GeneralObject o, Camera camera)
+                : base(o) { this.camera = camera; }
+
+            public GhostObject(int id, Camera camera)
+                : base(id) { this.camera = camera;  }
+
+            [BackgroundDependencyLoader]
+            private void load()
+            {
+                Alpha = 0.5f;
+
+                ReceivePositionalInputAt(camera.DrawSize);
+            }
+
+            protected override bool OnMouseMove(MouseMoveEvent e)
+            {
+                Position += e.Delta;
+
+                return true;
+            }
+        }*/
     }
 }

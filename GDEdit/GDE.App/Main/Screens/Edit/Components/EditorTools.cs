@@ -36,11 +36,11 @@ namespace GDE.App.Main.Screens.Edit.Components
             database = databases[0];
         }
 
-        public EditorTools(LevelPreview level)
+        public EditorTools(LevelPreview level, Camera camera)
         {
             Children = new Drawable[]
             {
-                panel = new ObjectAdditionPanel()
+                panel = new ObjectAdditionPanel(camera)
                 {
                     Size = new Vector2(335, 557),
                     Position = new Vector2(DrawWidth + 10, DrawHeight / 2)

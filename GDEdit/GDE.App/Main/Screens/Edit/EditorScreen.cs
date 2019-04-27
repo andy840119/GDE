@@ -77,7 +77,7 @@ namespace GDE.App.Main.Screens.Edit
                         },
                     }
                 },
-                new EditorTools(preview)
+                new EditorTools(preview, camera)
                 {
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
