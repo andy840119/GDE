@@ -12,6 +12,9 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     {
         private Point position;
 
+        /// <summary>Determines whether the Rotation property of the <seealso cref="Shape"/> affects this shape in any way.</summary>
+        protected virtual bool IsRotationUseful => true;
+
         /// <summary>The rotation of the shape in degrees.</summary>
         public double Rotation { get; set; }
         /// <summary>The position of the shape.</summary>
@@ -74,5 +77,14 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
         public abstract bool ContainsPoint(Point point);
+
+        /// <summary>Determines whether this shape equals another shape. This is a function that defines how to compare shapes of the same type and is only called if both shapes' types are equal.</summary>
+        /// <param name="shape">The shape to determine equality with.</param>
+        protected abstract bool EqualsInheritably(Shape shape);
+
+        private bool Equals(Shape shape) => GetType() == shape.GetType() && position == shape.position && (!IsRotationUseful || Rotation == shape.Rotation) && EqualsInheritably(shape);
+
+        public static bool operator ==(Shape left, Shape right) => left.Equals(right);
+        public static bool operator !=(Shape left, Shape right) => !left.Equals(right);
     }
 }

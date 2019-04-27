@@ -10,6 +10,9 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     /// <summary>Represents a circular shape.</summary>
     public class Circle : Shape, IHasRadius
     {
+        /// <summary>Determines whether the Rotation property of the <seealso cref="Shape"/> affects this shape in any way.</summary>
+        protected override bool IsRotationUseful => false;
+
         /// <summary>The radius of the circular shape.</summary>
         public double Radius { get; set; }
 
@@ -27,5 +30,11 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
         public override bool ContainsPoint(Point point) => point.DistanceFrom(Position) <= Radius;
+
+        protected override bool EqualsInheritably(Shape shape)
+        {
+            var other = shape as Circle;
+            return Radius == other.Radius;
+        }
     }
 }

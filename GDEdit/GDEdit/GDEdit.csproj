@@ -87,6 +87,7 @@
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\GenericICollectionExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericListExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
@@ -240,6 +241,8 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\WidthHeightShape.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\ObjectHitboxDefinition.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\ObjectHitboxDefinitionDictionary.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />

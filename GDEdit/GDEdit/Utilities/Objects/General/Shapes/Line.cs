@@ -10,8 +10,6 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     /// <summary>Represents a line shape.</summary>
     public class Line : Shape
     {
-        /// <summary>The rotation of the line in degrees.</summary>
-        public double Rotation { get; }
         /// <summary>Gets the slope ratio of this line shape.</summary>
         public double SlopeRatio => Math.Tan(Rotation * Math.PI / 180);
 
@@ -29,5 +27,7 @@ namespace GDEdit.Utilities.Objects.General.Shapes
         protected override double CalculateRadiusAtRotation(double rotation) => rotation % 180 == Rotation % 180 ? double.PositiveInfinity : 0;
         /// <summary>Returns the maximum distance between the center of the shape and its edge.</summary>
         public override double GetMaxRadius() => double.PositiveInfinity;
+
+        protected override bool EqualsInheritably(Shape shape) => true;
     }
 }
