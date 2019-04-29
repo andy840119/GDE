@@ -130,5 +130,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.CenterGroupID = CenterGroupID;
             return base.AddClonedInstanceInformation(c);
         }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as RotateTrigger;
+            return base.EqualsInherited(other)
+                && targetGroupID == z.targetGroupID
+                && duration == z.duration
+                && Easing == z.Easing
+                && easingRate == z.easingRate
+                && Degrees == z.Degrees
+                && Times360 == z.Times360
+                && centerGroupID == z.centerGroupID;
+        }
+        /// <summary>Determines whether this object's type is the same as another object's type</summary>
+        /// <param name="other">The other object to check whether its type is the same as this one's.</param>
+        protected override bool EqualsType(GeneralObject other) => other is RotateTrigger;
     }
 }
