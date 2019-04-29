@@ -265,7 +265,40 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingX">The ending X position of the rectangle.</param>
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
-        
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function before returning the result. That means an <see langword="override"/> should look like <see langword="return"/> ... &amp;&amp; <see langword="base"/>.EqualsInherited(<paramref name="other"/>);.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected virtual bool EqualsInherited(GeneralObject other)
+        {
+            // Seriously I do not like how this looks, but at least there is some symmetry, which is the most I could think of
+            return bools == other.bools
+                && color1ID == other.color1ID
+                && color2ID == other.color2ID
+                && el1 == other.el1
+                && el2 == other.el2
+                && groupIDs.EqualsUnordered(other.groupIDs)
+                && EqualsObjectID(other)
+                && X == other.X
+                && Y == other.Y
+                && rotation == other.rotation
+                && scaling == other.scaling
+                && LinkedGroupID == other.LinkedGroupID
+                && zLayer == other.zLayer
+                && ZOrder == other.ZOrder;
+        }
+        /// <summary>Useful for inherited objects' property hiding.</summary>
+        /// <param name="other">The other object to compare the object ID with.</param>
+        protected virtual bool EqualsObjectID(GeneralObject other) => objectID == other.objectID;
+        /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
+        /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
+        public bool Equals(GeneralObject other) => EqualsInherited(other);
+        /// <summary>Determines whether this object equals another object. Not recommended using at all due to performance issues and overgeneralization of the implementation.</summary>
+        /// <param name="obj">The other object to check equality against.</param>
+        public override bool Equals(object obj) => Equals(obj as GeneralObject);
+
+        public static bool operator ==(GeneralObject left, GeneralObject right) => left.Equals(right);
+        public static bool operator !=(GeneralObject left, GeneralObject right) => !left.Equals(right);
+
         /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
         /// <param name="objectID">The object ID of the new object.</param>
         public static GeneralObject GetNewObjectInstance(int objectID)
