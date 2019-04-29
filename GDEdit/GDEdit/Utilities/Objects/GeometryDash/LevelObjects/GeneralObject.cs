@@ -222,26 +222,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="cloned">The cloned instance to add the information to.</param>
         protected virtual GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
-            cloned.ObjectID = ObjectID;
+            cloned.objectID = objectID;
             cloned.X = X;
             cloned.Y = Y;
-            cloned.FlippedHorizontally = FlippedHorizontally;
-            cloned.FlippedVertically = FlippedVertically;
-            cloned.Rotation = Rotation;
-            cloned.Scaling = Scaling;
-            cloned.EL1 = EL1;
-            cloned.EL2 = EL2;
-            cloned.ZLayer = ZLayer;
-            cloned.ZOrder = ZOrder;
-            cloned.Color1ID = Color1ID;
-            cloned.Color2ID = Color2ID;
-            cloned.GroupIDs = GroupIDs;
+            cloned.bools = bools; // Prefer one assignment, compared to 7 property assignments
+            cloned.rotation = rotation;
+            cloned.scaling = scaling;
+            cloned.el1 = el1;
+            cloned.el2 = el2;
+            cloned.zLayer = zLayer;
+            cloned.zOrder = zOrder;
+            cloned.color1ID = color1ID;
+            cloned.color2ID = color2ID;
+            cloned.groupIDs = groupIDs.CopyArray();
             cloned.LinkedGroupID = LinkedGroupID;
-            cloned.GroupParent = GroupParent;
-            cloned.HighDetail = HighDetail;
-            cloned.DontEnter = DontEnter;
-            cloned.DontFade = DontFade;
-            cloned.DisableGlow = DisableGlow;
             return cloned;
         }
 
