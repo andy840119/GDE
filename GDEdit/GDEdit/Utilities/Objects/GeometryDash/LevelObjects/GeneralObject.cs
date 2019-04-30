@@ -271,14 +271,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         protected virtual bool EqualsInherited(GeneralObject other)
         {
             // Seriously I do not like how this looks, but at least there is some symmetry, which is the most I could think of
-            return EqualsType(other)
+            return objectID == other.objectID
                 && bools == other.bools
                 && color1ID == other.color1ID
                 && color2ID == other.color2ID
                 && el1 == other.el1
                 && el2 == other.el2
                 && groupIDs.EqualsUnordered(other.groupIDs)
-                && objectID == other.objectID
                 && X == other.X
                 && Y == other.Y
                 && rotation == other.rotation
@@ -287,7 +286,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 && zLayer == other.zLayer
                 && ZOrder == other.ZOrder;
         }
-        /// <summary>Determines whether this object's type is the same as another object's type</summary>
+        /// <summary>Determines whether this object's type is the same as another object's type. Probably will have to discard, as object ID automatically determines object type.</summary>
         /// <param name="other">The other object to check whether its type is the same as this one's.</param>
         protected virtual bool EqualsType(GeneralObject other) => true;
         /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
