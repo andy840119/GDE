@@ -68,8 +68,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && animationID == z.animationID
                 && targetGroupID == z.targetGroupID;
         }
-        /// <summary>Determines whether this object's type is the same as another object's type</summary>
-        /// <param name="other">The other object to check whether its type is the same as this one's.</param>
-        protected override bool EqualsType(GeneralObject other) => other is AnimateTrigger;
     }
 }

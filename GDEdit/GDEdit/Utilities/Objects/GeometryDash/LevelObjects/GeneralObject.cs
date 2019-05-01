@@ -286,9 +286,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 && zLayer == other.zLayer
                 && ZOrder == other.ZOrder;
         }
-        /// <summary>Determines whether this object's type is the same as another object's type. Probably will have to discard, as object ID automatically determines object type.</summary>
-        /// <param name="other">The other object to check whether its type is the same as this one's.</param>
-        protected virtual bool EqualsType(GeneralObject other) => true;
         /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
         /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
         public bool Equals(GeneralObject other) => EqualsInherited(other);

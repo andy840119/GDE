@@ -33,9 +33,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 
         /// <summary>Returns a clone of this <seealso cref="ReverseTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new ReverseTrigger());
-
-        /// <summary>Determines whether this object's type is the same as another object's type</summary>
-        /// <param name="other">The other object to check whether its type is the same as this one's.</param>
-        protected override bool EqualsType(GeneralObject other) => other is ReverseTrigger;
     }
 }

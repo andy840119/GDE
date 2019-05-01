@@ -35,9 +35,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         public override GeneralObject Clone() => new YellowTeleportationPortal(LinkedTeleportationPortal);
 
         // Do not override EqualsInherited to avoid recursion when comparing the parent blue teleportation portal
-        /// <summary>Determines whether this object's type is the same as another object's type</summary>
-        /// <param name="other">The other object to check whether its type is the same as this one's.</param>
-        protected override bool EqualsType(GeneralObject other) => other is YellowTeleportationPortal;
 
         /// <summary>Sets the properties of this <seealso cref="YellowTeleportationPortal"/> according to the linked <seealso cref="BlueTeleportationPortal"/>.</summary>
         private void SetProperties(BlueTeleportationPortal a)

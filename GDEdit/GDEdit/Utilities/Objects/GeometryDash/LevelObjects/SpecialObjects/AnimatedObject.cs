@@ -32,9 +32,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Returns a clone of this <seealso cref="AnimatedObject"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new AnimatedObject());
-
-        /// <summary>Determines whether this object's type is the same as another object's type</summary>
-        /// <param name="other">The other object to check whether its type is the same as this one's.</param>
-        protected override bool EqualsType(GeneralObject other) => other is AnimatedObject;
     }
 }
