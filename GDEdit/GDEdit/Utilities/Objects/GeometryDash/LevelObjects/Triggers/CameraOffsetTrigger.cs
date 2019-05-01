@@ -87,11 +87,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as CameraOffsetTrigger;
-            c.Duration = Duration;
+            c.duration = duration;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
-            c.OffsetX = OffsetX;
-            c.OffsetY = OffsetY;
+            c.easingRate = easingRate;
+            c.offsetX = offsetX;
+            c.offsetY = offsetY;
             c.TargetPosCoordinates = TargetPosCoordinates;
             return base.AddClonedInstanceInformation(c);
         }

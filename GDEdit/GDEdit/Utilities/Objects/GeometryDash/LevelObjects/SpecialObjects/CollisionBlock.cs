@@ -49,8 +49,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as CollisionBlock;
-            c.BlockID = BlockID;
-            c.DynamicBlock = DynamicBlock;
+            c.blockID = blockID;
             return base.AddClonedInstanceInformation(c);
         }
 

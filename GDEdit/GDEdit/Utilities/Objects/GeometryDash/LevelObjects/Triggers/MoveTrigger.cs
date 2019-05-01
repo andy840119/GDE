@@ -142,15 +142,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as MoveTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
             c.TargetPosGroupID = TargetPosGroupID;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
-            c.MoveX = MoveX;
-            c.MoveY = MoveY;
-            c.LockToPlayerX = LockToPlayerX;
-            c.LockToPlayerY = LockToPlayerY;
+            c.easingRate = easingRate;
+            c.moveX = moveX;
+            c.moveY = moveY;
             c.TargetPosCoordinates = TargetPosCoordinates;
             return base.AddClonedInstanceInformation(c);
         }

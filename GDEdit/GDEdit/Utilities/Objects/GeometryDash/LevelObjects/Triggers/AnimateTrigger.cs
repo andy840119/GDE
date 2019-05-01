@@ -54,8 +54,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as AnimateTrigger;
-            c.AnimationID = AnimationID;
-            c.TargetGroupID = TargetGroupID;
+            c.animationID = animationID;
+            c.targetGroupID = targetGroupID;
             return base.AddClonedInstanceInformation(c);
         }
 

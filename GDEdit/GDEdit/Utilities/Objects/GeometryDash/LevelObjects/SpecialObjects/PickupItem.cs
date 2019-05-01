@@ -73,10 +73,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             var c = cloned as PickupItem;
             c.PickupMode = PickupMode;
-            c.TargetItemID = TargetItemID;
-            c.SubtractCount = SubtractCount;
-            c.TargetGroupID = TargetGroupID;
-            c.EnableGroup = EnableGroup;
+            c.targetItemID = targetItemID;
+            c.targetGroupID = targetGroupID;
             return base.AddClonedInstanceInformation(c);
         }
 

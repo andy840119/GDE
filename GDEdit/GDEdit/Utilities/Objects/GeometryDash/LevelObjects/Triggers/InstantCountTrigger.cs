@@ -79,10 +79,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as InstantCountTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.ItemID = ItemID;
+            c.targetGroupID = targetGroupID;
+            c.itemID = itemID;
             c.TargetCount = TargetCount;
-            c.ActivateGroup = ActivateGroup;
             c.Comparison = Comparison;
             return base.AddClonedInstanceInformation(c);
         }

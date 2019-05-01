@@ -67,9 +67,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as TouchTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.HoldMode = HoldMode;
-            c.DualMode = DualMode;
+            c.targetGroupID = targetGroupID;
             c.ToggleMode = ToggleMode;
             return base.AddClonedInstanceInformation(c);
         }
@@ -80,7 +78,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             var z = other as TouchTrigger;
             return base.EqualsInherited(other)
-                && targetGroupID == z.targetGroupID;
+                && targetGroupID == z.targetGroupID
+                && ToggleMode == z.ToggleMode;
         }
         /// <summary>Determines whether this object's type is the same as another object's type</summary>
         /// <param name="other">The other object to check whether its type is the same as this one's.</param>

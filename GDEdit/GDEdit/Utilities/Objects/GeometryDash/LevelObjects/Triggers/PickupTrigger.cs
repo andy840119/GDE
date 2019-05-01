@@ -49,7 +49,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as PickupTrigger;
-            c.TargetItemID = TargetItemID;
+            c.targetItemID = targetItemID;
             c.Count = Count;
             return base.AddClonedInstanceInformation(c);
         }

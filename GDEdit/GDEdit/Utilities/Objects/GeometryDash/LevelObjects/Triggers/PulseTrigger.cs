@@ -135,18 +135,17 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as PulseTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.TargetColorID = TargetColorID;
-            c.Red = Red;
-            c.Green = Green;
-            c.Blue = Blue;
-            c.FadeIn = FadeIn;
-            c.Hold = Hold;
-            c.FadeOut = FadeOut;
+            c.targetGroupID = targetGroupID;
+            c.targetColorID = targetColorID;
+            c.red = red;
+            c.green = green;
+            c.blue = blue;
+            c.fadeIn = fadeIn;
+            c.hold = hold;
+            c.fadeOut = fadeOut;
             c.CopiedColorID = CopiedColorID;
             c.PulseMode = PulseMode;
             c.PulseTargetType = PulseTargetType;
-            c.Exclusive = Exclusive;
             c.HSVAdjustment = HSVAdjustment;
             return base.AddClonedInstanceInformation(c);
         }

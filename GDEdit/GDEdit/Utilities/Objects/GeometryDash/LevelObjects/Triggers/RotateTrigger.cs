@@ -119,15 +119,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as RotateTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
-            c.CenterGroupID = CenterGroupID;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
+            c.easingRate = easingRate;
             c.Degrees = Degrees;
             c.Times360 = Times360;
-            c.LockObjectRotation = LockObjectRotation;
-            c.CenterGroupID = CenterGroupID;
+            c.centerGroupID = centerGroupID;
             return base.AddClonedInstanceInformation(c);
         }
 

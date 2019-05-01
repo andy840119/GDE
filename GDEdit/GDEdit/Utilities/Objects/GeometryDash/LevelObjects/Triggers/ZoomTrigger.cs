@@ -55,8 +55,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as ZoomTrigger;
-            c.Duration = Duration;
-            c.Zoom = Zoom;
+            c.duration = duration;
+            c.zoom = zoom;
             return base.AddClonedInstanceInformation(c);
         }
 
@@ -66,8 +66,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             var z = other as ZoomTrigger;
             return base.EqualsInherited(other)
-                && zoom == z.zoom
-                && duration == z.duration;
+                && duration == z.duration
+                && zoom == z.zoom;
         }
         /// <summary>Determines whether this object's type is the same as another object's type</summary>
         /// <param name="other">The other object to check whether its type is the same as this one's.</param>

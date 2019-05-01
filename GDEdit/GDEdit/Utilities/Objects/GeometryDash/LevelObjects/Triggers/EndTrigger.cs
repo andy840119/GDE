@@ -62,9 +62,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as EndTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.Reversed = Reversed;
-            c.LockY = LockY;
+            c.targetGroupID = targetGroupID;
             return base.AddClonedInstanceInformation(c);
         }
 

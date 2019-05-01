@@ -435,9 +435,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             var c = cloned as CustomParticleObject;
             c.Grouping = Grouping;
             c.Property1 = Property1;
-            c.MaxParticles = MaxParticles;
-            c.Duration = Duration;
-            c.Emission = Emission;
+            c.maxParticles = maxParticles;
+            c.duration = duration;
+            c.emission = emission;
             c.posVar = posVar;
             c.gravity = gravity;
             c.startSize = startSize;

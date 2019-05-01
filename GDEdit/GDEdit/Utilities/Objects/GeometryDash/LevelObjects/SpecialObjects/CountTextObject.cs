@@ -42,7 +42,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as CountTextObject;
-            c.ItemID = ItemID;
+            c.itemID = itemID;
             return base.AddClonedInstanceInformation(c);
         }
 

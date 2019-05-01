@@ -62,9 +62,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as ShakeTrigger;
-            c.Duration = Duration;
-            c.Strength = Strength;
-            c.Interval = Interval;
+            c.duration = duration;
+            c.strength = strength;
+            c.interval = interval;
             return base.AddClonedInstanceInformation(c);
         }
 

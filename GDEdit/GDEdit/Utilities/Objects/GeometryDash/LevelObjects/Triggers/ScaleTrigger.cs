@@ -107,12 +107,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as ScaleTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
-            c.CenterGroupID = CenterGroupID;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
-            c.ScalingMultiplier = ScalingMultiplier;
+            c.easingRate = easingRate;
+            c.scalingMultiplier = scalingMultiplier;
+            c.centerGroupID = centerGroupID;
             return base.AddClonedInstanceInformation(c);
         }
 

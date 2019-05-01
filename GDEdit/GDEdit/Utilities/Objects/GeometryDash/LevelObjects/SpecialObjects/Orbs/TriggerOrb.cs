@@ -45,8 +45,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as TriggerOrb;
-            c.TargetGroupID = TargetGroupID;
-            c.ActivateGroup = ActivateGroup;
+            c.targetGroupID = targetGroupID;
             return base.AddClonedInstanceInformation(c);
         }
 

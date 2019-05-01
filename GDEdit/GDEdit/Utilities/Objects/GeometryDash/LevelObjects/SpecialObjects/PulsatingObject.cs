@@ -50,7 +50,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             var c = cloned as PulsatingObject;
             c.AnimationSpeed = AnimationSpeed;
-            c.RandomizeStart = RandomizeStart;
             return base.AddClonedInstanceInformation(c);
         }
 

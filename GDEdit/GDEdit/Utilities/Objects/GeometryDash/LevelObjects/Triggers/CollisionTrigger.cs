@@ -80,11 +80,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as CollisionTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.PrimaryBlockID = PrimaryBlockID;
-            c.SecondaryBlockID = SecondaryBlockID;
-            c.ActivateGroup = ActivateGroup;
-            c.TriggerOnExit = TriggerOnExit;
+            c.targetGroupID = targetGroupID;
+            c.primaryBlockID = primaryBlockID;
+            c.secondaryBlockID = secondaryBlockID;
             return base.AddClonedInstanceInformation(c);
         }
 

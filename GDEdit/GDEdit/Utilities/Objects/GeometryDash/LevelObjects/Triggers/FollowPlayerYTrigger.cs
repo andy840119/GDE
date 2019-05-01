@@ -93,11 +93,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as FollowPlayerYTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
-            c.Speed = Speed;
-            c.Delay = Delay;
-            c.MaxSpeed = MaxSpeed;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
+            c.speed = speed;
+            c.delay = delay;
+            c.maxSpeed = maxSpeed;
             c.Offset = Offset;
             return base.AddClonedInstanceInformation(c);
         }

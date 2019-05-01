@@ -131,16 +131,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as ColorTrigger;
-            c.TargetColorID = TargetColorID;
-            c.Duration = Duration;
-            c.Red = Red;
-            c.Green = Green;
-            c.Blue = Blue;
-            c.Opacity = Opacity;
+            c.targetColorID = targetColorID;
+            c.duration = duration;
+            c.red = red;
+            c.green = green;
+            c.blue = blue;
+            c.opacity = opacity;
             c.CopiedColorID = CopiedColorID;
-            c.Blending = Blending;
-            c.CopyOpacity = CopyOpacity;
-            c.TintGround = TintGround;
             c.HSVAdjustment = HSVAdjustment;
             return base.AddClonedInstanceInformation(c);
         }
@@ -152,6 +149,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             var z = other as ColorTrigger;
             return base.EqualsInherited(other)
                 && targetColorID == z.targetColorID
+                && duration == z.duration
                 && red == z.red
                 && green == z.green
                 && blue == z.blue

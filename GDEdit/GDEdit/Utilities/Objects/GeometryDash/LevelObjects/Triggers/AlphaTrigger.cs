@@ -63,9 +63,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as AlphaTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
-            c.Opacity = Opacity;
+            c.duration = duration;
+            c.targetGroupID = targetGroupID;
+            c.opacity = opacity;
             return base.AddClonedInstanceInformation(c);
         }
 
