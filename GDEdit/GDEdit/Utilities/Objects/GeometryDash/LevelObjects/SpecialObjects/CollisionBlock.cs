@@ -19,6 +19,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public override int ObjectID => (int)SpecialObjectType.CollisionBlock;
 
         /// <summary>The Block ID of the collision block.</summary>
+        [ObjectStringMappable(ObjectParameter.BlockID)]
         public int BlockID
         {
             get => blockID;
