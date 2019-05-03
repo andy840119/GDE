@@ -7,7 +7,9 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using static System.Linq.Expressions.Expression;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -15,7 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
-        private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => t.GetCustomAttribute<ObjectIDAttribute>() != null).ToList().ConvertAll(t => new ObjectTypeInfo(t)).ToArray();
+        private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToList().ConvertAll(t => new ObjectTypeInfo(t)).ToArray();
 
         private short[] groupIDs = new short[0];
         private BitArray8 bools = new BitArray8();
@@ -248,21 +250,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         // Reflection is FUN
         public T GetParameterWithID<T>(int ID)
         {
-            var properties = GetType().GetProperties();
-            foreach (var p in properties)
-                if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key == ID)
-                    return (T)p.GetValue(this);
+            var type = GetType();
+            foreach (var t in initializableObjectTypes)
+                if (t.ObjectType == type)
+                    foreach (var p in t.Properties)
+                        if (p.Key == ID)
+                            return (T)p.GetMethod.DynamicInvoke(this);
             throw new KeyNotFoundException("The requested ID was not found.");
         }
         public void SetParameterWithID<T>(int ID, T newValue)
         {
-            var properties = GetType().GetProperties();
-            foreach (var p in properties)
-                if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key == ID)
-                {
-                    p.SetValue(this, newValue);
-                    return;
-                }
+            var type = GetType();
+            foreach (var t in initializableObjectTypes)
+                if (t.ObjectType == type)
+                    foreach (var p in t.Properties)
+                        if (p.Key == ID)
+                        {
+                            p.SetMethod?.DynamicInvoke(this, newValue);
+                            return;
+                        }
+            throw new KeyNotFoundException("The requested ID was not found.");
         }
         
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
@@ -303,6 +310,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             public int? ObjectID { get; }
             public ConstructorInfo Constructor { get; }
             public NonGeneratableAttribute NonGeneratableAttribute { get; }
+            public PropertyAccessInfo[] Properties { get; }
 
             public ObjectTypeInfo(Type objectType)
             {
@@ -310,6 +318,35 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 ObjectID = objectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
                 Constructor = objectType.GetConstructor(Type.EmptyTypes);
                 NonGeneratableAttribute = objectType.GetCustomAttribute<NonGeneratableAttribute>();
+                var properties = objectType.GetProperties();
+                Properties = new PropertyAccessInfo[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
+                    Properties[i] = new PropertyAccessInfo(properties[i]);
+            }
+        }
+
+        private class PropertyAccessInfo
+        {
+            public PropertyInfo PropertyInfo { get; }
+
+            // TODO: Convert the delegates into Func<,> and Action<,> respectively, somehow
+            public Delegate GetMethod { get; }
+            public Delegate SetMethod { get; }
+
+            public ObjectStringMappableAttribute ObjectStringMappableAttribute { get; }
+            public int? Key => ObjectStringMappableAttribute?.Key;
+            
+            public PropertyAccessInfo(PropertyInfo info)
+            {
+                PropertyInfo = info;
+                // You have to be kidding me right now
+                var propertyType = info.PropertyType;
+                var objectType = info.DeclaringType;
+                var func = typeof(Func<,>).MakeGenericType(objectType, propertyType);
+                var action = typeof(Action<,>).MakeGenericType(objectType, propertyType);
+                GetMethod = info.GetGetMethod().CreateDelegate(func);
+                SetMethod = info.GetSetMethod()?.CreateDelegate(action);
+                ObjectStringMappableAttribute = info.GetCustomAttribute<ObjectStringMappableAttribute>();
             }
         }
     }
