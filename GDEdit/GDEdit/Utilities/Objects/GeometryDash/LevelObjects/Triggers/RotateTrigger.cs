@@ -34,7 +34,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => targetGroupID = (short)value;
         }
         /// <summary>The secondary Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         public int SecondaryGroupID
         {
             get => CenterGroupID;

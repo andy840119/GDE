@@ -33,7 +33,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => itemID = (short)value;
         }
         /// <summary>The primary Item ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ItemID)]
         public int PrimaryItemID
         {
             get => ItemID;
