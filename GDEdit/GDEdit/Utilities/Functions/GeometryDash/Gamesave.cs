@@ -155,8 +155,8 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                                         case IGenericAttribute<int[]> _:
                                             instance.SetParameterWithID(parameterID, objectParameters[i, j].ToString().Split('.').ToInt32Array());
                                             break;
-                                        case IGenericAttribute<Enumerations.GeometryDash.Easing> _: // TODO: Rename the static Easing class to avoid conflicts
-                                            instance.SetParameterWithID(parameterID, (Enumerations.GeometryDash.Easing)ToInt32(objectParameters[i, j]));
+                                        case IGenericAttribute<Easing> _:
+                                            instance.SetParameterWithID(parameterID, (Easing)ToInt32(objectParameters[i, j]));
                                             break;
                                         case IGenericAttribute<InstantCountComparison> _:
                                             instance.SetParameterWithID(parameterID, (InstantCountComparison)ToInt32(objectParameters[i, j]));

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace GDEdit.Utilities.Functions.GeometryDash
 {
-    public static class Easing
+    /// <summary>Provides helpful functions for conversion involving the enum value of the respective easing type in the game.</summary>
+    public static class EasingHelper
     {
         public static int GetEasingValue(int easingType, bool enableIn, bool enableOut)
         {
