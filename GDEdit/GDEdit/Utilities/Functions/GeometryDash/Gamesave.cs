@@ -180,11 +180,14 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                                 }
                                 catch (FormatException) // If the parameter is not just a number; most likely a Start Pos object
                                 {
-                                    // Something to do, I guess
+                                    // After logging the exceptions in the console, the exception is ignorable
                                 }
-                                catch (KeyNotFoundException)
+                                catch (KeyNotFoundException e)
                                 {
-                                    // Interesting; don't care for the time being until a fix is figured out
+                                    int parameterID = ToInt32(objectParameters[i, j - 1]);
+                                    if (parameterID == 36)
+                                        continue;
+                                    Console.WriteLine(e.Message);
                                 }
                             }
                             else

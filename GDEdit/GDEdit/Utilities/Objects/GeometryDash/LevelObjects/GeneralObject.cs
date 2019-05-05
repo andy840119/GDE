@@ -256,7 +256,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     foreach (var p in t.Properties)
                         if (p.Key == ID)
                             return (T)p.GetMethod.DynamicInvoke(this);
-            throw new KeyNotFoundException("The requested ID was not found.");
+            throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID})");
         }
         public void SetParameterWithID<T>(int ID, T newValue)
         {
@@ -269,7 +269,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                             p.SetMethod?.DynamicInvoke(this, newValue);
                             return;
                         }
-            throw new KeyNotFoundException("The requested ID was not found.");
+            throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
         }
         
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
@@ -323,6 +323,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 for (int i = 0; i < properties.Length; i++)
                     Properties[i] = new PropertyAccessInfo(properties[i]);
             }
+
+            public override string ToString() => $"{ObjectID} - {ObjectType.Name}";
         }
 
         private class PropertyAccessInfo
