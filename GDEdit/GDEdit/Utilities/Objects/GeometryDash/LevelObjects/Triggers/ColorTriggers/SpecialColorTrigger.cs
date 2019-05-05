@@ -10,14 +10,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     /// <summary>Represents a Color trigger that has a specific target Color ID.</summary>
     public abstract class SpecialColorTrigger : ColorTrigger
     {
+        /// <summary>Determines whether this color trigger has a constant target Color ID.</summary>
+        public override bool HasConstantTargetColorID => true;
         /// <summary>The target Color ID of the trigger.</summary>
-        public new abstract int TargetColorID { get; }
+        public abstract int ConstantTargetColorID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialColorTrigger"/> class.</summary>
         public SpecialColorTrigger()
             : base()
         {
-            base.TargetColorID = TargetColorID;
+            SetTargetColorID(ConstantTargetColorID);
         }
         /// <summary>Initializes a new instance of the <seealso cref="SpecialColorTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
@@ -26,7 +28,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public SpecialColorTrigger(float duration, bool copyOpacity = false, bool tintGround = false)
             : base(duration, 0, copyOpacity, tintGround)
         {
-            base.TargetColorID = TargetColorID;
+            SetTargetColorID(ConstantTargetColorID);
         }
     }
 }

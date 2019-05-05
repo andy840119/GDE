@@ -16,7 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
         public override int ObjectID => (int)TriggerType.Line;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public override int TargetColorID => (int)SpecialColorID.Line;
+        public override int ConstantTargetColorID => (int)SpecialColorID.Line;
 
         /// <summary>Initializes a new instance of the <seealso cref="LineColorTrigger"/> class.</summary>
         public LineColorTrigger() : base() { }

@@ -21,12 +21,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Object ID of the Color trigger.</summary>
         public override int ObjectID => (int)TriggerType.Color;
 
+        /// <summary>Determines whether this color trigger has a constant target Color ID.</summary>
+        public virtual bool HasConstantTargetColorID => false;
+
         /// <summary>The target Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetColorID)]
         public int TargetColorID
         {
             get => targetColorID;
-            set => targetColorID = (short)value;
+            set
+            {
+                if (!HasConstantTargetColorID)
+                    SetTargetColorID(value);
+            }
         }
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.Duration)]
@@ -122,6 +129,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             TintGround = tintGround;
         }
         // Constructors like this are useless, so many fucking parameters are required
+
+        /// <summary>Sets the target Color ID value. This function is <see langword="protected"/> so that special color triggers can initially set the target Color ID.</summary>
+        /// <param name="value">The new value of the target Color ID.</param>
+        protected void SetTargetColorID(int value) => targetColorID = (short)value;
 
         /// <summary>Returns a clone of this <seealso cref="ColorTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new ColorTrigger());
