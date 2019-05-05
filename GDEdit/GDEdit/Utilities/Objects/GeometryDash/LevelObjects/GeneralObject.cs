@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using static System.Linq.Expressions.Expression;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
@@ -17,7 +18,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
-        private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToList().ConvertAll(t => new ObjectTypeInfo(t)).ToArray();
+        private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToList().ConvertAll(t => ObjectTypeInfo.GetInfo(t)).ToArray();
 
         private short[] groupIDs = new short[0];
         private BitArray8 bools = new BitArray8();
@@ -284,7 +285,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         public static GeneralObject GetNewObjectInstance(int objectID)
         {
             foreach (var t in initializableObjectTypes)
-                if (t.ObjectID == objectID)
+                if (t.IsValidID(objectID))
                 {
                     if (t.NonGeneratableAttribute != null)
                         throw new InvalidOperationException(t.NonGeneratableAttribute.ExceptionMessage);
@@ -303,11 +304,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             return new GeneralObject(objectID);
         }
 
-        private class ObjectTypeInfo
+        private abstract class ObjectTypeInfo
         {
             public Type ObjectType { get; }
 
-            public int? ObjectID { get; }
             public ConstructorInfo Constructor { get; }
             public NonGeneratableAttribute NonGeneratableAttribute { get; }
             public PropertyAccessInfo[] Properties { get; }
@@ -315,7 +315,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             public ObjectTypeInfo(Type objectType)
             {
                 ObjectType = objectType;
-                ObjectID = objectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
                 Constructor = objectType.GetConstructor(Type.EmptyTypes);
                 NonGeneratableAttribute = objectType.GetCustomAttribute<NonGeneratableAttribute>();
                 var properties = objectType.GetProperties();
@@ -324,7 +323,53 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     Properties[i] = new PropertyAccessInfo(properties[i]);
             }
 
-            public override string ToString() => $"{ObjectID} - {ObjectType.Name}";
+            public abstract bool IsValidID(int objectID);
+
+            protected abstract string GetValidObjectIDs();
+
+            public static ObjectTypeInfo GetInfo(Type objectType)
+            {
+                if (objectType.GetCustomAttribute<ObjectIDsAttribute>() != null)
+                    return new MultiObjectIDTypeInfo(objectType);
+                return new SingleObjectIDTypeInfo(objectType);
+            }
+
+            public override string ToString() => $"{GetValidObjectIDs()} - {ObjectType.Name}";
+        }
+        private class SingleObjectIDTypeInfo : ObjectTypeInfo
+        {
+            public int? ObjectID { get; }
+
+            public SingleObjectIDTypeInfo(Type objectType)
+                : base(objectType)
+            {
+                ObjectID = objectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
+            }
+
+            public override bool IsValidID(int objectID) => objectID == ObjectID;
+
+            protected override string GetValidObjectIDs() => ObjectID.ToString();
+        }
+        private class MultiObjectIDTypeInfo : ObjectTypeInfo
+        {
+            public int[] ObjectIDs { get; }
+
+            public MultiObjectIDTypeInfo(Type objectType)
+                : base(objectType)
+            {
+                ObjectIDs = objectType.GetCustomAttribute<ObjectIDsAttribute>()?.ObjectIDs;
+            }
+
+            public override bool IsValidID(int objectID) => ObjectIDs?.Contains(objectID) ?? false;
+
+            protected override string GetValidObjectIDs()
+            {
+                var s = new StringBuilder();
+                for (int i = 0; i < ObjectIDs.Length; i++)
+                    s.Append($"{ObjectIDs[i]}, ");
+                s.Remove(s.Length - 2, 2);
+                return s.ToString();
+            }
         }
 
         private class PropertyAccessInfo

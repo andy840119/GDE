@@ -59,6 +59,7 @@
     <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
     <Compile Include="Utilities\Attributes\ColorStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\IGenericAttribute.cs" />
+    <Compile Include="Utilities\Attributes\ObjectIDsAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectIDAttribute.cs" />
     <Compile Include="Utilities\Attributes\LevelStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectParameterTypeAttribute.cs" />
