@@ -4,13 +4,13 @@ using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using Microsoft.CSharp;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using static System.Linq.Expressions.Expression;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -18,7 +18,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
-        private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToList().ConvertAll(t => ObjectTypeInfo.GetInfo(t)).ToArray();
+        private static Type[] objectTypes;
+        private static ObjectTypeInfo[] initializableObjectTypes;
+
+        static GeneralObject()
+        {
+            objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
+            initializableObjectTypes = objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray();
+        }
 
         private short[] groupIDs = new short[0];
         private BitArray8 bools = new BitArray8();
@@ -256,7 +263,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 if (t.ObjectType == type)
                     foreach (var p in t.Properties)
                         if (p.Key == ID)
-                            return (T)p.GetMethod.DynamicInvoke(this);
+                            return (T)p.Get(this);
             throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID})");
         }
         public void SetParameterWithID<T>(int ID, T newValue)
@@ -267,7 +274,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     foreach (var p in t.Properties)
                         if (p.Key == ID)
                         {
-                            p.SetMethod?.DynamicInvoke(this, newValue);
+                            p.Set(this, newValue);
                             return;
                         }
             throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
@@ -306,11 +313,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 
         private abstract class ObjectTypeInfo
         {
+            private static Func<Type, Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericA;
+            private static Func<Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericB;
+
             public Type ObjectType { get; }
 
             public ConstructorInfo Constructor { get; }
             public NonGeneratableAttribute NonGeneratableAttribute { get; }
             public PropertyAccessInfo[] Properties { get; }
+
+            static ObjectTypeInfo()
+            {
+                //GenerateSelfExecutingCode();
+                // Uncomment this when System.CodeDom is referred
+            }
 
             public ObjectTypeInfo(Type objectType)
             {
@@ -320,7 +336,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 var properties = objectType.GetProperties();
                 Properties = new PropertyAccessInfo[properties.Length];
                 for (int i = 0; i < properties.Length; i++)
-                    Properties[i] = new PropertyAccessInfo(properties[i]);
+                {
+                    var p = properties[i];
+                    Properties[i] = GetAppropriateGenericA?.Invoke(p.DeclaringType, p.PropertyType, p);
+                }
             }
 
             public abstract bool IsValidID(int objectID);
@@ -332,6 +351,67 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 if (objectType.GetCustomAttribute<ObjectIDsAttribute>() != null)
                     return new MultiObjectIDTypeInfo(objectType);
                 return new SingleObjectIDTypeInfo(objectType);
+            }
+
+            private static void GenerateSelfExecutingCode()
+            {
+                const string className = "PropertyAccessInfoGenerator";
+                const string methodAName = "GetAppropriateGenericA";
+                const string methodBName = "GetAppropriateGenericB";
+
+                var getAppropriateGenericACode = new StringBuilder();
+                var getAppropriateGenericBCode = new StringBuilder();
+
+                // With the current indentation, the produced source is badly formatted, but at least this looks better
+                // In the following code, nameof and constants have been purposefully selectively used for "obvious" reasons
+                var propertyTypes = new HashSet<Type>();
+                foreach (var o in objectTypes)
+                {
+                    var types = o.GetProperties().Select(p => p.PropertyType);
+                    foreach (var t in types)
+                        propertyTypes.Add(t);
+                    var fullName = o.FullName;
+                    getAppropriateGenericACode.Append($@"
+                    if (objectType == typeof({fullName}))
+                        return {methodBName}<{fullName}>(propertyType, info);");
+                }
+                foreach (var p in propertyTypes)
+                {
+                    var fullName = p.FullName;
+                    getAppropriateGenericBCode.Append($@"
+                    if (propertyType == typeof({fullName}))
+                        return new {nameof(PropertyAccessInfo)}<TO, {fullName}>(info);");
+                }
+
+                var allCode =
+$@"
+using System;
+using System.Reflection;
+
+namespace GDEdit.Special
+{{
+    public static partial class {className}
+    {{
+        public static {nameof(PropertyAccessInfo)} {methodAName}(Type objectType, Type propertyType, PropertyInfo info)
+        {{
+            {getAppropriateGenericACode}
+            throw new Exception(); // Don't make compiler sad
+        }}
+        public static {nameof(PropertyAccessInfo)} {methodBName}<TO>(Type propertyType, PropertyInfo info)
+        {{
+            {getAppropriateGenericBCode}
+            throw new Exception();
+        }}
+    }}
+}}
+";
+                // Compile all code
+                var provider = new CSharpCodeProvider();
+                var options = new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll", "System.dll", "System.CodeDom.dll" });
+                var assembly = provider.CompileAssemblyFromSource(options, allCode).CompiledAssembly;
+                var type = assembly.GetType(className);
+                GetAppropriateGenericA = type.GetMethod(methodAName).CreateDelegate(typeof(Func<Type, Type, PropertyInfo, PropertyAccessInfo>)) as Func<Type, Type, PropertyInfo, PropertyAccessInfo>;
+                GetAppropriateGenericB = type.GetMethod(methodBName).CreateDelegate(typeof(Func<Type, PropertyInfo, PropertyAccessInfo>)) as Func<Type, PropertyInfo, PropertyAccessInfo>; // maybe useless?
             }
 
             public override string ToString() => $"{GetValidObjectIDs()} - {ObjectType.Name}";
@@ -372,13 +452,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             }
         }
 
-        private class PropertyAccessInfo
+        private abstract class PropertyAccessInfo
         {
             public PropertyInfo PropertyInfo { get; }
 
-            // TODO: Convert the delegates into Func<,> and Action<,> respectively, somehow
-            public Delegate GetMethod { get; }
-            public Delegate SetMethod { get; }
+            protected Type GenericFunc, GenericAction;
 
             public ObjectStringMappableAttribute ObjectStringMappableAttribute { get; }
             public int? Key => ObjectStringMappableAttribute?.Key;
@@ -389,12 +467,28 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 // You have to be kidding me right now
                 var propertyType = info.PropertyType;
                 var objectType = info.DeclaringType;
-                var func = typeof(Func<,>).MakeGenericType(objectType, propertyType);
-                var action = typeof(Action<,>).MakeGenericType(objectType, propertyType);
-                GetMethod = info.GetGetMethod().CreateDelegate(func);
-                SetMethod = info.GetSetMethod()?.CreateDelegate(action);
+                GenericFunc = typeof(Func<,>).MakeGenericType(objectType, propertyType);
+                GenericAction = typeof(Action<,>).MakeGenericType(objectType, propertyType);
                 ObjectStringMappableAttribute = info.GetCustomAttribute<ObjectStringMappableAttribute>();
             }
+
+            public abstract object Get(object instance);
+            public abstract void Set(object instance, object newValue);
+        }
+        private class PropertyAccessInfo<TObject, TProperty> : PropertyAccessInfo
+        {
+            public Func<TObject, TProperty> GetMethod { get; }
+            public Action<TObject, TProperty> SetMethod { get; }
+
+            public PropertyAccessInfo(PropertyInfo info)
+                : base(info)
+            {
+                GetMethod = info.GetGetMethod().CreateDelegate(GenericFunc) as Func<TObject, TProperty>;
+                SetMethod = info.GetSetMethod()?.CreateDelegate(GenericAction) as Action<TObject, TProperty>;
+            }
+
+            public override object Get(object instance) => GetMethod((TObject)instance);
+            public override void Set(object instance, object newValue) => SetMethod?.Invoke((TObject)instance, (TProperty)newValue);
         }
     }
 }
