@@ -50,12 +50,12 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void AddGhostObject(GeneralObject o)
         {
-            Add(new gridSnappedCursorContainer
+            Add(new GridSnappedCursorContainer
             {
                 RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]
                 {
-                    new ghostObject(o)
+                    new GhostObject(o)
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.TopLeft
@@ -66,12 +66,12 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void AddGhostObject(int id)
         {
-            Add(new gridSnappedCursorContainer
+            Add(new GridSnappedCursorContainer
             {
                 RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]
                 {
-                    new ghostObject(id)
+                    new GhostObject(id)
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.TopLeft
@@ -80,7 +80,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             });
         }
 
-        private class gridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
+        private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
         {
             public int SnapResolution = 30;
 
@@ -112,7 +112,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
         }
 
-        private class ghostObject : ObjectBase
+        private class GhostObject : ObjectBase
         {
             public ghostObject(GeneralObject o)
                 : base(o) { }
