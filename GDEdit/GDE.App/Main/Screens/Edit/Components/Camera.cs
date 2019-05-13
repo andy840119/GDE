@@ -74,7 +74,8 @@ namespace GDE.App.Main.Screens.Edit.Components
                     new GhostObject(id)
                     {
                         Anchor = Anchor.TopLeft,
-                        Origin = Anchor.TopLeft
+                        Origin = Anchor.TopLeft,
+                        // Something must be done so that the object does not initially appear
                     }
                 }
             });
@@ -82,7 +83,13 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
         {
-            public int SnapResolution = 30;
+            public int SnapResolution { get; set; }
+
+            public GridSnappedCursorContainer(int snapResolution = 30)
+                : base()
+            {
+                SnapResolution = snapResolution;
+            }
 
             protected override bool OnMouseMove(MouseMoveEvent e)
             {
@@ -114,11 +121,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private class GhostObject : ObjectBase
         {
-            public ghostObject(GeneralObject o)
-                : base(o) { }
-
-            public ghostObject(int id)
-                : base(id) { }
+            public GhostObject(GeneralObject o) : base(o) { }
+            public GhostObject(int id) : base(id) { }
 
             [BackgroundDependencyLoader]
             private void load()
