@@ -101,11 +101,11 @@ namespace GDE.App.Main.Screens.Edit.Components
 
             public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition)
             {
-                float x = mousePosition.X + (SnapResolution * 0.5f);
-                x -= (x % SnapResolution);
+                float x = mousePosition.X;
+                x -= x % SnapResolution;
 
-                float y = mousePosition.Y + (SnapResolution * 0.5f);
-                y -= (y % SnapResolution);
+                float y = mousePosition.Y;
+                y -= y % SnapResolution;
 
                 return new Vector2(x, y);
             }
