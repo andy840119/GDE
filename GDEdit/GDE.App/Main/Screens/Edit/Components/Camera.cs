@@ -115,8 +115,6 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private class GhostObject : ObjectBase
         {
-            private Camera camera;
-
             public GhostObject(GeneralObject o)
                 : base(o) { }
 
