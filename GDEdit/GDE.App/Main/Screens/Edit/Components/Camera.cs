@@ -85,18 +85,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             public int SnapResolution = 30;
 
-            public override bool ReceivePositionalInputAt(Vector2 screenSpacePos) => true;
-
-            public override bool PropagatePositionalInputSubTree => IsPresent;
-
-            private Vector2? lastPosition;
             protected override bool OnMouseMove(MouseMoveEvent e)
             {
-                if (lastPosition.HasValue && Precision.AlmostEquals(e.ScreenSpaceMousePosition, lastPosition.Value))
-                    return false;
-
-                lastPosition = e.ScreenSpaceMousePosition;
-
                 foreach (var child in Children)
                     child.Position = ConvertMousePositionToEditor(e.ScreenSpaceMousePosition);
 
@@ -110,11 +100,6 @@ namespace GDE.App.Main.Screens.Edit.Components
 
                 float y = mousePosition.Y + (SnapResolution * 0.5f);
                 y -= (y % SnapResolution);
-
-                /*System.Console.WriteLine("XSnapped:" + x);
-                System.Console.WriteLine("YSnapped:" + y);
-                System.Console.WriteLine("XNormal:" + mousePosition.X);
-                System.Console.WriteLine("YNormal:" + mousePosition.Y);*/
 
                 return new Vector2(x, y);
             }
