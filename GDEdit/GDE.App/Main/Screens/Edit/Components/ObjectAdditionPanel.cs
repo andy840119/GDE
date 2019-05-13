@@ -40,6 +40,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         private FillFlowContainer container;
         private Camera camera;
 
+        public float SnapResolution = 30f;
+
         public ObjectAdditionPanel(Camera camera)
         {
             this.camera = camera;
@@ -71,7 +73,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                             currentlyActiveButton.Active = false;
                         currentlyActiveButton = objectButton;
 
-                        //Add(new GhostObject(objectButton.Object.LevelObject, camera));
+                        camera.AddGhostObject(objectButton.Object.LevelObject);
                     }
                     else if (currentlyActiveButton == objectButton)
                         currentlyActiveButton = null;
@@ -106,35 +108,5 @@ namespace GDE.App.Main.Screens.Edit.Components
             /// <summary>Inverts the Active property and returns the new value.</summary>
             public bool ToggleActive() => Active = !Active;
         }
-
-        /*private class GhostObject : ObjectBase
-        {
-            private Vector2 lastMousePosition;
-            //forgot the name lo
-            private Vector2 threshold = new Vector2(5);
-
-            private Camera camera;
-
-            public GhostObject(GeneralObject o, Camera camera)
-                : base(o) { this.camera = camera; }
-
-            public GhostObject(int id, Camera camera)
-                : base(id) { this.camera = camera;  }
-
-            [BackgroundDependencyLoader]
-            private void load()
-            {
-                Alpha = 0.5f;
-
-                ReceivePositionalInputAt(camera.DrawSize);
-            }
-
-            protected override bool OnMouseMove(MouseMoveEvent e)
-            {
-                Position += e.Delta;
-
-                return true;
-            }
-        }*/
     }
 }

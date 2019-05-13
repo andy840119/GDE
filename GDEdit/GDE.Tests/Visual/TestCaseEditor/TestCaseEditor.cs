@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Screens.Edit;
+﻿/*using GDE.App.Main.Screens.Edit;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
@@ -16,3 +16,4 @@ namespace GDE.Tests.Visual.TestCaseEditor
         }
     }
 }
+*/

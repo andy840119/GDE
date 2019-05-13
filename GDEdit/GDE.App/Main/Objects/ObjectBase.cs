@@ -116,6 +116,8 @@ namespace GDE.App.Main.Objects
             UpdateFlippedVertically(o.FlippedVertically);
             UpdateObjectRotation(o.Rotation);
             UpdateObjectScaling(o.Scaling);
+
+            Console.WriteLine(Position);
         }
 
         private void UpdateObjectID(int value) => Texture = textureStore?.Get($"Objects/{value}.png");
