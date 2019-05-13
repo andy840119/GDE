@@ -7,7 +7,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
 using osu.Framework.Input;
 using osu.Framework.Input.Events;
-using osu.Framework.MathUtils;
 using osuTK;
 
 namespace GDE.App.Main.Screens.Edit.Components
@@ -56,7 +55,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]
                 {
-                    new GhostObject(o)
+                    new ghostObject(o)
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.TopLeft
@@ -72,7 +71,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]
                 {
-                    new GhostObject(id)
+                    new ghostObject(id)
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.TopLeft
@@ -113,12 +112,12 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
         }
 
-        private class GhostObject : ObjectBase
+        private class ghostObject : ObjectBase
         {
-            public GhostObject(GeneralObject o)
+            public ghostObject(GeneralObject o)
                 : base(o) { }
 
-            public GhostObject(int id)
+            public ghostObject(int id)
                 : base(id) { }
 
             [BackgroundDependencyLoader]
