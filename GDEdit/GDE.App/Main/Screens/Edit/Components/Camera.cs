@@ -2,18 +2,21 @@
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
 using osu.Framework.Input;
 using osu.Framework.Input.Events;
 using osuTK;
+using System;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
     public class Camera : Container
     {
         private Editor editor;
+        private Bindable<Vector2> cameraOffsetBindable = new Bindable<Vector2>();
 
         public Camera(Editor Editor)
         {
@@ -23,10 +26,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         protected override bool OnDrag(DragEvent e)
         {
             foreach (var child in Children)
-            {
                 child.Position += e.Delta;
-            }
-
+            cameraOffsetBindable.Value += e.Delta;
             return true;
         }
 
@@ -48,36 +49,15 @@ namespace GDE.App.Main.Screens.Edit.Components
             return base.OnKeyUp(e);
         }
 
-        public void AddGhostObject(GeneralObject o)
-        {
-            Add(new GridSnappedCursorContainer
-            {
-                RelativeSizeAxes = Axes.Both,
-                Children = new Drawable[]
-                {
-                    new GhostObject(o)
-                    {
-                        Anchor = Anchor.TopLeft,
-                        Origin = Anchor.TopLeft
-                    }
-                }
-            });
-        }
+        public void AddGhostObject(GeneralObject o) => AddGhostObject(new GhostObject(o));
+        public void AddGhostObject(int id) => AddGhostObject(new GhostObject(id));
 
-        public void AddGhostObject(int id)
+        private void AddGhostObject(GhostObject g)
         {
-            Add(new GridSnappedCursorContainer
+            Add(new GridSnappedCursorContainer(cameraOffsetBindable)
             {
                 RelativeSizeAxes = Axes.Both,
-                Children = new Drawable[]
-                {
-                    new GhostObject(id)
-                    {
-                        Anchor = Anchor.TopLeft,
-                        Origin = Anchor.TopLeft,
-                        // Something must be done so that the object does not initially appear
-                    }
-                }
+                Children = new Drawable[] { g }
             });
         }
 
@@ -85,29 +65,28 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             public int SnapResolution { get; set; }
 
-            public GridSnappedCursorContainer(int snapResolution = 30)
+            public readonly Bindable<Vector2> CameraOffset = new Bindable<Vector2>();
+
+            public GridSnappedCursorContainer(Bindable<Vector2> cameraOffsetBindable, int snapResolution = 30)
                 : base()
             {
+                CameraOffset.BindTo(cameraOffsetBindable);
                 SnapResolution = snapResolution;
             }
 
             protected override bool OnMouseMove(MouseMoveEvent e)
             {
                 foreach (var child in Children)
-                    child.Position = ConvertMousePositionToEditor(e.ScreenSpaceMousePosition);
+                    child.Position = ConvertMousePositionToEditor(e.ScreenSpaceMousePosition - CameraOffset.Value);
 
                 return true;
             }
 
             public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition)
             {
-                float x = mousePosition.X;
-                x -= x % SnapResolution;
-
-                float y = mousePosition.Y;
-                y -= y % SnapResolution;
-
-                return new Vector2(x, y);
+                float x = GetCoordinate(mousePosition.X);
+                float y = GetCoordinate(mousePosition.Y);
+                return new Vector2(x, y) + CameraOffset.Value;
             }
 
             protected override bool OnClick(ClickEvent e)
@@ -117,12 +96,30 @@ namespace GDE.App.Main.Screens.Edit.Components
 
                 return base.OnClick(e);
             }
+
+            private float GetCoordinate(float c)
+            {
+                float r = c;
+                if (r < 0)
+                    r -= SnapResolution;
+                return r -= r % SnapResolution;
+            }
         }
 
         private class GhostObject : ObjectBase
         {
-            public GhostObject(GeneralObject o) : base(o) { }
-            public GhostObject(int id) : base(id) { }
+            public GhostObject(GeneralObject o)
+                : base(o)
+            {
+                Anchor = Anchor.TopLeft;
+                Origin = Anchor.TopLeft;
+            }
+            public GhostObject(int id)
+                : base(id)
+            {
+                Anchor = Anchor.TopLeft;
+                Origin = Anchor.TopLeft;
+            }
 
             [BackgroundDependencyLoader]
             private void load()
