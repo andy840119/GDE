@@ -22,6 +22,11 @@ namespace GDE.App.Main.Screens.Edit.Components
         public Camera(Editor Editor)
         {
             editor = Editor;
+        }
+
+        [BackgroundDependencyLoader]
+        private void load()
+        {
             Add(snappedCursorContainer = new GridSnappedCursorContainer(cameraOffsetBindable));
         }
 
@@ -29,6 +34,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             foreach (var child in Children)
                 child.Position += e.Delta;
+
             cameraOffsetBindable.Value += e.Delta;
             return true;
         }
@@ -41,6 +47,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             if (e.ShiftPressed)
                 if (editor != null)
                     editor.Swipe = true;
+
             return base.OnKeyDown(e);
         }
         protected override bool OnKeyUp(KeyUpEvent e)
@@ -48,6 +55,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             if (e.ShiftPressed)
                 if (editor != null)
                     editor.Swipe = false;
+
             return base.OnKeyUp(e);
         }
 
@@ -67,7 +75,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 set
                 {
                     ghostObject.ObjectID = value;
-                    Children = new Drawable[] { ghostObject };
+                    Children = new Drawable[] { ghostObject = new GhostObject() };
                 }
             }
 
