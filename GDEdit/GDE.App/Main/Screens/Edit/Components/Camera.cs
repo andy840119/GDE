@@ -17,10 +17,12 @@ namespace GDE.App.Main.Screens.Edit.Components
     {
         private Editor editor;
         private Bindable<Vector2> cameraOffsetBindable = new Bindable<Vector2>();
+        private GridSnappedCursorContainer snappedCursorContainer;
 
         public Camera(Editor Editor)
         {
             editor = Editor;
+            Add(snappedCursorContainer = new GridSnappedCursorContainer(cameraOffsetBindable));
         }
 
         protected override bool OnDrag(DragEvent e)
@@ -49,28 +51,36 @@ namespace GDE.App.Main.Screens.Edit.Components
             return base.OnKeyUp(e);
         }
 
-        public void AddGhostObject(GeneralObject o) => AddGhostObject(new GhostObject(o));
-        public void AddGhostObject(int id) => AddGhostObject(new GhostObject(id));
-
-        private void AddGhostObject(GhostObject g)
-        {
-            Add(new GridSnappedCursorContainer(cameraOffsetBindable)
-            {
-                RelativeSizeAxes = Axes.Both,
-                Children = new Drawable[] { g }
-            });
-        }
+        public void SetGhostObjectID(int id) => snappedCursorContainer.GhostObjectID = id;
+        public void HideGhostObject() => snappedCursorContainer.HideGhostObject();
+        public void ShowGhostObject() => snappedCursorContainer.ShowGhostObject();
 
         private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
         {
+            private GhostObject ghostObject;
+
             public int SnapResolution { get; set; }
+
+            public int GhostObjectID
+            {
+                get => ghostObject.ObjectID;
+                set
+                {
+                    ghostObject.ObjectID = value;
+                    Children = new Drawable[] { ghostObject };
+                }
+            }
 
             public readonly Bindable<Vector2> CameraOffset = new Bindable<Vector2>();
 
-            public GridSnappedCursorContainer(Bindable<Vector2> cameraOffsetBindable, int snapResolution = 30)
+            public GridSnappedCursorContainer(Bindable<Vector2> cameraOffsetBindable, int ghostObjectID = 0, int snapResolution = 30)
                 : base()
             {
+                RelativeSizeAxes = Axes.Both;
+                AlwaysPresent = true;
+                Children = new Drawable[] { ghostObject = new GhostObject() };
                 CameraOffset.BindTo(cameraOffsetBindable);
+                GhostObjectID = ghostObjectID;
                 SnapResolution = snapResolution;
             }
 
@@ -81,6 +91,13 @@ namespace GDE.App.Main.Screens.Edit.Components
 
                 return true;
             }
+            protected override bool OnClick(ClickEvent e)
+            {
+                //foreach (var child in Children)
+                //    child.Expire();
+
+                return base.OnClick(e);
+            }
 
             public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition)
             {
@@ -89,13 +106,8 @@ namespace GDE.App.Main.Screens.Edit.Components
                 return new Vector2(x, y) + CameraOffset.Value;
             }
 
-            protected override bool OnClick(ClickEvent e)
-            {
-                foreach (var child in Children)
-                    child.Expire();
-
-                return base.OnClick(e);
-            }
+            public void HideGhostObject() => ghostObject.Hide();
+            public void ShowGhostObject() => ghostObject.Show();
 
             private float GetCoordinate(float c)
             {
@@ -114,7 +126,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 Anchor = Anchor.TopLeft;
                 Origin = Anchor.TopLeft;
             }
-            public GhostObject(int id)
+            public GhostObject(int id = 1)
                 : base(id)
             {
                 Anchor = Anchor.TopLeft;
@@ -126,6 +138,9 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 Alpha = 0.5f;
             }
+
+            //public void Hide() => Alpha = 0;
+            //public void Show() => Alpha = 0.5f;
         }
     }
 }

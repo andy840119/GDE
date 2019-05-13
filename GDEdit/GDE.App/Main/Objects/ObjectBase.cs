@@ -28,6 +28,11 @@ namespace GDE.App.Main.Objects
         public bool Selectable = true;
         public static List<ObjectBase> DrawableSelectedObjects;
 
+        static ObjectBase()
+        {
+            DrawableSelectedObjects = new List<ObjectBase>();
+        }
+
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
         public int ObjectID
@@ -87,16 +92,14 @@ namespace GDE.App.Main.Objects
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
         public ObjectBase(GeneralObject o)
+            : base()
         {
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
 
             Size = new Vector2(30);
             UpdateObject(LevelObject = o);
-
-            DrawableSelectedObjects = new List<ObjectBase>();
         }
-
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
         public ObjectBase(int ID) : this(GeneralObject.GetNewObjectInstance(ID)) { }
 
@@ -118,7 +121,7 @@ namespace GDE.App.Main.Objects
             UpdateObjectScaling(o.Scaling);
         }
 
-        private void UpdateObjectID(int value) => Texture = textureStore?.Get($"Objects/{value}.png");
+        private void UpdateObjectID(int value) => Texture = value > 0 ? textureStore?.Get($"Objects/{value}.png") : null;
         private void UpdateObjectX(double value) => X = (float)value;
         private void UpdateObjectY(double value) => Y = -(float)value;
         private void UpdateFlippedHorizontally(bool value) => Width = SetSign(Width, !value);

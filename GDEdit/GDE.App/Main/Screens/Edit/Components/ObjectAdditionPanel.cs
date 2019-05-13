@@ -72,12 +72,14 @@ namespace GDE.App.Main.Screens.Edit.Components
                         if (currentlyActiveButton != null)
                             currentlyActiveButton.Active = false;
                         currentlyActiveButton = objectButton;
-
-                        camera.AddGhostObject(objectButton.Object.LevelObject);
+                        camera.ShowGhostObject();
+                        camera.SetGhostObjectID(selectedObjectID = objectButton.ObjectID);
                     }
                     else if (currentlyActiveButton == objectButton)
+                    {
                         currentlyActiveButton = null;
-                    selectedObjectID = objectButton.ObjectID;
+                        camera.HideGhostObject();
+                    }
                 };
             }
         }
