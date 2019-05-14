@@ -265,6 +265,18 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>The [unreadable text 2] property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         UnreadableProperty2 = -205,
+        /// <summary>The transformation scaling X property of the <see cref="LevelObject"/>.</summary>
+        [FutureProofing("2.2")]
+        TransformationScalingX = -206,
+        /// <summary>The transformation scaling Y property of the <see cref="LevelObject"/>.</summary>
+        [FutureProofing("2.2")]
+        TransformationScalingY = -207,
+        /// <summary>The transformation scaling center X property of the <see cref="LevelObject"/>.</summary>
+        [FutureProofing("2.2")]
+        TransformationScalingCenterX = -208,
+        /// <summary>The transformation scaling center Y property of the <see cref="LevelObject"/>.</summary>
+        [FutureProofing("2.2")]
+        TransformationScalingCenterY = -209,
         #endregion
 
         #region Camera Offset Trigger

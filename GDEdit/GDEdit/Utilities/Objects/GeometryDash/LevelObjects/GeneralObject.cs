@@ -20,7 +20,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         private short[] groupIDs = new short[0];
         private BitArray16 bools = new BitArray16();
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
-        private float rotation, scaling = 1;
+        private float rotation, scaling = 1, transformationScalingX = 1, transformationScalingY = 1, transformationScalingCenterX, transformationScalingCenterY;
         
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
@@ -205,6 +205,38 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             get => bools[12];
             set => bools[12] = value;
         }
+        /// <summary>The transformation scaling X property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingX)]
+        public double TransformationScalingX
+        {
+            get => transformationScalingX;
+            set => transformationScalingX = (float)value;
+        }
+        /// <summary>The transformation scaling Y property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingY)]
+        public double TransformationScalingY
+        {
+            get => transformationScalingY;
+            set => transformationScalingY = (float)value;
+        }
+        /// <summary>The transformation scaling center X property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingCenterX)]
+        public double TransformationScalingCenterX
+        {
+            get => transformationScalingCenterX;
+            set => transformationScalingCenterX = (float)value;
+        }
+        /// <summary>The transformation scaling center Y property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingCenterY)]
+        public double TransformationScalingCenterY
+        {
+            get => transformationScalingCenterY;
+            set => transformationScalingCenterY = (float)value;
+        }
 
         /// <summary>Gets or sets a <seealso cref="Point"/> instance with the location of the object.</summary>
         public Point Location
@@ -290,6 +322,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             cloned.DontEnter = DontEnter;
             cloned.DontFade = DontFade;
             cloned.DisableGlow = DisableGlow;
+            cloned.transformationScalingX = transformationScalingX;
+            cloned.transformationScalingY = transformationScalingY;
+            cloned.transformationScalingCenterX = transformationScalingCenterX;
+            cloned.transformationScalingCenterY = transformationScalingCenterY;
             return cloned;
         }
 
