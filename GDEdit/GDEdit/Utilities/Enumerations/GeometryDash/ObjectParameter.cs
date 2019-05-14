@@ -244,6 +244,27 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents whether the player switches direction of the orb <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
         OrbSwitchPlayerDirection = -100,
+        // Due to bad reservation habits, the new sneak peek's parameter IDs are offset starting at -200 for this category
+        // However this does not really matter since the values are unused and only serve as future-proof reservations
+        // The IDs will end up being discovered and used
+        /// <summary>Represents whether the <see cref="LevelObject"/> will have any effects.</summary>
+        [FutureProofing("2.2")]
+        NoEffects = -200,
+        /// <summary>The Ice Block property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        IceBlock = -201,
+        /// <summary>The Non-Stick property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        NonStick = -202,
+        /// <summary>The Unstuckable(?) property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        Unstuckable = -203,
+        /// <summary>The [unreadable text 1] property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        UnreadableProperty1 = -204,
+        /// <summary>The [unreadable text 2] property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        UnreadableProperty2 = -205,
         #endregion
 
         #region Camera Offset Trigger

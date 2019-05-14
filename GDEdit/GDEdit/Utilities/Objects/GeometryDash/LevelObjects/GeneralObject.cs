@@ -18,7 +18,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => t.GetCustomAttribute<ObjectIDAttribute>() != null).ToList().ConvertAll(t => new ObjectTypeInfo(t)).ToArray();
 
         private short[] groupIDs = new short[0];
-        private BitArray8 bools = new BitArray8();
+        private BitArray16 bools = new BitArray16();
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
         private float rotation, scaling = 1;
         
@@ -156,6 +156,54 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         {
             get => bools[6];
             set => bools[6] = value;
+        }
+        /// <summary>Determines whether this object will have its effects disabled or not.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.NoEffects)]
+        public bool NoEffects
+        {
+            get => bools[7];
+            set => bools[7] = value;
+        }
+        /// <summary>The Ice Block property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.IceBlock)]
+        public bool IceBlock
+        {
+            get => bools[8];
+            set => bools[8] = value;
+        }
+        /// <summary>The Non-Stick property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.NonStick)]
+        public bool NonStick
+        {
+            get => bools[9];
+            set => bools[9] = value;
+        }
+        /// <summary>The Unstuckable(?) property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.Unstuckable)]
+        public bool Unstuckable
+        {
+            get => bools[10];
+            set => bools[10] = value;
+        }
+        /// <summary>The [unreadable text 1] property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.UnreadableProperty1)]
+        public bool UnreadableProperty1
+        {
+            get => bools[11];
+            set => bools[11] = value;
+        }
+        /// <summary>The [unreadable text 2] property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.UnreadableProperty2)]
+        public bool UnreadableProperty2
+        {
+            get => bools[12];
+            set => bools[12] = value;
         }
 
         /// <summary>Gets or sets a <seealso cref="Point"/> instance with the location of the object.</summary>
