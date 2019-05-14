@@ -10,12 +10,12 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Scale trigger.</summary>
-    [FutureProofing("2.3")]
+    [FutureProofing("2.2")]
     [ObjectID(TriggerType.Scale)]
     public class ScaleTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
         private short targetGroupID, centerGroupID;
-        private float duration = 0.5f, easingRate, scalingMultiplier;
+        private float duration = 0.5f, easingRate, scaleX, scaleY;
 
         /// <summary>The Object ID of the Scale trigger.</summary>
         public override int ObjectID => (int)TriggerType.Scale;
@@ -52,11 +52,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => easingRate = (float)value;
         }
         /// <summary>The Scaling Multiplier property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ScalingMultiplier)]
-        public double ScalingMultiplier
+        [ObjectStringMappable(ObjectParameter.ScaleX)]
+        public double ScaleX
         {
-            get => scalingMultiplier;
-            set => scalingMultiplier = (float)value;
+            get => scaleX;
+            set => scaleX = (float)value;
+        }
+        /// <summary>The Scaling Multiplier property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ScaleY)]
+        public double ScaleY
+        {
+            get => scaleY;
+            set => scaleY = (float)value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CenterGroupID)]
@@ -64,6 +71,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             get => centerGroupID;
             set => centerGroupID = (short)value;
+        }
+        /// <summary>The Lock Object Scale property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.LockObjectScale)]
+        public bool LockObjectScale
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
+        /// <summary>The Only Move Scale property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.OnlyMoveScale)]
+        public bool OnlyMoveScale
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="ScaleTrigger"/> class.</summary>
@@ -112,7 +133,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.CenterGroupID = CenterGroupID;
             c.Easing = Easing;
             c.EasingRate = EasingRate;
-            c.ScalingMultiplier = ScalingMultiplier;
+            c.ScaleX = ScaleX;
+            c.ScaleY = ScaleY;
             c.CenterGroupID = CenterGroupID;
             return base.AddClonedInstanceInformation(c);
         }

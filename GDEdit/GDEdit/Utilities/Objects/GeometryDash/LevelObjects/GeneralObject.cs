@@ -18,9 +18,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => t.GetCustomAttribute<ObjectIDAttribute>() != null).ToList().ConvertAll(t => new ObjectTypeInfo(t)).ToArray();
 
         private short[] groupIDs = new short[0];
-        private BitArray8 bools = new BitArray8();
+        private BitArray16 bools = new BitArray16();
         private short objectID, el1, el2, zLayer, zOrder, color1ID, color2ID;
-        private float rotation, scaling = 1;
+        private float rotation, scaling = 1, transformationScalingX = 1, transformationScalingY = 1, transformationScalingCenterX, transformationScalingCenterY;
         
         /// <summary>The Object ID of this object.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
@@ -157,6 +157,86 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             get => bools[6];
             set => bools[6] = value;
         }
+        /// <summary>Determines whether this object will have its effects disabled or not.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.NoEffects)]
+        public bool NoEffects
+        {
+            get => bools[7];
+            set => bools[7] = value;
+        }
+        /// <summary>The Ice Block property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.IceBlock)]
+        public bool IceBlock
+        {
+            get => bools[8];
+            set => bools[8] = value;
+        }
+        /// <summary>The Non-Stick property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.NonStick)]
+        public bool NonStick
+        {
+            get => bools[9];
+            set => bools[9] = value;
+        }
+        /// <summary>The Unstuckable(?) property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.Unstuckable)]
+        public bool Unstuckable
+        {
+            get => bools[10];
+            set => bools[10] = value;
+        }
+        /// <summary>The [unreadable text 1] property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.UnreadableProperty1)]
+        public bool UnreadableProperty1
+        {
+            get => bools[11];
+            set => bools[11] = value;
+        }
+        /// <summary>The [unreadable text 2] property of this object (probably for adventure mode).</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.UnreadableProperty2)]
+        public bool UnreadableProperty2
+        {
+            get => bools[12];
+            set => bools[12] = value;
+        }
+        /// <summary>The transformation scaling X property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingX)]
+        public double TransformationScalingX
+        {
+            get => transformationScalingX;
+            set => transformationScalingX = (float)value;
+        }
+        /// <summary>The transformation scaling Y property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingY)]
+        public double TransformationScalingY
+        {
+            get => transformationScalingY;
+            set => transformationScalingY = (float)value;
+        }
+        /// <summary>The transformation scaling center X property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingCenterX)]
+        public double TransformationScalingCenterX
+        {
+            get => transformationScalingCenterX;
+            set => transformationScalingCenterX = (float)value;
+        }
+        /// <summary>The transformation scaling center Y property of this object.</summary>
+        [FutureProofing("2.2")]
+        [ObjectStringMappable(ObjectParameter.TransformationScalingCenterY)]
+        public double TransformationScalingCenterY
+        {
+            get => transformationScalingCenterY;
+            set => transformationScalingCenterY = (float)value;
+        }
 
         /// <summary>Gets or sets a <seealso cref="Point"/> instance with the location of the object.</summary>
         public Point Location
@@ -242,6 +322,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             cloned.DontEnter = DontEnter;
             cloned.DontFade = DontFade;
             cloned.DisableGlow = DisableGlow;
+            cloned.transformationScalingX = transformationScalingX;
+            cloned.transformationScalingY = transformationScalingY;
+            cloned.transformationScalingCenterX = transformationScalingCenterX;
+            cloned.transformationScalingCenterY = transformationScalingCenterY;
             return cloned;
         }
 
