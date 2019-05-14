@@ -106,7 +106,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             {
                                 Anchor = Anchor.Centre,
                                 Origin = Anchor.Centre,
-                                Icon = FontAwesome.fa_times,
+                                Icon = FontAwesome.Solid.Times,
                                 Size = new Vector2(192),
                                 Colour = GDEColors.FromHex("666666")
                             },

@@ -27,7 +27,7 @@ namespace GDE.App.Main
 
         public GDEAppBase()
         {
-            storage = new DesktopStorage("GD Edit", Host);
+            storage = new NativeStorage("GD Edit");
         }
 
         [BackgroundDependencyLoader]
@@ -35,16 +35,10 @@ namespace GDE.App.Main
         {
             Resources.AddStore(new DllResourceStore(mainResourceFile));
 
-            Fonts = new FontStore(new GlyphStore(Resources, @"Fonts/OpenSans"));
-            Fonts.AddStore(new GlyphStore(Resources, @"Fonts/FontAwesome"));
-
-            dependencies.Cache(Fonts);
             dependencies.Cache(storage);
 
             dependencies.Cache(this);
-
-            dependencies.Cache(new Editor(null));
-
+            dependencies.CacheAs(new Editor(null));
             dependencies.CacheAs(new DatabaseCollection());
         }
 

@@ -142,9 +142,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                 Anchor = Anchor.TopLeft;
                 Origin = Anchor.TopLeft;
             }
-
-            //public void Hide() => Alpha = 0;
-            //public void Show() => Alpha = 0.5f;
         }
     }
 }
