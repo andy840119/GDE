@@ -75,7 +75,9 @@ namespace GDE.App.Main.Screens.Edit.Components
                 set
                 {
                     ghostObject.ObjectID = value;
-                    Children = new Drawable[] { ghostObject = new GhostObject() };
+
+                    //framework dumbb
+                    ghostObject.Alpha = 0.5f;
                 }
             }
 
@@ -139,12 +141,6 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 Anchor = Anchor.TopLeft;
                 Origin = Anchor.TopLeft;
-            }
-
-            [BackgroundDependencyLoader]
-            private void load()
-            {
-                Alpha = 0.5f;
             }
 
             //public void Hide() => Alpha = 0;
