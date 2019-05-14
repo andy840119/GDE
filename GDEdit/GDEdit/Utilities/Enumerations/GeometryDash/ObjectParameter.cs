@@ -454,9 +454,18 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         #endregion
 
         #region Scale Trigger
-        /// <summary>The Scaling Multiplier property of the <seealso cref="ScaleTrigger"/>.</summary>
+        /// <summary>The Scale X property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
-        ScalingMultiplier = -164,
+        ScaleX = -164,
+        /// <summary>The Scale Y property of the <seealso cref="ScaleTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ScaleY = -165,
+        /// <summary>The Lock Object Scale property of the <seealso cref="ScaleTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockObjectScale = -166,
+        /// <summary>The Only Move Scale property of the <seealso cref="ScaleTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        OnlyMoveScale = -167,
         #endregion
     }
 }
