@@ -94,9 +94,8 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents the Object ID value of the Reverse trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
         Reverse = -16,
-
         /// <summary>Represents the Object ID value of the Scale trigger. (Reserved for future use)</summary>
-        [FutureProofing("2.3")]
+        [FutureProofing("2.2")]
         Scale = -17,
     }
 }
