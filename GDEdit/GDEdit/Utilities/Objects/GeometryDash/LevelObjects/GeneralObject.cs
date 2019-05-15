@@ -302,26 +302,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="cloned">The cloned instance to add the information to.</param>
         protected virtual GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
-            cloned.ObjectID = ObjectID;
+            cloned.objectID = objectID;
             cloned.X = X;
             cloned.Y = Y;
-            cloned.FlippedHorizontally = FlippedHorizontally;
-            cloned.FlippedVertically = FlippedVertically;
-            cloned.Rotation = Rotation;
-            cloned.Scaling = Scaling;
-            cloned.EL1 = EL1;
-            cloned.EL2 = EL2;
-            cloned.ZLayer = ZLayer;
-            cloned.ZOrder = ZOrder;
-            cloned.Color1ID = Color1ID;
-            cloned.Color2ID = Color2ID;
-            cloned.GroupIDs = GroupIDs;
+            cloned.bools = bools; // Prefer one assignment, compared to 7 property assignments
+            cloned.rotation = rotation;
+            cloned.scaling = scaling;
+            cloned.el1 = el1;
+            cloned.el2 = el2;
+            cloned.zLayer = zLayer;
+            cloned.zOrder = zOrder;
+            cloned.color1ID = color1ID;
+            cloned.color2ID = color2ID;
+            cloned.groupIDs = groupIDs.CopyArray();
             cloned.LinkedGroupID = LinkedGroupID;
-            cloned.GroupParent = GroupParent;
-            cloned.HighDetail = HighDetail;
-            cloned.DontEnter = DontEnter;
-            cloned.DontFade = DontFade;
-            cloned.DisableGlow = DisableGlow;
             cloned.transformationScalingX = transformationScalingX;
             cloned.transformationScalingY = transformationScalingY;
             cloned.transformationScalingCenterX = transformationScalingCenterX;
@@ -355,7 +349,37 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="endingX">The ending X position of the rectangle.</param>
         /// <param name="endingY">The ending Y position of the rectangle.</param>
         public bool IsWithinRange(double startingX, double startingY, double endingX, double endingY) => startingX <= X && endingX >= X && startingY <= Y && endingY >= Y;
-        
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected virtual bool EqualsInherited(GeneralObject other)
+        {
+            // Seriously I do not like how this looks, but at least there is some symmetry, which is the most I could think of
+            return objectID == other.objectID
+                && bools == other.bools
+                && color1ID == other.color1ID
+                && color2ID == other.color2ID
+                && el1 == other.el1
+                && el2 == other.el2
+                && groupIDs.EqualsUnordered(other.groupIDs)
+                && X == other.X
+                && Y == other.Y
+                && rotation == other.rotation
+                && scaling == other.scaling
+                && LinkedGroupID == other.LinkedGroupID
+                && zLayer == other.zLayer
+                && ZOrder == other.ZOrder;
+        }
+        /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
+        /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
+        public bool Equals(GeneralObject other) => EqualsInherited(other);
+        /// <summary>Determines whether this object equals another object. Not recommended using at all due to performance issues and overgeneralization of the implementation.</summary>
+        /// <param name="obj">The other object to check equality against.</param>
+        public override bool Equals(object obj) => Equals(obj as GeneralObject);
+
+        public static bool operator ==(GeneralObject left, GeneralObject right) => left.Equals(right);
+        public static bool operator !=(GeneralObject left, GeneralObject right) => !left.Equals(right);
+
         /// <summary>Returns a new instance of the appropriate class of an object based on its object ID.</summary>
         /// <param name="objectID">The object ID of the new object.</param>
         public static GeneralObject GetNewObjectInstance(int objectID)

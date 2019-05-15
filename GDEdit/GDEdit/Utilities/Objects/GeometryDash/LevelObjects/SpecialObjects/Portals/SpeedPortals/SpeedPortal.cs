@@ -28,14 +28,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         {
             Checked = true;
         }
-
-        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
-        /// <param name="cloned">The cloned instance to add the information to.</param>
-        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
-        {
-            var c = cloned as SpeedPortal;
-            c.Checked = Checked;
-            return base.AddClonedInstanceInformation(c);
-        }
     }
 }

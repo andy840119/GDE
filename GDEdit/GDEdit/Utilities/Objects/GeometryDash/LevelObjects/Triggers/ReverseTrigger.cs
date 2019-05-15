@@ -33,14 +33,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 
         /// <summary>Returns a clone of this <seealso cref="ReverseTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new ReverseTrigger());
-
-        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
-        /// <param name="cloned">The cloned instance to add the information to.</param>
-        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
-        {
-            var c = cloned as ReverseTrigger;
-            c.Reverse = Reverse;
-            return base.AddClonedInstanceInformation(c);
-        }
     }
 }

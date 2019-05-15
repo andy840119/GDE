@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <summary>The Object ID of the object.</summary>
         // IMPORTANT: If we want to change the object IDs of objects through some function, this has to be reworked
         [ObjectStringMappable(ObjectParameter.ID)]
-        public new virtual int ObjectID { get; }
+        public new abstract int ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="ConstantIDObject"/> class.</summary>
         public ConstantIDObject()

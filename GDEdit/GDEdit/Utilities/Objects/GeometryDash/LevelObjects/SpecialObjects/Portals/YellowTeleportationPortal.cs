@@ -34,6 +34,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         /// <summary>Returns a clone of this <seealso cref="YellowTeleportationPortal"/>.</summary>
         public override GeneralObject Clone() => new YellowTeleportationPortal(LinkedTeleportationPortal);
 
+        // Do not override EqualsInherited to avoid recursion when comparing the parent blue teleportation portal
+
         /// <summary>Sets the properties of this <seealso cref="YellowTeleportationPortal"/> according to the linked <seealso cref="BlueTeleportationPortal"/>.</summary>
         private void SetProperties(BlueTeleportationPortal a)
         {

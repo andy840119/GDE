@@ -52,6 +52,9 @@ namespace GDEdit.Utilities.Objects.General
             a = alpha;
         }
 
+        public static bool operator ==(Color left, Color right) => left.r == right.r && left.g == right.g && left.b == right.b && left.a == right.a;
+        public static bool operator !=(Color left, Color right) => left.r != right.r && left.g != right.g && left.b != right.b && left.a != right.a;
+
         private struct ColorValue
         {
             private float v;
@@ -75,6 +78,9 @@ namespace GDEdit.Utilities.Objects.General
 
             public static implicit operator float(ColorValue v) => v.v;
             public static implicit operator ColorValue(float f) => new ColorValue(f);
+
+            public static bool operator ==(ColorValue left, ColorValue right) => left.v == right.v;
+            public static bool operator !=(ColorValue left, ColorValue right) => left.v != right.v;
         }
     }
 }

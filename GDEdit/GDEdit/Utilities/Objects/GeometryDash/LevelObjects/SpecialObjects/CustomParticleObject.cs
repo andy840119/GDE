@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GDEdit.Utilities.Objects.General.SymmetricalRangeMethods;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
@@ -434,9 +435,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             var c = cloned as CustomParticleObject;
             c.Grouping = Grouping;
             c.Property1 = Property1;
-            c.MaxParticles = MaxParticles;
-            c.Duration = Duration;
-            c.Emission = Emission;
+            c.maxParticles = maxParticles;
+            c.duration = duration;
+            c.emission = emission;
             c.posVar = posVar;
             c.gravity = gravity;
             c.startSize = startSize;
@@ -453,6 +454,34 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             c.start = start;
             c.end = end;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as CustomParticleObject;
+            return base.EqualsInherited(other)
+                && Grouping == z.Grouping
+                && Property1 == z.Property1
+                && maxParticles == z.maxParticles
+                && duration == z.duration
+                && emission == z.emission
+                && posVar == z.posVar
+                && gravity == z.gravity
+                && AreEqual(startSize, z.startSize)
+                && AreEqual(endSize, z.endSize)
+                && AreEqual(startSpin, z.startSpin)
+                && AreEqual(endSpin, z.endSpin)
+                && AreEqual(lifetime, z.lifetime)
+                && AreEqual(angle, z.angle)
+                && AreEqual(speed, z.speed)
+                && AreEqual(accelRad, z.accelRad)
+                && AreEqual(accelTan, z.accelTan)
+                && AreEqual(fadeIn, z.fadeIn)
+                && AreEqual(fadeOut, z.fadeOut)
+                && AreEqual(start, z.start)
+                && AreEqual(end, z.end);
         }
     }
 }

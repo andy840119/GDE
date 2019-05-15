@@ -37,7 +37,10 @@
             get => GetBoolBit(index);
             set => SetBoolBit(index, value);
         }
-        
+
+        public static bool operator ==(BitArray8 left, BitArray8 right) => left.bits == right.bits;
+        public static bool operator !=(BitArray8 left, BitArray8 right) => left.bits != right.bits;
+
         // Methods are private to avoid handling exceptions
         private static bool GetBool(byte b) => b == 1;
         private static byte GetByte(bool b) => b ? (byte)1 : (byte)0;

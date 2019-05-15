@@ -63,10 +63,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as SpawnTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.Delay = Delay;
-            c.EditorDisable = EditorDisable;
+            c.targetGroupID = targetGroupID;
+            c.delay = delay;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as SpawnTrigger;
+            return base.EqualsInherited(other)
+                && targetGroupID == z.targetGroupID
+                && delay == z.delay;
         }
     }
 }
