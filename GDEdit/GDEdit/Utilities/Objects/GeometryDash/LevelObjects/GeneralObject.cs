@@ -315,7 +315,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             cloned.color1ID = color1ID;
             cloned.color2ID = color2ID;
             cloned.groupIDs = groupIDs.CopyArray();
-            cloned.LinkedGroupID = LinkedGroupID
+            cloned.LinkedGroupID = LinkedGroupID;
             cloned.transformationScalingX = transformationScalingX;
             cloned.transformationScalingY = transformationScalingY;
             cloned.transformationScalingCenterX = transformationScalingCenterX;
