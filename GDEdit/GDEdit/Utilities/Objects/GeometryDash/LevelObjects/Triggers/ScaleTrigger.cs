@@ -132,7 +132,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.duration = duration;
             c.Easing = Easing;
             c.easingRate = easingRate;
-            c.scalingMultiplier = scalingMultiplier;
             c.scaleX = scaleX;
             c.scaleY = scaleY;
             c.centerGroupID = centerGroupID;
@@ -149,7 +148,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && duration == z.duration
                 && Easing == z.Easing
                 && easingRate == z.easingRate
-                && scalingMultiplier == z.scalingMultiplier
+                && scaleX == z.scaleX
+                && scaleY == z.scaleY
                 && centerGroupID == z.centerGroupID;
         }
     }
