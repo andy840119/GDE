@@ -116,6 +116,12 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             Objects = new List<GeneralObject>();
         }
         /// <summary>Initializes a new instance of the <seealso cref="LevelObjectCollection"/> class.</summary>
+        /// <param name="obj">The object to use.</param>
+        public LevelObjectCollection(GeneralObject obj)
+        {
+            Objects = new List<GeneralObject> { obj };
+        }
+        /// <summary>Initializes a new instance of the <seealso cref="LevelObjectCollection"/> class.</summary>
         /// <param name="objects">The list of objects to use.</param>
         public LevelObjectCollection(List<GeneralObject> objects)
         {
