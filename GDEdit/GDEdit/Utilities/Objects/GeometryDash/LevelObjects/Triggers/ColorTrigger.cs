@@ -131,18 +131,31 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as ColorTrigger;
-            c.TargetColorID = TargetColorID;
-            c.Duration = Duration;
-            c.Red = Red;
-            c.Green = Green;
-            c.Blue = Blue;
-            c.Opacity = Opacity;
+            c.targetColorID = targetColorID;
+            c.duration = duration;
+            c.red = red;
+            c.green = green;
+            c.blue = blue;
+            c.opacity = opacity;
             c.CopiedColorID = CopiedColorID;
-            c.Blending = Blending;
-            c.CopyOpacity = CopyOpacity;
-            c.TintGround = TintGround;
             c.HSVAdjustment = HSVAdjustment;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as ColorTrigger;
+            return base.EqualsInherited(other)
+                && targetColorID == z.targetColorID
+                && duration == z.duration
+                && red == z.red
+                && green == z.green
+                && blue == z.blue
+                && opacity == z.opacity
+                && CopiedColorID == z.CopiedColorID
+                && HSVAdjustment == z.HSVAdjustment;
         }
     }
 }

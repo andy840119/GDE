@@ -24,4 +24,16 @@ namespace GDEdit.Utilities.Objects.General
             MaximumDistance = maximumDistance;
         }
     }
+
+    // This is so sad, can we get some language improvements please?
+    public static class SymmetricalRangeMethods
+    {
+        public static bool AreEqual(SymmetricalRange<byte> left, SymmetricalRange<byte> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+        public static bool AreEqual(SymmetricalRange<short> left, SymmetricalRange<short> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+        public static bool AreEqual(SymmetricalRange<int> left, SymmetricalRange<int> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+        public static bool AreEqual(SymmetricalRange<long> left, SymmetricalRange<long> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+        public static bool AreEqual(SymmetricalRange<float> left, SymmetricalRange<float> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+        public static bool AreEqual(SymmetricalRange<double> left, SymmetricalRange<double> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+        public static bool AreEqual(SymmetricalRange<Color> left, SymmetricalRange<Color> right) => left.MiddleValue == right.MiddleValue && left.MaximumDistance == right.MaximumDistance;
+    }
 }

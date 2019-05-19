@@ -71,17 +71,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
 
         public static bool operator ==(HSVAdjustment left, HSVAdjustment right)
         {
-            foreach (var p in typeof(HSVAdjustment).GetProperties())
-                if (p.GetValue(left) != p.GetValue(right))
-                    return false;
-            return true;
+            return left.h == right.h
+                && left.s == right.s
+                && left.v == right.v
+                && left.saturationMode == right.saturationMode
+                && left.brightnessMode == right.brightnessMode;
         }
         public static bool operator !=(HSVAdjustment left, HSVAdjustment right)
         {
-            foreach (var p in typeof(HSVAdjustment).GetProperties())
-                if (p.GetValue(left) == p.GetValue(right))
-                    return false;
-            return true;
+            return left.h != right.h
+                || left.s != right.s
+                || left.v != right.v
+                || left.saturationMode != right.saturationMode
+                || left.brightnessMode != right.brightnessMode;
         }
 
         /// <summary>Resets this <seealso cref="HSVAdjustment"/>.</summary>
@@ -116,7 +118,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             public T Value
             {
                 get => v;
-                set => v = value = Clamp(value);
+                set => v = Clamp(value);
             }
 
             /// <summary>Initializes a new instance of the <seealso cref="BoundedValue{T}"/> class.</summary>
@@ -133,6 +135,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             /// <summary>Clamps the value between the two boundaries and returns the clamped result.</summary>
             /// <param name="value">The value to clamp.</param>
             protected abstract T Clamp(T value);
+
+            /// <summary>Detetmines whether this instance's value equals a specific value.</summary>
+            /// <param name="value">The value to compare this instance's value with.</param>
+            protected abstract bool EqualsValue(T value);
+
+            public static bool operator ==(BoundedValue<T> left, BoundedValue<T> right) => left.EqualsValue(right.Value);
+            public static bool operator !=(BoundedValue<T> left, BoundedValue<T> right) => !left.EqualsValue(right.Value);
         }
         private abstract class BoundedFloat : BoundedValue<float>
         {
@@ -146,6 +155,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
                     value = Max;
                 return value;
             }
+
+            protected override bool EqualsValue(float value) => Value == value;
         }
         private abstract class BoundedShort : BoundedValue<short>
         {
@@ -159,6 +170,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
                     value = Max;
                 return value;
             }
+
+            protected override bool EqualsValue(short value) => Value == value;
         }
         private class H : BoundedShort
         {

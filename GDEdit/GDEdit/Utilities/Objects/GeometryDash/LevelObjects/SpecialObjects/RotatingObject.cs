@@ -39,14 +39,5 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Returns a clone of this <seealso cref="RotatingObject"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new RotatingObject());
-
-        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
-        /// <param name="cloned">The cloned instance to add the information to.</param>
-        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
-        {
-            var c = cloned as RotatingObject;
-            c.DisableRotation = DisableRotation;
-            return base.AddClonedInstanceInformation(c);
-        }
     }
 }

@@ -38,13 +38,13 @@ namespace GDEdit.Application.Editor
         public LevelObjectCollection ObjectClipboard = new LevelObjectCollection();
         #endregion
 
-        #region Functions
+        #region Editor Function Toggles
         /// <summary>Indicates whether the Swipe option is enabled or not.</summary>
-        public bool Swipe;
+        public bool Swipe { get; set; }
         /// <summary>Indicates whether the Grid Snap option is enabled or not.</summary>
-        public bool GridSnap;
+        public bool GridSnap { get; set; }
         /// <summary>Indicates whether the Free Move option is enabled or not.</summary>
-        public bool FreeMove;
+        public bool FreeMove { get; set; }
         #endregion
 
         #region Editor Preferences
@@ -77,12 +77,31 @@ namespace GDEdit.Application.Editor
         #region Events
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
         public event Action<bool> DualLayerModeChanged;
+
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsAdded;
         /// <summary>Occurs when new objects have been removed from the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsRemoved;
         /// <summary>Occurs when all objects have been deselected.</summary>
         public event Action AllObjectsDeselected;
+
+        /// <summary>Occurs when the selected objects have been moved.</summary>
+        public event MovedObjectsHandler SelectedObjectsMoved;
+        /// <summary>Occurs when the selected objects have been rotated.</summary>
+        public event RotatedObjectsHandler SelectedObjectsRotated;
+        /// <summary>Occurs when the selected objects have been scaled.</summary>
+        public event ScaledObjectsHandler SelectedObjectsScaled;
+        /// <summary>Occurs when the selected objects have been flipped horizontally.</summary>
+        public event FlippedObjectsHorizontallyHandler SelectedObjectsFlippedHorizontally;
+        /// <summary>Occurs when the selected objects have been flipped vertically.</summary>
+        public event FlippedObjectsVerticallyHandler SelectedObjectsFlippedVertically;
+
+        /// <summary>Occurs when the selected objects have been copied to the clipboard.</summary>
+        public event ObjectsCopiedHandler SelectedObjectsCopied;
+        /// <summary>Occurs when objects been pasted from the clipboard.</summary>
+        public event ObjectsPastedHandler SelectedObjectsPasted;
+        /// <summary>Occurs when objects been ViPriNized.</summary>
+        public event ObjectsCopyPastedHandler SelectedObjectsCopyPasted;
         #endregion
 
         #region Constructors
@@ -95,6 +114,15 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Object Selection
+        /// <summary>Selects an object.</summary>
+        /// <param name="obj">The object to add to the selection.</param>
+        public void SelectObject(GeneralObject obj)
+        {
+            if (!Swipe)
+                DeselectAll();
+            SelectedObjects.Add(obj);
+            SelectedObjectsAdded?.Invoke(new LevelObjectCollection(obj));
+        }
         /// <summary>Selects a number of objects.</summary>
         /// <param name="objects">The objects to add to the selection.</param>
         public void SelectObjects(LevelObjectCollection objects)
@@ -105,11 +133,17 @@ namespace GDEdit.Application.Editor
             SelectedObjectsAdded?.Invoke(objects);
         }
         /// <summary>Deselects a number of objects.</summary>
+        /// <param name="obj">The object to remove from the selection.</param>
+        public void DeselectObject(GeneralObject obj)
+        {
+            SelectedObjects.Remove(obj);
+            SelectedObjectsRemoved?.Invoke(new LevelObjectCollection(obj));
+        }
+        /// <summary>Deselects a number of objects.</summary>
         /// <param name="objects">The objects to remove from the selection.</param>
         public void DeselectObjects(LevelObjectCollection objects)
         {
-            foreach (var o in objects)
-                SelectedObjects.Remove(o);
+            SelectedObjects.RemoveRange(objects);
             SelectedObjectsRemoved?.Invoke(objects);
         }
         /// <summary>Inverts the current selection.</summary>
@@ -187,35 +221,62 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Object Editing
-        // Add events for these methods?
+        // TODO: Figure out a performant way to improve the copy-pasted code model
+        private void PerformAction(bool individually, Action action, Action nonIndividualAction, Action eventToInvoke)
+        {
+            if (individually)
+            {
+                action();
+                eventToInvoke();
+            }
+            else
+                nonIndividualAction();
+        }
         #region Object Movement
         /// <summary>Moves the selected objects by an amount on the X axis.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
         public void MoveX(double x)
         {
             if (x != 0)
+            {
                 foreach (var o in SelectedObjects)
                     o.X += x;
+                SelectedObjectsMoved?.Invoke(SelectedObjects, new Point(x, 0));
+            }
         }
         /// <summary>Moves the selected objects by an amount on the Y axis.</summary>
         /// <param name="y">The offset of Y to move the objects by.</param>
         public void MoveY(double y)
         {
             if (y != 0)
+            {
                 foreach (var o in SelectedObjects)
                     o.Y += y;
+                SelectedObjectsMoved?.Invoke(SelectedObjects, new Point(0, y));
+            }
         }
         /// <summary>Moves the selected objects by an amount.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
         /// <param name="y">The offset of Y to move the objects by.</param>
-        public void Move(double x, double y)
-        {
-            MoveX(x);
-            MoveY(y);
-        }
+        public void Move(double x, double y) => Move(new Point(x, y));
         /// <summary>Moves the selected objects by an amount.</summary>
         /// <param name="p">The point indicating the movement of the objects across the field.</param>
-        public void Move(Point p) => Move(p.X, p.Y);
+        public void Move(Point p)
+        {
+            if (p.Y == 0)
+                MoveX(p.X);
+            else if (p.X == 0)
+                MoveY(p.Y);
+            else
+            {
+                foreach (var o in SelectedObjects)
+                {
+                    o.X += p.X;
+                    o.Y += p.Y;
+                }
+                SelectedObjectsMoved?.Invoke(SelectedObjects, p);
+            }
+        }
         #endregion
         #region Object Rotation
         /// <summary>Rotates the selected objects by an amount.</summary>
@@ -223,14 +284,14 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only rotated individually.</param>
         public void Rotate(double rotation, bool individually)
         {
-            foreach (var o in SelectedObjects)
-                o.Rotation += rotation;
-            if (!individually)
+            if (individually)
             {
-                var median = GetMedianPoint();
                 foreach (var o in SelectedObjects)
-                    o.Location = o.Location.Rotate(median, rotation);
+                    o.Rotation += rotation;
+                SelectedObjectsRotated?.Invoke(SelectedObjects, rotation, null);
             }
+            else
+                Rotate(rotation, GetMedianPoint());
         }
         /// <summary>Rotates the selected objects by an amount based on a specific central point.</summary>
         /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
@@ -242,6 +303,7 @@ namespace GDEdit.Application.Editor
                 o.Rotation += rotation;
                 o.Location = o.Location.Rotate(center, rotation);
             }
+            SelectedObjectsRotated?.Invoke(SelectedObjects, rotation, center);
         }
         #endregion
         #region Object Scaling
@@ -250,14 +312,14 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only scaled individually.</param>
         public void Scale(double scaling, bool individually)
         {
-            foreach (var o in SelectedObjects)
-                o.Scaling *= scaling;
-            if (!individually)
+            if (individually)
             {
-                var median = GetMedianPoint();
                 foreach (var o in SelectedObjects)
-                    o.Location = (median - o.Location) * scaling + median;
+                    o.Scaling *= scaling;
+                SelectedObjectsScaled?.Invoke(SelectedObjects, scaling, null);
             }
+            else
+                Scale(scaling, GetMedianPoint());
         }
         /// <summary>Scales the selected objects by an amount based on a specific central point.</summary>
         /// <param name="scaling">The scaling to apply to all the objects.</param>
@@ -269,6 +331,7 @@ namespace GDEdit.Application.Editor
                 o.Scaling *= scaling;
                 o.Location = (center - o.Location) * scaling + center;
             }
+            SelectedObjectsScaled?.Invoke(SelectedObjects, scaling, center);
         }
         #endregion
         #region Object Flipping
@@ -276,14 +339,14 @@ namespace GDEdit.Application.Editor
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
         public void FlipHorizontally(bool individually)
         {
-            foreach (var o in SelectedObjects)
-                o.FlippedHorizontally = !o.FlippedHorizontally;
-            if (!individually)
+            if (individually)
             {
-                var median = GetMedianPoint();
                 foreach (var o in SelectedObjects)
-                    o.X = 2 * median.X - o.X;
+                    o.FlippedHorizontally = !o.FlippedHorizontally;
+                SelectedObjectsFlippedHorizontally?.Invoke(SelectedObjects, null);
             }
+            else
+                FlipHorizontally(GetMedianPoint());
         }
         /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
         /// <param name="center">The central point to take into account while flipping all objects.</param>
@@ -294,19 +357,20 @@ namespace GDEdit.Application.Editor
                 o.FlippedHorizontally = !o.FlippedHorizontally;
                 o.X = 2 * center.X - o.X;
             }
+            SelectedObjectsFlippedHorizontally?.Invoke(SelectedObjects, center);
         }
         /// <summary>Flips the selected objects vertically.</summary>
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
         public void FlipVertically(bool individually)
         {
-            foreach (var o in SelectedObjects)
-                o.FlippedVertically = !o.FlippedVertically;
-            if (!individually)
+            if (individually)
             {
-                var median = GetMedianPoint();
                 foreach (var o in SelectedObjects)
-                    o.Y = 2 * median.Y - o.Y;
+                    o.FlippedVertically = !o.FlippedVertically;
+                SelectedObjectsFlippedVertically?.Invoke(SelectedObjects, null);
             }
+            else
+                FlipVertically(GetMedianPoint());
         }
         /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
         /// <param name="center">The central point to take into account while flipping all objects.</param>
@@ -317,16 +381,48 @@ namespace GDEdit.Application.Editor
                 o.FlippedVertically = !o.FlippedVertically;
                 o.Y = 2 * center.Y - o.Y;
             }
+            SelectedObjectsFlippedVertically?.Invoke(SelectedObjects, center);
         }
         #endregion
         #endregion
 
         #region Editor Functions
+        /// <summary>Adds an object to the level.</summary>
+        /// <param name="obj">The object to add to the level.</param>
+        public void AddObject(GeneralObject obj)
+        {
+            Level.LevelObjects.Add(obj);
+            SelectObject(obj);
+        }
+        /// <summary>Adds a collection of objects to the level.</summary>
+        /// <param name="objects">The objects to add to the level.</param>
+        public void AddObjects(LevelObjectCollection objects)
+        {
+            Level.LevelObjects.AddRange(objects);
+            SelectObjects(objects);
+        }
+        /// <summary>Removes an object from the level.</summary>
+        /// <param name="obj">The object to remove from the level.</param>
+        public void RemoveObject(GeneralObject obj)
+        {
+            DeselectObject(obj);
+            Level.LevelObjects.Remove(obj);
+        }
+        /// <summary>Removes a collection of objects from the level.</summary>
+        /// <param name="objects">The objects to remove from the level.</param>
+        public void RemoveObjects(LevelObjectCollection objects)
+        {
+            DeselectObjects(objects);
+            Level.LevelObjects.RemoveRange(objects);
+        }
+
         /// <summary>Copy the selected objects and add them to the clipboard.</summary>
         public void Copy()
         {
-            ObjectClipboard.Clear();
+            var old = ObjectClipboard;
+            ObjectClipboard = new LevelObjectCollection();
             ObjectClipboard.AddRange(SelectedObjects);
+            SelectedObjectsCopied?.Invoke(ObjectClipboard, old);
         }
         /// <summary>Pastes the copied objects on the clipboard provided a central position to place them.</summary>
         /// <param name="center">The central position which will determine the position of the pasted objects.</param>
@@ -339,9 +435,15 @@ namespace GDEdit.Application.Editor
             foreach (var o in newObjects)
                 o.Location += distance;
             Level.LevelObjects.AddRange(newObjects);
+            SelectedObjectsPasted?.Invoke(newObjects, center);
         }
         /// <summary>ViPriNizes all the selected objects.</summary>
-        public void CopyPaste() => Level.LevelObjects.AddRange(SelectedObjects.Clone());
+        public void CopyPaste()
+        {
+            var cloned = SelectedObjects.Clone();
+            Level.LevelObjects.AddRange(cloned);
+            SelectedObjectsCopyPasted(cloned, SelectedObjects);
+        }
 
         /// <summary>Resets the unused color channels.</summary>
         public void ResetUnusedColors()
@@ -462,4 +564,39 @@ namespace GDEdit.Application.Editor
         }
         #endregion
     }
+
+    /// <summary>Represents a function that contains information about an object movement action.</summary>
+    /// <param name="objects">The objects that were moved.</param>
+    /// <param name="offset">The offset of the movement function.</param>
+    public delegate void MovedObjectsHandler(LevelObjectCollection objects, Point offset);
+    /// <summary>Represents a function that contains information about an object rotation action.</summary>
+    /// <param name="objects">The objects that were rotated.</param>
+    /// <param name="offset">The offset of the rotation function.</param>
+    /// <param name="centralPoint">The central point of the rotation (<see langword="null"/> to indicate an individual rotation).</param>
+    public delegate void RotatedObjectsHandler(LevelObjectCollection objects, double offset, Point? centralPoint);
+    /// <summary>Represents a function that contains information about an object scaling action.</summary>
+    /// <param name="objects">The objects that were scaled.</param>
+    /// <param name="scaling">The offset of the scaling function.</param>
+    /// <param name="centralPoint">The central point of the scaling (<see langword="null"/> to indicate an individual scaling).</param>
+    public delegate void ScaledObjectsHandler(LevelObjectCollection objects, double scaling, Point? centralPoint);
+    /// <summary>Represents a function that contains information about a horizontal object flipping action.</summary>
+    /// <param name="objects">The objects that were flipped horizontally.</param>
+    /// <param name="centralPoint">The central point of the horizontal flipping (<see langword="null"/> to indicate an individual horizontal flipping).</param>
+    public delegate void FlippedObjectsHorizontallyHandler(LevelObjectCollection objects, Point? centralPoint);
+    /// <summary>Represents a function that contains information about a vertical object flipping action.</summary>
+    /// <param name="objects">The objects that were flipped vertically.</param>
+    /// <param name="centralPoint">The central point of the vertical flipping (<see langword="null"/> to indicate an individual vertical flipping).</param>
+    public delegate void FlippedObjectsVerticallyHandler(LevelObjectCollection objects, Point? centralPoint);
+    /// <summary>Represents a function that contains information about an object copy action.</summary>
+    /// <param name="newObjects">The new objects that were copied.</param>
+    /// <param name="oldObjects">The old copied objects.</param>
+    public delegate void ObjectsCopiedHandler(LevelObjectCollection newObjects, LevelObjectCollection oldObjects);
+    /// <summary>Represents a function that contains information about an object paste action.</summary>
+    /// <param name="objects">The objects that were pasted.</param>
+    /// <param name="centralPoint">The central point of the pasted objects.</param>
+    public delegate void ObjectsPastedHandler(LevelObjectCollection objects, Point centralPoint);
+    /// <summary>Represents a function that contains information about an object copy-paste action.</summary>
+    /// <param name="newObjects">The new copies of the original objects.</param>
+    /// <param name="oldObjects">The original objects that were copied.</param>
+    public delegate void ObjectsCopyPastedHandler(LevelObjectCollection newObjects, LevelObjectCollection oldObjects);
 }

@@ -119,16 +119,29 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as RotateTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
-            c.CenterGroupID = CenterGroupID;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
+            c.easingRate = easingRate;
             c.Degrees = Degrees;
             c.Times360 = Times360;
-            c.LockObjectRotation = LockObjectRotation;
-            c.CenterGroupID = CenterGroupID;
+            c.centerGroupID = centerGroupID;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as RotateTrigger;
+            return base.EqualsInherited(other)
+                && targetGroupID == z.targetGroupID
+                && duration == z.duration
+                && Easing == z.Easing
+                && easingRate == z.easingRate
+                && Degrees == z.Degrees
+                && Times360 == z.Times360
+                && centerGroupID == z.centerGroupID;
         }
     }
 }

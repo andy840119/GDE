@@ -11,10 +11,11 @@ namespace GDEdit.Utilities.Objects.General.Shapes
     public class HorizontalLine : Line
     {
         /// <summary>Initializes a new instance of the <seealso cref="HorizontalLine"/> class.</summary>
-        public HorizontalLine() : base(0) { }
+        /// <param name="position">The position of the horizontal line.</param>
+        public HorizontalLine(Point position) : base(position, 0) { }
 
         /// <summary>Determines whether a point is within the shape (assuming the center of the shape is <seealso cref="Point.Zero"/>).</summary>
         /// <param name="point">The point's location.</param>
-        public override bool IsPointWithinShape(Point point) => point.Y == 0;
+        public override bool ContainsPoint(Point point) => point.Y == Position.Y;
     }
 }
