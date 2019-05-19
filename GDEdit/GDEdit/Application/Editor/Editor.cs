@@ -114,6 +114,15 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Object Selection
+        /// <summary>Selects an object.</summary>
+        /// <param name="obj">The object to add to the selection.</param>
+        public void SelectObject(GeneralObject obj)
+        {
+            if (!Swipe)
+                DeselectAll();
+            SelectedObjects.Add(obj);
+            SelectedObjectsAdded?.Invoke(new LevelObjectCollection(obj));
+        }
         /// <summary>Selects a number of objects.</summary>
         /// <param name="objects">The objects to add to the selection.</param>
         public void SelectObjects(LevelObjectCollection objects)
@@ -124,11 +133,17 @@ namespace GDEdit.Application.Editor
             SelectedObjectsAdded?.Invoke(objects);
         }
         /// <summary>Deselects a number of objects.</summary>
+        /// <param name="obj">The object to remove from the selection.</param>
+        public void DeselectObject(GeneralObject obj)
+        {
+            SelectedObjects.Remove(obj);
+            SelectedObjectsRemoved?.Invoke(new LevelObjectCollection(obj));
+        }
+        /// <summary>Deselects a number of objects.</summary>
         /// <param name="objects">The objects to remove from the selection.</param>
         public void DeselectObjects(LevelObjectCollection objects)
         {
-            foreach (var o in objects)
-                SelectedObjects.Remove(o);
+            SelectedObjects.RemoveRange(objects);
             SelectedObjectsRemoved?.Invoke(objects);
         }
         /// <summary>Inverts the current selection.</summary>
@@ -372,6 +387,35 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Editor Functions
+        /// <summary>Adds an object to the level.</summary>
+        /// <param name="obj">The object to add to the level.</param>
+        public void AddObject(GeneralObject obj)
+        {
+            Level.LevelObjects.Add(obj);
+            SelectObject(obj);
+        }
+        /// <summary>Adds a collection of objects to the level.</summary>
+        /// <param name="objects">The objects to add to the level.</param>
+        public void AddObjects(LevelObjectCollection objects)
+        {
+            Level.LevelObjects.AddRange(objects);
+            SelectObjects(objects);
+        }
+        /// <summary>Removes an object from the level.</summary>
+        /// <param name="obj">The object to remove from the level.</param>
+        public void RemoveObject(GeneralObject obj)
+        {
+            DeselectObject(obj);
+            Level.LevelObjects.Remove(obj);
+        }
+        /// <summary>Removes a collection of objects from the level.</summary>
+        /// <param name="objects">The objects to remove from the level.</param>
+        public void RemoveObjects(LevelObjectCollection objects)
+        {
+            DeselectObjects(objects);
+            Level.LevelObjects.RemoveRange(objects);
+        }
+
         /// <summary>Copy the selected objects and add them to the clipboard.</summary>
         public void Copy()
         {
