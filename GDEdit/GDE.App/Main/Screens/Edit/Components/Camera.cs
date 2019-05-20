@@ -30,6 +30,10 @@ namespace GDE.App.Main.Screens.Edit.Components
             Add(snappedCursorContainer = new GridSnappedCursorContainer(cameraOffsetBindable));
         }
 
+        public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition) => snappedCursorContainer.ConvertMousePositionToEditor(mousePosition);
+
+        public GeneralObject GetClonedGhostObjectLevelObject() => snappedCursorContainer.GhostObject.GetObject().Clone();
+
         protected override bool OnDrag(DragEvent e)
         {
             foreach (var child in Children)
@@ -65,19 +69,19 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
         {
-            private GhostObject ghostObject;
+            public readonly GhostObject GhostObject;
 
             public int SnapResolution { get; set; }
 
             public int GhostObjectID
             {
-                get => ghostObject.ObjectID;
+                get => GhostObject.ObjectID;
                 set
                 {
-                    ghostObject.ObjectID = value;
+                    GhostObject.ObjectID = value;
 
                     //framework dumbb
-                    ghostObject.Alpha = 0.5f;
+                    GhostObject.Alpha = 0.5f;
                 }
             }
 
@@ -88,7 +92,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 RelativeSizeAxes = Axes.Both;
                 AlwaysPresent = true;
-                Children = new Drawable[] { ghostObject = new GhostObject() };
+                Children = new Drawable[] { GhostObject = new GhostObject() };
                 CameraOffset.BindTo(cameraOffsetBindable);
                 GhostObjectID = ghostObjectID;
                 SnapResolution = snapResolution;
@@ -105,7 +109,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 //foreach (var child in Children)
                 //    child.Expire();
-
+                
                 return base.OnClick(e);
             }
 
@@ -116,8 +120,8 @@ namespace GDE.App.Main.Screens.Edit.Components
                 return new Vector2(x, y) + CameraOffset.Value;
             }
 
-            public void HideGhostObject() => ghostObject.Hide();
-            public void ShowGhostObject() => ghostObject.Show();
+            public void HideGhostObject() => GhostObject.Hide();
+            public void ShowGhostObject() => GhostObject.Show();
 
             private float GetCoordinate(float c)
             {
@@ -141,6 +145,13 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 Anchor = Anchor.TopLeft;
                 Origin = Anchor.TopLeft;
+            }
+
+            public GeneralObject GetObject()
+            {
+                LevelObject.X = Position.X;
+                LevelObject.Y = -Position.Y;
+                return LevelObject;
             }
         }
     }

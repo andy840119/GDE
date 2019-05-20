@@ -30,6 +30,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         private Database database;
         private Level level => database.UserLevels[0];
 
+        public int CurrentSelectedObjectID => panel.SelectedObjectID;
+
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
         {
