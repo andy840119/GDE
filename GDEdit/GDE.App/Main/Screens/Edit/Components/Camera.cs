@@ -63,6 +63,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         public void HideGhostObject() => snappedCursorContainer.HideGhostObject();
         public void ShowGhostObject() => snappedCursorContainer.ShowGhostObject();
 
+        //TODO: This should be its own seperate class
         private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
         {
             private GhostObject ghostObject;
@@ -128,6 +129,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
         }
 
+        //TODO: This shouldnt exist
         private class GhostObject : ObjectBase
         {
             public GhostObject(GeneralObject o)
