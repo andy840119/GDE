@@ -58,6 +58,7 @@ namespace GDE.App.Main.Levels
             // TODO: Figure out a way to retrieve the number of grid lines to render each time
             // This is currently a small test
             var gridLines = new Drawable[200];
+
             for (int i = 0; i < 100; i++)
                 gridLines[i] = new HorizontalGridLine(30 * i)
                 {

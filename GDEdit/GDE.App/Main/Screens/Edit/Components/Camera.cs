@@ -141,24 +141,37 @@ namespace GDE.App.Main.Screens.Edit.Components
         //TODO: This shouldnt exist
         private class GhostObject : ObjectBase
         {
+            public int SnapResolution { get; set; } = 30;
+
             public GhostObject(GeneralObject o)
                 : base(o)
             {
                 Anchor = Anchor.TopLeft;
                 Origin = Anchor.TopLeft;
+                Selectable = false;
             }
             public GhostObject(int id = 1)
                 : base(id)
             {
                 Anchor = Anchor.TopLeft;
                 Origin = Anchor.TopLeft;
+                Selectable = false;
             }
 
             public GeneralObject GetObject()
             {
-                LevelObject.X = Position.X;
-                LevelObject.Y = -Position.Y;
+                //Strange precision
+                LevelObject.X = GetCoordinate(Position.X) - 15 - (31 * 30);
+                LevelObject.Y = GetCoordinate (- Position.Y) + 3 + (18 * 30);
                 return LevelObject;
+            }
+
+            private float GetCoordinate(float c)
+            {
+                float r = c;
+                if (r < 0)
+                    r -= SnapResolution;
+                return r -= r % SnapResolution;
             }
         }
     }
