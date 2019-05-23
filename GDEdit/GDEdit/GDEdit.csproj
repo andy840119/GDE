@@ -87,6 +87,7 @@
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
+    <Compile Include="Utilities\Functions\Extensions\GenericICollectionExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericListExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
     <Compile Include="Utilities\Information\GeometryDash\SongInformation.cs" />
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
+    <Compile Include="Utilities\Objects\General\BitArray16.cs" />
     <Compile Include="Utilities\Objects\General\Directional.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\General\BitArray8.cs" />
@@ -241,6 +243,8 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\WidthHeightShape.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\ObjectHitboxDefinition.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\ObjectHitboxDefinitionDictionary.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />

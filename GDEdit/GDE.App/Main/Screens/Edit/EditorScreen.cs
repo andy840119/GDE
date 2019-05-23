@@ -1,6 +1,7 @@
 ﻿using DiscordRPC;
 using GDE.App.Main.Colors;
 using GDE.App.Main.Levels;
+using GDE.App.Main.Objects;
 using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.Tools;
 using GDEdit.Application;
@@ -29,6 +30,7 @@ namespace GDE.App.Main.Screens.Edit
         private Editor editor;
         private Grid grid;
         private Camera camera;
+        private EditorTools tools;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -77,13 +79,23 @@ namespace GDE.App.Main.Screens.Edit
                         },
                     }
                 },
-                new EditorTools(preview, camera)
+                tools = new EditorTools(preview, camera)
                 {
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 }
             });
+        }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            if (tools.CurrentSelectedObjectID < 1)
+                return false;
+            var cloned = camera.GetClonedGhostObjectLevelObject();
+            editor.AddObject(cloned);
+            preview.Add(new ObjectBase(cloned));
+            return base.OnClick(e);
         }
 
         protected override bool OnDrag(DragEvent e)

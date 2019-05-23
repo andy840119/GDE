@@ -35,10 +35,11 @@ namespace GDE.App.Main.Screens.Edit.Components
     {
         protected override string Name => "Object Addition";
 
-        private int selectedObjectID;
         private ObjectButton currentlyActiveButton;
         private FillFlowContainer container;
         private Camera camera;
+
+        public int SelectedObjectID { get; private set; }
 
         public float SnapResolution = 30f;
 
@@ -73,7 +74,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                             currentlyActiveButton.Active = false;
                         currentlyActiveButton = objectButton;
                         camera.ShowGhostObject();
-                        camera.SetGhostObjectID(selectedObjectID = objectButton.ObjectID);
+                        camera.SetGhostObjectID(SelectedObjectID = objectButton.ObjectID);
                     }
                     else if (currentlyActiveButton == objectButton)
                     {

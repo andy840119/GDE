@@ -12,7 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a trigger.</summary>
     public abstract class Trigger : ConstantIDObject
     {
-        /// <summary>Contains the <seealso cref="bool"/> values of the trigger. Indices 0, 1, 2 are reserved for Touch Triggered, Spawn Triggered and Multi Trigger respectively.</summary>
+        /// <summary>Contains the <seealso cref="bool"/> values of the trigger. Indices 0, 1, 2 are reserved for Touch Triggered, Spawn Triggered and Multi Trigger respectively, which means any inherited class may use indices [3, 7].</summary>
         protected BitArray8 TriggerBools = new BitArray8();
         
         /// <summary>The Touch Triggered property of the trigger.</summary>
@@ -59,10 +59,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as Trigger;
-            c.TouchTriggered = TouchTriggered;
-            c.SpawnTriggered = SpawnTriggered;
-            c.MultiTrigger = MultiTrigger;
+            c.TriggerBools = TriggerBools;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            return TriggerBools == (other as Trigger).TriggerBools
+                && base.EqualsInherited(other);
         }
     }
 }

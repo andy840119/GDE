@@ -10,12 +10,12 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Scale trigger.</summary>
-    [FutureProofing("2.3")]
+    [FutureProofing("2.2")]
     [ObjectID(TriggerType.Scale)]
     public class ScaleTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID, IHasSecondaryGroupID
     {
         private short targetGroupID, centerGroupID;
-        private float duration = 0.5f, easingRate, scalingMultiplier;
+        private float duration = 0.5f, easingRate, scaleX, scaleY;
 
         /// <summary>The Object ID of the Scale trigger.</summary>
         public override int ObjectID => (int)TriggerType.Scale;
@@ -52,11 +52,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => easingRate = (float)value;
         }
         /// <summary>The Scaling Multiplier property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.ScalingMultiplier)]
-        public double ScalingMultiplier
+        [ObjectStringMappable(ObjectParameter.ScaleX)]
+        public double ScaleX
         {
-            get => scalingMultiplier;
-            set => scalingMultiplier = (float)value;
+            get => scaleX;
+            set => scaleX = (float)value;
+        }
+        /// <summary>The Scaling Multiplier property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ScaleY)]
+        public double ScaleY
+        {
+            get => scaleY;
+            set => scaleY = (float)value;
         }
         /// <summary>The Center Group ID property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CenterGroupID)]
@@ -64,6 +71,20 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             get => centerGroupID;
             set => centerGroupID = (short)value;
+        }
+        /// <summary>The Lock Object Scale property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.LockObjectScale)]
+        public bool LockObjectScale
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
+        /// <summary>The Only Move Scale property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.OnlyMoveScale)]
+        public bool OnlyMoveScale
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="ScaleTrigger"/> class.</summary>
@@ -107,14 +128,29 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as ScaleTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
-            c.CenterGroupID = CenterGroupID;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
-            c.ScalingMultiplier = ScalingMultiplier;
-            c.CenterGroupID = CenterGroupID;
+            c.easingRate = easingRate;
+            c.scaleX = scaleX;
+            c.scaleY = scaleY;
+            c.centerGroupID = centerGroupID;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as ScaleTrigger;
+            return base.EqualsInherited(other)
+                && targetGroupID == z.targetGroupID
+                && duration == z.duration
+                && Easing == z.Easing
+                && easingRate == z.easingRate
+                && scaleX == z.scaleX
+                && scaleY == z.scaleY
+                && centerGroupID == z.centerGroupID;
         }
     }
 }

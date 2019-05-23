@@ -135,20 +135,39 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as PulseTrigger;
-            c.TargetGroupID = TargetGroupID;
-            c.TargetColorID = TargetColorID;
-            c.Red = Red;
-            c.Green = Green;
-            c.Blue = Blue;
-            c.FadeIn = FadeIn;
-            c.Hold = Hold;
-            c.FadeOut = FadeOut;
+            c.targetGroupID = targetGroupID;
+            c.targetColorID = targetColorID;
+            c.red = red;
+            c.green = green;
+            c.blue = blue;
+            c.fadeIn = fadeIn;
+            c.hold = hold;
+            c.fadeOut = fadeOut;
             c.CopiedColorID = CopiedColorID;
             c.PulseMode = PulseMode;
             c.PulseTargetType = PulseTargetType;
-            c.Exclusive = Exclusive;
             c.HSVAdjustment = HSVAdjustment;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as PulseTrigger;
+            return base.EqualsInherited(other)
+                && targetGroupID == z.targetGroupID
+                && targetColorID == z.targetColorID
+                && red == z.red
+                && green == z.green
+                && blue == z.blue
+                && fadeIn == z.fadeIn
+                && hold == z.hold
+                && fadeOut == z.fadeOut
+                && CopiedColorID == z.CopiedColorID
+                && PulseMode == z.PulseMode
+                && PulseTargetType == z.PulseTargetType
+                && HSVAdjustment == z.HSVAdjustment;
         }
     }
 }

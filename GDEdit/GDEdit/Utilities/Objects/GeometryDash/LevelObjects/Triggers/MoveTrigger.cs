@@ -142,17 +142,30 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as MoveTrigger;
-            c.Duration = Duration;
-            c.TargetGroupID = TargetGroupID;
+            c.targetGroupID = targetGroupID;
+            c.duration = duration;
             c.TargetPosGroupID = TargetPosGroupID;
             c.Easing = Easing;
-            c.EasingRate = EasingRate;
-            c.MoveX = MoveX;
-            c.MoveY = MoveY;
-            c.LockToPlayerX = LockToPlayerX;
-            c.LockToPlayerY = LockToPlayerY;
+            c.easingRate = easingRate;
+            c.moveX = moveX;
+            c.moveY = moveY;
             c.TargetPosCoordinates = TargetPosCoordinates;
             return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as MoveTrigger;
+            return base.EqualsInherited(other)
+                && targetGroupID == z.targetGroupID
+                && duration == z.duration
+                && Easing == z.Easing
+                && easingRate == z.easingRate
+                && moveX == z.moveX
+                && moveY == z.moveY
+                && TargetPosCoordinates == z.TargetPosCoordinates;
         }
     }
 }
