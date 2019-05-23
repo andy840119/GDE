@@ -37,7 +37,11 @@ namespace GDE.App.Main.Screens.Edit.Components
         protected override bool OnDrag(DragEvent e)
         {
             foreach (var child in Children)
-                child.Position += e.Delta;
+            {
+                if (child is IDraggable draggable)
+                    if (draggable.Draggable)
+                        child.Position += e.Delta;
+            }
 
             cameraOffsetBindable.Value += e.Delta;
             return true;
@@ -68,9 +72,10 @@ namespace GDE.App.Main.Screens.Edit.Components
         public void ShowGhostObject() => snappedCursorContainer.ShowGhostObject();
 
         //TODO: This should be its own seperate class
-        private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition
+        private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition, IDraggable
         {
             public readonly GhostObject GhostObject;
+            public bool Draggable => false;
 
             public int SnapResolution { get; set; }
 

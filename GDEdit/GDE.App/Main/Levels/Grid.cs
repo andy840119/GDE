@@ -4,16 +4,19 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics;
 using osuTK.Graphics;
 using osuTK;
+using GDE.App.Main.Screens.Edit.Components;
 
 namespace GDE.App.Main.Levels
 {
-    public class Grid : Container
+    public class Grid : Container, IDraggable
     {
         private double zoom;
         private Vector2 position;
 
         private Container gridContainer;
         private Drawable[] gridLineDrawables;
+
+        public bool Draggable => true;
 
         public Vector2 GridPosition
         {

@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.Containers;
 using GDE.App.Main.Objects;
 using GDE.App.Main.Screens.Edit;
+using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
@@ -13,7 +14,7 @@ using System.Collections.Generic;
 
 namespace GDE.App.Main.Levels
 {
-    public class LevelPreview : Container<ObjectBase>, IKeyBindingHandler<GlobalAction>
+    public class LevelPreview : Container<ObjectBase>, IKeyBindingHandler<GlobalAction>, IDraggable
     {
         private EditorScreen editorScreen;
 
@@ -24,7 +25,8 @@ namespace GDE.App.Main.Levels
         private bool modifier;
 
         public IReadOnlyList<ObjectBase> Objects => Children;
-        public bool AllowDrag = true;
+
+        public bool Draggable => true;
 
         public Level Level => database.UserLevels[i];
 
