@@ -307,6 +307,16 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>The Chance property of the <seealso cref="RandomTrigger"/>.</summary>
         [FutureProofing("2.2")]
         Chance = -106,
+        // New sneak peek, new offset
+        /// <summary>The Chance Lots property of the <seealso cref="RandomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ChanceLots = -300,
+        // There is a small *chance* RobTop actually uses a special way to store the chance lost per group
+        // For instance, just like HSV, which is HaSaVaSCaVC
+        // I would expect something like 1b10.2b20, where . is the separator between groups and b is the separator for the group and the chance lots
+        /// <summary>The Chance Lot Groups property of the <seealso cref="RandomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ChanceLotGroups = -301,
         #endregion
 
         #region Zoom Trigger
@@ -499,6 +509,15 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>The Only Move Scale property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
         OnlyMoveScale = -167,
+        #endregion
+
+        #region Move Trigger
+        /// <summary>The Lock To Camera X property of the <seealso cref="MoveTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockToCameraX = -302,
+        /// <summary>The Lock To Camera Y property of the <seealso cref="MoveTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockToCameraY = -303,
         #endregion
     }
 }
