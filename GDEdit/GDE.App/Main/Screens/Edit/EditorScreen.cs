@@ -49,7 +49,8 @@ namespace GDE.App.Main.Screens.Edit
 
             var fileMenuItems = new List<MenuItem>();
 
-            fileMenuItems.Add(new EditorMenuItem("Save"));
+            fileMenuItems.Add(new EditorMenuItem("Save", MenuItemType.Standard, Save));
+            fileMenuItems.Add(new EditorMenuItem("Save & Exit", MenuItemType.Standard, SaveAndExit));
             fileMenuItems.Add(new EditorMenuItem("Exit", MenuItemType.Standard, this.Exit));
 
             AddInternal(new Container
@@ -139,5 +140,12 @@ namespace GDE.App.Main.Screens.Edit
 
             return base.OnDrag(e);
         }
+
+        private void SaveAndExit()
+        {
+            Save();
+            this.Exit();
+        }
+        private void Save() => editor.Save(database, i);
     }
 }
