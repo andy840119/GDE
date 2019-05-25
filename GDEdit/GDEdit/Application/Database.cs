@@ -66,7 +66,7 @@ namespace GDEdit.Application
 
         /// <summary>The user name of the player as found in the game manager file.</summary>
         public string UserName { get; set; }
-        /// <summary>The user name of the player.</summary>
+        /// <summary>The user levels in the database.</summary>
         public LevelCollection UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
         public FolderNameCollection FolderNames { get; set; }

@@ -537,6 +537,18 @@ namespace GDEdit.Application.Editor
         }
         #endregion
 
+        #region Other
+        /// <summary>Saves this level to the database.</summary>
+        /// <param name="database">The database this level should be saved to.</param>
+        /// <param name="index">The index at which the level will be saved in the database.</param>
+        public void Save(Database database, int index)
+        {
+            database.UserLevels[index] = Level;
+            database.UpdateLevelData();
+            database.WriteLevelData();
+        }
+        #endregion
+
         // TODO: Add functions to do lots of stuff
 
         #region Private Methods
