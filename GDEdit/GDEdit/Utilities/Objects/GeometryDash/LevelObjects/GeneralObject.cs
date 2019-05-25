@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -402,6 +403,21 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 return new PulsatingObject(objectID);
 
             return new GeneralObject(objectID);
+        }
+
+        public override string ToString()
+        {
+            var s = new StringBuilder();
+            var properties = GetType().GetProperties();
+            foreach (var p in properties)
+            {
+                int? key = ((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key;
+                if (key != null)
+                    s.Append($"{key},{p.GetValue(this)},");
+                // TODO: Prevent writing parameters with values that are default (create DefaultValueAttribute and assign it to all the object properties
+            }
+            s.Remove(s.Length - 1, 1); // Remove last comma
+            return s.ToString();
         }
 
         private class ObjectTypeInfo
