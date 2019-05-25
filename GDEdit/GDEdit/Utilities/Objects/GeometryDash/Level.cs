@@ -115,7 +115,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The song offset of the level.</summary>
         [CommonMergedProperty]
         [LevelStringMappable("kA13")]
-        public int SongOffset { get; set; }
+        public float SongOffset { get; set; }
         /// <summary>The fade in property of the song of the level.</summary>
         [CommonMergedProperty]
         [LevelStringMappable("kA15")]
@@ -349,7 +349,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     InversedGravity = value == "1";
                     break;
                 case "kA13": // Song Offset
-                    SongOffset = ToInt32(value);
+                    SongOffset = ToSingle(value);
                     break;
                 case "kA14": // Guidelines
                     Guidelines = GuidelineCollection.Parse(value);
