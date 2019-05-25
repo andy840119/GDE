@@ -3,17 +3,22 @@ using GDE.App.Main.Colors;
 using GDE.App.Main.Levels;
 using GDE.App.Main.Objects;
 using GDE.App.Main.Screens.Edit.Components;
+using GDE.App.Main.Screens.Edit.Components.Menu;
 using GDE.App.Main.Tools;
+using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK;
+using System.Collections.Generic;
 
 namespace GDE.App.Main.Screens.Edit
 {
@@ -39,6 +44,33 @@ namespace GDE.App.Main.Screens.Edit
 
             texStore = ts;
             background.Texture = texStore.Get("Backgrounds/game_bg_01_001-uhd.png");
+
+            EditorMenuBar menuBar;
+
+            var fileMenuItems = new List<MenuItem>();
+
+            fileMenuItems.Add(new EditorMenuItem("Save"));
+            fileMenuItems.Add(new EditorMenuItem("Exit", MenuItemType.Standard, this.Exit));
+
+            AddInternal(new Container
+            {
+                Name = "Top bar",
+                RelativeSizeAxes = Axes.X,
+                Height = 40,
+                Child = menuBar = new EditorMenuBar
+                {
+                    Anchor = Anchor.CentreLeft,
+                    Origin = Anchor.CentreLeft,
+                    RelativeSizeAxes = Axes.Both,
+                    Items = new[]
+                    {
+                        new MenuItem("File")
+                        {
+                            Items = fileMenuItems
+                        }
+                    }
+                }
+            });
         }
 
         public EditorScreen(int index, Level level)
