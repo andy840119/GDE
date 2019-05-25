@@ -36,7 +36,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string Name { get; set; }
         /// <summary>The description of the level.</summary>
         [LevelStringMappable("k3")]
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
         /// <summary>The name of the creator.</summary>
         [LevelStringMappable("k5")]
         public string CreatorName { get; set; }
