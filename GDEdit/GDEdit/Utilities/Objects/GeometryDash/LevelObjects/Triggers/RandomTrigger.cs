@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
+using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
@@ -16,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     {
         private byte chance;
         private short groupID1, groupID2;
+        private ChanceLotInfo[] chanceLots;
 
         /// <summary>The Object ID of the Random trigger.</summary>
         public override int ObjectID => (int)TriggerType.Random;
@@ -41,6 +43,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             get => chance;
             set => chance = (byte)value;
+        }
+        /// <summary>The Chance Lots property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ChanceLots)] // This implementation is such a wild guess
+        public ChanceLotInfo[] ChanceLots
+        {
+            get => chanceLots;
+            set => chanceLots = value;
         }
         /// <summary>The Group ID 1 of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetGroupID)]
@@ -91,6 +100,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.groupID1 = groupID1;
             c.groupID2 = groupID2;
             c.chance = chance;
+            c.chanceLots = chanceLots.CopyArray();
             return base.AddClonedInstanceInformation(c);
         }
 
@@ -103,6 +113,35 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && groupID1 == z.groupID1
                 && groupID2 == z.groupID2
                 && chance == z.chance;
+        }
+
+        /// <summary>Contains information about the chance lot.</summary>
+        public struct ChanceLotInfo
+        {
+            // Presumably lots will not need to be Int32, however if need be, change both to Int32, since the size of the struct will become 8 bytes nonetheless because C#?
+            private short groupID, lots;
+
+            /// <summary>The Group ID.</summary>
+            public int GroupID
+            {
+                get => groupID;
+                set => groupID = (short)value;
+            }
+            /// <summary>The lots this Group ID is assigned.</summary>
+            public int Lots
+            {
+                get => lots;
+                set => lots = (short)value;
+            }
+
+            /// <summary>Initializes a new instance of the <seealso cref="ChanceLotInfo"/> struct.</summary>
+            /// <param name="g">The Group ID.</param>
+            /// <param name="l">The lots this Group ID is assigned.</param>
+            public ChanceLotInfo(int g, int l)
+            {
+                groupID = (short)g;
+                lots = (short)l;
+            }
         }
     }
 }
