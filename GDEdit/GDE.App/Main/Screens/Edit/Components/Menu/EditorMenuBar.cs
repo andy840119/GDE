@@ -131,9 +131,7 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
             private class DrawableSubMenuItem : DrawableGDEMenuItem
             {
                 public DrawableSubMenuItem(MenuItem item)
-                    : base(item)
-                {
-                }
+                    : base(item) { }
 
                 protected override bool OnHover(HoverEvent e)
                 {
