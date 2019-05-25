@@ -49,9 +49,10 @@ namespace GDE.App.Main.Screens.Edit
 
             var fileMenuItems = new List<MenuItem>();
 
-            fileMenuItems.Add(new EditorMenuItem("Save", MenuItemType.Standard, Save));
+            fileMenuItems.Add(new EditorMenuItem("Save", MenuItemType.Highlighted, Save));
             fileMenuItems.Add(new EditorMenuItem("Save & Exit", MenuItemType.Standard, SaveAndExit));
-            fileMenuItems.Add(new EditorMenuItem("Exit", MenuItemType.Standard, this.Exit));
+            fileMenuItems.Add(new EditorMenuItemSpacer()); // This gap is abnormally huge, must do something
+            fileMenuItems.Add(new EditorMenuItem("Exit", MenuItemType.Destructive, this.Exit));
 
             AddInternal(new Container
             {

@@ -313,7 +313,7 @@ namespace GDEdit.Application
         public void WriteLevelData()
         {
             UpdateLevelData();
-            File.WriteAllText(GDLocalLevels, decryptedLevelData); // Write the level data
+            File.WriteAllText(GDLocalLevels, DecryptedLevelData); // Write the level data
         }
         #endregion
 

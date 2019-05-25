@@ -544,7 +544,6 @@ namespace GDEdit.Application.Editor
         public void Save(Database database, int index)
         {
             database.UserLevels[index] = Level;
-            database.UpdateLevelData();
             database.WriteLevelData();
         }
         #endregion
