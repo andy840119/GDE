@@ -60,7 +60,7 @@ namespace GDEdit.Application.Editor
         /// <summary>The camera zoom in the editor.</summary>
         public double Zoom { get; set; } = 1;
 
-        /// <summary>Gets or sets indicating whether the editor is in dual layer mode.</summary>
+        /// <summary>Gets or sets a value indicating whether the editor is in dual layer mode.</summary>
         public bool DualLayerMode
         {
             get => dualLayerMode;
@@ -68,15 +68,15 @@ namespace GDEdit.Application.Editor
             {
                 if (value == dualLayerMode)
                     return;
-                dualLayerMode = value;
-                DualLayerModeChanged?.Invoke(value);
+                var old = dualLayerMode; 
+                DualLayerModeChanged?.Invoke(dualLayerMode = value, old);
             }
         }
         #endregion
 
         #region Events
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
-        public event Action<bool> DualLayerModeChanged;
+        public event DualLayerModeChangedHandler DualLayerModeChanged;
 
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsAdded;
@@ -565,6 +565,10 @@ namespace GDEdit.Application.Editor
         #endregion
     }
 
+    /// <summary>Represents a function that contains information about changing the state of Dual Layer Mode.</summary>
+    /// <param name="newValue">The new value of the Dual Layer Mode.</param>
+    /// <param name="oldValue">The old value of the Dual Layer Mode.</param>
+    public delegate void DualLayerModeChangedHandler(bool newValue, bool oldValue);
     /// <summary>Represents a function that contains information about an object movement action.</summary>
     /// <param name="objects">The objects that were moved.</param>
     /// <param name="offset">The offset of the movement function.</param>
