@@ -83,9 +83,12 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Events
+        #region Editor Actions
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
         public event DualLayerModeChangedHandler DualLayerModeChanged;
+        #endregion
 
+        #region Level Actions
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsAdded;
         /// <summary>Occurs when new objects have been removed from the selection list.</summary>
@@ -116,10 +119,12 @@ namespace GDEdit.Application.Editor
         /// <summary>Occurs when objects been ViPriNized.</summary>
         public event ObjectsCopyPastedHandler ObjectsCopyPasted;
         #endregion
+        #endregion
 
         #region Event Functions
         // Signatures and final invocation statements were macro-generated
         // TODO: Add documentation for the parameters
+        #region Editor Actions
         /// <summary>Triggers the <seealso cref="DualLayerModeChanged"/> event.</summary>
         public void OnDualLayerModeChanged(bool value, bool registerUndoable = true)
         {
@@ -130,6 +135,9 @@ namespace GDEdit.Application.Editor
                 AddTemporaryAction(description, Action, Undo);
             DualLayerModeChanged?.Invoke(value);
         }
+        #endregion
+
+        #region Level Actions
         /// <summary>Triggers the <seealso cref="SelectedObjectsAdded"/> event.</summary>
         public void OnSelectedObjectsAdded(LevelObjectCollection objects, bool registerUndoable = true)
         {
@@ -268,6 +276,7 @@ namespace GDEdit.Application.Editor
                 AddTemporaryAction(description, Action, Undo);
             ObjectsCopyPasted?.Invoke(newObjects, oldObjects);
         }
+        #endregion
         #endregion
 
         #region Constructors
@@ -1010,9 +1019,14 @@ namespace GDEdit.Application.Editor
         }
     }
 
+    #region Delegates
+    #region Editor Actions
     /// <summary>Represents a function that contains information about changing the state of Dual Layer Mode.</summary>
     /// <param name="value">The new value of the Dual Layer Mode.</param>
     public delegate void DualLayerModeChangedHandler(bool value);
+    #endregion
+
+    #region Level Actions
     /// <summary>Represents a function that contains information about deselecting all objects.</summary>
     /// <param name="previousSelection">The objects that were previously selected.</param>
     public delegate void AllObjectsDeselectedHandler(LevelObjectCollection previousSelection);
@@ -1050,4 +1064,6 @@ namespace GDEdit.Application.Editor
     /// <param name="newObjects">The new copies of the original objects.</param>
     /// <param name="oldObjects">The original objects that were copied.</param>
     public delegate void ObjectsCopyPastedHandler(LevelObjectCollection newObjects, LevelObjectCollection oldObjects);
+    #endregion
+    #endregion
 }
