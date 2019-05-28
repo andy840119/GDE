@@ -569,6 +569,43 @@ namespace GDEdit.Application.Editor
             b = t;
         }
         #endregion
+
+        /// <summary>Contains information about an action that can be undone.</summary>
+        private class UndoableAction
+        {
+            private readonly List<Action> undos;
+            private readonly List<Action> actions;
+
+            /// <summary>The description of the undoable action.</summary>
+            public string Description { get; set; }
+
+            public UndoableAction() { }
+            public UndoableAction(string description) => Description = description;
+
+            /// <summary>Adds an undoable action to the action list.</summary>
+            /// <param name="action">The action to add to the list.</param>
+            /// <param name="undo">The undo action to add to the list.</param>
+            public void Add(Action action, Action undo)
+            {
+                actions.Add(action);
+                undos.Add(undo);
+            }
+
+            /// <summary>Undoes all the actions in the list.</summary>
+            public void Undo()
+            {
+                foreach (var u in undos)
+                    u.Invoke();
+            }
+            /// <summary>Redoes all the actions in the list.</summary>
+            public void Redo()
+            {
+                foreach (var a in actions)
+                    a.Invoke();
+            }
+            /// <summary>Clears the action list.</summary>
+            public void Clear() => actions.Clear();
+        }
     }
 
     // TODO: Consider removing the oldValue argument, since we will want to not allow setting the same value to the property in order to avoid invoking events unnecessarily
