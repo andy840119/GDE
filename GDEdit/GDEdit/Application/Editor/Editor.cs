@@ -130,64 +130,76 @@ namespace GDEdit.Application.Editor
         #region Object Selection
         /// <summary>Selects an object.</summary>
         /// <param name="obj">The object to add to the selection.</param>
-        public void SelectObject(GeneralObject obj)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SelectObject(GeneralObject obj, bool registerUndoable = true)
         {
             if (!Swipe)
                 DeselectAll();
             SelectedObjects.Add(obj);
-            SelectedObjectsAdded?.Invoke(new LevelObjectCollection(obj));
+            OnSelectedObjectsAdded(new LevelObjectCollection(obj), registerUndoable);
         }
         /// <summary>Selects a number of objects.</summary>
         /// <param name="objects">The objects to add to the selection.</param>
-        public void SelectObjects(LevelObjectCollection objects)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SelectObjects(LevelObjectCollection objects, bool registerUndoable = true)
         {
             if (!Swipe)
                 DeselectAll();
             SelectedObjects.AddRange(objects);
-            SelectedObjectsAdded?.Invoke(objects);
+            OnSelectedObjectsAdded(objects, registerUndoable);
         }
         /// <summary>Deselects an object.</summary>
         /// <param name="obj">The object to remove from the selection.</param>
-        public void DeselectObject(GeneralObject obj)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void DeselectObject(GeneralObject obj, bool registerUndoable = true)
         {
             SelectedObjects.Remove(obj);
-            SelectedObjectsRemoved?.Invoke(new LevelObjectCollection(obj));
+            OnSelectedObjectsRemoved(new LevelObjectCollection(obj), registerUndoable);
         }
         /// <summary>Deselects a number of objects.</summary>
         /// <param name="objects">The objects to remove from the selection.</param>
-        public void DeselectObjects(LevelObjectCollection objects)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void DeselectObjects(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            SelectedObjects.RemoveRange(objects);
-            SelectedObjectsRemoved?.Invoke(objects);
+            if (objects == SelectedObjects) // Micro-optimization
+                DeselectAll(registerUndoable);
+            else
+            {
+                SelectedObjects.RemoveRange(objects);
+                OnSelectedObjectsRemoved(objects, registerUndoable);
+            }
         }
         /// <summary>Inverts the current selection.</summary>
-        public void InvertSelection()
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void InvertSelection(bool registerUndoable = true)
         {
-            LevelObjectCollection old;
-            SelectedObjects = Level.LevelObjects.Clone().RemoveRange(old = SelectedObjects.Clone());
-            SelectedObjectsAdded?.Invoke(SelectedObjects);
-            SelectedObjectsRemoved?.Invoke(old);
+            var newObjects = Level.LevelObjects.Clone().RemoveRange(SelectedObjects);
+            DeselectAll(registerUndoable);
+            SelectObjects(newObjects, registerUndoable);
         }
         /// <summary>Selects a number of objects based on a condition.</summary>
         /// <param name="predicate">The predicate to determine the objects to select.</param>
         /// <param name="appendToSelection">Determines whether the new objects will be appended to the already existing selection.</param>
-        public void SelectObjects(Predicate<GeneralObject> predicate, bool appendToSelection = true)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SelectObjects(Predicate<GeneralObject> predicate, bool appendToSelection = true, bool registerUndoable = true)
         {
+            // Maybe there's a better way to take care of that but let it be like that for the time being
+            multipleActionToggle = true;
             if (!appendToSelection)
-                DeselectAll();
-            SelectObjects(GetObjects(predicate));
+                DeselectAll(registerUndoable);
+            SelectObjects(GetObjects(predicate), registerUndoable);
+            multipleActionToggle = false;
         }
         /// <summary>Selects all objects.</summary>
-        public void SelectAll()
-        {
-            SelectedObjects.AddRange(Level.LevelObjects);
-            SelectedObjectsAdded?.Invoke(Level.LevelObjects);
-        }
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SelectAll(bool registerUndoable = true) => SelectObjects(Level.LevelObjects, registerUndoable);
         /// <summary>Deselects all objects.</summary>
-        public void DeselectAll()
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void DeselectAll(bool registerUndoable = true)
         {
+            var previousSelection = SelectedObjects.Clone();
             SelectedObjects.Clear();
-            AllObjectsDeselected?.Invoke();
+            OnAllObjectsDeselected(previousSelection, registerUndoable);
         }
         #endregion
 
@@ -249,33 +261,58 @@ namespace GDEdit.Application.Editor
         #region Object Movement
         /// <summary>Moves the selected objects by an amount on the X axis.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
-        public void MoveX(double x)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveX(double x, bool registerUndoable = true) => MoveX(SelectedObjects, x, registerUndoable);
+        /// <summary>Moves the specified objects by an amount on the X axis.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="x">The offset of X to move the objects by.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveX(LevelObjectCollection objects, double x, bool registerUndoable = true)
         {
             if (x != 0)
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                     o.X += x;
-                SelectedObjectsMoved?.Invoke(SelectedObjects, new Point(x, 0));
+                OnObjectsMoved(objects, new Point(x, 0), registerUndoable);
             }
         }
         /// <summary>Moves the selected objects by an amount on the Y axis.</summary>
         /// <param name="y">The offset of Y to move the objects by.</param>
-        public void MoveY(double y)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveY(double y, bool registerUndoable = true) => MoveY(SelectedObjects, y, registerUndoable);
+        /// <summary>Moves the specified objects by an amount on the Y axis.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="y">The offset of Y to move the objects by.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveY(LevelObjectCollection objects, double y, bool registerUndoable = true)
         {
             if (y != 0)
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                     o.Y += y;
-                SelectedObjectsMoved?.Invoke(SelectedObjects, new Point(0, y));
+                OnObjectsMoved(objects, new Point(0, y), registerUndoable);
             }
         }
         /// <summary>Moves the selected objects by an amount.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
         /// <param name="y">The offset of Y to move the objects by.</param>
-        public void Move(double x, double y) => Move(new Point(x, y));
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Move(double x, double y, bool registerUndoable = true) => Move(new Point(x, y), registerUndoable);
+        /// <summary>Moves the specified objects by an amount.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="x">The offset of X to move the objects by.</param>
+        /// <param name="y">The offset of Y to move the objects by.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Move(LevelObjectCollection objects, double x, double y, bool registerUndoable = true) => Move(objects, new Point(x, y), registerUndoable);
         /// <summary>Moves the selected objects by an amount.</summary>
         /// <param name="p">The point indicating the movement of the objects across the field.</param>
-        public void Move(Point p)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Move(Point p, bool registerUndoable = true) => Move(SelectedObjects, p, registerUndoable);
+        /// <summary>Moves the specified objects by an amount.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="p">The point indicating the movement of the objects across the field.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Move(LevelObjectCollection objects, Point p, bool registerUndoable = true)
         {
             if (p.Y == 0)
                 MoveX(p.X);
@@ -283,184 +320,336 @@ namespace GDEdit.Application.Editor
                 MoveY(p.Y);
             else
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                 {
                     o.X += p.X;
                     o.Y += p.Y;
                 }
-                SelectedObjectsMoved?.Invoke(SelectedObjects, p);
+                OnObjectsMoved(objects, p, registerUndoable);
             }
         }
+        // TODO: Add MoveTo* functions to prevent other code from having to calculate individual objects' offset
         #endregion
         #region Object Rotation
+        // The rotation direction is probably wrongly documented; take a look at it in another branch
         /// <summary>Rotates the selected objects by an amount.</summary>
         /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
         /// <param name="individually">Determines whether the objects will be only rotated individually.</param>
-        public void Rotate(double rotation, bool individually)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Rotate(double rotation, bool individually, bool registerUndoable = true) => Rotate(SelectedObjects, rotation, individually, registerUndoable);
+        /// <summary>Rotates the specified objects by an amount.</summary>
+        /// <param name="objects">The objects to rotate.</param>
+        /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
+        /// <param name="individually">Determines whether the objects will be only rotated individually.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Rotate(LevelObjectCollection objects, double rotation, bool individually, bool registerUndoable = true)
         {
             if (individually)
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                     o.Rotation += rotation;
-                SelectedObjectsRotated?.Invoke(SelectedObjects, rotation, null);
+                OnObjectsRotated(objects, rotation, null, registerUndoable);
             }
             else
-                Rotate(rotation, GetMedianPoint());
+                Rotate(objects, rotation, GetMedianPoint(), registerUndoable);
         }
         /// <summary>Rotates the selected objects by an amount based on a specific central point.</summary>
         /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
         /// <param name="center">The central point to take into account while rotating all objects.</param>
-        public void Rotate(double rotation, Point center)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Rotate(double rotation, Point center, bool registerUndoable = true) => Rotate(SelectedObjects, rotation, center, registerUndoable);
+        /// <summary>Rotates the specified objects by an amount based on a specific central point.</summary>
+        /// <param name="objects">The objects to rotate.</param>
+        /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
+        /// <param name="center">The central point to take into account while rotating all objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Rotate(LevelObjectCollection objects, double rotation, Point center, bool registerUndoable = true)
         {
-            foreach (var o in SelectedObjects)
+            foreach (var o in objects)
             {
                 o.Rotation += rotation;
                 o.Location = o.Location.Rotate(center, rotation);
             }
-            SelectedObjectsRotated?.Invoke(SelectedObjects, rotation, center);
+            OnObjectsRotated(objects, rotation, center, registerUndoable);
+        }
+        /// <summary>Rotates the selected objects by an amount based on a specific central point.</summary>
+        /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
+        /// <param name="center">The central point to take into account while rotating all objects. If <see langword="null"/>, the objects will be individually rotated.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Rotate(double rotation, Point? center, bool registerUndoable = true) => Rotate(SelectedObjects, rotation, center, registerUndoable);
+        /// <summary>Rotates the specified objects by an amount based on a specific central point.</summary>
+        /// <param name="objects">The objects to rotate.</param>
+        /// <param name="rotation">The rotation to apply to all the objects. Positive is counter-clockwise (CCW), negative is clockwise (CW).</param>
+        /// <param name="center">The central point to take into account while rotating all objects. If <see langword="null"/>, the objects will be individually rotated.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Rotate(LevelObjectCollection objects, double rotation, Point? center, bool registerUndoable = true)
+        {
+            if (center == null)
+                Rotate(objects, rotation, true, registerUndoable);
+            else
+                Rotate(objects, rotation, center.Value, registerUndoable);
         }
         #endregion
         #region Object Scaling
         /// <summary>Scales the selected objects by an amount.</summary>
         /// <param name="scaling">The scaling to apply to all the objects.</param>
         /// <param name="individually">Determines whether the objects will be only scaled individually.</param>
-        public void Scale(double scaling, bool individually)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Scale(double scaling, bool individually, bool registerUndoable = true) => Scale(SelectedObjects, scaling, individually, registerUndoable);
+        /// <summary>Scales the specified objects by an amount.</summary>
+        /// <param name="objects">The objects to scale.</param>
+        /// <param name="scaling">The scaling to apply to all the objects.</param>
+        /// <param name="individually">Determines whether the objects will be only scaled individually.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Scale(LevelObjectCollection objects, double scaling, bool individually, bool registerUndoable = true)
         {
             if (individually)
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                     o.Scaling *= scaling;
-                SelectedObjectsScaled?.Invoke(SelectedObjects, scaling, null);
+                OnObjectsScaled(objects, scaling, null, registerUndoable);
             }
             else
-                Scale(scaling, GetMedianPoint());
+                Scale(objects, scaling, GetMedianPoint(), registerUndoable);
         }
         /// <summary>Scales the selected objects by an amount based on a specific central point.</summary>
         /// <param name="scaling">The scaling to apply to all the objects.</param>
         /// <param name="center">The central point to take into account while scaling all objects.</param>
-        public void Scale(double scaling, Point center)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Scale(double scaling, Point center, bool registerUndoable = true) => Scale(SelectedObjects, scaling, center, registerUndoable);
+        /// <summary>Scales the specified objects by an amount based on a specific central point.</summary>
+        /// <param name="objects">The objects to scale.</param>
+        /// <param name="scaling">The scaling to apply to all the objects.</param>
+        /// <param name="center">The central point to take into account while scaling all objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Scale(LevelObjectCollection objects, double scaling, Point center, bool registerUndoable = true)
         {
-            foreach (var o in SelectedObjects)
+            foreach (var o in objects)
             {
                 o.Scaling *= scaling;
                 o.Location = (center - o.Location) * scaling + center;
             }
-            SelectedObjectsScaled?.Invoke(SelectedObjects, scaling, center);
+            OnObjectsScaled(objects, scaling, center, registerUndoable);
+        }
+        /// <summary>Scales the selected objects by an amount based on a specific central point.</summary>
+        /// <param name="scaling">The scaling to apply to all the objects.</param>
+        /// <param name="center">The central point to take into account while scaling all objects. If <see langword="null"/>, the objects will be individually scaled.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Scale(double scaling, Point? center, bool registerUndoable = true) => Scale(SelectedObjects, scaling, center, registerUndoable);
+        /// <summary>Scales the specified objects by an amount based on a specific central point.</summary>
+        /// <param name="objects">The objects to scale.</param>
+        /// <param name="scaling">The scaling to apply to all the objects.</param>
+        /// <param name="center">The central point to take into account while scaling all objects. If <see langword="null"/>, the objects will be individually scaled.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Scale(LevelObjectCollection objects, double scaling, Point? center, bool registerUndoable = true)
+        {
+            if (center == null)
+                Scale(objects, scaling, true, registerUndoable);
+            else
+                Scale(objects, scaling, center.Value, registerUndoable);
         }
         #endregion
         #region Object Flipping
+        #region Flip Horizontally
         /// <summary>Flips the selected objects horizontally.</summary>
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
-        public void FlipHorizontally(bool individually)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipHorizontally(bool individually, bool registerUndoable = true) => FlipHorizontally(SelectedObjects, individually, registerUndoable);
+        /// <summary>Flips the selected objects horizontally.</summary>
+        /// <param name="objects">The objects to flip horizontally.</param>
+        /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipHorizontally(LevelObjectCollection objects, bool individually, bool registerUndoable = true)
         {
             if (individually)
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                     o.FlippedHorizontally = !o.FlippedHorizontally;
-                SelectedObjectsFlippedHorizontally?.Invoke(SelectedObjects, null);
+                OnObjectsFlippedHorizontally(objects, null, registerUndoable);
             }
             else
-                FlipHorizontally(GetMedianPoint());
+                FlipHorizontally(objects, GetMedianPoint(), registerUndoable);
         }
         /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
         /// <param name="center">The central point to take into account while flipping all objects.</param>
-        public void FlipHorizontally(Point center)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipHorizontally(Point center, bool registerUndoable = true) => FlipHorizontally(SelectedObjects, center, registerUndoable);
+        /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
+        /// <param name="objects">The objects to flip horizontally.</param>
+        /// <param name="center">The central point to take into account while flipping all objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipHorizontally(LevelObjectCollection objects, Point center, bool registerUndoable = true)
         {
-            foreach (var o in SelectedObjects)
+            foreach (var o in objects)
             {
                 o.FlippedHorizontally = !o.FlippedHorizontally;
                 o.X = 2 * center.X - o.X;
             }
-            SelectedObjectsFlippedHorizontally?.Invoke(SelectedObjects, center);
+            OnObjectsFlippedHorizontally(objects, center, registerUndoable);
         }
+        /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
+        /// <param name="center">The central point to take into account while flipping all objects. If <see langword="null"/>, the objects will be individually flipped.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipHorizontally(Point? center, bool registerUndoable = true) => FlipHorizontally(SelectedObjects, center, registerUndoable);
+        /// <summary>Flips the selected objects horizontally based on a specific central point.</summary>
+        /// <param name="objects">The objects to flip horizontally.</param>
+        /// <param name="center">The central point to take into account while flipping all objects. If <see langword="null"/>, the objects will be individually flipped.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipHorizontally(LevelObjectCollection objects, Point? center, bool registerUndoable = true)
+        {
+            if (center == null)
+                FlipHorizontally(objects, true, registerUndoable);
+            else
+                FlipHorizontally(objects, center.Value, registerUndoable);
+        }
+        #endregion
+        #region Flip Vertically
         /// <summary>Flips the selected objects vertically.</summary>
         /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
-        public void FlipVertically(bool individually)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipVertically(bool individually, bool registerUndoable = true) => FlipHorizontally(SelectedObjects, individually, registerUndoable);
+        /// <summary>Flips the selected objects vertically.</summary>
+        /// <param name="objects">The objects to flip vertically.</param>
+        /// <param name="individually">Determines whether the objects will be only flipped individually.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipVertically(LevelObjectCollection objects, bool individually, bool registerUndoable = true)
         {
             if (individually)
             {
-                foreach (var o in SelectedObjects)
+                foreach (var o in objects)
                     o.FlippedVertically = !o.FlippedVertically;
-                SelectedObjectsFlippedVertically?.Invoke(SelectedObjects, null);
+                OnObjectsFlippedVertically(objects, null, registerUndoable);
             }
             else
-                FlipVertically(GetMedianPoint());
+                FlipVertically(objects, GetMedianPoint(), registerUndoable);
         }
         /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
         /// <param name="center">The central point to take into account while flipping all objects.</param>
-        public void FlipVertically(Point center)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipVertically(Point center, bool registerUndoable = true) => FlipVertically(SelectedObjects, center, registerUndoable);
+        /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
+        /// <param name="objects">The objects to flip vertically.</param>
+        /// <param name="center">The central point to take into account while flipping all objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipVertically(LevelObjectCollection objects, Point center, bool registerUndoable = true)
         {
-            foreach (var o in SelectedObjects)
+            foreach (var o in objects)
             {
                 o.FlippedVertically = !o.FlippedVertically;
                 o.Y = 2 * center.Y - o.Y;
             }
-            SelectedObjectsFlippedVertically?.Invoke(SelectedObjects, center);
+            OnObjectsFlippedVertically(objects, center, registerUndoable);
         }
+        /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
+        /// <param name="center">The central point to take into account while flipping all objects. If <see langword="null"/>, the objects will be individually flipped.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipVertically(Point? center, bool registerUndoable = true) => FlipVertically(SelectedObjects, center, registerUndoable);
+        /// <summary>Flips the selected objects vertically based on a specific central point.</summary>
+        /// <param name="objects">The objects to flip vertically.</param>
+        /// <param name="center">The central point to take into account while flipping all objects. If <see langword="null"/>, the objects will be individually flipped.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void FlipVertically(LevelObjectCollection objects, Point? center, bool registerUndoable = true)
+        {
+            if (center == null)
+                FlipVertically(objects, true, registerUndoable);
+            else
+                FlipVertically(objects, center.Value, registerUndoable);
+        }
+        #endregion
         #endregion
         #endregion
 
         #region Editor Functions
         /// <summary>Adds an object to the level.</summary>
         /// <param name="obj">The object to add to the level.</param>
-        public void AddObject(GeneralObject obj)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void AddObject(GeneralObject obj, bool registerUndoable = true)
         {
             Level.LevelObjects.Add(obj);
-            SelectObject(obj);
+            SelectObject(obj, false);
+            OnObjectsCreated(new LevelObjectCollection(obj), registerUndoable);
         }
         /// <summary>Adds a collection of objects to the level.</summary>
         /// <param name="objects">The objects to add to the level.</param>
-        public void AddObjects(LevelObjectCollection objects)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void AddObjects(LevelObjectCollection objects, bool registerUndoable = true)
         {
             Level.LevelObjects.AddRange(objects);
-            SelectObjects(objects);
+            SelectObjects(objects, false);
+            OnObjectsCreated(objects, registerUndoable);
         }
         /// <summary>Removes an object from the level.</summary>
         /// <param name="obj">The object to remove from the level.</param>
-        public void RemoveObject(GeneralObject obj)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void RemoveObject(GeneralObject obj, bool registerUndoable = true)
         {
-            DeselectObject(obj);
+            DeselectObject(obj, false);
             Level.LevelObjects.Remove(obj);
+            OnObjectsDeleted(new LevelObjectCollection(obj), registerUndoable);
         }
+        /// <summary>Removes the currently selected objects from the level.</summary>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void RemoveObjects(bool registerUndoable = true) => RemoveObjects(SelectedObjects, registerUndoable);
         /// <summary>Removes a collection of objects from the level.</summary>
         /// <param name="objects">The objects to remove from the level.</param>
-        public void RemoveObjects(LevelObjectCollection objects)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void RemoveObjects(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            DeselectObjects(objects);
+            DeselectObjects(objects, false);
             Level.LevelObjects.RemoveRange(objects);
+            OnObjectsDeleted(objects, registerUndoable);
         }
 
-        /// <summary>Copy the selected objects and add them to the clipboard.</summary>
-        public void Copy()
+        /// <summary>Copies the selected objects and add them to the clipboard.</summary>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Copy(bool registerUndoable = true) => Copy(SelectedObjects, registerUndoable);
+        /// <summary>Copies the specified objects and add them to the clipboard.</summary>
+        /// <param name="objects">The objects to copy to the clipboard.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Copy(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            var old = ObjectClipboard;
+            var old = ObjectClipboard.Clone();
             ObjectClipboard = new LevelObjectCollection();
-            ObjectClipboard.AddRange(SelectedObjects);
-            SelectedObjectsCopied?.Invoke(ObjectClipboard, old);
+            ObjectClipboard.AddRange(objects);
+            OnObjectsCopied(ObjectClipboard, old, registerUndoable);
         }
         /// <summary>Pastes the copied objects on the clipboard provided a central position to place them.</summary>
         /// <param name="center">The central position which will determine the position of the pasted objects.</param>
-        public void Paste(Point center)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Paste(Point center, bool registerUndoable = true) => Paste(ObjectClipboard, center, registerUndoable);
+        /// <summary>Pastes the specified objects provided a central position to place them.</summary>
+        /// <param name="objects">The objects to paste to the specified central position.</param>
+        /// <param name="center">The central position which will determine the position of the pasted objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Paste(LevelObjectCollection objects, Point center, bool registerUndoable = true)
         {
-            if (ObjectClipboard.Count == 0)
+            if (objects.Count == 0)
                 return;
-            var distance = center - GetMedianPoint(ObjectClipboard);
-            var newObjects = ObjectClipboard.Clone();
+            var distance = center - GetMedianPoint(objects);
+            var newObjects = objects.Clone();
             foreach (var o in newObjects)
                 o.Location += distance;
             Level.LevelObjects.AddRange(newObjects);
-            SelectedObjectsPasted?.Invoke(newObjects, center);
+            SelectObjects(newObjects, false);
+            OnObjectsPasted(newObjects, center, registerUndoable);
         }
         /// <summary>ViPriNizes all the selected objects.</summary>
-        public void CopyPaste()
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void CopyPaste(bool registerUndoable = true) => CopyPaste(SelectedObjects, registerUndoable);
+        /// <summary>ViPriNizes all the selected objects.</summary>
+        /// <param name="objects">The objects to ViPriNize.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void CopyPaste(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            var cloned = SelectedObjects.Clone();
+            var cloned = objects.Clone();
             Level.LevelObjects.AddRange(cloned);
-            SelectedObjectsCopyPasted(cloned, SelectedObjects);
+            OnObjectsCopyPasted(cloned, SelectedObjects, registerUndoable);
         }
 
+        // TODO: Implement undo/redo on the following 3 functions
         /// <summary>Resets the unused color channels.</summary>
-        public void ResetUnusedColors()
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void ResetUnusedColors(bool registerUndoable = true)
         {
             HashSet<int> usedIDs = new HashSet<int>();
             foreach (var o in Level.LevelObjects)
@@ -478,7 +667,8 @@ namespace GDEdit.Application.Editor
                     Level.ColorChannels[i].Reset();
         }
         /// <summary>Resets the Group IDs of the objects that are not targeted by any trigger.</summary>
-        public void ResetUnusedGroupIDs()
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void ResetUnusedGroupIDs(bool registerUndoable = true)
         {
             HashSet<int> usedIDs = new HashSet<int>();
             foreach (var o in Level.LevelObjects)
@@ -509,7 +699,8 @@ namespace GDEdit.Application.Editor
 
         /// <summary>Snaps all the triggers to the level's guidelines.</summary>
         /// <param name="maxDifference">The max difference between the time of the trigger and the guideline in milliseconds.</param>
-        public void SnapTriggersToGuidelines(double maxDifference = 100)
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SnapTriggersToGuidelines(double maxDifference = 100, bool registerUndoable = true)
         {
             if (Level.Guidelines.Count == 0)
                 return;
@@ -518,6 +709,7 @@ namespace GDEdit.Application.Editor
             foreach (Trigger t in Level.LevelObjects)
                 if (!t.TouchTriggered)
                     triggers.Add(t);
+            multipleActionToggle = true;
             foreach (var t in triggers)
             {
                 double time = segments.ConvertXToTime(t.X);
@@ -529,6 +721,9 @@ namespace GDEdit.Application.Editor
                 else if (Abs(b - time) <= maxDifference)
                     t.X = segments.ConvertTimeToX(b);
             }
+            multipleActionToggle = false;
+            if (registerUndoable)
+                RegisterActions("Snap triggers to guidelines");
         }
         #endregion
 
@@ -621,6 +816,8 @@ namespace GDEdit.Application.Editor
             a = b;
             b = t;
         }
+
+        private static string GetAppropriateForm(int count, string thing) => $"{count} {thing}{(count != 1 ? "" : "s")}";
         #endregion
 
         /// <summary>Contains information about an action that can be undone.</summary>
