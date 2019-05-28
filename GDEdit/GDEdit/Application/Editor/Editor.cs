@@ -118,6 +118,158 @@ namespace GDEdit.Application.Editor
         public event ObjectsCopyPastedHandler ObjectsCopyPasted;
         #endregion
 
+        #region Event Functions
+        // Signatures and final invocation statements were macro-generated
+        /// <summary>Triggers the <seealso cref="DualLayerModeChanged"/> event.</summary>
+        public void OnDualLayerModeChanged(bool newValue, bool oldValue, bool registerUndoable = true)
+        {
+            void Action() => dualLayerMode = newValue;
+            void Undo() => dualLayerMode = oldValue;
+            string description = $"Set Dual Layer Mode to {newValue}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            DualLayerModeChanged?.Invoke(newValue, oldValue);
+        }
+        /// <summary>Triggers the <seealso cref="SelectedObjectsAdded"/> event.</summary>
+        public void OnSelectedObjectsAdded(LevelObjectCollection objects, bool registerUndoable = true)
+        {
+            void Action() => SelectObjects(objects, false);
+            void Undo() => DeselectObjects(objects, false);
+            string description = $"Add {GetAppropriateForm(objects.Count, "object")} to selection";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            SelectedObjectsAdded?.Invoke(objects);
+        }
+        /// <summary>Triggers the <seealso cref="SelectedObjectsRemoved"/> event.</summary>
+        public void OnSelectedObjectsRemoved(LevelObjectCollection objects, bool registerUndoable = true)
+        {
+            void Action() => DeselectObjects(objects, false);
+            void Undo() => SelectObjects(objects, false);
+            string description = $"Remove {GetAppropriateForm(objects.Count, "object")} from selection";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            SelectedObjectsRemoved?.Invoke(objects);
+        }
+        /// <summary>Triggers the <seealso cref="AllObjectsDeselected"/> event.</summary>
+        public void OnAllObjectsDeselected(LevelObjectCollection previousSelection, bool registerUndoable = true)
+        {
+            void Action() => DeselectAll(false);
+            void Undo() => SelectObjects(previousSelection, false);
+            string description = $"Clear selection";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            AllObjectsDeselected?.Invoke(previousSelection);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsCreated"/> event.</summary>
+        public void OnObjectsCreated(LevelObjectCollection objects, bool registerUndoable = true)
+        {
+            void Action() => AddObjects(objects, false);
+            void Undo() => RemoveObjects(objects, false);
+            string description = $"Add {GetAppropriateForm(objects.Count, "object")}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsCreated?.Invoke(objects);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsDeleted"/> event.</summary>
+        public void OnObjectsDeleted(LevelObjectCollection objects, bool registerUndoable = true)
+        {
+            void Action() => RemoveObjects(objects, false);
+            void Undo() => AddObjects(objects, false);
+            string description = $"Remove {GetAppropriateForm(objects.Count, "object")}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsDeleted?.Invoke(objects);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsMoved"/> event.</summary>
+        public void OnObjectsMoved(LevelObjectCollection objects, Point offset, bool registerUndoable = true)
+        {
+            void Action() => Move(objects, offset, false);
+            void Undo() => Move(objects, -offset, false);
+            string description = $"Move {GetAppropriateForm(objects.Count, "object")} by {offset}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsMoved?.Invoke(objects, offset);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsRotated"/> event.</summary>
+        public void OnObjectsRotated(LevelObjectCollection objects, double offset, Point? centralPoint, bool registerUndoable = true)
+        {
+            void Action() => Rotate(objects, offset, centralPoint, false);
+            void Undo() => Rotate(objects, -offset, centralPoint, false);
+            string description = $"Rotate {GetAppropriateForm(objects.Count, "object")} by {offset}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsRotated?.Invoke(objects, offset, centralPoint);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsScaled"/> event.</summary>
+        public void OnObjectsScaled(LevelObjectCollection objects, double scaling, Point? centralPoint, bool registerUndoable = true)
+        {
+            void Action() => Scale(objects, scaling, centralPoint, false);
+            void Undo() => Scale(objects, 1 / scaling, centralPoint, false);
+            string description = $"Scale {GetAppropriateForm(objects.Count, "object")} by {scaling}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsScaled?.Invoke(objects, scaling, centralPoint);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsFlippedHorizontally"/> event.</summary>
+        public void OnObjectsFlippedHorizontally(LevelObjectCollection objects, Point? centralPoint, bool registerUndoable = true)
+        {
+            // Both functions have the same exact effect, however for consistency we keep that
+            // Consider this function inheriting a function interface where it demands the implementation of the functions `void Action()` and `void Undo()`
+            void Action() => FlipHorizontally(objects, centralPoint, false);
+            void Undo() => FlipHorizontally(objects, centralPoint, false);
+            string description = $"Flip {GetAppropriateForm(objects.Count, "object")} horizontally";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsFlippedHorizontally?.Invoke(objects, centralPoint);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsFlippedVertically"/> event.</summary>
+        public void OnObjectsFlippedVertically(LevelObjectCollection objects, Point? centralPoint, bool registerUndoable = true)
+        {
+            void Action() => FlipVertically(objects, centralPoint, false);
+            void Undo() => FlipVertically(objects, centralPoint, false);
+            string description = $"Flip {GetAppropriateForm(objects.Count, "object")} vertically";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsFlippedVertically?.Invoke(objects, centralPoint);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsCopied"/> event.</summary>
+        public void OnObjectsCopied(LevelObjectCollection newObjects, LevelObjectCollection oldObjects, bool registerUndoable = true)
+        {
+            void Action() => Copy(newObjects, false);
+            void Undo() => Copy(oldObjects, false);
+            string description = $"Copy {GetAppropriateForm(newObjects.Count, "object")} objects";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsCopied?.Invoke(newObjects, oldObjects);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsPasted"/> event.</summary>
+        public void OnObjectsPasted(LevelObjectCollection objects, Point centralPoint, bool registerUndoable = true)
+        {
+            void Action() => Paste(objects, centralPoint, false);
+            void Undo() => RemoveObjects(objects, false);
+            // This will not select the previously selected objects, if any; a workaround must be implemented
+            // Preferably the workaround involves implementing something that registers both the deselection and the pasting using the multiple action toggle
+            string description = $"Paste {GetAppropriateForm(objects.Count, "object")}";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsPasted?.Invoke(objects, centralPoint);
+        }
+        /// <summary>Triggers the <seealso cref="ObjectsCopyPasted"/> event.</summary>
+        public void OnObjectsCopyPasted(LevelObjectCollection newObjects, LevelObjectCollection oldObjects, bool registerUndoable = true)
+        {
+            void Action() => CopyPaste(newObjects, false);
+            void Undo()
+            {
+                RemoveObjects(newObjects, false);
+                SelectObjects(oldObjects, false);
+            }
+            string description = $"Copy-paste {GetAppropriateForm(newObjects.Count, "object")} objects";
+            if (registerUndoable)
+                AddTemporaryAction(description, Action, Undo);
+            ObjectsCopyPasted?.Invoke(newObjects, oldObjects);
+        }
+        #endregion
+
         #region Constructors
         /// <summary>Initializes a new instance of the <seealso cref="Editor"/> class.</summary>
         /// <param name="level">The level to edit.</param>
