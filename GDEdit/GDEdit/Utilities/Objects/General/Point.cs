@@ -64,6 +64,7 @@ namespace GDEdit.Utilities.Objects.General
             return this + new Point(x, y);
         }
 
+        public static Point operator -(Point point) => new Point(-point.X, -point.Y);
         public static Point operator +(Point left, Point right) => new Point(left.X + right.X, left.Y + right.Y);
         public static Point operator +(double left, Point right) => new Point(left + right.X, left + right.Y);
         public static Point operator +(Point left, double right) => new Point(left.X + right, left.Y + right);
