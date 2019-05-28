@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Math;
 
 namespace GDEdit.Application.Editor
 {
@@ -83,25 +84,30 @@ namespace GDEdit.Application.Editor
         /// <summary>Occurs when new objects have been removed from the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsRemoved;
         /// <summary>Occurs when all objects have been deselected.</summary>
-        public event Action AllObjectsDeselected;
+        public event AllObjectsDeselectedHandler AllObjectsDeselected;
 
-        /// <summary>Occurs when the selected objects have been moved.</summary>
-        public event MovedObjectsHandler SelectedObjectsMoved;
-        /// <summary>Occurs when the selected objects have been rotated.</summary>
-        public event RotatedObjectsHandler SelectedObjectsRotated;
-        /// <summary>Occurs when the selected objects have been scaled.</summary>
-        public event ScaledObjectsHandler SelectedObjectsScaled;
-        /// <summary>Occurs when the selected objects have been flipped horizontally.</summary>
-        public event FlippedObjectsHorizontallyHandler SelectedObjectsFlippedHorizontally;
-        /// <summary>Occurs when the selected objects have been flipped vertically.</summary>
-        public event FlippedObjectsVerticallyHandler SelectedObjectsFlippedVertically;
+        /// <summary>Occurs when objects have been created.</summary>
+        public event Action<LevelObjectCollection> ObjectsCreated;
+        /// <summary>Occurs when objects have been deleted.</summary>
+        public event Action<LevelObjectCollection> ObjectsDeleted;
 
-        /// <summary>Occurs when the selected objects have been copied to the clipboard.</summary>
-        public event ObjectsCopiedHandler SelectedObjectsCopied;
+        /// <summary>Occurs when objects have been moved.</summary>
+        public event MovedObjectsHandler ObjectsMoved;
+        /// <summary>Occurs when objects have been rotated.</summary>
+        public event RotatedObjectsHandler ObjectsRotated;
+        /// <summary>Occurs when objects have been scaled.</summary>
+        public event ScaledObjectsHandler ObjectsScaled;
+        /// <summary>Occurs when objects have been flipped horizontally.</summary>
+        public event FlippedObjectsHorizontallyHandler ObjectsFlippedHorizontally;
+        /// <summary>Occurs when objects have been flipped vertically.</summary>
+        public event FlippedObjectsVerticallyHandler ObjectsFlippedVertically;
+
+        /// <summary>Occurs when objects have been copied to the clipboard.</summary>
+        public event ObjectsCopiedHandler ObjectsCopied;
         /// <summary>Occurs when objects been pasted from the clipboard.</summary>
-        public event ObjectsPastedHandler SelectedObjectsPasted;
+        public event ObjectsPastedHandler ObjectsPasted;
         /// <summary>Occurs when objects been ViPriNized.</summary>
-        public event ObjectsCopyPastedHandler SelectedObjectsCopyPasted;
+        public event ObjectsCopyPastedHandler ObjectsCopyPasted;
         #endregion
 
         #region Constructors
@@ -132,7 +138,7 @@ namespace GDEdit.Application.Editor
             SelectedObjects.AddRange(objects);
             SelectedObjectsAdded?.Invoke(objects);
         }
-        /// <summary>Deselects a number of objects.</summary>
+        /// <summary>Deselects an object.</summary>
         /// <param name="obj">The object to remove from the selection.</param>
         public void DeselectObject(GeneralObject obj)
         {
@@ -510,9 +516,9 @@ namespace GDEdit.Application.Editor
                 int index = Level.Guidelines.GetFirstIndexAfterTimeStamp(time);
                 double a = Level.Guidelines[index - 1].TimeStamp;
                 double b = Level.Guidelines[index].TimeStamp;
-                if (index > 0 && Math.Abs(a - time) <= maxDifference)
+                if (index > 0 && Abs(a - time) <= maxDifference)
                     t.X = segments.ConvertTimeToX(a);
-                else if (Math.Abs(b - time) <= maxDifference)
+                else if (Abs(b - time) <= maxDifference)
                     t.X = segments.ConvertTimeToX(b);
             }
         }
@@ -565,10 +571,14 @@ namespace GDEdit.Application.Editor
         #endregion
     }
 
+    // TODO: Consider removing the oldValue argument, since we will want to not allow setting the same value to the property in order to avoid invoking events unnecessarily
     /// <summary>Represents a function that contains information about changing the state of Dual Layer Mode.</summary>
     /// <param name="newValue">The new value of the Dual Layer Mode.</param>
     /// <param name="oldValue">The old value of the Dual Layer Mode.</param>
     public delegate void DualLayerModeChangedHandler(bool newValue, bool oldValue);
+    /// <summary>Represents a function that contains information about deselecting all objects.</summary>
+    /// <param name="previousSelection">The objects that were previously selected.</param>
+    public delegate void AllObjectsDeselectedHandler(LevelObjectCollection previousSelection);
     /// <summary>Represents a function that contains information about an object movement action.</summary>
     /// <param name="objects">The objects that were moved.</param>
     /// <param name="offset">The offset of the movement function.</param>
