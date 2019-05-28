@@ -77,8 +77,7 @@ namespace GDEdit.Application.Editor
             {
                 if (value == dualLayerMode)
                     return;
-                var old = dualLayerMode; 
-                DualLayerModeChanged?.Invoke(dualLayerMode = value, old);
+                DualLayerModeChanged?.Invoke(dualLayerMode = value);
             }
         }
         #endregion
@@ -120,15 +119,16 @@ namespace GDEdit.Application.Editor
 
         #region Event Functions
         // Signatures and final invocation statements were macro-generated
+        // TODO: Add documentation for the parameters
         /// <summary>Triggers the <seealso cref="DualLayerModeChanged"/> event.</summary>
-        public void OnDualLayerModeChanged(bool newValue, bool oldValue, bool registerUndoable = true)
+        public void OnDualLayerModeChanged(bool value, bool registerUndoable = true)
         {
-            void Action() => dualLayerMode = newValue;
-            void Undo() => dualLayerMode = oldValue;
-            string description = $"Set Dual Layer Mode to {newValue}";
+            void Action() => dualLayerMode = value;
+            void Undo() => dualLayerMode = !value;
+            string description = $"Set Dual Layer Mode to {value}";
             if (registerUndoable)
                 AddTemporaryAction(description, Action, Undo);
-            DualLayerModeChanged?.Invoke(newValue, oldValue);
+            DualLayerModeChanged?.Invoke(value);
         }
         /// <summary>Triggers the <seealso cref="SelectedObjectsAdded"/> event.</summary>
         public void OnSelectedObjectsAdded(LevelObjectCollection objects, bool registerUndoable = true)
@@ -1010,11 +1010,9 @@ namespace GDEdit.Application.Editor
         }
     }
 
-    // TODO: Consider removing the oldValue argument, since we will want to not allow setting the same value to the property in order to avoid invoking events unnecessarily
     /// <summary>Represents a function that contains information about changing the state of Dual Layer Mode.</summary>
-    /// <param name="newValue">The new value of the Dual Layer Mode.</param>
-    /// <param name="oldValue">The old value of the Dual Layer Mode.</param>
-    public delegate void DualLayerModeChangedHandler(bool newValue, bool oldValue);
+    /// <param name="value">The new value of the Dual Layer Mode.</param>
+    public delegate void DualLayerModeChangedHandler(bool value);
     /// <summary>Represents a function that contains information about deselecting all objects.</summary>
     /// <param name="previousSelection">The objects that were previously selected.</param>
     public delegate void AllObjectsDeselectedHandler(LevelObjectCollection previousSelection);
