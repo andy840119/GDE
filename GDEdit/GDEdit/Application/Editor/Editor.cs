@@ -19,6 +19,14 @@ namespace GDEdit.Application.Editor
     {
         private bool dualLayerMode;
 
+        // I know, the naming is terrible on this one (hence the documentation), we need to find a better name
+        /// <summary>Determines whether multiple actions will be logged in the undo stack.</summary>
+        private bool multipleActionToggle;
+
+        private UndoableAction temporaryUndoableAction = new UndoableAction();
+        private Stack<UndoableAction> undoStack;
+        private Stack<UndoableAction> redoStack;
+
         #region Constants
         /// <summary>The big movement step in units.</summary>
         public const double BigMovementStep = 150;
@@ -545,7 +553,52 @@ namespace GDEdit.Application.Editor
 
         // TODO: Add functions to do lots of stuff
 
+        #region Undo/Redo
+        /// <summary>Undoes a number of actions. If the specified count is greater than the available actions to undo, all actions are undone.</summary>
+        /// <param name="count">The number of actions to undo.</param>
+        public void Undo(int count = 1)
+        {
+            int actions = Min(count, undoStack.Count);
+            for (int i = 0; i < actions; i++)
+            {
+                var action = undoStack.Pop();
+                action.Undo();
+                redoStack.Push(action);
+            }
+        }
+        /// <summary>Redoes a number of actions. If the specified count is greater than the available actions to redo, all actions are redone.</summary>
+        /// <param name="count">The number of actions to redo.</param>
+        public void Redo(int count = 1)
+        {
+            int actions = Min(count, redoStack.Count);
+            for (int i = 0; i < actions; i++)
+            {
+                var action = redoStack.Pop();
+                action.Redo();
+                undoStack.Push(action);
+            }
+        }
+        #endregion
+
         #region Private Methods
+        private void RegisterActions(string description)
+        {
+            temporaryUndoableAction.Description = description;
+            undoStack.Push(temporaryUndoableAction);
+            temporaryUndoableAction = new UndoableAction();
+            redoStack.Clear();
+        }
+        /// <summary>Adds a temporary action to the temporary action object and registers the undoable action if the multiple action toggle is <see langword="false"/>.</summary>
+        /// <param name="description">The description of the actions.</param>
+        /// <param name="action">The action. It must only perform the changes the action performs without invoking the respective events.</param>
+        /// <param name="undo">The inverse action. It must only perform the changes the inverse action performs without invoking the respective events.</param>
+        private void AddTemporaryAction(string description, Action action, Action undo)
+        {
+            temporaryUndoableAction.Add(action, undo);
+            if (!multipleActionToggle)
+                RegisterActions(description);
+        }
+
         /// <summary>Gets the median point of all the selected objects.</summary>
         private Point GetMedianPoint()
         {
