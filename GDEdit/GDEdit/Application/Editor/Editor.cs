@@ -340,11 +340,11 @@ namespace GDEdit.Application.Editor
         public void SelectObjects(Predicate<GeneralObject> predicate, bool appendToSelection = true, bool registerUndoable = true)
         {
             // Maybe there's a better way to take care of that but let it be like that for the time being
-            multipleActionToggle = true;
+            levelActions.MultipleActionToggle = true;
             if (!appendToSelection)
                 DeselectAll(registerUndoable);
             SelectObjects(GetObjects(predicate), registerUndoable);
-            multipleActionToggle = false;
+            levelActions.MultipleActionToggle = false;
         }
         /// <summary>Selects all objects.</summary>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
@@ -865,7 +865,7 @@ namespace GDEdit.Application.Editor
             foreach (Trigger t in Level.LevelObjects)
                 if (!t.TouchTriggered)
                     triggers.Add(t);
-            multipleActionToggle = true;
+            levelActions.MultipleActionToggle = true;
             foreach (var t in triggers)
             {
                 double time = segments.ConvertXToTime(t.X);
@@ -877,9 +877,9 @@ namespace GDEdit.Application.Editor
                 else if (Abs(b - time) <= maxDifference)
                     t.X = segments.ConvertTimeToX(b);
             }
-            multipleActionToggle = false;
+            levelActions.MultipleActionToggle = false;
             if (registerUndoable)
-                RegisterActions("Snap triggers to guidelines");
+                levelActions.RegisterActions("Snap triggers to guidelines");
         }
         #endregion
 
