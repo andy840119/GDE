@@ -19,13 +19,8 @@ namespace GDEdit.Application.Editor
     {
         private bool dualLayerMode;
 
-        // I know, the naming is terrible on this one (hence the documentation), we need to find a better name
-        /// <summary>Determines whether multiple actions will be logged in the undo stack.</summary>
-        private bool multipleActionToggle;
-
-        private UndoableAction temporaryUndoableAction = new UndoableAction();
-        private Stack<UndoableAction> undoStack;
-        private Stack<UndoableAction> redoStack;
+        private UndoRedoSystem editorActions;
+        private UndoRedoSystem levelActions;
 
         #region Constants
         /// <summary>The big movement step in units.</summary>
@@ -132,7 +127,7 @@ namespace GDEdit.Application.Editor
             void Undo() => dualLayerMode = !value;
             string description = $"Set Dual Layer Mode to {value}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(description, Action, Undo);
             DualLayerModeChanged?.Invoke(value);
         }
         #endregion
@@ -145,7 +140,7 @@ namespace GDEdit.Application.Editor
             void Undo() => DeselectObjects(objects, false);
             string description = $"Add {GetAppropriateForm(objects.Count, "object")} to selection";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             SelectedObjectsAdded?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="SelectedObjectsRemoved"/> event.</summary>
@@ -155,7 +150,7 @@ namespace GDEdit.Application.Editor
             void Undo() => SelectObjects(objects, false);
             string description = $"Remove {GetAppropriateForm(objects.Count, "object")} from selection";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             SelectedObjectsRemoved?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="AllObjectsDeselected"/> event.</summary>
@@ -165,7 +160,7 @@ namespace GDEdit.Application.Editor
             void Undo() => SelectObjects(previousSelection, false);
             string description = $"Clear selection";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             AllObjectsDeselected?.Invoke(previousSelection);
         }
         /// <summary>Triggers the <seealso cref="ObjectsCreated"/> event.</summary>
@@ -175,7 +170,7 @@ namespace GDEdit.Application.Editor
             void Undo() => RemoveObjects(objects, false);
             string description = $"Add {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsCreated?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="ObjectsDeleted"/> event.</summary>
@@ -185,7 +180,7 @@ namespace GDEdit.Application.Editor
             void Undo() => AddObjects(objects, false);
             string description = $"Remove {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsDeleted?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="ObjectsMoved"/> event.</summary>
@@ -195,7 +190,7 @@ namespace GDEdit.Application.Editor
             void Undo() => Move(objects, -offset, false);
             string description = $"Move {GetAppropriateForm(objects.Count, "object")} by {offset}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsMoved?.Invoke(objects, offset);
         }
         /// <summary>Triggers the <seealso cref="ObjectsRotated"/> event.</summary>
@@ -205,7 +200,7 @@ namespace GDEdit.Application.Editor
             void Undo() => Rotate(objects, -offset, centralPoint, false);
             string description = $"Rotate {GetAppropriateForm(objects.Count, "object")} by {offset}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsRotated?.Invoke(objects, offset, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsScaled"/> event.</summary>
@@ -215,7 +210,7 @@ namespace GDEdit.Application.Editor
             void Undo() => Scale(objects, 1 / scaling, centralPoint, false);
             string description = $"Scale {GetAppropriateForm(objects.Count, "object")} by {scaling}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsScaled?.Invoke(objects, scaling, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsFlippedHorizontally"/> event.</summary>
@@ -227,7 +222,7 @@ namespace GDEdit.Application.Editor
             void Undo() => FlipHorizontally(objects, centralPoint, false);
             string description = $"Flip {GetAppropriateForm(objects.Count, "object")} horizontally";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsFlippedHorizontally?.Invoke(objects, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsFlippedVertically"/> event.</summary>
@@ -237,7 +232,7 @@ namespace GDEdit.Application.Editor
             void Undo() => FlipVertically(objects, centralPoint, false);
             string description = $"Flip {GetAppropriateForm(objects.Count, "object")} vertically";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsFlippedVertically?.Invoke(objects, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsCopied"/> event.</summary>
@@ -247,7 +242,7 @@ namespace GDEdit.Application.Editor
             void Undo() => Copy(oldObjects, false);
             string description = $"Copy {GetAppropriateForm(newObjects.Count, "object")} objects";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsCopied?.Invoke(newObjects, oldObjects);
         }
         /// <summary>Triggers the <seealso cref="ObjectsPasted"/> event.</summary>
@@ -259,7 +254,7 @@ namespace GDEdit.Application.Editor
             // Preferably the workaround involves implementing something that registers both the deselection and the pasting using the multiple action toggle
             string description = $"Paste {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsPasted?.Invoke(objects, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsCopyPasted"/> event.</summary>
@@ -273,7 +268,7 @@ namespace GDEdit.Application.Editor
             }
             string description = $"Copy-paste {GetAppropriateForm(newObjects.Count, "object")} objects";
             if (registerUndoable)
-                AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsCopyPasted?.Invoke(newObjects, oldObjects);
         }
         #endregion
@@ -910,51 +905,13 @@ namespace GDEdit.Application.Editor
         // TODO: Add functions to do lots of stuff
 
         #region Undo/Redo
-        /// <summary>Undoes a number of actions. If the specified count is greater than the available actions to undo, all actions are undone.</summary>
-        /// <param name="count">The number of actions to undo.</param>
-        public void Undo(int count = 1)
-        {
-            int actions = Min(count, undoStack.Count);
-            for (int i = 0; i < actions; i++)
-            {
-                var action = undoStack.Pop();
-                action.Undo();
-                redoStack.Push(action);
-            }
-        }
-        /// <summary>Redoes a number of actions. If the specified count is greater than the available actions to redo, all actions are redone.</summary>
-        /// <param name="count">The number of actions to redo.</param>
-        public void Redo(int count = 1)
-        {
-            int actions = Min(count, redoStack.Count);
-            for (int i = 0; i < actions; i++)
-            {
-                var action = redoStack.Pop();
-                action.Redo();
-                undoStack.Push(action);
-            }
-        }
+        public void UndoLevelActions(int count = 1) => Undo(levelActions, count);
+        public void RedoLevelActions(int count = 1) => Redo(levelActions, count);
+        public void UndoEditorActions(int count = 1) => Undo(editorActions, count);
+        public void RedoEditorActions(int count = 1) => Redo(editorActions, count);
         #endregion
 
         #region Private Methods
-        private void RegisterActions(string description)
-        {
-            temporaryUndoableAction.Description = description;
-            undoStack.Push(temporaryUndoableAction);
-            temporaryUndoableAction = new UndoableAction();
-            redoStack.Clear();
-        }
-        /// <summary>Adds a temporary action to the temporary action object and registers the undoable action if the multiple action toggle is <see langword="false"/>.</summary>
-        /// <param name="description">The description of the actions.</param>
-        /// <param name="action">The action. It must only perform the changes the action performs without invoking the respective events.</param>
-        /// <param name="undo">The inverse action. It must only perform the changes the inverse action performs without invoking the respective events.</param>
-        private void AddTemporaryAction(string description, Action action, Action undo)
-        {
-            temporaryUndoableAction.Add(action, undo);
-            if (!multipleActionToggle)
-                RegisterActions(description);
-        }
-
         /// <summary>Gets the median point of all the selected objects.</summary>
         private Point GetMedianPoint()
         {
@@ -977,9 +934,70 @@ namespace GDEdit.Application.Editor
             a = b;
             b = t;
         }
+        private void Undo(UndoRedoSystem system, int count = 1) => system.Undo(count);
+        private void Redo(UndoRedoSystem system, int count = 1) => system.Redo(count);
 
         private static string GetAppropriateForm(int count, string thing) => $"{count} {thing}{(count != 1 ? "" : "s")}";
         #endregion
+
+        private class UndoRedoSystem
+        {
+            // I know, the naming is terrible on this one (hence the documentation), we need to find a better name
+            /// <summary>Determines whether multiple actions will be logged in the undo stack.</summary>
+            public bool MultipleActionToggle;
+
+            /// <summary>The temporarily stored undoable action that is to be registered upon completing an operation.</summary>
+            public UndoableAction TemporaryUndoableAction = new UndoableAction();
+            /// <summary>The stack that contains all actions that are to be undone.</summary>
+            public Stack<UndoableAction> UndoStack = new Stack<UndoableAction>();
+            /// <summary>The stack that contains all actions that are to be redone.</summary>
+            public Stack<UndoableAction> RedoStack = new Stack<UndoableAction>();
+
+            /// <summary>Registers all the actions.</summary>
+            /// <param name="description"></param>
+            public void RegisterActions(string description)
+            {
+                TemporaryUndoableAction.Description = description;
+                UndoStack.Push(TemporaryUndoableAction);
+                TemporaryUndoableAction = new UndoableAction();
+                RedoStack.Clear();
+            }
+            /// <summary>Adds a temporary action to the temporary action object and registers the undoable action if the multiple action toggle is <see langword="false"/>.</summary>
+            /// <param name="description">The description of the actions.</param>
+            /// <param name="action">The action. It must only perform the changes the action performs without invoking the respective events.</param>
+            /// <param name="undo">The inverse action. It must only perform the changes the inverse action performs without invoking the respective events.</param>
+            public void AddTemporaryAction(string description, Action action, Action undo)
+            {
+                TemporaryUndoableAction.Add(action, undo);
+                if (!MultipleActionToggle)
+                    RegisterActions(description);
+            }
+
+            /// <summary>Undoes a number of actions. If the specified count is greater than the available actions to undo, all actions are undone.</summary>
+            /// <param name="count">The number of actions to undo.</param>
+            public void Undo(int count = 1)
+            {
+                int actions = Min(count, UndoStack.Count);
+                for (int i = 0; i < actions; i++)
+                {
+                    var action = UndoStack.Pop();
+                    action.Undo();
+                    RedoStack.Push(action);
+                }
+            }
+            /// <summary>Redoes a number of actions. If the specified count is greater than the available actions to redo, all actions are redone.</summary>
+            /// <param name="count">The number of actions to redo.</param>
+            public void Redo(int count = 1)
+            {
+                int actions = Min(count, RedoStack.Count);
+                for (int i = 0; i < actions; i++)
+                {
+                    var action = RedoStack.Pop();
+                    action.Redo();
+                    UndoStack.Push(action);
+                }
+            }
+        }
 
         /// <summary>Contains information about an action that can be undone.</summary>
         private class UndoableAction
