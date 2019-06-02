@@ -51,7 +51,7 @@ namespace GDE.App.Main.Screens.Edit
 
             fileMenuItems.Add(new EditorMenuItem("Save", MenuItemType.Highlighted, Save));
             fileMenuItems.Add(new EditorMenuItem("Save & Exit", MenuItemType.Standard, SaveAndExit));
-            fileMenuItems.Add(new EditorMenuItemSpacer()); // This gap is abnormally huge, must do something
+            fileMenuItems.Add(new EditorMenuItemSpacer());
             fileMenuItems.Add(new EditorMenuItem("Exit", MenuItemType.Destructive, this.Exit));
 
             AddInternal(new Container
