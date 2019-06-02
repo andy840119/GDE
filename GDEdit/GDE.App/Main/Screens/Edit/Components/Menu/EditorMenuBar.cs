@@ -131,7 +131,11 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
             private class DrawableSubMenuItem : DrawableGDEMenuItem
             {
                 public DrawableSubMenuItem(MenuItem item)
-                    : base(item) { }
+                    : base(item)
+                {
+                    if (Item is EditorMenuItemSpacer)
+                        Scale = new Vector2(1, 0.5f);
+                }
 
                 protected override bool OnHover(HoverEvent e)
                 {
