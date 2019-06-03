@@ -934,8 +934,23 @@ namespace GDEdit.Application.Editor
             a = b;
             b = t;
         }
+
         private void Undo(UndoRedoSystem system, int count = 1) => system.Undo(count);
         private void Redo(UndoRedoSystem system, int count = 1) => system.Redo(count);
+
+        private void Set(ref bool field, bool value, BoolValueChangedHandler handler, bool registerUndoable = true)
+        {
+            if (value == field)
+                return;
+            handler(field = value, registerUndoable);
+        }
+        private void Set(ref double field, double value, OldNewDoubleValueChangedHandler handler, bool registerUndoable = true)
+        {
+            if (value == field)
+                return;
+            double old = field;
+            handler(old, field = value, registerUndoable);
+        }
 
         private static string GetAppropriateForm(int count, string thing) => $"{count} {thing}{(count != 1 ? "" : "s")}";
         #endregion
