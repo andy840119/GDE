@@ -20,8 +20,8 @@ namespace GDEdit.Application.Editor
         private bool swipe, gridSnap, freeMove, dualLayerMode;
         private double gridSize = 30, zoom = 1;
 
-        private UndoRedoSystem editorActions;
-        private UndoRedoSystem levelActions;
+        private UndoRedoSystem editorActions = new UndoRedoSystem();
+        private UndoRedoSystem levelActions = new UndoRedoSystem();
 
         #region Constants
         /// <summary>The big movement step in units.</summary>
