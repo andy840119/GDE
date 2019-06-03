@@ -79,6 +79,16 @@ namespace GDEdit.Application.Editor
 
         #region Events
         #region Editor Actions
+        /// <summary>Occurs when the swipe option has been changed, including the new status.</summary>
+        public event SwipeChangedHandler SwipeChanged;
+        /// <summary>Occurs when the grid snap option has been changed, including the new status.</summary>
+        public event GridSnapChangedHandler GridSnapChanged;
+        /// <summary>Occurs when the free move option has been changed, including the new status.</summary>
+        public event FreeMoveChangedHandler FreeMoveChanged;
+        /// <summary>Occurs when the grid size has been changed, including the old and the new values.</summary>
+        public event GridSizeChangedHandler GridSizeChanged;
+        /// <summary>Occurs when the grid size has been changed, including the old and the new values.</summary>
+        public event ZoomChangedHandler ZoomChanged;
         /// <summary>Occurs when the dual layer mode has been changed, including the new status.</summary>
         public event DualLayerModeChangedHandler DualLayerModeChanged;
         #endregion
