@@ -1038,10 +1038,37 @@ namespace GDEdit.Application.Editor
     }
 
     #region Delegates
+    #region Templates
+    /// <summary>Represents a function that contains information about changing a <see langword="bool"/> field, including its current value.</summary>
+    /// <param name="value">The new value of the field.</param>
+    public delegate void BoolValueChangedHandler(bool value, bool registerUndoable);
+    /// <summary>Represents a function that contains information about changing a <see langword="double"/> field, including its current and its previous values.</summary>
+    /// <param name="oldValue">The old value of the field.</param>
+    /// <param name="newValue">The new value of the field.</param>
+    public delegate void OldNewDoubleValueChangedHandler(double oldValue, double newValue, bool registerUndoable);
+    #endregion
+
     #region Editor Actions
+    /// <summary>Represents a function that contains information about changing the state of Swipe.</summary>
+    /// <param name="value">The new value of the Dual Layer Mode.</param>
+    public delegate void SwipeChangedHandler(bool value);
+    /// <summary>Represents a function that contains information about changing the state of Grid Snap.</summary>
+    /// <param name="value">The new value of the Dual Layer Mode.</param>
+    public delegate void GridSnapChangedHandler(bool value);
+    /// <summary>Represents a function that contains information about changing the state of Free Move.</summary>
+    /// <param name="value">The new value of the Dual Layer Mode.</param>
+    public delegate void FreeMoveChangedHandler(bool value);
     /// <summary>Represents a function that contains information about changing the state of Dual Layer Mode.</summary>
     /// <param name="value">The new value of the Dual Layer Mode.</param>
     public delegate void DualLayerModeChangedHandler(bool value);
+    /// <summary>Represents a function that contains information about changing the grid size.</summary>
+    /// <param name="oldValue">The old value of the grid size.</param>
+    /// <param name="newValue">The new value of the grid size.</param>
+    public delegate void GridSizeChangedHandler(double oldValue, double newValue);
+    /// <summary>Represents a function that contains information about changing the camera zoom.</summary>
+    /// <param name="oldValue">The old value of the camera zoom.</param>
+    /// <param name="newValue">The new value of the camera zoom.</param>
+    public delegate void ZoomChangedHandler(double oldValue, double newValue);
     #endregion
 
     #region Level Actions
