@@ -17,7 +17,8 @@ namespace GDEdit.Application.Editor
     /// <summary>The editor which edits a level.</summary>
     public class Editor
     {
-        private bool dualLayerMode;
+        private bool swipe, gridSnap, freeMove, dualLayerMode;
+        private double gridSize = 30, zoom = 1;
 
         private UndoRedoSystem editorActions;
         private UndoRedoSystem levelActions;
@@ -44,11 +45,23 @@ namespace GDEdit.Application.Editor
 
         #region Editor Function Toggles
         /// <summary>Indicates whether the Swipe option is enabled or not.</summary>
-        public bool Swipe { get; set; }
+        public bool Swipe
+        {
+            get => swipe;
+            set => SetSwipe(value, true);
+        }
         /// <summary>Indicates whether the Grid Snap option is enabled or not.</summary>
-        public bool GridSnap { get; set; }
+        public bool GridSnap
+        {
+            get => gridSnap;
+            set => SetGridSnap(value, true);
+        }
         /// <summary>Indicates whether the Free Move option is enabled or not.</summary>
-        public bool FreeMove { get; set; }
+        public bool FreeMove
+        {
+            get => freeMove;
+            set => SetFreeMove(value, true);
+        }
         #endregion
 
         #region Editor Preferences
@@ -60,20 +73,23 @@ namespace GDEdit.Application.Editor
 
         #region Camera
         /// <summary>The size of each grid block in the editor.</summary>
-        public double GridSize { get; private set; } = 30;
+        public double GridSize
+        {
+            get => gridSize;
+            set => SetGridSize(value, true);
+        }
         /// <summary>The camera zoom in the editor.</summary>
-        public double Zoom { get; set; } = 1;
+        public double Zoom
+        {
+            get => zoom;
+            set => SetZoom(value, true);
+        }
 
         /// <summary>Gets or sets a value indicating whether the editor is in dual layer mode.</summary>
         public bool DualLayerMode
         {
             get => dualLayerMode;
-            set
-            {
-                if (value == dualLayerMode)
-                    return;
-                DualLayerModeChanged?.Invoke(dualLayerMode = value);
-            }
+            set => SetDualLayerMode(value);
         }
         #endregion
 
