@@ -1121,8 +1121,8 @@ namespace GDEdit.Application.Editor
         /// <summary>Contains information about an action that can be undone.</summary>
         private class UndoableAction
         {
-            private readonly List<Action> undos;
-            private readonly List<Action> actions;
+            private readonly List<Action> undos = new List<Action>();
+            private readonly List<Action> actions = new List<Action>();
 
             /// <summary>The description of the undoable action.</summary>
             public string Description { get; set; }
