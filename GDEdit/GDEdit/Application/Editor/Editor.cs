@@ -94,6 +94,7 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Level Actions
+        // TODO: Create delegates
         /// <summary>Occurs when new objects have been added to the selection list.</summary>
         public event Action<LevelObjectCollection> SelectedObjectsAdded;
         /// <summary>Occurs when new objects have been removed from the selection list.</summary>
@@ -130,11 +131,61 @@ namespace GDEdit.Application.Editor
         // Signatures and final invocation statements were macro-generated
         // TODO: Add documentation for the parameters
         #region Editor Actions
+        /// <summary>Triggers the <seealso cref="SwipeChanged"/> event.</summary>
+        public void OnSwipeChanged(bool value, bool registerUndoable = true)
+        {
+            void Action() => SetSwipe(value, false);
+            void Undo() => SetSwipe(!value, false);
+            string description = $"Set Swipe to {value}";
+            if (registerUndoable)
+                editorActions.AddTemporaryAction(description, Action, Undo);
+            SwipeChanged?.Invoke(value);
+        }
+        /// <summary>Triggers the <seealso cref="GridSnapChanged"/> event.</summary>
+        public void OnGridSnapChanged(bool value, bool registerUndoable = true)
+        {
+            void Action() => SetGridSnap(value, false);
+            void Undo() => SetGridSnap(!value, false);
+            string description = $"Set Grid Snap to {value}";
+            if (registerUndoable)
+                editorActions.AddTemporaryAction(description, Action, Undo);
+            GridSnapChanged?.Invoke(value);
+        }
+        /// <summary>Triggers the <seealso cref="FreeMoveChanged"/> event.</summary>
+        public void OnFreeMoveChanged(bool value, bool registerUndoable = true)
+        {
+            void Action() => SetDualLayerMode(value, false);
+            void Undo() => SetDualLayerMode(!value, false);
+            string description = $"Set Free Move to {value}";
+            if (registerUndoable)
+                editorActions.AddTemporaryAction(description, Action, Undo);
+            FreeMoveChanged?.Invoke(value);
+        }
+        /// <summary>Triggers the <seealso cref="ZoomChanged"/> event.</summary>
+        public void OnZoomChanged(double oldValue, double newValue, bool registerUndoable = true)
+        {
+            void Action() => SetZoom(newValue, false);
+            void Undo() => SetZoom(oldValue, false);
+            string description = $"Set Zoom to {oldValue}x";
+            if (registerUndoable)
+                editorActions.AddTemporaryAction(description, Action, Undo);
+            ZoomChanged?.Invoke(oldValue, newValue);
+        }
+        /// <summary>Triggers the <seealso cref="GridSizeChanged"/> event.</summary>
+        public void OnGridSizeChanged(double oldValue, double newValue, bool registerUndoable = true)
+        {
+            void Action() => SetGridSize(newValue, false);
+            void Undo() => SetGridSize(oldValue, false);
+            string description = $"Set Grid Size to {oldValue}x";
+            if (registerUndoable)
+                editorActions.AddTemporaryAction(description, Action, Undo);
+            GridSizeChanged?.Invoke(oldValue, newValue);
+        }
         /// <summary>Triggers the <seealso cref="DualLayerModeChanged"/> event.</summary>
         public void OnDualLayerModeChanged(bool value, bool registerUndoable = true)
         {
-            void Action() => dualLayerMode = value;
-            void Undo() => dualLayerMode = !value;
+            void Action() => SetDualLayerMode(value, false);
+            void Undo() => SetDualLayerMode(!value, false);
             string description = $"Set Dual Layer Mode to {value}";
             if (registerUndoable)
                 editorActions.AddTemporaryAction(description, Action, Undo);
