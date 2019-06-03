@@ -921,6 +921,33 @@ namespace GDEdit.Application.Editor
         public void RedoEditorActions(int count = 1) => Redo(editorActions, count);
         #endregion
 
+        #region Property Setters
+        /// <summary>Sets the value of Swipe. This function's purpose is to provide the option to not register the action as undoable.</summary>
+        /// <param name="value">The value to set to Swipe.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetSwipe(bool value, bool registerUndoable = true) => Set(ref swipe, value, OnSwipeChanged, registerUndoable);
+        /// <summary>Sets the value of Grid Snap. This function's purpose is to provide the option to not register the action as undoable.</summary>
+        /// <param name="value">The value to set to Grid Snap.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetGridSnap(bool value, bool registerUndoable = true) => Set(ref gridSnap, value, OnGridSnapChanged, registerUndoable);
+        /// <summary>Sets the value of Free Move. This function's purpose is to provide the option to not register the action as undoable.</summary>
+        /// <param name="value">The value to set to Free Move.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetFreeMove(bool value, bool registerUndoable = true) => Set(ref freeMove, value, OnFreeMoveChanged, registerUndoable);
+        /// <summary>Sets the value of Zoom. This function's purpose is to provide the option to not register the action as undoable.</summary>
+        /// <param name="value">The value to set to Zoom.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetZoom(double value, bool registerUndoable = true) => Set(ref zoom, value, OnZoomChanged, registerUndoable);
+        /// <summary>Sets the value of Grid Size. This function's purpose is to provide the option to not register the action as undoable.</summary>
+        /// <param name="value">The value to set to Grid Size.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetGridSize(double value, bool registerUndoable = true) => Set(ref gridSize, value, OnGridSizeChanged, registerUndoable);
+        /// <summary>Sets the value of Dual Layer Mode. This function's purpose is to provide the option to not register the action as undoable.</summary>
+        /// <param name="value">The value to set to Dual Layer Mode.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetDualLayerMode(bool value, bool registerUndoable = true) => Set(ref dualLayerMode, value, OnDualLayerModeChanged, registerUndoable);
+        #endregion
+
         #region Private Methods
         /// <summary>Gets the median point of all the selected objects.</summary>
         private Point GetMedianPoint()
