@@ -317,7 +317,7 @@ namespace GDEdit.Application.Editor
         {
             void Action() => Copy(newObjects, false);
             void Undo() => Copy(oldObjects, false);
-            string description = $"Copy {GetAppropriateForm(newObjects.Count, "object")} objects";
+            string description = $"Copy {GetAppropriateForm(newObjects.Count, "object")}";
             if (registerUndoable)
                 levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsCopied?.Invoke(newObjects, oldObjects);
@@ -343,7 +343,7 @@ namespace GDEdit.Application.Editor
                 RemoveObjects(newObjects, false);
                 SelectObjects(oldObjects, false);
             }
-            string description = $"Copy-paste {GetAppropriateForm(newObjects.Count, "object")} objects";
+            string description = $"Copy-paste {GetAppropriateForm(newObjects.Count, "object")}";
             if (registerUndoable)
                 levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsCopyPasted?.Invoke(newObjects, oldObjects);
