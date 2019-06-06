@@ -8,9 +8,9 @@ namespace GDE.App.Main.UI
         public readonly MenuItemType Type;
 
         public GDEMenuItem(string text, MenuItemType type = MenuItemType.Standard)
-            : base (text) { }
+            : base(text) => Type = type;
 
-        public GDEMenuItem(string text, MenuItemType type, Action action)
-            : base(text, action) { }
+        public GDEMenuItem(string text, Action action, MenuItemType type = MenuItemType.Standard)
+            : base(text, action) => Type = type;
     }
 }

@@ -49,10 +49,10 @@ namespace GDE.App.Main.Screens.Edit
 
             var fileMenuItems = new List<MenuItem>();
 
-            fileMenuItems.Add(new EditorMenuItem("Save", MenuItemType.Highlighted, Save));
-            fileMenuItems.Add(new EditorMenuItem("Save & Exit", MenuItemType.Standard, SaveAndExit));
+            fileMenuItems.Add(new EditorMenuItem("Save", Save, MenuItemType.Highlighted));
+            fileMenuItems.Add(new EditorMenuItem("Save & Exit", SaveAndExit, MenuItemType.Standard));
             fileMenuItems.Add(new EditorMenuItemSpacer());
-            fileMenuItems.Add(new EditorMenuItem("Exit", MenuItemType.Destructive, this.Exit));
+            fileMenuItems.Add(new EditorMenuItem("Exit", this.Exit, MenuItemType.Destructive));
 
             AddInternal(new Container
             {

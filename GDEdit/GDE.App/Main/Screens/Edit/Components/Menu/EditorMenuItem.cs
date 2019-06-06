@@ -10,7 +10,7 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
         public EditorMenuItem(string text, MenuItemType type = MenuItemType.Standard)
             : base(text.PadRight(min_text_length), type) { }
 
-        public EditorMenuItem(string text, MenuItemType type, Action action)
-            : base(text.PadRight(min_text_length), type, action) { }
+        public EditorMenuItem(string text, Action action, MenuItemType type = MenuItemType.Standard)
+            : base(text.PadRight(min_text_length), action, type) { }
     }
 }
