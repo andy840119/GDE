@@ -32,13 +32,15 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
         {
             private BackgroundBox background;
 
+            public bool Selected => State == MenuItemState.Selected;
+
             public DrawableEditorBarMenuItem(MenuItem item)
                 : base(item)
             {
                 Anchor = Anchor.CentreLeft;
                 Origin = Anchor.CentreLeft;
 
-                StateChanged += stateChanged;
+                StateChanged += OnStateChanged;
 
                 ForegroundColour = GDEColors.FromHex("8BB9FE");
                 BackgroundColour = Color4.Transparent;
@@ -46,14 +48,11 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
                 BackgroundColourHover = GDEColors.FromHex("333");
             }
 
-            public override void SetFlowDirection(Direction direction)
-            {
-                AutoSizeAxes = Axes.Both;
-            }
+            public override void SetFlowDirection(Direction direction) => AutoSizeAxes = Axes.Both;
 
             protected override void UpdateBackgroundColour()
             {
-                if (State == MenuItemState.Selected)
+                if (Selected)
                     Background.FadeColour(BackgroundColourHover);
                 else
                     base.UpdateBackgroundColour();
@@ -61,13 +60,13 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
 
             protected override void UpdateForegroundColour()
             {
-                if (State == MenuItemState.Selected)
+                if (Selected)
                     Foreground.FadeColour(ForegroundColourHover);
                 else
                     base.UpdateForegroundColour();
             }
 
-            private void stateChanged(MenuItemState newState)
+            private void OnStateChanged(MenuItemState newState)
             {
                 if (newState == MenuItemState.Selected)
                     background.Expand();
@@ -76,11 +75,11 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
             }
 
             protected override Drawable CreateBackground() => background = new BackgroundBox();
-            protected override DrawableGDEMenuItem.TextContainer CreateTextContainer() => new TextContainer();
+            protected override TextContainer CreateTextContainer() => new EditorBarTextContainer();
 
-            private new class TextContainer : DrawableGDEMenuItem.TextContainer
+            private class EditorBarTextContainer : TextContainer
             {
-                public TextContainer()
+                public EditorBarTextContainer()
                 {
                     NormalText.Font = NormalText.Font.With(size: 14);
                     BoldText.Font = BoldText.Font.With(size: 14);
