@@ -633,7 +633,66 @@ namespace GDEdit.Application.Editor
                 OnObjectsMoved(objects, p, registerUndoable);
             }
         }
-        // TODO: Add MoveTo* functions to prevent other code from having to calculate individual objects' offset
+        #endregion
+        #region Absolute Movement (MoveTo*)
+        /// <summary>Moves the selected objects to a location in the X axis.</summary>
+        /// <param name="x">The X location to move the object to.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveToX(double x, bool registerUndoable = true) => MoveToX(SelectedObjects, x, registerUndoable);
+        /// <summary>Moves the specified object to a location in the X axis.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="x">The X location to move the object to.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveToX(LevelObjectCollection objects, double x, bool registerUndoable = true)
+        {
+            if (x != 0)
+            {
+                levelActions.MultipleActionToggle = true;
+                foreach (var o in objects)
+                    MoveX(o, x - o.X, registerUndoable);
+                levelActions.MultipleActionToggle = false;
+            }
+        }
+        /// <summary>Moves the selected objects to a location in the Y axis.</summary>
+        /// <param name="y">The Y location to move the object to.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveToY(double y, bool registerUndoable = true) => MoveToX(SelectedObjects, y, registerUndoable);
+        /// <summary>Moves the specified object to a location in the Y axis.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="y">The Y location to move the object to.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveToY(LevelObjectCollection objects, double y, bool registerUndoable = true)
+        {
+            if (y != 0)
+            {
+                levelActions.MultipleActionToggle = true;
+                foreach (var o in objects)
+                    MoveY(o, y - o.Y, registerUndoable);
+                levelActions.MultipleActionToggle = false;
+            }
+        }
+        /// <summary>Moves the selected objects to a location.</summary>
+        /// <param name="p">The point indicating the movement of the objects across the field.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveTo(Point p, bool registerUndoable = true) => MoveTo(SelectedObjects, p, registerUndoable);
+        /// <summary>Moves the specified objects by an amount.</summary>
+        /// <param name="objects">The objects to move.</param>
+        /// <param name="p">The point indicating the movement of the objects across the field.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveTo(LevelObjectCollection objects, Point p, bool registerUndoable = true)
+        {
+            if (p.Y == 0)
+                MoveToX(p.X);
+            else if (p.X == 0)
+                MoveToY(p.Y);
+            else
+            {
+                levelActions.MultipleActionToggle = true;
+                foreach (var o in objects)
+                    Move(o, p - o.Location, registerUndoable);
+                levelActions.MultipleActionToggle = false;
+            }
+        }
         #endregion
         #endregion
         #region Object Rotation
