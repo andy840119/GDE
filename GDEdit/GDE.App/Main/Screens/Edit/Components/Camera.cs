@@ -53,14 +53,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                 }
             }
 
-            float GetCoordinate(float c)
-            {
-                float r = c;
-                if (r < 0)
-                    r -= 30;
-                return r -= r % 30;
-            }
-
             return true;
         }
 
@@ -87,6 +79,14 @@ namespace GDE.App.Main.Screens.Edit.Components
         public void SetGhostObjectID(int id) => snappedCursorContainer.GhostObjectID = id;
         public void HideGhostObject() => snappedCursorContainer.HideGhostObject();
         public void ShowGhostObject() => snappedCursorContainer.ShowGhostObject();
+
+        private static float GetCoordinate(float c)
+        {
+            float r = c;
+            if (r < 0)
+                r -= 30;
+            return r -= r % 30;
+        }
 
         //TODO: This should be its own seperate class
         private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition, IDraggable
@@ -145,17 +145,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
             public void HideGhostObject() => GhostObject.Hide();
             public void ShowGhostObject() => GhostObject.Show();
-
-            private float GetCoordinate(float c)
-            {
-                float r = c;
-                if (r < 0)
-                    r -= SnapResolution;
-                return r -= r % SnapResolution;
-            }
         }
 
-        //TODO: This shouldnt exist
         private class GhostObject : ObjectBase
         {
             public int SnapResolution { get; set; } = 30;
@@ -163,32 +154,23 @@ namespace GDE.App.Main.Screens.Edit.Components
             public GhostObject(GeneralObject o)
                 : base(o)
             {
-                Anchor = Anchor.TopLeft;
-                Origin = Anchor.TopLeft;
+                Anchor = Anchor.Centre;
+                Origin = Anchor.Centre;
                 Selectable = false;
             }
             public GhostObject(int id = 1)
                 : base(id)
             {
-                Anchor = Anchor.TopLeft;
-                Origin = Anchor.TopLeft;
+                Anchor = Anchor.Centre;
+                Origin = Anchor.Centre;
                 Selectable = false;
             }
 
             public GeneralObject GetObject()
             {
-                //Strange precision
-                LevelObject.X = GetCoordinate(Position.X) - 15 - (31 * 30);
-                LevelObject.Y = GetCoordinate (- Position.Y) + 3 + (18 * 30);
+                LevelObject.X = Position.X;
+                LevelObject.Y = -Position.Y;
                 return LevelObject;
-            }
-
-            private float GetCoordinate(float c)
-            {
-                float r = c;
-                if (r < 0)
-                    r -= SnapResolution;
-                return r -= r % SnapResolution;
             }
         }
     }
