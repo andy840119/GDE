@@ -88,7 +88,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             return r -= r % 30;
         }
 
-        //TODO: This should be its own seperate class
+        // TODO: This should be its own seperate class
         private class GridSnappedCursorContainer : CursorContainer, IRequireHighFrequencyMousePosition, IDraggable
         {
             public readonly GhostObject GhostObject;
@@ -102,8 +102,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                 set
                 {
                     GhostObject.ObjectID = value;
-
-                    //framework dumbb
                     GhostObject.Alpha = 0.5f;
                 }
             }
