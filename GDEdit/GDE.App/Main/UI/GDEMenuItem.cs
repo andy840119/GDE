@@ -7,6 +7,9 @@ namespace GDE.App.Main.UI
     {
         public readonly MenuItemType Type;
 
+        public virtual float YScale => 1;
+        public virtual bool IgnoreEvents => false;
+
         public GDEMenuItem(string text, MenuItemType type = MenuItemType.Standard)
             : base(text) => Type = type;
 

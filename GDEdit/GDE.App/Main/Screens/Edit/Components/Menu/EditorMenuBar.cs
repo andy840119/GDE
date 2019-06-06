@@ -130,16 +130,15 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
 
             private class DrawableSubMenuItem : DrawableGDEMenuItem
             {
+                /// <summary>Determines whether <see langword="true"/> will be instantly returned on On* functions without calling the <see langword="base"/> event function.</summary>
+                public bool IgnoreEvents => ((GDEMenuItem)Item)?.IgnoreEvents ?? false;
+
                 public DrawableSubMenuItem(MenuItem item)
-                    : base(item)
-                {
-                    if (Item is EditorMenuItemSpacer)
-                        Scale = new Vector2(1, 0.5f);
-                }
+                    : base(item) => Scale = new Vector2(1, ((GDEMenuItem)item)?.YScale ?? 1);
 
                 protected override bool OnHover(HoverEvent e)
                 {
-                    if (Item is EditorMenuItemSpacer)
+                    if (IgnoreEvents)
                         return true;
 
                     return base.OnHover(e);
@@ -147,7 +146,7 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
 
                 protected override bool OnClick(ClickEvent e)
                 {
-                    if (Item is EditorMenuItemSpacer)
+                    if (IgnoreEvents)
                         return true;
 
                     return base.OnClick(e);
