@@ -105,7 +105,11 @@ namespace GDE.App.Main.Screens.Edit
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        grid = new Grid(),
+                        grid = new Grid
+                        {
+                            Size = new Vector2(2), //Doubles the size
+                            Position = new Vector2(-30, 0) //Offsets to remove visible repetition
+                        },
                         preview = new LevelPreview(this, index)
                         {
                             Anchor = Anchor.Centre,

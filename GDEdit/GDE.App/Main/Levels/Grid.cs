@@ -5,6 +5,7 @@ using osu.Framework.Graphics;
 using osuTK.Graphics;
 using osuTK;
 using GDE.App.Main.Screens.Edit.Components;
+using GDEdit.Utilities.Objects.GeometryDash;
 
 namespace GDE.App.Main.Levels
 {
@@ -60,35 +61,15 @@ namespace GDE.App.Main.Levels
             var gridLines = new Drawable[200];
 
             for (int i = 0; i < 100; i++)
-            {
-                System.Console.WriteLine(i);
-                if (i == 18)
-                    gridLines[i] = new HorizontalGridLine(30 * i)
-                    {
-                        Colour = Color4.Black.Opacity(0.7f),
-                        Scale = new Vector2(2)
-                    };
-                else
-                    gridLines[i] = new HorizontalGridLine(30 * i)
-                    {
-                        Colour = Color4.Black.Opacity(0.5f)
-                    };
-
-            }
+                gridLines[i] = new HorizontalGridLine(30 * i)
+                {
+                    Colour = Color4.Black.Opacity(0.5f)
+                };
             for (int i = 0; i < 100; i++)
-            {
-                if (i == 32)
-                    gridLines[100 + i] = new VerticalGridLine(30 * i)
-                    {
-                        Colour = Color4.Black.Opacity(0.7f),
-                        Scale = new Vector2(2)
-                    };
-                else
-                    gridLines[100 + i] = new VerticalGridLine(30 * i)
-                    {
-                        Colour = Color4.Black.Opacity(0.5f)
-                    };
-            }
+                gridLines[100 + i] = new VerticalGridLine(30 * i)
+                {
+                    Colour = Color4.Black.Opacity(0.5f)
+                };
 
             gridContainer.Children = gridLineDrawables = gridLines;
         }

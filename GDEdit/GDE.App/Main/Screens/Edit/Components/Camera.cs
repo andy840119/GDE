@@ -1,4 +1,5 @@
-﻿using GDE.App.Main.Objects;
+﻿using GDE.App.Main.Levels;
+using GDE.App.Main.Objects;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
@@ -36,14 +37,30 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         protected override bool OnDrag(DragEvent e)
         {
+            cameraOffsetBindable.Value += e.Delta;
+            
             foreach (var child in Children)
             {
                 if (child is IDraggable draggable)
                     if (draggable.Draggable)
                         child.Position += e.Delta;
+
+                if (child is Grid grid)
+                {
+                    grid.Position = new Vector2(
+                        -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X - 30,
+                        -GetCoordinate(cameraOffsetBindable.Value.Y) + cameraOffsetBindable.Value.Y);
+                }
             }
 
-            cameraOffsetBindable.Value += e.Delta;
+            float GetCoordinate(float c)
+            {
+                float r = c;
+                if (r < 0)
+                    r -= 30;
+                return r -= r % 30;
+            }
+
             return true;
         }
 
