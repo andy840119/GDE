@@ -542,10 +542,16 @@ namespace GDEdit.Application.Editor
                 nonIndividualAction();
         }
         #region Object Movement
+        #region Differential Movement (Move*)
         /// <summary>Moves the selected objects by an amount on the X axis.</summary>
         /// <param name="x">The offset of X to move the objects by.</param>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void MoveX(double x, bool registerUndoable = true) => MoveX(SelectedObjects, x, registerUndoable);
+        /// <summary>Moves the specified object by an amount on the X axis.</summary>
+        /// <param name="obj">The object to move.</param>
+        /// <param name="x">The offset of X to move the object by.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveX(GeneralObject obj, double x, bool registerUndoable = true) => MoveX(new LevelObjectCollection(obj), x, registerUndoable);
         /// <summary>Moves the specified objects by an amount on the X axis.</summary>
         /// <param name="objects">The objects to move.</param>
         /// <param name="x">The offset of X to move the objects by.</param>
@@ -563,6 +569,11 @@ namespace GDEdit.Application.Editor
         /// <param name="y">The offset of Y to move the objects by.</param>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void MoveY(double y, bool registerUndoable = true) => MoveY(SelectedObjects, y, registerUndoable);
+        /// <summary>Moves the specified object by an amount on the Y axis.</summary>
+        /// <param name="obj">The object to move.</param>
+        /// <param name="y">The offset of Y to move the object by.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveY(GeneralObject obj, double y, bool registerUndoable = true) => MoveY(new LevelObjectCollection(obj), y, registerUndoable);
         /// <summary>Moves the specified objects by an amount on the Y axis.</summary>
         /// <param name="objects">The objects to move.</param>
         /// <param name="y">The offset of Y to move the objects by.</param>
@@ -581,6 +592,12 @@ namespace GDEdit.Application.Editor
         /// <param name="y">The offset of Y to move the objects by.</param>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void Move(double x, double y, bool registerUndoable = true) => Move(new Point(x, y), registerUndoable);
+        /// <summary>Moves the specified object by an amount.</summary>
+        /// <param name="obj">The object to move.</param>
+        /// <param name="x">The offset of X to move the object by.</param>
+        /// <param name="y">The offset of Y to move the object by.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Move(GeneralObject obj, double x, double y, bool registerUndoable = true) => Move(new LevelObjectCollection(obj), new Point(x, y), registerUndoable);
         /// <summary>Moves the specified objects by an amount.</summary>
         /// <param name="objects">The objects to move.</param>
         /// <param name="x">The offset of X to move the objects by.</param>
@@ -591,6 +608,11 @@ namespace GDEdit.Application.Editor
         /// <param name="p">The point indicating the movement of the objects across the field.</param>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void Move(Point p, bool registerUndoable = true) => Move(SelectedObjects, p, registerUndoable);
+        /// <summary>Moves the specified object by an amount.</summary>
+        /// <param name="obj">The object to move.</param>
+        /// <param name="p">The point indicating the movement of the object across the field.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void Move(GeneralObject obj, Point p, bool registerUndoable = true) => Move(new LevelObjectCollection(obj), p, registerUndoable);
         /// <summary>Moves the specified objects by an amount.</summary>
         /// <param name="objects">The objects to move.</param>
         /// <param name="p">The point indicating the movement of the objects across the field.</param>
@@ -612,6 +634,7 @@ namespace GDEdit.Application.Editor
             }
         }
         // TODO: Add MoveTo* functions to prevent other code from having to calculate individual objects' offset
+        #endregion
         #endregion
         #region Object Rotation
         // The rotation direction is probably wrongly documented; take a look at it in another branch
