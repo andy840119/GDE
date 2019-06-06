@@ -9,6 +9,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Graphics;
+using BaseMenu = osu.Framework.Graphics.UserInterface.Menu;
 
 namespace GDE.App.Main.Screens.Edit.Components.Menu
 {
@@ -24,7 +25,7 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
             BackgroundColour = GDEColors.FromHex("111");
         }
 
-        protected override osu.Framework.Graphics.UserInterface.Menu CreateSubMenu() => new SubMenu();
+        protected override BaseMenu CreateSubMenu() => new SubMenu();
 
         protected override DrawableMenuItem CreateDrawableMenuItem(MenuItem item) => new DrawableEditorBarMenuItem(item);
 
@@ -123,7 +124,7 @@ namespace GDE.App.Main.Screens.Edit.Components.Menu
                 BackgroundColour = GDEColors.FromHex("333");
             }
 
-            protected override osu.Framework.Graphics.UserInterface.Menu CreateSubMenu() => new SubMenu();
+            protected override BaseMenu CreateSubMenu() => new SubMenu();
 
             protected override DrawableMenuItem CreateDrawableMenuItem(MenuItem item) => new DrawableSubMenuItem(item);
 
