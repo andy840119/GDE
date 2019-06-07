@@ -126,13 +126,6 @@ namespace GDE.App.Main.Screens.Edit.Components
 
                 return true;
             }
-            protected override bool OnClick(ClickEvent e)
-            {
-                //foreach (var child in Children)
-                //    child.Expire();
-                
-                return base.OnClick(e);
-            }
 
             public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition)
             {
