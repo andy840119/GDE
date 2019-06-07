@@ -106,7 +106,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 }
             }
 
-            public readonly Bindable<Vector2> CameraOffset = new Bindable<Vector2>();
+            public static readonly Bindable<Vector2> CameraOffset = new Bindable<Vector2>();
 
             public GridSnappedCursorContainer(Bindable<Vector2> cameraOffsetBindable, int ghostObjectID = 0, int snapResolution = 30)
                 : base()
@@ -146,25 +146,27 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             public int SnapResolution { get; set; } = 30;
 
+            private readonly Bindable<Vector2> cameraOffset = new Bindable<Vector2>();
+
             public GhostObject(GeneralObject o)
                 : base(o)
             {
-                Anchor = Anchor.Centre;
-                Origin = Anchor.Centre;
+                cameraOffset.BindTo(GridSnappedCursorContainer.CameraOffset);
                 Selectable = false;
             }
+
             public GhostObject(int id = 1)
                 : base(id)
             {
-                Anchor = Anchor.Centre;
-                Origin = Anchor.Centre;
+                cameraOffset.BindTo(GridSnappedCursorContainer.CameraOffset);
                 Selectable = false;
             }
 
             public GeneralObject GetObject()
             {
-                LevelObject.X = Position.X;
-                LevelObject.Y = -Position.Y;
+                //TODO: Reformat this so that it doesnt use stange values
+                LevelObject.X = Position.X - 15 - (31 * 30) - cameraOffset.Value.X;
+                LevelObject.Y = -Position.Y + 3 + (17 * 30) + cameraOffset.Value.Y;
                 return LevelObject;
             }
         }
