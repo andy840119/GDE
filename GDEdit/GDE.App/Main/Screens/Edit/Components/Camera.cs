@@ -113,7 +113,11 @@ namespace GDE.App.Main.Screens.Edit.Components
             {
                 RelativeSizeAxes = Axes.Both;
                 AlwaysPresent = true;
-                Children = new Drawable[] { GhostObject = new GhostObject() };
+                Children = new Drawable[] { GhostObject = new GhostObject
+                {
+                    Anchor = Anchor.TopLeft,
+                    Origin = Anchor.TopLeft
+                }};
                 CameraOffset.BindTo(cameraOffsetBindable);
                 GhostObjectID = ghostObjectID;
                 SnapResolution = snapResolution;
