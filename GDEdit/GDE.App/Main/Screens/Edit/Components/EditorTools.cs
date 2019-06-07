@@ -31,7 +31,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         private Database database;
         private Level level => database.UserLevels[0];
 
-        public BindableBool AbleToPlaceBlock = new BindableBool();
+        public int CurrentSelectedObjectID => panel.SelectedObjectID;
+        public readonly BindableBool AbleToPlaceBlock = new BindableBool();
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
