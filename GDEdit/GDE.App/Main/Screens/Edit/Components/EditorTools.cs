@@ -7,6 +7,7 @@ using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -30,7 +31,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         private Database database;
         private Level level => database.UserLevels[0];
 
-        public int CurrentSelectedObjectID => panel.SelectedObjectID;
+        public BindableBool AbleToPlaceBlock = new BindableBool();
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
@@ -99,6 +100,8 @@ namespace GDE.App.Main.Screens.Edit.Components
                     }
                 }
             };
+
+            AbleToPlaceBlock.BindTo(panel.AbleToPlace);
         }
     }
 }

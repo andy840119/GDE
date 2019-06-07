@@ -128,12 +128,15 @@ namespace GDE.App.Main.Screens.Edit
 
         protected override bool OnClick(ClickEvent e)
         {
-            if (tools.CurrentSelectedObjectID < 1)
+            if (tools.AbleToPlaceBlock.Value)
+            {
+                var cloned = camera.GetClonedGhostObjectLevelObject();
+                editor.AddObject(cloned);
+                preview.Add(new ObjectBase(cloned));
+                return true;
+            }
+            else
                 return false;
-            var cloned = camera.GetClonedGhostObjectLevelObject();
-            editor.AddObject(cloned);
-            preview.Add(new ObjectBase(cloned));
-            return base.OnClick(e);
         }
 
         protected override bool OnDrag(DragEvent e)

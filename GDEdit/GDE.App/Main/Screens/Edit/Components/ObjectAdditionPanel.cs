@@ -43,6 +43,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public float SnapResolution = 30f;
 
+        public BindableBool AbleToPlace = new BindableBool();
+
         public ObjectAdditionPanel(Camera camera)
         {
             this.camera = camera;
@@ -72,13 +74,16 @@ namespace GDE.App.Main.Screens.Edit.Components
                     {
                         if (currentlyActiveButton != null)
                             currentlyActiveButton.Active = false;
+
                         currentlyActiveButton = objectButton;
+                        AbleToPlace.Value = true;
                         camera.ShowGhostObject();
                         camera.SetGhostObjectID(SelectedObjectID = objectButton.ObjectID);
                     }
                     else if (currentlyActiveButton == objectButton)
                     {
                         currentlyActiveButton = null;
+                        AbleToPlace.Value = false;
                         camera.HideGhostObject();
                     }
                 };
