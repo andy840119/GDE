@@ -55,6 +55,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="HSVAdjustment"/> class.</summary>
+        public HSVAdjustment() : this(0, 1, 1, default, default) { }
+        /// <summary>Initializes a new instance of the <seealso cref="HSVAdjustment"/> class.</summary>
         /// <param name="hue">The hue of the HSV adjustment.</param>
         /// <param name="saturation">The saturation of the HSV adjustment.</param>
         /// <param name="brightness">The brightness of the HSV adjustment.</param>
