@@ -23,12 +23,14 @@ namespace GDE.App.Main.Screens.Edit.Components
         public Camera(Editor Editor)
         {
             editor = Editor;
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
         }
 
         [BackgroundDependencyLoader]
         private void load()
         {
-            Add(snappedCursorContainer = new GridSnappedCursorContainer(cameraOffsetBindable));
+            Add(snappedCursorContainer = new GridSnappedCursorContainer(cameraOffsetBindable) { Anchor = Anchor.Centre, Origin = Anchor.Centre });
         }
 
         public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition) => snappedCursorContainer.ConvertMousePositionToEditor(mousePosition);
@@ -48,7 +50,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 if (child is Grid grid)
                 {
                     grid.Position = new Vector2(
-                        -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X - 30,
+                        -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X,
                         -GetCoordinate(cameraOffsetBindable.Value.Y) + cameraOffsetBindable.Value.Y);
                 }
             }
@@ -109,13 +111,14 @@ namespace GDE.App.Main.Screens.Edit.Components
             public static readonly Bindable<Vector2> CameraOffset = new Bindable<Vector2>();
 
             public GridSnappedCursorContainer(Bindable<Vector2> cameraOffsetBindable, int ghostObjectID = 0, int snapResolution = 30)
-                : base()
             {
+                Anchor = Anchor.Centre;
+                Origin = Anchor.Centre;
                 RelativeSizeAxes = Axes.Both;
                 AlwaysPresent = true;
                 Children = new Drawable[] { GhostObject = new GhostObject
                 {
-                    Anchor = Anchor.TopLeft,
+                    Anchor = Anchor.Centre,
                     Origin = Anchor.TopLeft
                 }};
                 CameraOffset.BindTo(cameraOffsetBindable);
@@ -126,9 +129,9 @@ namespace GDE.App.Main.Screens.Edit.Components
             protected override bool OnMouseMove(MouseMoveEvent e)
             {
                 foreach (var child in Children)
-                    child.Position = ConvertMousePositionToEditor(e.ScreenSpaceMousePosition - CameraOffset.Value);
+                    child.Position = ConvertMousePositionToEditor(e.ScreenSpaceMousePosition - AnchorPosition - CameraOffset.Value);
 
-                return true;
+                return base.OnMouseMove(e);
             }
 
             public Vector2 ConvertMousePositionToEditor(Vector2 mousePosition)
@@ -165,8 +168,8 @@ namespace GDE.App.Main.Screens.Edit.Components
             public GeneralObject GetObject()
             {
                 //TODO: Reformat this so that it doesnt use stange values
-                LevelObject.X = Position.X - 15 - (31 * 30) - cameraOffset.Value.X;
-                LevelObject.Y = -Position.Y + 3 + (17 * 30) + cameraOffset.Value.Y;
+                LevelObject.X = Position.X - cameraOffset.Value.X + SnapResolution / 2;
+                LevelObject.Y = -Position.Y + cameraOffset.Value.Y - SnapResolution / 2;
                 return LevelObject;
             }
         }

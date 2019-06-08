@@ -54,6 +54,9 @@ namespace GDE.App.Main.Screens.Edit
             fileMenuItems.Add(new EditorMenuItemSpacer());
             fileMenuItems.Add(new EditorMenuItem("Exit", this.Exit, MenuItemType.Destructive));
 
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
+
             AddInternal(new Container
             {
                 Name = "Top bar",
@@ -103,12 +106,15 @@ namespace GDE.App.Main.Screens.Edit
                 camera = new Camera(editor)
                 {
                     RelativeSizeAxes = Axes.Both,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
                     Children = new Drawable[]
                     {
                         grid = new Grid
                         {
-                            Size = new Vector2(2), //Doubles the size
-                            Position = new Vector2(-30, 0) //Offsets to remove visible repetition
+                            Size = new Vector2(1.1f), //Doubles the size
+                            Anchor = Anchor.Centre,
+                            Origin = Anchor.Centre
                         },
                         preview = new LevelPreview(this, index)
                         {

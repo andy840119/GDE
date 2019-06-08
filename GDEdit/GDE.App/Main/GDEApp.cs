@@ -57,8 +57,9 @@ namespace GDE.App.Main
 
         protected override bool ExceptionHandler(Exception arg)
         {
-            notification.text.Text = $"An error has occurred, Please report this to the devs. (Err: {arg.Message})";
-            notification.ToggleVisibility();
+            //fuck my life
+            //notification.text.Text = $"An error has occurred, Please report this to the devs. (Err: {arg.Message})";
+            //notification.ToggleVisibility();
 
             return base.ExceptionHandler(arg);
         }

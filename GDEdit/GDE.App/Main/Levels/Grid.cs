@@ -48,6 +48,8 @@ namespace GDE.App.Main.Levels
                     BorderThickness = 2,
                     Masking = true,
                     RelativeSizeAxes = Axes.Both,
+                    Anchor =Anchor.Centre,
+                    Origin =Anchor.Centre
                 }
             };
 
@@ -61,12 +63,16 @@ namespace GDE.App.Main.Levels
             for (int i = 0; i < 100; i++)
                 gridLines[i] = new HorizontalGridLine(30 * i)
                 {
-                    Colour = Color4.Black.Opacity(0.5f)
+                    Colour = Color4.Black.Opacity(0.5f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre
                 };
             for (int i = 0; i < 100; i++)
                 gridLines[100 + i] = new VerticalGridLine(30 * i)
                 {
-                    Colour = Color4.Black.Opacity(0.5f)
+                    Colour = Color4.Black.Opacity(0.5f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre
                 };
 
             gridContainer.Children = gridLineDrawables = gridLines;
