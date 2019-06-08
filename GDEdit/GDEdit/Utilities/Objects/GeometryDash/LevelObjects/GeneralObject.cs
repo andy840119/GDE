@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using static System.Convert;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
 {
@@ -413,11 +414,30 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             {
                 int? key = ((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key;
                 if (key != null)
-                    s.Append($"{key},{p.GetValue(this)},");
+                    s.Append($"{key},{GetAppropriateStringRepresentation(p.GetValue(this))},");
                 // TODO: Prevent writing parameters with values that are default (create DefaultValueAttribute and assign it to all the object properties
             }
             s.Remove(s.Length - 1, 1); // Remove last comma
             return s.ToString();
+        }
+
+        // I swear to fucking goodness I made this at 4:30 AM, this will be redone somewhere else it's just a temporary fix so that we release please have mercy
+        // During the writing of this function a lot of WHEEZEs dropped
+        private string GetAppropriateStringRepresentation(object thing)
+        {
+            switch (thing)
+            {
+                case bool b:
+                    return ToInt32(b).ToString();
+                case int[] a:
+                    var s = new StringBuilder();
+                    for (int i = 0; i < a.Length; i++)
+                        s.Append($"{a[i]}.");
+                    s.Remove(s.Length - 1, 1);
+                    return s.ToString();
+                // Please tell me there are no more things that break
+            }
+            return thing.ToString();
         }
 
         private class ObjectTypeInfo
