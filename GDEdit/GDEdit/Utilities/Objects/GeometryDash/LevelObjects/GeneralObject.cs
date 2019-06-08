@@ -433,7 +433,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     var s = new StringBuilder();
                     for (int i = 0; i < a.Length; i++)
                         s.Append($"{a[i]}.");
-                    s.Remove(s.Length - 1, 1);
+                    if (s.Length > 0)
+                        s.Remove(s.Length - 1, 1);
                     return s.ToString();
                 // Please tell me there are no more things that break
             }
