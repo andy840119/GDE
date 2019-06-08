@@ -6,7 +6,7 @@ using osu.Framework.Testing;
 using osuTK;
 using osuTK.Graphics;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseLevel
 {
     public class TestCaseObject : TestCase
     {

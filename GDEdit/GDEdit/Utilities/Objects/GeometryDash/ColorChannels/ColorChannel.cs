@@ -40,7 +40,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
         public int CopiedColorID { get; set; }
         /// <summary>The HSV adjustment of the copied color channel.</summary>
         [ColorStringMappable(10)]
-        public HSVAdjustment CopiedColorHSV { get; set; }
+        public HSVAdjustment CopiedColorHSV { get; set; } = new HSVAdjustment();
         /// <summary>The Copy Opacity property of the color channel.</summary>
         [ColorStringMappable(17)]
         public bool CopyOpacity { get; set; }
@@ -130,6 +130,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
 
         public static bool operator ==(ColorChannel left, ColorChannel right)
         {
+            bool isLeftNull = ReferenceEquals(left, null);
+            bool isRightNull = ReferenceEquals(right, null);
+            if (isLeftNull || isRightNull)
+                return isLeftNull == isRightNull;
             foreach (var p in typeof(ColorChannel).GetProperties())
                 if (p.GetValue(left) != p.GetValue(right))
                     return false;
@@ -137,6 +141,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
         }
         public static bool operator !=(ColorChannel left, ColorChannel right)
         {
+            bool isLeftNull = ReferenceEquals(left, null);
+            bool isRightNull = ReferenceEquals(right, null);
+            if (isLeftNull || isRightNull)
+                return isLeftNull != isRightNull;
             foreach (var p in typeof(ColorChannel).GetProperties())
                 if (p.GetValue(left) == p.GetValue(right))
                     return false;

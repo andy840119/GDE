@@ -15,6 +15,7 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Portals.SpeedPortals;
 using static System.Convert;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
+using static GDEdit.Utilities.Information.GeometryDash.SongInformation;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
@@ -35,7 +36,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public string Name { get; set; }
         /// <summary>The description of the level.</summary>
         [LevelStringMappable("k3")]
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
         /// <summary>The name of the creator.</summary>
         [LevelStringMappable("k5")]
         public string CreatorName { get; set; }
@@ -114,7 +115,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         /// <summary>The song offset of the level.</summary>
         [CommonMergedProperty]
         [LevelStringMappable("kA13")]
-        public int SongOffset { get; set; }
+        public float SongOffset { get; set; }
         /// <summary>The fade in property of the song of the level.</summary>
         [CommonMergedProperty]
         [LevelStringMappable("kA15")]
@@ -261,6 +262,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        /// <summary>Returns the metadata of the song, given the song metadata collection found in the database.</summary>
+        /// <param name="metadata">The song metadata collection of the database, based on which the song metadata is retrieved.</param>
+        public SongMetadata GetSongMetadata(SongMetadataCollection metadata) => CustomSongID == 0 ? OfficialSongMetadata[OfficialSongID] : metadata.Find(s => s.ID == CustomSongID);
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>
@@ -345,7 +349,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                     InversedGravity = value == "1";
                     break;
                 case "kA13": // Song Offset
-                    SongOffset = ToInt32(value);
+                    SongOffset = ToSingle(value);
                     break;
                 case "kA14": // Guidelines
                     Guidelines = GuidelineCollection.Parse(value);

@@ -71,8 +71,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
                 case "4": // Artist
                     Artist = value;
                     break;
-                case "5": // Creator Name
-                    SongSizeMB = ToInt32(value);
+                case "5": // Song Size (MB)
+                    SongSizeMB = ToDouble(value);
                     break;
                 case "7": // ?
                     UnknownKey7 = value;

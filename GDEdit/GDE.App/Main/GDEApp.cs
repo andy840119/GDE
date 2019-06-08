@@ -21,9 +21,16 @@ namespace GDE.App.Main
         {
             Children = new Drawable[]
             {
-                new ScreenStack(new MainScreen())
+                new GlobalActionContainer
                 {
-                    RelativeSizeAxes = Axes.Both
+                    RelativeSizeAxes = Axes.Both,
+                    Children = new Drawable[]
+                    {
+                        new ScreenStack(new MainScreen())
+                        {
+                            RelativeSizeAxes = Axes.Both
+                        },
+                    }   
                 },
                 notification = new ToastNotification
                 {
@@ -34,8 +41,7 @@ namespace GDE.App.Main
                     {
                         Bottom = 5
                     }
-                },
-                new GlobalActionContainer()
+                }
             };
 
             new RavenLogger(this);
@@ -51,8 +57,9 @@ namespace GDE.App.Main
 
         protected override bool ExceptionHandler(Exception arg)
         {
-            notification.text.Text = $"An error has occurred, Please report this to the devs. (Err: {arg.Message})";
-            notification.ToggleVisibility();
+            //fuck my life
+            //notification.text.Text = $"An error has occurred, Please report this to the devs. (Err: {arg.Message})";
+            //notification.ToggleVisibility();
 
             return base.ExceptionHandler(arg);
         }

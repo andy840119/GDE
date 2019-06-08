@@ -14,9 +14,15 @@ namespace GDE.App.Main.Panels
         private PinButton pin;
 
         public bool AllowDrag = true;
-        public string Text
+        protected virtual string Name
         {
-            get => text.Text;
+            get
+            {
+                if (text != null)
+                    return text.Text;
+
+                return "";
+            }
             set => text.Text = value;
         }
 
@@ -66,6 +72,7 @@ namespace GDE.App.Main.Panels
                 },
                 text = new SpriteText
                 {
+                    Text = Name,
                     Margin = new MarginPadding
                     {
                         Horizontal = 5,
@@ -83,11 +90,15 @@ namespace GDE.App.Main.Panels
 
         protected override void PopIn()
         {
+            ClearTransforms();
+
             this.ScaleTo(new Vector2(1, 1), 500, Easing.OutExpo);
             base.PopIn();
         }
         protected override void PopOut()
         {
+            ClearTransforms();
+
             this.ScaleTo(new Vector2(1, 0), 500, Easing.OutExpo);
             base.PopIn();
         }

@@ -11,10 +11,19 @@ namespace GDE.App.Main.Containers
     {
         public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
         {
-            new KeyBinding(new[] { InputKey.Alt, InputKey.Control, InputKey.F2 }, GlobalAction.LordsKeys)
+            //Object Manipulation
+            new KeyBinding(InputKey.D, GlobalAction.ObjMoveRight),
+            new KeyBinding(InputKey.A, GlobalAction.ObjMoveLeft),
+            new KeyBinding(InputKey.W, GlobalAction.ObjMoveUp),
+            new KeyBinding(InputKey.S, GlobalAction.ObjMoveDown),
+
+            new KeyBinding(InputKey.Shift, GlobalAction.ObjMoveModifier),
+
+            //Others
+            new KeyBinding(new[] { InputKey.Alt, InputKey.Control, InputKey.F2 }, GlobalAction.LordsKeys),
         };
 
-        public GlobalActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = KeyCombinationMatchingMode.Any, SimultaneousBindingMode simultaneousBindingMode = SimultaneousBindingMode.All)
+        public GlobalActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = KeyCombinationMatchingMode.Exact, SimultaneousBindingMode simultaneousBindingMode = SimultaneousBindingMode.All)
             : base(simultaneousBindingMode, keyCombinationMatchingMode)
         {
         }
@@ -22,6 +31,14 @@ namespace GDE.App.Main.Containers
 
     public enum GlobalAction
     {
+        //Object Manipulation
+        [Description("Manipulates the objects")]
+        ObjMoveRight,
+        ObjMoveLeft,
+        ObjMoveUp,
+        ObjMoveDown,
+        ObjMoveModifier,
+
         //Others
         [Description("Toggles the lords screen")]
         LordsKeys

@@ -1,107 +1,115 @@
-﻿using GDEdit.Utilities.Information.GeometryDash;
+﻿using GDE.App.Main.UI;
+using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
-using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.Textures;
+using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osuTK;
+using osuTK.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace GDE.App.Main.Objects
 {
-    // Change this into a Drawable instead of a Container in a later commit
     ///<summary>A drawable <seealso cref="GeneralObject"/>.</summary>
-    public class ObjectBase : Container
+    public class ObjectBase : Sprite
     {
-        private GeneralObject lvlObj;
-        private Box obj;
         private TextureStore textureStore;
+        [Resolved]
+        private Editor editor { get; set; }
+
+        public GeneralObject LevelObject;
+        public readonly ObjectBase Object;
+        public SelectionState State;
+        public EventHandler Selected;
+        public bool Selectable = true;
+        public static List<ObjectBase> DrawableSelectedObjects;
+
+        static ObjectBase()
+        {
+            DrawableSelectedObjects = new List<ObjectBase>();
+        }
 
         #region Level Object Variables
         ///<summary>The ID of the object.</summary>
         public int ObjectID
         {
-            get => lvlObj.ObjectID;
-            set => UpdateObjectID(lvlObj.ObjectID = value);
+            get => LevelObject.ObjectID;
+            set => UpdateObjectID(LevelObject.ObjectID = value);
         }
         ///<summary>The X position of the object.</summary>
         public double ObjectX
         {
-            get => lvlObj.X;
-            set => UpdateObjectX(lvlObj.X = value);
+            get => LevelObject.X;
+            set => UpdateObjectX(LevelObject.X = value);
         }
         ///<summary>The Y position of the object.</summary>
         public double ObjectY
         {
-            get => lvlObj.Y;
-            set => UpdateObjectY(lvlObj.Y = value);
+            get => LevelObject.Y;
+            set => UpdateObjectY(LevelObject.Y = value);
         }
         ///<summary>Represents whether the object is flipped horizontally or not.</summary>
         public bool FlippedHorizontally
         {
-            get => lvlObj.FlippedHorizontally;
-            set => UpdateFlippedHorizontally(lvlObj.FlippedHorizontally = value);
+            get => LevelObject.FlippedHorizontally;
+            set => UpdateFlippedHorizontally(LevelObject.FlippedHorizontally = value);
         }
         ///<summary>Represents whether the object is flipped vertically or not.</summary>
         public bool FlippedVertically
         {
-            get => lvlObj.FlippedVertically;
-            set => UpdateFlippedVertically(lvlObj.FlippedVertically = value);
+            get => LevelObject.FlippedVertically;
+            set => UpdateFlippedVertically(LevelObject.FlippedVertically = value);
         }
         ///<summary>The rotation of the object.</summary>
         public double ObjectRotation
         {
-            get => lvlObj.Rotation;
-            set => UpdateObjectRotation(lvlObj.Rotation = value);
+            get => LevelObject.Rotation;
+            set => UpdateObjectRotation(LevelObject.Rotation = value);
         }
         ///<summary>The scaling of the object.</summary>
         public double ObjectScaling
         {
-            get => lvlObj.Scaling;
-            set => UpdateObjectScaling(lvlObj.Scaling = value);
+            get => LevelObject.Scaling;
+            set => UpdateObjectScaling(LevelObject.Scaling = value);
         }
         ///<summary>The Editor Layer 1 of the object.</summary>
         public int EL1
         {
-            get => lvlObj.EL1;
-            set => lvlObj.EL1 = value;
+            get => LevelObject.EL1;
+            set => LevelObject.EL1 = value;
         }
         ///<summary>The Editor Layer 2 of the object.</summary>
         public int EL2
         {
-            get => lvlObj.EL2;
-            set => lvlObj.EL2 = value;
+            get => LevelObject.EL2;
+            set => LevelObject.EL2 = value;
         }
         #endregion
 
         /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
         public ObjectBase(GeneralObject o)
+            : base()
         {
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
 
-            Children = new Drawable[]
-            {
-                obj = new Box
-                {
-                    Origin = Anchor.Centre,
-                    Anchor = Anchor.Centre,
-                    RelativeSizeAxes = Axes.Both
-                }
-            };
-
             Size = new Vector2(30);
-            UpdateObject(lvlObj = o);
+            UpdateObject(LevelObject = o);
         }
-        
+        /// <summary>Initializes a new instance of the <seealso cref="ObjectBase"/> class.</summary>
+        public ObjectBase(int ID) : this(GeneralObject.GetNewObjectInstance(ID)) { }
+
         [BackgroundDependencyLoader]
         private void load(TextureStore ts)
         {
             textureStore = ts;
-            UpdateObjectID(lvlObj.ObjectID);
+            UpdateObjectID(LevelObject.ObjectID);
         }
-        
+
         private void UpdateObject(GeneralObject o)
         {
             UpdateObjectID(o.ObjectID);
@@ -113,7 +121,7 @@ namespace GDE.App.Main.Objects
             UpdateObjectScaling(o.Scaling);
         }
 
-        private void UpdateObjectID(int value) => obj.Texture = textureStore?.Get($"Objects/{value}.png");
+        private void UpdateObjectID(int value) => Texture = value > 0 ? textureStore?.Get($"Objects/{value}.png") : null;
         private void UpdateObjectX(double value) => X = (float)value;
         private void UpdateObjectY(double value) => Y = -(float)value;
         private void UpdateFlippedHorizontally(bool value) => Width = SetSign(Width, !value);
@@ -125,6 +133,33 @@ namespace GDE.App.Main.Objects
             if (!sign ^ value < 0)
                 return -value;
             return value;
+        }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            if (editor != null && Selectable)
+            {
+                this.FadeColour(State == SelectionState.Selected ? Color4.White : Color4.Green, 50);
+                State ^= SelectionState.Selected;
+
+                if (State == SelectionState.Selected)
+                {
+                    editor.SelectObjects(new LevelObjectCollection(LevelObject));
+                    editor.SelectedObjects.Add(LevelObject);
+                    DrawableSelectedObjects.Add(this);
+                }
+                else
+                {
+                    editor.SelectedObjects.Remove(LevelObject);
+                    DrawableSelectedObjects.Remove(this);
+                }
+
+                Logger.Log($"Added/Removed new object to Selected Objects (now {editor.SelectedObjects.Count})");
+            }
+
+            Selected?.Invoke(this, EventArgs.Empty);
+
+            return base.OnClick(e);
         }
     }
 }

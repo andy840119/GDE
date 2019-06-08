@@ -204,6 +204,71 @@ namespace GDEdit.Utilities.Functions.Extensions
         #endregion
 
         #region Manipulation
+        /// <summary>Determines whether the specified string matches search criteria with another.</summary>
+        /// <param name="s">The searching string.</param>
+        /// <param name="target">The target string to search for.</param>
+        public static bool MatchesSearchCriteria(this string s, string target)
+        {
+            if (s.Length == 0)
+                return true;
+            var splitA = s.ToLower().Split(' ');
+            var splitB = target.ToLower().Split(' ');
+            int difference = splitB.Length - splitA.Length;
+            bool valid = true;
+            if (difference >= 0)
+            {
+                Dictionary<char, int> a, b;
+                int end = splitB.Length - difference;
+                for (int i = 0; i < end && valid; i++)
+                {
+                    string wordA = splitA[i];
+                    string wordB = splitB[i];
+                    a = wordA.GetCharacterOccurences();
+                    b = wordB.GetCharacterOccurences();
+                    if (valid = a.Count > b.Count)
+                        continue;
+                    int count = 0;
+                    foreach (var kvp in a)
+                    {
+                        b.TryGetValue(kvp.Key, out int value);
+                        if (!(valid = kvp.Value <= value))
+                            break;
+                        count++;
+                    }
+                    double ratio = (double)b.Count / count;
+                    int d = b.Count - a.Count;
+                    // TODO: Tweak?
+                    if (valid && (count == a.Count || (1 <= ratio && ratio < 1.75 && d < 5)))
+                        return true;
+                }
+                if (valid)
+                    return true;
+            }
+            //return false;
+            return target.RemoveCharacterRepetitions() == s.RemoveCharacterRepetitions();
+        }
+        /// <summary>Returns a string that removes repetitions of the same character. Example: <code>RemoveCharacterRepetitions("aabcc") = "abc"</code>.</summary>
+        /// <param name="s">The string to remove the character repetitions from.</param>
+        public static string RemoveCharacterRepetitions(this string s)
+        {
+            char[] chars = new char[s.Length];
+            if (s.Length > 0) // Just to avoid bad cases
+                chars[0] = s[0];
+            int x = 0;
+            for (int i = 1; i < s.Length; i++)
+                if (chars[x] != s[i])
+                    chars[++x] = s[i];
+            return new string(chars);
+        }
+        /// <summary>Returns a dictionary containing the number of instances per character in the provided string.</summary>
+        /// <param name="s">The string to get the character occurences of.</param>
+        public static Dictionary<char, int> GetCharacterOccurences(this string s)
+        {
+            var d = new Dictionary<char, int>();
+            foreach (var c in s)
+                d.IncrementOrAddKeyValue(c);
+            return d;
+        }
         /// <summary>Returns a substring that begins with the beginning matched string and ends before the ending matched string.</summary>
         /// <param name="s">The string whose substring to return.</param>
         /// <param name="from">The beginning matching string to begin the substring from.</param>

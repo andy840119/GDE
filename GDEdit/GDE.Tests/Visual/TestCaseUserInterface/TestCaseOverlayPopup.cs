@@ -4,7 +4,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseUserInterface
 {
     public class TestCaseOverlayPopup : TestCase
     {

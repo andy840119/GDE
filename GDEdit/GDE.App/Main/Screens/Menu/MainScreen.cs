@@ -1,9 +1,12 @@
-﻿using GDE.App.Main.Colors;
+﻿using DiscordRPC;
+using GDE.App.Main.Colors;
 using GDE.App.Main.Containers;
 using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
+using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
 using GDEdit.Application;
+using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -13,33 +16,35 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GDE.App.Main.Screens.Menu
 {
     public class MainScreen : Screen, IKeyBindingHandler<GlobalAction>
     {
-        private bool finishedLoading;
-        private bool alreadyRun = false;
+        private Database database;
 
         private SpriteText loadWarning;
-        private Database database;
-        private LevelCollection levels;
-        private FillFlowContainer levelList;
-        private LevelCard card;
+        private LevelList levelList;
         private Toolbar toolbar;
         private OverlayPopup popUp;
-        private Bindable<Level> level = new Bindable<Level>(new Level
-        {
-            Name = "Unknown name",
-            CreatorName = "Unkown creator"
-        });
+        private Bindable<Level> level = new Bindable<Level>();
+        private List<LevelCard> cards = new List<LevelCard>();
 
         public MainScreen()
         {
-            InternalChildren = new Drawable[]
+            RPC.UpdatePresence("Looking for levels", null, new Assets
+            {
+                LargeImageKey = "gde",
+                LargeImageText = "GD Edit"
+            });
+
+            AddRangeInternal(new Drawable[]
             {
                 new DrawSizePreservingFillContainer
                 {
@@ -51,9 +56,7 @@ namespace GDE.App.Main.Screens.Menu
                         {
                             RelativeSizeAxes = Axes.X,
                             Size = new Vector2(1f, 40),
-                            Level = level,
                             Delete = () => popUp.ToggleVisibility(),
-                            Edit = () => this.Push(new Edit.Editor(0))
                         },
                         new Box
                         {
@@ -65,22 +68,15 @@ namespace GDE.App.Main.Screens.Menu
                                 Top = 40
                             },
                         },
-                        new ScrollContainer
+                        levelList = new LevelList
                         {
-                           RelativeSizeAxes = Axes.Y,
-                           Width = 260,
-                           Margin = new MarginPadding
-                           {
-                               Top = 40
-                           },
-                           Children = new Drawable[]
-                           {
-                               levelList = new FillFlowContainer
-                               {
-                                   RelativeSizeAxes = Axes.Both,
-                                   Direction = FillDirection.Vertical,
-                               }
-                           }
+                            RelativeSizeAxes = Axes.Y,
+                            Width = 260,
+                            Padding = new MarginPadding
+                            {
+                                Top = 40,
+                                Bottom = 40
+                            }
                         },
                         popUp = new OverlayPopup
                         {
@@ -91,7 +87,16 @@ namespace GDE.App.Main.Screens.Menu
                             ConfirmButtonColor = GDEColors.FromHex("c6262e"),
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre,
-                            Size = new Vector2(750, 270)
+                            Size = new Vector2(750, 270),
+                            ConfirmAction = () =>
+                            {
+                                var selectedLevel = levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
+
+                                //if (selectedLevel != null)
+                                    //database. delete level here
+
+                                levelList.Remove(levelList.Cards[levelList.LevelIndex]);
+                            }
                         },
                         loadWarning = new SpriteText
                         {
@@ -102,91 +107,32 @@ namespace GDE.App.Main.Screens.Menu
                         }
                     }
                 }
+            });
+
+            toolbar.Level.BindTo(level);
+            level.ValueChanged += ChangeLevel;
+
+            levelList.LevelSelected = () =>
+            {
+                var selectedLevel = levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
+                level.Value = selectedLevel;
+                toolbar.Level.TriggerChange(); // Fuck why is this necessary?
+                toolbar.Edit = levelList.LevelIndex > -1 ? (Action)(() => this.Push(new Edit.EditorScreen(levelList.LevelIndex, selectedLevel))) : null;
+                popUp.ConfirmAction = () => database.UserLevels.Remove(selectedLevel);
             };
+
+            levelList.CompletedLoading = () => loadWarning.Text = null;
+        }
+
+        private void ChangeLevel(ValueChangedEvent<Level> obj)
+        {
+            Logger.Log($"Changed level to: {obj.NewValue?.LevelNameWithRevision ?? "null"}.");
         }
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
-        }
-
-        protected override void Update()
-        {
-            if (!finishedLoading && (finishedLoading = database.GetLevelsStatus >= TaskStatus.RanToCompletion))
-            {
-                if ((levels = database.UserLevels).Count == 0)
-                {
-                    AddInternal(new FillFlowContainer
-                    {
-                        Direction = FillDirection.Vertical,
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
-                        Spacing = new Vector2(0, 30),
-                        Children = new Drawable[]
-                        {
-                            new SpriteIcon
-                            {
-                                Anchor = Anchor.Centre,
-                                Origin = Anchor.Centre,
-                                Icon = FontAwesome.fa_times,
-                                Size = new Vector2(192),
-                                Colour = GDEColors.FromHex("666666")
-                            },
-                            new SpriteText
-                            {
-                                Anchor = Anchor.Centre,
-                                Origin = Anchor.Centre,
-                                Text = "There doesn't seem to be anything here...",
-                                Font = @"OpenSans",
-                                TextSize = 24,
-                                Colour = GDEColors.FromHex("666666")
-                            },
-                            new Button
-                            {
-                                Anchor = Anchor.Centre,
-                                Origin = Anchor.Centre,
-                                Size = new Vector2(220, 32),
-                                Text = "Create a new level",
-                                BackgroundColour = GDEColors.FromHex("242424")
-                            }
-                        }
-                    });
-                }
-                else if (!alreadyRun)
-                {
-                    for (var i = 0; i < database.UserLevels.Count; i++)
-                    {
-                        levelList.Add(card = new LevelCard
-                        {
-                            RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(0.9f, 100),
-                            Margin = new MarginPadding(10),
-                            Level =
-                            {
-                                Value = new Level
-                                {
-                                    CreatorName = "Alten",
-                                    Name = database.UserLevels[i].Name,
-                                    LevelObjects = database.UserLevels[i].LevelObjects
-                                }
-                            }
-                        });
-                    }
-
-                    loadWarning.Text = "";
-                    alreadyRun = true;
-                }
-            }
-
-            card.Selected.ValueChanged += NewSelection;
-            base.Update();
-        }
-
-        private void NewSelection(ValueChangedEvent<bool> obj)
-        {
-            toolbar.Level = card.Level;
-            //TODO: make level editable from selection
         }
 
         public bool OnPressed(GlobalAction action)

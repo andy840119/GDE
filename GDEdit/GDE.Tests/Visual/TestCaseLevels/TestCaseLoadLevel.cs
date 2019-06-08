@@ -5,9 +5,8 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using System.Threading.Tasks;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseLevel
 {
     public class TestCaseLoadLevel : TestCase
     {

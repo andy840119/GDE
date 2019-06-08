@@ -3,7 +3,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseUserInterface
 {
     public class TestCasePanel : TestCase
     {
@@ -16,7 +16,7 @@ namespace GDE.Tests.Visual
                 panel = new Panel
                 {
                     Size = new Vector2(335, 557),
-                    Text = "TestCasePanel"
+                    Name = "TestCasePanel"
                 }
             };
 

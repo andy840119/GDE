@@ -1,25 +1,40 @@
-﻿using GDE.App.Main.Objects;
+﻿using GDE.App.Main.Containers;
+using GDE.App.Main.Objects;
+using GDE.App.Main.Screens.Edit;
+using GDE.App.Main.Screens.Edit.Components;
+using GDE.App.Main.UI;
 using GDEdit.Application;
+using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Input.Events;
+using osu.Framework.Input.Bindings;
+using System.Collections.Generic;
 
 namespace GDE.App.Main.Levels
 {
-    public class LevelPreview : Container
+    public class LevelPreview : Container<ObjectBase>, IKeyBindingHandler<GlobalAction>, IDraggable
     {
-        private int i;
+        private EditorScreen editorScreen;
+
+        private readonly int i;
+
         private Database database;
 
-        public bool AllowDrag = true;
+        private bool modifier;
+
+        public IReadOnlyList<ObjectBase> Objects => Children;
+
+        public bool Draggable => true;
 
         public Level Level => database.UserLevels[i];
 
-        public LevelPreview(int index)
+        public LevelPreview(EditorScreen editorScreen, int index)
         {
+            this.editorScreen = editorScreen;
             i = index;
+
             AutoSizeAxes = Axes.Both;
         }
 
@@ -27,20 +42,45 @@ namespace GDE.App.Main.Levels
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
+
             foreach (var o in Level.LevelObjects)
                 Add(new ObjectBase(o));
         }
 
-        protected override bool OnDrag(DragEvent e)
+        public bool OnPressed(GlobalAction action)
         {
-            if (!AllowDrag)
-                return false;
+            var val = modifier ? Editor.SmallMovementStep : Editor.NormalMovementStep;
 
-            Position += e.Delta;
+            foreach (var i in Objects)
+            {
+                if (i.State == SelectionState.Selected)
+                    switch (action)
+                    {
+                        case GlobalAction.ObjMoveRight:
+                            i.ObjectX += val;
+                            break;
+                        case GlobalAction.ObjMoveLeft:
+                            i.ObjectX -= val;
+                            break;
+                        case GlobalAction.ObjMoveUp:
+                            i.ObjectY += val;
+                            break;
+                        case GlobalAction.ObjMoveDown:
+                            i.ObjectY -= val;
+                            break;
+                    }
+            }
+
+            switch (action)
+            {
+                case GlobalAction.ObjMoveModifier:
+                    modifier = !modifier;
+                    break;
+            }
+
             return true;
         }
 
-        protected override bool OnDragEnd(DragEndEvent e) => true;
-        protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
+        public bool OnReleased(GlobalAction action) => true;
     }
 }

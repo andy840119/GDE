@@ -1,6 +1,5 @@
 ﻿using GDE.App.Main.Colors;
 using osu.Framework.Bindables;
-using osu.Framework.Configuration;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -8,7 +7,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseUserInterface
 {
     public class TestCaseTheme : TestCase
     {

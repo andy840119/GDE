@@ -3,7 +3,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual
+namespace GDE.Tests.Visual.TestCaseUserInterface
 {
     public class TestCaseLevelCard : TestCase
     {
@@ -13,7 +13,7 @@ namespace GDE.Tests.Visual
         {
             Children = new Drawable[]
             {
-                card = new LevelCard
+                card = new LevelCard()
                 {
                     Size = new Vector2(250, 100),
                     Origin = Anchor.Centre,

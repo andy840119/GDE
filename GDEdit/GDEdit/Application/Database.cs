@@ -66,7 +66,7 @@ namespace GDEdit.Application
 
         /// <summary>The user name of the player as found in the game manager file.</summary>
         public string UserName { get; set; }
-        /// <summary>The user name of the player.</summary>
+        /// <summary>The user levels in the database.</summary>
         public LevelCollection UserLevels { get; set; }
         /// <summary>The names of the folders.</summary>
         public FolderNameCollection FolderNames { get; set; }
@@ -313,7 +313,7 @@ namespace GDEdit.Application
         public void WriteLevelData()
         {
             UpdateLevelData();
-            File.WriteAllText(GDLocalLevels, decryptedLevelData); // Write the level data
+            File.WriteAllText(GDLocalLevels, DecryptedLevelData); // Write the level data
         }
         #endregion
 
@@ -457,8 +457,9 @@ namespace GDEdit.Application
                 int currentIndex = songMetadataStartIndex;
                 while ((currentIndex = decryptedGamesave.Find("<k>", currentIndex, songMetadataEndIndex) + 3) > 2)
                 {
-                    int endingIndex = decryptedGamesave.Find("</k>", currentIndex, songMetadataEndIndex);
-                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(currentIndex, endingIndex - currentIndex)));
+                    int startingIndex = decryptedGamesave.Find("</k><d>", currentIndex, songMetadataEndIndex) + 7;
+                    int endingIndex = currentIndex = decryptedGamesave.Find("</d>", startingIndex, songMetadataEndIndex);
+                    SongMetadataInformation.Add(SongMetadata.Parse(decryptedGamesave.Substring(startingIndex, endingIndex - startingIndex)));
                 }
             }
         }

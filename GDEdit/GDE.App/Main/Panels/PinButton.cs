@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.UI;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Graphics.Sprites;
 
 namespace GDE.App.Main.Panels
 {
@@ -12,7 +13,7 @@ namespace GDE.App.Main.Panels
             {
                 new SpriteIcon
                 {
-                    Icon = FontAwesome.fa_thumb_tack,
+                    Icon = FontAwesome.Solid.Thumbtack,
                     Origin = Anchor.Centre,
                     Anchor = Anchor.Centre,
                     RelativeSizeAxes = Axes.Both,

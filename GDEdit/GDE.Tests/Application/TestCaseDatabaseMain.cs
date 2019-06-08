@@ -6,7 +6,6 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using System.Threading.Tasks;
-using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
 
 namespace GDE.Tests.Application
 {
@@ -88,6 +87,7 @@ namespace GDE.Tests.Application
             }
             if (!finishedLoading)
                 name.Text = "Loading";
+
             base.Update();
         }
     }

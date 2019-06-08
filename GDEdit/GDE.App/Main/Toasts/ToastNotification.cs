@@ -37,7 +37,7 @@ namespace GDE.App.Main.Toasts
                         {
                             Origin = Anchor.CentreLeft,
                             Anchor = Anchor.CentreLeft,
-                            Icon = FontAwesome.fa_exclamation_circle,
+                            Icon = FontAwesome.Solid.ExclamationCircle,
                             Size = new Vector2(20),
                         },
                         text = new SpriteText

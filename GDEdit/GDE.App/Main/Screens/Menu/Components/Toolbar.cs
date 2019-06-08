@@ -1,5 +1,7 @@
 ﻿using GDE.App.Main.Colors;
+using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
+using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -8,18 +10,18 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osuTK;
 using System;
+using static System.Threading.Tasks.TaskStatus;
 
 namespace GDE.App.Main.Screens.Menu.Components
 {
     public class Toolbar : Container
     {
-        private SpriteText levelName, songName;
+        private bool gottenSongMetadata;
+        private Database database;
 
-        public Bindable<Level> Level = new Bindable<Level>(new Level
-        {
-            Name = "Unknown name",
-            CreatorName = "UnkownCreator",
-        });
+        public SpriteText LevelName, SongName;
+
+        public Bindable<Level> Level = new Bindable<Level>();
 
         public Action Edit;
         public Action Delete;
@@ -39,19 +41,18 @@ namespace GDE.App.Main.Screens.Menu.Components
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        levelName = new SpriteText
+                        LevelName = new SpriteText
                         {
                             Margin = new MarginPadding(5),
-                            Text = Level.Value.Name,
+                            Text = "No level selected",
                             TextSize = 30
                         },
-                        songName = new SpriteText
+                        SongName = new SpriteText
                         {
                             Anchor = Anchor.BottomLeft,
                             Origin = Anchor.BottomLeft,
                             Margin = new MarginPadding(5),
                             Colour = GDEColors.FromHex("666666"),
-                            Text = Level.Value.CreatorName,
                             TextSize = 25,
                         }
                     }
@@ -91,10 +92,31 @@ namespace GDE.App.Main.Screens.Menu.Components
             Level.ValueChanged += OnChanged;
         }
 
+        [BackgroundDependencyLoader]
+        private void load(DatabaseCollection databases)
+        {
+            database = databases[0];
+        }
+
         private void OnChanged(ValueChangedEvent<Level> value)
         {
-            levelName.Text = value.NewValue.Name;
-            songName.Text = value.NewValue.CreatorName;
+            LevelName.Text = value.NewValue?.Name ?? "No level selected";
+            gottenSongMetadata = false;
+        }
+
+        protected override void Update()
+        {
+            // Since song metadata display works in the same way as the level card; logic has to be shared to avoid this ugly code copy-paste
+            if (!gottenSongMetadata)
+                if (!(gottenSongMetadata = Level.Value == null))
+                {
+                    SongMetadata metadata = null;
+                    if (gottenSongMetadata = database != null && database.GetSongMetadataStatus >= RanToCompletion)
+                        metadata = Level.Value.GetSongMetadata(database.SongMetadataInformation);
+                    SongName.Text = metadata != null ? $"{metadata.Artist} - {metadata.Title}" : "Song information unavailable";
+                }
+                else
+                    SongName.Text = null;
         }
     }
 }
