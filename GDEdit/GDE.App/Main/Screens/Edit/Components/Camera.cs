@@ -167,7 +167,6 @@ namespace GDE.App.Main.Screens.Edit.Components
 
             public GeneralObject GetObject()
             {
-                //TODO: Reformat this so that it doesnt use stange values
                 LevelObject.X = Position.X - cameraOffset.Value.X + SnapResolution / 2;
                 LevelObject.Y = -Position.Y + cameraOffset.Value.Y - SnapResolution / 2;
                 return LevelObject;
