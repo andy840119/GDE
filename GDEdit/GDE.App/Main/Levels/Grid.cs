@@ -61,14 +61,14 @@ namespace GDE.App.Main.Levels
             var gridLines = new Drawable[200];
 
             for (int i = 0; i < 100; i++)
-                gridLines[i] = new HorizontalGridLine(30 * i)
+                gridLines[i] = new HorizontalGridLine(30 * (i - 50))
                 {
                     Colour = Color4.Black.Opacity(0.5f),
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre
                 };
             for (int i = 0; i < 100; i++)
-                gridLines[100 + i] = new VerticalGridLine(30 * i)
+                gridLines[100 + i] = new VerticalGridLine(30 * (i - 50))
                 {
                     Colour = Color4.Black.Opacity(0.5f),
                     Anchor = Anchor.Centre,
