@@ -54,6 +54,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             }
         }
 
+        private HSVAdjustment() { }
         /// <summary>Initializes a new instance of the <seealso cref="HSVAdjustment"/> class.</summary>
         /// <param name="hue">The hue of the HSV adjustment.</param>
         /// <param name="saturation">The saturation of the HSV adjustment.</param>
@@ -92,6 +93,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             Hue = 0;
             Saturation = Brightness = 1;
             SaturationMode = BrightnessMode = SVAdjustmentMode.Multiplicative;
+        }
+
+        /// <summary>Clones this instance and returns a new instance with the same value.</summary>
+        public HSVAdjustment Clone()
+        {
+            var result = new HSVAdjustment();
+            result.h = h.Clone();
+            result.s = s.Clone();
+            result.v = v.Clone();
+            result.saturationMode = saturationMode;
+            result.brightnessMode = brightnessMode;
+            return result;
         }
 
         /// <summary>Parses the HSV adjustment string into an <seealso cref="HSVAdjustment"/> object.</summary>
@@ -179,6 +192,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             public override short Max => 180;
 
             public H(short value) : base(value) { }
+
+            /// <summary>Clones this instance and returns a new instance with the same value.</summary>
+            public H Clone() => new H(Value);
         }
         private abstract class SV : BoundedFloat
         {
@@ -201,18 +217,27 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
                         throw new Exception("The SV adjustment mode seriously cannot be anything other than those two, what have you done?");
                 }
             }
+
+            /// <summary>Clones this instance and returns a new instance with the same value.</summary>
+            public abstract SV Clone();
         }
         private class UncheckedSV : SV
         {
             protected override float BoundaryOffset => 0;
 
             public UncheckedSV(float value) : base(value) { }
+
+            /// <summary>Clones this instance and returns a new instance with the same value.</summary>
+            public override SV Clone() => new UncheckedSV(Value);
         }
         private class CheckedSV : SV
         {
             protected override float BoundaryOffset => -1;
 
             public CheckedSV(float value) : base(value) { }
+
+            /// <summary>Clones this instance and returns a new instance with the same value.</summary>
+            public override SV Clone() => new CheckedSV(Value);
         }
         #endregion
     }

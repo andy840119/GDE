@@ -1,5 +1,6 @@
 ﻿using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
+using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash.General;
 using System;
 using System.Collections.Generic;
@@ -79,6 +80,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
             CopiedColorID = 0;
             CopiedColorHSV.Reset();
             CopyOpacity = false;
+        }
+
+        public ColorChannel Clone()
+        {
+            var result = new ColorChannel(ColorChannelID, Red, Green, Blue);
+            result.CopiedPlayerColor = result.CopiedPlayerColor;
+            result.Blending = Blending;
+            result.CopiedColorID = result.CopiedColorID;
+            result.Opacity = Opacity;
+            result.CopiedColorHSV = CopiedColorHSV.Clone();
+            result.CopyOpacity = CopyOpacity;
+            return result;
         }
         
         /// <summary>Parses the color channel string into a <seealso cref="ColorChannel"/> object.</summary>
