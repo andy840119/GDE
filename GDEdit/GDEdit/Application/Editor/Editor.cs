@@ -146,6 +146,11 @@ namespace GDEdit.Application.Editor
         public event ColorChangedHandler ColorChanged;
         /// <summary>Occurs when a color channel's Blending property has been changed.</summary>
         public event BlendingChangedHandler BlendingChanged;
+
+        /// <summary>Occurs when the main color ID of a number of objects has been changed.</summary>
+        public event MainColorIDsChangedHandler MainColorIDsChanged;
+        /// <summary>Occurs when the detail color ID of a number of objects has been changed.</summary>
+        public event DetailColorIDsChangedHandler DetailColorIDsChanged;
         #endregion
         #endregion
 
@@ -434,6 +439,35 @@ namespace GDEdit.Application.Editor
             if (registerUndoable)
                 levelActions.AddTemporaryAction(description, Action, Undo);
             BlendingChanged?.Invoke(affectedObjects, colorID, colorChannel);
+        }
+
+        /// <summary>Triggers the <seealso cref="MainColorIDsChanged"/> event.</summary>
+        /// <param name="objects">The objects whose main color ID was changed.</param>
+        /// <param name="colorIDDifference">The color ID difference (new - old).</param>
+        /// <param name="colorChannel">The color channel information of the new main color ID.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void OnMainColorIDsChanged(LevelObjectCollection objects, int colorIDDifference, ColorChannel colorChannel, bool registerUndoable = true)
+        {
+            void Action() => ChangeMainColorID(objects, colorIDDifference, false);
+            void Undo() => ChangeMainColorID(objects, colorIDDifference, false);
+            string description = $"Set main color ID to {colorChannel.ColorChannelID}";
+            if (registerUndoable)
+                levelActions.AddTemporaryAction(description, Action, Undo);
+            MainColorIDsChanged?.Invoke(objects, colorIDDifference, colorChannel);
+        }
+        /// <summary>Triggers the <seealso cref="DetailColorIDsChanged"/> event.</summary>
+        /// <param name="objects">The objects whose detail color ID was changed.</param>
+        /// <param name="colorIDDifference">The color ID difference (new - old).</param>
+        /// <param name="colorChannel">The color channel information of the new detail color ID.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void OnDetailColorIDsChanged(LevelObjectCollection objects, int colorIDDifference, ColorChannel colorChannel, bool registerUndoable = true)
+        {
+            void Action() => ChangeDetailColorID(objects, colorIDDifference, false);
+            void Undo() => ChangeDetailColorID(objects, colorIDDifference, false);
+            string description = $"Set detail color ID to {colorChannel.ColorChannelID}";
+            if (registerUndoable)
+                levelActions.AddTemporaryAction(description, Action, Undo);
+            DetailColorIDsChanged?.Invoke(objects, colorIDDifference, colorChannel);
         }
         #endregion
         #endregion
@@ -1070,6 +1104,57 @@ namespace GDEdit.Application.Editor
             var objects = Level.LevelObjects.GetObjectsByColorID(colorChannelID);
             OnBlendingChanged(objects, colorChannelID, colorChannel, registerUndoable);
         }
+        /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
+        /// <param name="colorIDDifference">The color ID difference (new - old).</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void ChangeMainColorID(LevelObjectCollection objects, int colorIDDifference, bool registerUndoable = true)
+        {
+            int? newColorID = null;
+            foreach (var o in objects)
+                if (newColorID == null)
+                    newColorID = o.Color1ID += colorIDDifference;
+                else if (newColorID.Value != (o.Color1ID += colorIDDifference))
+                    throw new ArgumentException("Not all objects have the same main color ID.");
+            if (newColorID != null)
+                OnMainColorIDsChanged(objects, colorIDDifference, Level.ColorChannels[newColorID.Value], registerUndoable);
+        }
+        /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
+        /// <param name="colorIDDifference">The color ID difference (new - old).</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void ChangeDetailColorID(LevelObjectCollection objects, int colorIDDifference, bool registerUndoable = true)
+        {
+            int? newColorID = null;
+            foreach (var o in objects)
+                if (newColorID == null)
+                    newColorID = o.Color1ID += colorIDDifference;
+                else if (newColorID.Value != (o.Color2ID += colorIDDifference))
+                    throw new ArgumentException("Not all objects have the same detail color ID.");
+            if (newColorID != null)
+                OnDetailColorIDsChanged(objects, colorIDDifference, Level.ColorChannels[newColorID.Value], registerUndoable);
+        }
+        /// <summary>Sets the provided objects' main color ID to the specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change.</param>
+        /// <param name="colorID">The color ID to set as main color ID on the specified objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetMainColorID(LevelObjectCollection objects, int colorID, bool registerUndoable = true)
+        {
+            var d = objects.GetMainColorIDObjectDictionary();
+            foreach (var k in d)
+                ChangeMainColorID(objects, colorID - k.Key, registerUndoable);
+        }
+        /// <summary>Sets the provided objects' detail color ID to the specified value.</summary>
+        /// <param name="objects">The objects whose detail color ID to change.</param>
+        /// <param name="colorID">The color ID to set as detail color ID on the specified objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void SetDetailColorID(LevelObjectCollection objects, int colorID, bool registerUndoable = true)
+        {
+            var d = objects.GetDetailColorIDObjectDictionary();
+            foreach (var k in d)
+                ChangeDetailColorID(objects, colorID - k.Key, registerUndoable);
+        }
+
         /// <summary>Resets the unused color channels.</summary>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void ResetUnusedColors(bool registerUndoable = true)
@@ -1114,10 +1199,14 @@ namespace GDEdit.Application.Editor
                         break;
                 }
             }
+            levelActions.MultipleActionToggle = true;
             foreach (var o in Level.LevelObjects)
                 for (int i = 0; i < o.GroupIDs.Length; i++)
-                    if (!usedIDs.Contains(o.GroupIDs[i]))
-                        o.GroupIDs[i] = 0;
+                    if (!usedIDs.Contains(o.GetGroupID(i)))
+                        o.SetGroupID(i, 0); // TODO: Raise events
+            levelActions.MultipleActionToggle = false;
+            if (registerUndoable)
+                levelActions.RegisterActions("Reset unused Group IDs");
         }
 
         /// <summary>Snaps all the triggers to the level's guidelines.</summary>
@@ -1442,6 +1531,18 @@ namespace GDEdit.Application.Editor
     /// <param name="colorID">The color ID that was changed.</param>
     /// <param name="colorChannel">The color channel instance that was changed.</param>
     public delegate void BlendingChangedHandler(LevelObjectCollection affectedObjects, int colorID, ColorChannel colorChannel);
+    #endregion
+    #region Colors
+    /// <summary>Represents a function that contains information about a main color ID change action including the affected objects.</summary>
+    /// <param name="objects">The objects whose main Color ID was changed.</param>
+    /// <param name="colorIDDifference">The color ID difference (new - old).</param>
+    /// <param name="colorChannel">The color channel instance that contains the color information of the newly set main color ID.</param>
+    public delegate void MainColorIDsChangedHandler(LevelObjectCollection objects, int colorIDDifference, ColorChannel colorChannel);
+    /// <summary>Represents a function that contains information about a detail color ID change action including the affected objects.</summary>
+    /// <param name="objects">The objects whose detail Color ID was changed.</param>
+    /// <param name="colorIDDifference">The color ID difference (new - old).</param>
+    /// <param name="colorChannel">The color channel instance that contains the color information of the newly set detail color ID.</param>
+    public delegate void DetailColorIDsChangedHandler(LevelObjectCollection objects, int colorIDDifference, ColorChannel colorChannel);
     #endregion
     #endregion
     #endregion
