@@ -205,6 +205,39 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             return result;
         }
 
+
+        #region Dictionaries
+        // Keep in mind, those functions' performance is really low
+        /// <summary>Returns a <seealso cref="Dictionary{TKey, TValue}"/> that categorizes the level objects in this <seealso cref="LevelObjectCollection"/> based on their main color ID.</summary>
+        public Dictionary<int, LevelObjectCollection> GetMainColorIDObjectDictionary() => GetObjectDictionary(o => o.Color1ID);
+        /// <summary>Returns a <seealso cref="Dictionary{TKey, TValue}"/> that categorizes the level objects in this <seealso cref="LevelObjectCollection"/> based on their detail color ID.</summary>
+        public Dictionary<int, LevelObjectCollection> GetDetailColorIDObjectDictionary() => GetObjectDictionary(o => o.Color2ID);
+        /// <summary>Returns a <seealso cref="Dictionary{TKey, TValue}"/> that categorizes the level objects in this <seealso cref="LevelObjectCollection"/> based on their main and detail color IDs.</summary>
+        public Dictionary<int, LevelObjectCollection> GetColorIDObjectDictionary() => GetObjectDictionary(o => (IEnumerable<int>)new List<int> { o.Color1ID, o.Color2ID });
+        /// <summary>Returns a <seealso cref="Dictionary{TKey, TValue}"/> that categorizes the level objects in this <seealso cref="LevelObjectCollection"/> based on their group IDs.</summary>
+        public Dictionary<int, LevelObjectCollection> GetGroupIDObjectDictionary() => GetObjectDictionary(o => (IEnumerable<int>)o.GroupIDs);
+
+        /// <summary>Returns a <seealso cref="Dictionary{TKey, TValue}"/> that categorizes the level objects in this <seealso cref="LevelObjectCollection"/> based on a selector.</summary>
+        /// <param name="selector">The selector function to categorize this <seealso cref="LevelObjectCollection"/>'s objects in the dictionary.</param>
+        public Dictionary<TKey, LevelObjectCollection> GetObjectDictionary<TKey>(Func<GeneralObject, TKey> selector)
+        {
+            var result = new Dictionary<TKey, LevelObjectCollection>();
+            foreach (var o in objects)
+                HandleEntryInsertion(result, selector(o), o);
+            return result;
+        }
+        /// <summary>Returns a <seealso cref="Dictionary{TKey, TValue}"/> that categorizes the level objects in this <seealso cref="LevelObjectCollection"/> based on a multiple key selector.</summary>
+        /// <param name="selector">The selector function to categorize this <seealso cref="LevelObjectCollection"/>'s objects in the dictionary. Each of the returned keys will contain this object.</param>
+        public Dictionary<TKey, LevelObjectCollection> GetObjectDictionary<TKey>(Func<GeneralObject, IEnumerable<TKey>> selector)
+        {
+            var result = new Dictionary<TKey, LevelObjectCollection>();
+            foreach (var o in objects)
+                foreach (var key in selector(o))
+                    HandleEntryInsertion(result, key, o);
+            return result;
+        }
+        #endregion
+
         /// <summary>Gets or sets the level object at the specified index.</summary>
         /// <param name="index">The index of the level object.</param>
         public GeneralObject this[int index]
@@ -252,6 +285,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         {
             colorTriggerCount = -1;
             triggerCount = -1;
+        }
+
+        private static void HandleEntryInsertion<TKey>(Dictionary<TKey, LevelObjectCollection> dictionary, TKey key, GeneralObject o)
+        {
+            if (dictionary.ContainsKey(key))
+                dictionary[key].Add(o);
+            else
+                dictionary.Add(key, new LevelObjectCollection(o));
         }
 
         /// <summary>Returns a <see langword="string"/> that represents the current object.</summary>
