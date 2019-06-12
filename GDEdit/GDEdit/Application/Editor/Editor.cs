@@ -1,6 +1,7 @@
 ﻿using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
@@ -136,10 +137,15 @@ namespace GDEdit.Application.Editor
 
         /// <summary>Occurs when objects have been copied to the clipboard.</summary>
         public event ObjectsCopiedHandler ObjectsCopied;
-        /// <summary>Occurs when objects been pasted from the clipboard.</summary>
+        /// <summary>Occurs when objects have been pasted from the clipboard.</summary>
         public event ObjectsPastedHandler ObjectsPasted;
-        /// <summary>Occurs when objects been ViPriNized.</summary>
+        /// <summary>Occurs when objects have been ViPriNized.</summary>
         public event ObjectsCopyPastedHandler ObjectsCopyPasted;
+
+        /// <summary>Occurs when a color channel has been changed.</summary>
+        public event ColorChangedHandler ColorChanged;
+        /// <summary>Occurs when a color channel's Blending property has been changed.</summary>
+        public event BlendingChangedHandler BlendingChanged;
         #endregion
         #endregion
 
@@ -397,6 +403,37 @@ namespace GDEdit.Application.Editor
             if (registerUndoable)
                 levelActions.AddTemporaryAction(description, Action, Undo);
             ObjectsCopyPasted?.Invoke(newObjects, oldObjects);
+        }
+
+        /// <summary>Triggers the <seealso cref="ColorChanged"/> event.</summary>
+        /// <param name="affectedObjects">The objects that were affected from this change.</param>
+        /// <param name="colorID">The color ID that was changed.</param>
+        /// <param name="oldColor">The old color of the color channel.</param>
+        /// <param name="newColor">The new color of the color channel.</param>
+        /// <param name="colorChannel">The color channel instance that was changed.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void OnColorChanged(LevelObjectCollection affectedObjects, int colorID, Color oldColor, Color newColor, ColorChannel colorChannel, bool registerUndoable = true)
+        {
+            void Action() => ChangeColorChannelColor(colorID, newColor, false);
+            void Undo() => ChangeColorChannelColor(colorID, oldColor, false);
+            string description = $"Change color ID {colorID}";
+            if (registerUndoable)
+                levelActions.AddTemporaryAction(description, Action, Undo);
+            ColorChanged?.Invoke(affectedObjects, colorID, oldColor, newColor, colorChannel);
+        }
+        /// <summary>Triggers the <seealso cref="BlendingChanged"/> event.</summary>
+        /// <param name="affectedObjects">The objects that were affected from this change.</param>
+        /// <param name="colorID">The color ID whose Blending property was changed.</param>
+        /// <param name="colorChannel">The color channel instance that was changed.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void OnBlendingChanged(LevelObjectCollection affectedObjects, int colorID, ColorChannel colorChannel, bool registerUndoable = true)
+        {
+            void Action() => ChangeColorChannelBlending(colorID, false);
+            void Undo() => ChangeColorChannelBlending(colorID, false);
+            string description = $"Toggle Blending color ID {colorID}";
+            if (registerUndoable)
+                levelActions.AddTemporaryAction(description, Action, Undo);
+            BlendingChanged?.Invoke(affectedObjects, colorID, colorChannel);
         }
         #endregion
         #endregion
@@ -1011,7 +1048,28 @@ namespace GDEdit.Application.Editor
             OnObjectsCopyPasted(cloned, SelectedObjects, registerUndoable);
         }
 
-        // TODO: Implement undo/redo on the following 3 functions
+        /// <summary>Changes a color channel's color.</summary>
+        /// <param name="colorChannelID">The color channel ID to change the color of.</param>
+        /// <param name="newColor">The new color to apply to that color channel.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void ChangeColorChannelColor(int colorChannelID, Color newColor, bool registerUndoable = true)
+        {
+            var colorChannel = Level.ColorChannels[colorChannelID];
+            var oldColor = colorChannel.Color;
+            var objects = Level.LevelObjects.GetObjectsByColorID(colorChannelID);
+            colorChannel.Color = newColor;
+            OnColorChanged(objects, colorChannelID, oldColor, newColor, colorChannel, registerUndoable);
+        }
+        /// <summary>Changes a color channel's Blending.</summary>
+        /// <param name="colorChannelID">The color channel ID to change the Blending of.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void ChangeColorChannelBlending(int colorChannelID, bool registerUndoable = true)
+        {
+            var colorChannel = Level.ColorChannels[colorChannelID];
+            colorChannel.Blending = !colorChannel.Blending;
+            var objects = Level.LevelObjects.GetObjectsByColorID(colorChannelID);
+            OnBlendingChanged(objects, colorChannelID, colorChannel, registerUndoable);
+        }
         /// <summary>Resets the unused color channels.</summary>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void ResetUnusedColors(bool registerUndoable = true)
@@ -1368,6 +1426,23 @@ namespace GDEdit.Application.Editor
     /// <param name="newObjects">The new copies of the original objects.</param>
     /// <param name="oldObjects">The original objects that were copied.</param>
     public delegate void ObjectsCopyPastedHandler(LevelObjectCollection newObjects, LevelObjectCollection oldObjects);
+
+    #region Color Channels
+    // TODO: Consider implementing more handler delegates, events and On*Changed functions to support the ResetUnusedColors and potentially more functions
+    /// <summary>Represents a function that contains information about a color ID change action including the affected objects.</summary>
+    /// <param name="affectedObjects">The objects that were affected from this change.</param>
+    /// <param name="colorID">The color ID that was changed.</param>
+    /// <param name="oldColor">The old color of the color channel.</param>
+    /// <param name="newColor">The new color of the color channel.</param>
+    /// <param name="colorChannel">The color channel instance that was changed.</param>
+    // TODO: Consider changing this in the future so that only one Color parameter is parsed indicating the difference between the two colors (would require a rework in the implementation of the Color)
+    public delegate void ColorChangedHandler(LevelObjectCollection affectedObjects, int colorID, Color oldColor, Color newColor, ColorChannel colorChannel);
+    /// <summary>Represents a function that contains information about a color ID blending change action including the affected objects.</summary>
+    /// <param name="affectedObjects">The objects that were affected from this change.</param>
+    /// <param name="colorID">The color ID that was changed.</param>
+    /// <param name="colorChannel">The color channel instance that was changed.</param>
+    public delegate void BlendingChangedHandler(LevelObjectCollection affectedObjects, int colorID, ColorChannel colorChannel);
+    #endregion
     #endregion
     #endregion
 }
