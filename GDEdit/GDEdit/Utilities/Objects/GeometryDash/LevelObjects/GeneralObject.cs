@@ -344,7 +344,88 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     return;
                 }
         }
-        
+
+        /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>
+        /// <param name="ID">The Group ID to add.</param>
+        public void AddGroupID(int ID)
+        {
+            if (groupIDs.Length < 10 && !groupIDs.Contains((short)ID))
+                groupIDs = groupIDs.Append((short)ID);
+        }
+        /// <summary>Adds the specified Group IDs to the object's Group IDs. Only ones that do not already exist are added.</summary>
+        /// <param name="IDs">The Group IDs to add.</param>
+        public void AddGroupIDs(IEnumerable<short> IDs)
+        {
+            var l = IDs.ToList();
+            for (int i = l.Count - 1; i >= 0; i--)
+                if (groupIDs.Contains(l[i]))
+                    l.RemoveAt(i);
+            if (groupIDs.Length < 11 - l.Count)
+                groupIDs = groupIDs.AppendRange(l.ToArray());
+        }
+        /// <summary>Removes a Group ID from the object's Group IDs.</summary>
+        /// <param name="ID">The Group ID to remove.</param>
+        public void RemoveGroupID(int ID)
+        {
+            int index = -1;
+            bool found = false;
+            for (int i = 0; i < groupIDs.Length && !found; i++)
+                if (found = groupIDs[i] == ID)
+                    index = i;
+            if (index > -1)
+                groupIDs = groupIDs.RemoveAt(index);
+        }
+        /// <summary>Removes the specified Group IDs from the object's Group IDs.</summary>
+        /// <param name="IDs">The Group IDs to remove.</param>
+        public void RemoveGroupIDs(IEnumerable<short> IDs)
+        {
+            var arrayIDs = IDs.ToArray();
+            bool found = false;
+            int newLength = groupIDs.Length;
+            for (int i = 0; i < groupIDs.Length; i++, found = false)
+                for (int j = 0; j < arrayIDs.Length && !found; j++)
+                    if (found = groupIDs[i] == arrayIDs[j])
+                        newLength += groupIDs[i] = -1;
+            var result = new short[newLength];
+            int a = 0;
+            for (int i = 0; i < groupIDs.Length; i++)
+                if (groupIDs[i] > -1)
+                    result[a++] = groupIDs[i];
+            groupIDs = result;
+        }
+        /// <summary>Returns the Group IDs of this object that match those from a provided <seealso cref="IEnumerable{T}"/>.</summary>
+        /// <param name="IDs">The Group IDs to search in this object's Group IDs.</param>
+        public IEnumerable<short> GetCommonGroupIDs(IEnumerable<short> IDs)
+        {
+            var list = new List<short>();
+            var arrayIDs = IDs.ToArray();
+            bool found = false;
+            for (int i = 0; i < groupIDs.Length; i++, found = false)
+                for (int j = 0; j < arrayIDs.Length && !found; j++)
+                    if (found = groupIDs[i] == arrayIDs[j])
+                        list.Add(arrayIDs[i]);
+            return list;
+        }
+        /// <summary>Returns the Group IDs that are not in this object's Group IDs from a provided <seealso cref="IEnumerable{T}"/>.</summary>
+        /// <param name="IDs">The Group IDs that will be filtered out.</param>
+        public IEnumerable<short> ExcludeExistingGroupIDs(IEnumerable<short> IDs)
+        {
+            var list = IDs.ToList();
+            bool found = false;
+            for (int i = 0; i < groupIDs.Length; i++, found = false)
+                for (int j = 0; j < list.Count && !found; j++)
+                    if (found = groupIDs[i] == list[j])
+                        list.RemoveAt(j);
+            return list;
+        }
+        /// <summary>Gets a group ID of this object. This function exists because `GroupIDs[index]` is inefficient at a large scale.</summary>
+        /// <param name="index">The index of the group ID to get.</param>
+        public int GetGroupID(int index) => groupIDs[index];
+        /// <summary>Sets a group ID of this object. This function exists because `GroupIDs[index] = groupID` will not work.</summary>
+        /// <param name="index">The index of the group ID to set.</param>
+        /// <param name="groupID">The group ID to set.</param>
+        public void SetGroupID(int index, int groupID) => groupIDs[index] = (short)groupID;
+
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
         /// <param name="startingX">The starting X position of the rectangle.</param>
         /// <param name="startingY">The starting Y position of the rectangle.</param>
