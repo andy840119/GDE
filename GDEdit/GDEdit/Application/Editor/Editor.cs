@@ -147,6 +147,11 @@ namespace GDEdit.Application.Editor
         /// <summary>Occurs when a color channel's Blending property has been changed.</summary>
         public event BlendingChangedHandler BlendingChanged;
 
+        /// <summary>Occurs when group IDs have been added to objects.</summary>
+        public event GroupIDsAddedHandler GroupIDsAdded;
+        /// <summary>Occurs when group IDs have been removed from objects.</summary>
+        public event GroupIDsRemovedHandler GroupIDsRemoved;
+
         /// <summary>Occurs when the main color ID of a number of objects has been changed.</summary>
         public event MainColorIDsChangedHandler MainColorIDsChanged;
         /// <summary>Occurs when the detail color ID of a number of objects has been changed.</summary>
@@ -441,6 +446,33 @@ namespace GDEdit.Application.Editor
             BlendingChanged?.Invoke(affectedObjects, colorID, colorChannel);
         }
 
+        /// <summary>Triggers the <seealso cref="GroupIDsAdded"/> event.</summary>
+        /// <param name="objects">The objects whose group IDs were changed.</param>
+        /// <param name="groupIDs">The group IDs that were added.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void OnGroupIDsAdded(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
+        {
+            void Action() => AddGroupIDs(objects, groupIDs, false);
+            void Undo() => RemoveGroupIDs(objects, groupIDs, false);
+            string description = $"Add group IDs to {GetAppropriateForm(objects.Count, "object")}";
+            if (registerUndoable)
+                levelActions.AddTemporaryAction(description, Action, Undo);
+            GroupIDsAdded?.Invoke(objects, groupIDs);
+        }
+        /// <summary>Triggers the <seealso cref="GroupIDsRemoved"/> event.</summary>
+        /// <param name="objects">The objects whose group IDs were changed.</param>
+        /// <param name="groupIDs">The group IDs that were removed.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void OnGroupIDsRemoved(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
+        {
+            void Action() => RemoveGroupIDs(objects, groupIDs, false);
+            void Undo() => AddGroupIDs(objects, groupIDs, false);
+            string description = $"Remove group IDs from {GetAppropriateForm(objects.Count, "object")}";
+            if (registerUndoable)
+                levelActions.AddTemporaryAction(description, Action, Undo);
+            GroupIDsRemoved?.Invoke(objects, groupIDs);
+        }
+
         /// <summary>Triggers the <seealso cref="MainColorIDsChanged"/> event.</summary>
         /// <param name="objects">The objects whose main color ID was changed.</param>
         /// <param name="colorIDDifference">The color ID difference (new - old).</param>
@@ -711,6 +743,15 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void MoveToX(double x, bool registerUndoable = true) => MoveToX(SelectedObjects, x, registerUndoable);
         /// <summary>Moves the specified object to a location in the X axis.</summary>
+        /// <param name="obj">The object to move.</param>
+        /// <param name="x">The X location to move the object to.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void MoveToX(GeneralObject obj, double x, bool registerUndoable = true)
+        {
+            if (x != 0)
+                MoveX(obj, x - obj.X, registerUndoable);
+        }
+        /// <summary>Moves the specified objects to a location in the X axis.</summary>
         /// <param name="objects">The objects to move.</param>
         /// <param name="x">The X location to move the object to.</param>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
@@ -1104,6 +1145,67 @@ namespace GDEdit.Application.Editor
             var objects = Level.LevelObjects.GetObjectsByColorID(colorChannelID);
             OnBlendingChanged(objects, colorChannelID, colorChannel, registerUndoable);
         }
+
+        // The *CommonGroupIDs functions serve the purpose of only changing the group IDs on objects that have the same group IDs from the provided enumerable
+        // That means only the groups that objects do not have will be added and only groups the objects do have will be removed
+        // Maybe these comments are misleading, but at least the functions work(?)
+        /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
+        /// <param name="groupIDs">The group IDs to add to all the objects (assuming none of the objects belong any of the groups).</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void AddCommonGroupIDs(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
+        {
+            var g = groupIDs.Cast<short>();
+            foreach (var o in objects)
+                o.AddGroupIDs(g);
+            OnGroupIDsAdded(objects, groupIDs, registerUndoable);
+        }
+        /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
+        /// <param name="groupIDs">The group IDs to add to all the objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void AddGroupIDs(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
+        {
+            var d = new Dictionary<IEnumerable<short>, LevelObjectCollection>();
+            var g = groupIDs.Cast<short>();
+            foreach (var o in objects)
+                foreach (var kvp in d)
+                    if (o.ExcludeExistingGroupIDs(g).SequenceEqual(kvp.Key))
+                        kvp.Value.Add(o);
+                    else
+                        d.Add(g, new LevelObjectCollection(o));
+            foreach (var kvp in d)
+                AddCommonGroupIDs(kvp.Value, kvp.Key.Cast<int>(), registerUndoable);
+        }
+        /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
+        /// <param name="groupIDs">The group IDs to remove from all the objects (assuming all of the objects belong to all the specified groups).</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void RemoveCommonGroupIDs(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
+        {
+            var g = groupIDs.Cast<short>();
+            foreach (var o in objects)
+                o.RemoveGroupIDs(g);
+            OnGroupIDsRemoved(objects, groupIDs, registerUndoable);
+        }
+        /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
+        /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
+        /// <param name="groupIDs">The group IDs to remove from all the objects.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        public void RemoveGroupIDs(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
+        {
+            var d = new Dictionary<IEnumerable<short>, LevelObjectCollection>();
+            var g = groupIDs.Cast<short>();
+            foreach (var o in objects)
+                foreach (var kvp in d)
+                    if (o.GetCommonGroupIDs(g).SequenceEqual(kvp.Key))
+                        kvp.Value.Add(o);
+                    else
+                        d.Add(g, new LevelObjectCollection(o));
+            foreach (var kvp in d)
+                RemoveCommonGroupIDs(kvp.Value, kvp.Key.Cast<int>(), registerUndoable);
+        }
+
         /// <summary>Adjusts the provided objects' main color ID by a specified value.</summary>
         /// <param name="objects">The objects whose main color ID to change. All objects must have the same color ID.</param>
         /// <param name="colorIDDifference">The color ID difference (new - old).</param>
@@ -1170,9 +1272,13 @@ namespace GDEdit.Application.Editor
                 copiedIDs.Add(Level.ColorChannels[i].CopiedColorID);
             foreach (var c in copiedIDs)
                 usedIDs.Add(c);
+            levelActions.MultipleActionToggle = true;
             for (int i = 1; i < 1000; i++)
                 if (!usedIDs.Contains(i))
                     Level.ColorChannels[i].Reset();
+            levelActions.MultipleActionToggle = false;
+            if (registerUndoable)
+                levelActions.RegisterActions("Reset unused Color IDs");
         }
         /// <summary>Resets the Group IDs of the objects that are not targeted by any trigger.</summary>
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
@@ -1229,9 +1335,9 @@ namespace GDEdit.Application.Editor
                 double a = Level.Guidelines[index - 1].TimeStamp;
                 double b = Level.Guidelines[index].TimeStamp;
                 if (index > 0 && Abs(a - time) <= maxDifference)
-                    t.X = segments.ConvertTimeToX(a);
+                    MoveToX(t, segments.ConvertTimeToX(a));
                 else if (Abs(b - time) <= maxDifference)
-                    t.X = segments.ConvertTimeToX(b);
+                    MoveToX(t, segments.ConvertTimeToX(b));
             }
             levelActions.MultipleActionToggle = false;
             if (registerUndoable)
@@ -1532,6 +1638,18 @@ namespace GDEdit.Application.Editor
     /// <param name="colorChannel">The color channel instance that was changed.</param>
     public delegate void BlendingChangedHandler(LevelObjectCollection affectedObjects, int colorID, ColorChannel colorChannel);
     #endregion
+
+    #region Groups
+    /// <summary>Represents a function that contains information about a group ID addition action.</summary>
+    /// <param name="objects">The objects whose group IDs were changed.</param>
+    /// <param name="groupIDs">The group IDs that were added.</param>
+    public delegate void GroupIDsAddedHandler(LevelObjectCollection objects, IEnumerable<int> groupIDs);
+    /// <summary>Represents a function that contains information about a group ID removal action.</summary>
+    /// <param name="objects">The objects whose group IDs were changed.</param>
+    /// <param name="groupIDs">The group IDs that were removed.</param>
+    public delegate void GroupIDsRemovedHandler(LevelObjectCollection objects, IEnumerable<int> groupIDs);
+    #endregion
+
     #region Colors
     /// <summary>Represents a function that contains information about a main color ID change action including the affected objects.</summary>
     /// <param name="objects">The objects whose main Color ID was changed.</param>
