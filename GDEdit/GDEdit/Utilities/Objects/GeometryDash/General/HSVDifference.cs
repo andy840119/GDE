@@ -54,7 +54,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.General
             }
         }
 
-        private HSVAdjustment() { }
         /// <summary>Initializes a new instance of the <seealso cref="HSVAdjustment"/> class.</summary>
         public HSVAdjustment() : this(0, 1, 1, default, default) { }
         /// <summary>Initializes a new instance of the <seealso cref="HSVAdjustment"/> class.</summary>
