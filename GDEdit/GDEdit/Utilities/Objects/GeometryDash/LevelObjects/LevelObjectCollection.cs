@@ -205,6 +205,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             return result;
         }
 
+        /// <summary>Returns a <seealso cref="LevelObjectCollection"/> that contains the objects that have a group ID equal to the provided value.</summary>
+        /// <param name="groupID">The group ID of the objects to look for.</param>
+        public LevelObjectCollection GetObjectsByGroupID(int groupID)
+        {
+            var result = new LevelObjectCollection();
+            foreach (var o in objects)
+                if (o.GroupIDs.Contains(groupID))
+                    result.Add(o);
+            return result;
+        }
+        /// <summary>Returns a <seealso cref="LevelObjectCollection"/> that contains the objects that have a main or detail color ID equal to the provided value.</summary>
+        /// <param name="colorID">The color ID of the objects to look for.</param>
+        public LevelObjectCollection GetObjectsByColorID(int colorID)
+        {
+            var result = new LevelObjectCollection();
+            foreach (var o in objects)
+                if (o.Color1ID == colorID || o.Color2ID == colorID)
+                    result.Add(o);
+            return result;
+        }
 
         #region Dictionaries
         // Keep in mind, those functions' performance is really low
