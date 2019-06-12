@@ -14,6 +14,11 @@ namespace GDEdit.Utilities.Functions.Extensions
         /// <param name="a">The original array to which the element will be appended.</param>
         /// <param name="item">The item to append.</param>
         public static T[] Append<T>(this T[] a, T item) => a.InsertAt(a.Length, item);
+        /// <summary>Appends the specified elements to the original array without altering it. Returns a new array which contains the appended element at its end.</summary>
+        /// <typeparam name="T">The type of the array elements.</typeparam>
+        /// <param name="a">The original array to which the elements will be appended.</param>
+        /// <param name="items">The items to append.</param>
+        public static T[] AppendRange<T>(this T[] a, T[] items) => a.InsertRangeAt(a.Length, items);
         /// <summary>Copies the original array and returns a new array which contains the same elements at the same indices.</summary>
         /// <typeparam name="T">The type of the array elements.</typeparam>
         /// <param name="a">The original array to copy.</param>
@@ -73,7 +78,29 @@ namespace GDEdit.Utilities.Functions.Extensions
                     result[i + 1] = a[i];
                 return result;
             }
-            else return new T[] { item };
+            else
+                return new T[] { item };
+        }
+        /// <summary>Inserts the specified elements at the array at a specified index without affecting the original array. Returns a new array which contains the elements of the original array and the inserted one.</summary>
+        /// <typeparam name="T">The type of the array elements.</typeparam>
+        /// <param name="a">The original array to which the elements will be inserted.</param>
+        /// <param name="items">The items to insert to the array.</param>
+        /// <param name="index">The index of the first inserted item in the array.</param>
+        public static T[] InsertRangeAt<T>(this T[] a, int index, T[] items)
+        {
+            if (a != null)
+            {
+                T[] result = new T[a.Length + items.Length];
+                for (int i = 0; i < items.Length; i++)
+                    result[index + i] = items[i];
+                for (int i = 0; i < index; i++)
+                    result[i] = a[i];
+                for (int i = index; i < a.Length; i++)
+                    result[i + items.Length] = a[i];
+                return result;
+            }
+            else
+                return items.CopyArray();
         }
         /// <summary>Moves an array element at a specified index to another. This affects the original array and returns its instance.</summary>
         /// <typeparam name="T">The type of the array elements.</typeparam>
