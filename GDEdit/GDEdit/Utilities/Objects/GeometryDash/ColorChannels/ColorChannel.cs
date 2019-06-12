@@ -45,6 +45,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
         [ColorStringMappable(17)]
         public bool CopyOpacity { get; set; }
 
+        /// <summary>Gets or sets the color values <seealso cref="Red"/>, <seealso cref="Green"/>, <seealso cref="Blue"/> represented as a <seealso cref="Objects.General.Color"/> (this does not affect <seealso cref="Opacity"/>).</summary>
+        public Color Color
+        {
+            get => new Color(Red, Green, Blue);
+            set
+            {
+                Red = value.IntR;
+                Green = value.IntG;
+                Blue = value.IntB;
+            }
+        }
+
         /// <summary>Initializes a new empty instance of the <seealso cref="ColorChannel"/> class. For private usage only.</summary>
         private ColorChannel() : this(0) { }
         /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with the default values.</summary>
