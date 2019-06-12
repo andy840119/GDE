@@ -65,6 +65,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.ColorChannels
         /// <summary>Initializes a new instance of the <seealso cref="ColorChannel"/> class with a specified color.</summary>
         public ColorChannel(int colorChannelID, int red, int green, int blue)
         {
+            ColorChannelID = colorChannelID;
             Red = red;
             Green = green;
             Blue = blue;
