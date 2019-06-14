@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Convert;
 using static System.Math;
 
 namespace GDEdit.Application.Editor
@@ -1361,6 +1363,80 @@ namespace GDEdit.Application.Editor
         {
             if (Zoom < 4.9) // Good threshold?
                 Zoom += 0.1;
+        }
+        #endregion
+
+        #region Group ID Migration
+        // This was copied from a private feature code of EffectSome
+        private void PerformSteps(List<SourceTargetRange> ranges)
+        {
+            for (int s = 0; s < ranges.Count; s++)
+                for (int i = 0; i < Level.LevelObjects.Count; )
+                    AdjustGroups(Level.LevelObjects[i], ranges[s]);
+        }
+
+        private void AdjustGroups(GeneralObject o, SourceTargetRange r)
+        {
+            int d = r.Difference;
+
+            var groups = o.GroupIDs;
+            if (groups != null)
+                for (int g = 0; g < groups.Length; g++)
+                    if (r.IsWithinSourceRange(groups[g]))
+                        groups[g] += d;
+
+            if (o is IHasSecondaryGroupID s && r.IsWithinSourceRange(s.SecondaryGroupID))
+                s.SecondaryGroupID += d;
+            if (o is IHasTargetGroupID t && r.IsWithinSourceRange(t.TargetGroupID))
+                t.TargetGroupID += d;
+        }
+
+        private class SourceTargetRange
+        {
+            public int SourceFrom;
+            public int SourceTo;
+            public int TargetFrom;
+            public int TargetTo;
+
+            public int Range => SourceTo - SourceFrom;
+            public int Difference => TargetFrom - SourceFrom;
+
+            public SourceTargetRange(int sourceFrom, int sourceTo, int targetFrom, int targetTo)
+            {
+                SourceFrom = sourceFrom;
+                SourceTo = sourceTo;
+                TargetFrom = targetFrom;
+                TargetTo = targetTo;
+            }
+
+            public bool IsWithinSourceRange(int value) => SourceFrom <= value && value <= SourceTo;
+
+            public static SourceTargetRange Parse(string str)
+            {
+                string[,] split = str.Split('>').Split('-');
+                int length0 = split.GetLength(0);
+                int length1 = split.GetLength(1);
+
+                for (int i = 0; i < length0; i++)
+                    for (int j = 0; j < length1; j++)
+                    {
+                        while (split[i, j].First() == ' ')
+                            split[i, j] = split[i, j].Remove(0, 1);
+                        while (split[i, j].Last() == ' ')
+                            split[i, j] = split[i, j].Remove(split[i, j].Length - 1, 1);
+                    }
+                return new SourceTargetRange(ToInt32(split[0, 0]), ToInt32(split[0, length1 - 1]), ToInt32(split[1, 0]), ToInt32(split[1, length1 - 1]));
+            }
+            public static List<SourceTargetRange> LoadRangesFromStringArray(string[] lines, bool ignoreEmptyLines = true)
+            {
+                var list = new List<SourceTargetRange>();
+                foreach (string s in lines)
+                    if (!ignoreEmptyLines || s != "")
+                        list.Add(Parse(s));
+                return list;
+            }
+
+            public override string ToString() => $"{SourceFrom}{(Range > 0 ? $"-{SourceTo}" : "")} > {TargetFrom}{(Range > 0 ? $"-{TargetTo}" : "")}";
         }
         #endregion
 
