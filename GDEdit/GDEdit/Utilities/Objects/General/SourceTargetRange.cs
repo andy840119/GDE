@@ -10,23 +10,43 @@ namespace GDEdit.Utilities.Objects.General
 {
     public class SourceTargetRange
     {
-        public int SourceFrom;
-        public int SourceTo;
-        public int TargetFrom;
-        public int TargetTo;
+        private int sourceFrom, sourceTo, targetFrom;
 
-        public int Range => SourceTo - SourceFrom;
-        public int Difference => TargetFrom - SourceFrom;
+        public int SourceFrom
+        {
+            get => sourceFrom;
+            set => SourceTargetRangeChanged?.Invoke(sourceFrom = value, sourceTo, targetFrom, TargetTo);
+        }
+        public int SourceTo
+        {
+            get => sourceTo;
+            set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo = value, targetFrom, TargetTo);
+        }
+        public int TargetFrom
+        {
+            get => targetFrom;
+            set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom = value, TargetTo);
+        }
+        public int TargetTo => targetFrom + Range;
 
         public SourceTargetRange(int sourceFrom, int sourceTo, int targetFrom, int targetTo)
+        public int Range => sourceTo - sourceFrom;
+        public int Difference => targetFrom - sourceFrom;
+        public event SourceTargetRangeChanged SourceTargetRangeChanged;
+        public SourceTargetRange(int sourceStart, int sourceEnd, int targetStart)
         {
-            SourceFrom = sourceFrom;
-            SourceTo = sourceTo;
-            TargetFrom = targetFrom;
-            TargetTo = targetTo;
+            sourceFrom = sourceStart;
+            sourceTo = sourceEnd;
+            targetFrom = targetStart;
         }
 
-        public bool IsWithinSourceRange(int value) => SourceFrom <= value && value <= SourceTo;
+        public bool IsWithinSourceRange(int value) => sourceFrom <= value && value <= sourceTo;
+        public void AdjustSourceFrom(int adjustment, bool maintainDifference = true)
+        {
+            sourceFrom += adjustment;
+            if (maintainDifference)
+                sourceTo += adjustment;
+        }
 
         public static SourceTargetRange Parse(string str)
         {
@@ -42,7 +62,7 @@ namespace GDEdit.Utilities.Objects.General
                     while (split[i, j].Last() == ' ')
                         split[i, j] = split[i, j].Remove(split[i, j].Length - 1, 1);
                 }
-            return new SourceTargetRange(ToInt32(split[0, 0]), ToInt32(split[0, length1 - 1]), ToInt32(split[1, 0]), ToInt32(split[1, length1 - 1]));
+            return new SourceTargetRange(ToInt32(split[0, 0]), ToInt32(split[0, length1 - 1]), ToInt32(split[1, 0]));
         }
         public static List<SourceTargetRange> LoadRangesFromStringArray(string[] lines, bool ignoreEmptyLines = true)
         {
@@ -55,4 +75,6 @@ namespace GDEdit.Utilities.Objects.General
 
         public override string ToString() => $"{SourceFrom}{(Range > 0 ? $"-{SourceTo}" : "")} > {TargetFrom}{(Range > 0 ? $"-{TargetTo}" : "")}";
     }
+
+    public delegate void SourceTargetRangeChanged(int sourceFrom, int sourceTo, int targetFrom, int targetTo);
 }
