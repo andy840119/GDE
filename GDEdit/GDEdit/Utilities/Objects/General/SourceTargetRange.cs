@@ -67,6 +67,9 @@ namespace GDEdit.Utilities.Objects.General
                 sourceTo += adjustment;
         }
 
+        /// <summary>Inverts this <seealso cref="SourceTargetRange"/> by inverting the target and the source (the individual ranges remain the same).</summary>
+        public SourceTargetRange Invert() => new SourceTargetRange(TargetFrom, TargetTo, SourceFrom);
+
         /// <summary>Parses a string of the form "A-B > C-D" into a <seealso cref="SourceTargetRange"/>.</summary>
         /// <param name="str">The string to parse into a <seealso cref="SourceTargetRange"/>. The string must be of the form "A-B > C-D", where A-B can simply be A if A = B and C-D can respectively be C if C = D.</param>
         public static SourceTargetRange Parse(string str)
