@@ -1368,7 +1368,7 @@ namespace GDEdit.Application.Editor
 
         #region Group ID Migration
         // This was copied from a private feature code of EffectSome
-        private void PerformSteps(List<SourceTargetRange> ranges)
+        public void PerformGroupIDMigration(List<SourceTargetRange> ranges)
         {
             for (int s = 0; s < ranges.Count; s++)
                 for (int i = 0; i < Level.LevelObjects.Count; )
@@ -1391,7 +1391,7 @@ namespace GDEdit.Application.Editor
                 t.TargetGroupID += d;
         }
 
-        private class SourceTargetRange
+        public class SourceTargetRange
         {
             public int SourceFrom;
             public int SourceTo;
