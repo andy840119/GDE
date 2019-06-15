@@ -8,31 +8,44 @@ using static System.Convert;
 
 namespace GDEdit.Utilities.Objects.General
 {
+    /// <summary>Represents a source-target range of the form A-B > C-D, where A &lt;= B and C &lt;= D.</summary>
     public class SourceTargetRange
     {
         private int sourceFrom, sourceTo, targetFrom;
 
+        /// <summary>Gets or sets the source's starting value.</summary>
         public int SourceFrom
         {
             get => sourceFrom;
             set => SourceTargetRangeChanged?.Invoke(sourceFrom = value, sourceTo, targetFrom, TargetTo);
         }
+        /// <summary>Gets or sets the source's ending value.</summary>
         public int SourceTo
         {
             get => sourceTo;
             set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo = value, targetFrom, TargetTo);
         }
+        /// <summary>Gets or sets the target's starting value.</summary>
         public int TargetFrom
         {
             get => targetFrom;
             set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom = value, TargetTo);
         }
+        /// <summary>Gets the target's ending value.</summary>
         public int TargetTo => targetFrom + Range;
 
-        public SourceTargetRange(int sourceFrom, int sourceTo, int targetFrom, int targetTo)
+        /// <summary>Gets the range of the source.</summary>
         public int Range => sourceTo - sourceFrom;
+        /// <summary>Gets the difference of the starting value of the source and the target (target - source).</summary>
         public int Difference => targetFrom - sourceFrom;
+
+        /// <summary>Raised whenever a property is changed.</summary>
         public event SourceTargetRangeChanged SourceTargetRangeChanged;
+
+        /// <summary>Initializes a new instance of the <seealso cref="SourceTargetRange"/> class.</summary>
+        /// <param name="sourceStart">The starting value of the source.</param>
+        /// <param name="sourceEnd">The ending value of the source.</param>
+        /// <param name="targetStart">The starting value of the target.</param>
         public SourceTargetRange(int sourceStart, int sourceEnd, int targetStart)
         {
             sourceFrom = sourceStart;
@@ -40,7 +53,13 @@ namespace GDEdit.Utilities.Objects.General
             targetFrom = targetStart;
         }
 
+        /// <summary>Determines whether a value is within the source's range.</summary>
+        /// <param name="value">The value to determine whether it's within the source's range.</param>
         public bool IsWithinSourceRange(int value) => sourceFrom <= value && value <= sourceTo;
+
+        /// <summary>Adjusts the source from property while also being able to maintain the source difference.</summary>
+        /// <param name="adjustment">The adjustment to apply to the source from property.</param>
+        /// <param name="maintainDifference">Determines whether source difference will be maintained. Defaults to <see langword="true"/>.</param>
         public void AdjustSourceFrom(int adjustment, bool maintainDifference = true)
         {
             sourceFrom += adjustment;
@@ -48,6 +67,8 @@ namespace GDEdit.Utilities.Objects.General
                 sourceTo += adjustment;
         }
 
+        /// <summary>Parses a string of the form "A-B > C-D" into a <seealso cref="SourceTargetRange"/>.</summary>
+        /// <param name="str">The string to parse into a <seealso cref="SourceTargetRange"/>. The string must be of the form "A-B > C-D", where A-B can simply be A if A = B and C-D can respectively be C if C = D.</param>
         public static SourceTargetRange Parse(string str)
         {
             string[,] split = str.Split('>').Split('-');
@@ -64,6 +85,9 @@ namespace GDEdit.Utilities.Objects.General
                 }
             return new SourceTargetRange(ToInt32(split[0, 0]), ToInt32(split[0, length1 - 1]), ToInt32(split[1, 0]));
         }
+        /// <summary>Loads a number of <seealso cref="SourceTargetRange"/>s from a string array.</summary>
+        /// <param name="lines">The lines to load the <seealso cref="SourceTargetRange"/>s from.</param>
+        /// <param name="ignoreEmptyLines">Determines whether empty lines will be ignored during parsing. There is almost no reason to set that to <see langword="false"/> unless you're a weirdo.</param>
         public static List<SourceTargetRange> LoadRangesFromStringArray(string[] lines, bool ignoreEmptyLines = true)
         {
             var list = new List<SourceTargetRange>();
