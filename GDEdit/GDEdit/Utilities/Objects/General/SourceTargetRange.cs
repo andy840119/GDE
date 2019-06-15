@@ -100,5 +100,10 @@ namespace GDEdit.Utilities.Objects.General
         public override string ToString() => $"{SourceFrom}{(Range > 0 ? $"-{SourceTo}" : "")} > {TargetFrom}{(Range > 0 ? $"-{TargetTo}" : "")}";
     }
 
+    /// <summary>Represents a function that contains the new state of the <seealso cref="SourceTargetRange"/> instance that was changed.</summary>
+    /// <param name="sourceFrom">The new value of the source from property.</param>
+    /// <param name="sourceTo">The new value of the source to property.</param>
+    /// <param name="targetFrom">The new value of the target from property.</param>
+    /// <param name="targetTo">The new value of the target to property.</param>
     public delegate void SourceTargetRangeChanged(int sourceFrom, int sourceTo, int targetFrom, int targetTo);
 }
