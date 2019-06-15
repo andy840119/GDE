@@ -1370,9 +1370,9 @@ namespace GDEdit.Application.Editor
         // This was copied from a private feature code of EffectSome
         public void PerformGroupIDMigration(List<SourceTargetRange> ranges)
         {
-            for (int s = 0; s < ranges.Count; s++)
-                for (int i = 0; i < Level.LevelObjects.Count; )
-                    AdjustGroups(Level.LevelObjects[i], ranges[s]);
+            foreach (var r in ranges)
+                for (int i = 0; i < Level.LevelObjects.Count; i++)
+                    AdjustGroups(Level.LevelObjects[i], r);
         }
 
         private void AdjustGroups(GeneralObject o, SourceTargetRange r)
