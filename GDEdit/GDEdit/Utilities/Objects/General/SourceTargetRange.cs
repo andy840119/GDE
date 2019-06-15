@@ -100,6 +100,16 @@ namespace GDEdit.Utilities.Objects.General
             return list;
         }
 
+        /// <summary>Inverts the ordering of a provided list of ranges and inverts the individual ranges and returns the resulting list.</summary>
+        /// <param name="ranges">The list of ranges to invert.</param>
+        public static List<SourceTargetRange> Invert(List<SourceTargetRange> ranges)
+        {
+            var list = new List<SourceTargetRange>();
+            for (int i = ranges.Count - 1; i >= 0; i--)
+                list.Add(ranges[i].Invert());
+            return list;
+        }
+
         public override string ToString() => $"{SourceFrom}{(Range > 0 ? $"-{SourceTo}" : "")} > {TargetFrom}{(Range > 0 ? $"-{TargetTo}" : "")}";
     }
 
