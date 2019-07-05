@@ -1367,12 +1367,68 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region Group ID Migration
+        private List<SourceTargetRange> groupRanges = new List<SourceTargetRange>();
+        private List<SourceTargetRange> colorRanges = new List<SourceTargetRange>();
+        private List<SourceTargetRange> itemRanges = new List<SourceTargetRange>();
+        private List<SourceTargetRange> blockRanges = new List<SourceTargetRange>();
+
+        public IDMigrationMode SelectedMode;
+
+        public List<SourceTargetRange> CurrentlySelectedRanges { get; private set; }
+
+        public void PerformMigration()
+        {
+            switch (SelectedMode)
+            {
+                case IDMigrationMode.Groups:
+                    PerformGroupIDMigration();
+                    break;
+                case IDMigrationMode.Colors:
+                    PerformColorIDMigration();
+                    break;
+                case IDMigrationMode.Items:
+                    PerformItemIDMigration();
+                    break;
+                case IDMigrationMode.Blocks:
+                    PerformBlockIDMigration();
+                    break;
+                default:
+                    throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
+            }
+        }
+
+        /// <summary>Adds a new ID migration step to the currently selected mode's ranges.</summary>
+        public void AddIDMigrationStep(SourceTargetRange range) => CurrentlySelectedRanges.Add(range);
+
         // This was copied from a private feature code of EffectSome
+        // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions
+        public void PerformGroupIDMigration() => PerformBlockIDMigration(groupRanges);
         public void PerformGroupIDMigration(List<SourceTargetRange> ranges)
         {
             foreach (var r in ranges)
                 for (int i = 0; i < Level.LevelObjects.Count; i++)
                     AdjustGroups(Level.LevelObjects[i], r);
+        }
+        public void PerformColorIDMigration() => PerformBlockIDMigration(colorRanges);
+        public void PerformColorIDMigration(List<SourceTargetRange> ranges)
+        {
+            foreach (var r in ranges)
+                for (int i = 0; i < Level.LevelObjects.Count; i++)
+                    AdjustColors(Level.LevelObjects[i], r);
+        }
+        public void PerformItemIDMigration() => PerformBlockIDMigration(itemRanges);
+        public void PerformItemIDMigration(List<SourceTargetRange> ranges)
+        {
+            foreach (var r in ranges)
+                for (int i = 0; i < Level.LevelObjects.Count; i++)
+                    AdjustItems(Level.LevelObjects[i], r);
+        }
+        public void PerformBlockIDMigration() => PerformBlockIDMigration(blockRanges);
+        public void PerformBlockIDMigration(List<SourceTargetRange> ranges)
+        {
+            foreach (var r in ranges)
+                for (int i = 0; i < Level.LevelObjects.Count; i++)
+                    AdjustBlocks(Level.LevelObjects[i], r);
         }
 
         private void AdjustGroups(GeneralObject o, SourceTargetRange r)
@@ -1383,12 +1439,42 @@ namespace GDEdit.Application.Editor
             if (groups != null)
                 for (int g = 0; g < groups.Length; g++)
                     if (r.IsWithinSourceRange(groups[g]))
-                        groups[g] += d;
+                        o.AdjustGroupID(g, d);
 
             if (o is IHasSecondaryGroupID s && r.IsWithinSourceRange(s.SecondaryGroupID))
                 s.SecondaryGroupID += d;
             if (o is IHasTargetGroupID t && r.IsWithinSourceRange(t.TargetGroupID))
                 t.TargetGroupID += d;
+        }
+        private void AdjustColors(GeneralObject o, SourceTargetRange r)
+        {
+            int d = r.Difference;
+
+            if (r.IsWithinSourceRange(o.Color1ID))
+                o.Color1ID += d;
+            if (r.IsWithinSourceRange(o.Color2ID))
+                o.Color2ID += d;
+
+            if (o is IHasTargetColorID t && r.IsWithinSourceRange(t.TargetColorID))
+                t.TargetColorID += d;
+        }
+        private void AdjustItems(GeneralObject o, SourceTargetRange r)
+        {
+            int d = r.Difference;
+
+            if (o is IHasPrimaryItemID p && r.IsWithinSourceRange(p.PrimaryItemID))
+                p.PrimaryItemID += d;
+            if (o is IHasTargetItemID t && r.IsWithinSourceRange(t.TargetItemID))
+                t.TargetItemID += d;
+        }
+        private void AdjustBlocks(GeneralObject o, SourceTargetRange r)
+        {
+            int d = r.Difference;
+
+            if (o is IHasPrimaryBlockID p && r.IsWithinSourceRange(p.PrimaryBlockID))
+                p.PrimaryBlockID += d;
+            if (o is IHasSecondaryBlockID s && r.IsWithinSourceRange(s.SecondaryBlockID))
+                s.SecondaryBlockID += d;
         }
         #endregion
 
@@ -1586,6 +1672,14 @@ namespace GDEdit.Application.Editor
             /// <summary>Clears the action list.</summary>
             public void Clear() => actions.Clear();
         }
+    }
+
+    public enum IDMigrationMode
+    {
+        Groups,
+        Colors,
+        Items,
+        Blocks,
     }
 
     #region Delegates
