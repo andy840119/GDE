@@ -425,6 +425,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="index">The index of the group ID to set.</param>
         /// <param name="groupID">The group ID to set.</param>
         public void SetGroupID(int index, int groupID) => groupIDs[index] = (short)groupID;
+        /// <summary>Adjusts a group ID of this object. This function exists because `GroupIDs[index] += groupIDAdjustment` will not work.</summary>
+        /// <param name="index">The index of the group ID to adjust.</param>
+        /// <param name="groupIDAdjustment">The group ID adjustment to apply.</param>
+        public void AdjustGroupID(int index, int groupIDAdjustment) => groupIDs[index] += (short)groupIDAdjustment;
 
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
         /// <param name="startingX">The starting X position of the rectangle.</param>
