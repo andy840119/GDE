@@ -31,8 +31,12 @@ namespace GDEdit.Utilities.Objects.General
             get => targetFrom;
             set => SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom = value, TargetTo);
         }
-        /// <summary>Gets the target's ending value.</summary>
-        public int TargetTo => targetFrom + Range;
+        /// <summary>Gets or sets the target's ending value.</summary>
+        public int TargetTo
+        {
+            get => targetFrom + Range;
+            set => AdjustSourceFrom(value - TargetTo);
+        }
 
         /// <summary>Gets the range of the source.</summary>
         public int Range => sourceTo - sourceFrom;
@@ -110,7 +114,13 @@ namespace GDEdit.Utilities.Objects.General
             return list;
         }
 
-        public override string ToString() => $"{SourceFrom}{(Range > 0 ? $"-{SourceTo}" : "")} > {TargetFrom}{(Range > 0 ? $"-{TargetTo}" : "")}";
+        public override string ToString() => $"{SourceToString()} > {TargetToString()}";
+        /// <summary>Returns the string representation of the source.</summary>
+        public string SourceToString() => ToString(SourceFrom, SourceTo);
+        /// <summary>Returns the string representation of the target.</summary>
+        public string TargetToString() => ToString(TargetFrom, TargetTo);
+
+        private static string ToString(int from, int to) => $"{from}{(to - from > 0 ? $"-{to}" : "")}";
     }
 
     /// <summary>Represents a function that contains the new state of the <seealso cref="SourceTargetRange"/> instance that was changed.</summary>
