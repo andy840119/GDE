@@ -81,8 +81,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
         {
-            get => CopiedColorID;
-            set => CopiedColorID = (short)value;
+            get => TargetColorID;
+            set => TargetColorID = (short)value;
         }
         /// <summary>The Pulse Mode of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.PulseMode)]
