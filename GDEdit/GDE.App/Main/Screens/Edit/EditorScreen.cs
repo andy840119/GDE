@@ -37,6 +37,8 @@ namespace GDE.App.Main.Screens.Edit
         private Camera camera;
         private EditorTools tools;
 
+        private IDMigrationScreen IDMigrationScreen;
+
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
         {
@@ -45,17 +47,27 @@ namespace GDE.App.Main.Screens.Edit
             texStore = ts;
             background.Texture = texStore.Get("Backgrounds/game_bg_01_001-uhd.png");
 
-            EditorMenuBar menuBar;
-
-            var fileMenuItems = new List<MenuItem>();
-
-            fileMenuItems.Add(new EditorMenuItem("Save", Save, MenuItemType.Highlighted));
-            fileMenuItems.Add(new EditorMenuItem("Save & Exit", SaveAndExit, MenuItemType.Standard));
-            fileMenuItems.Add(new EditorMenuItemSpacer());
-            fileMenuItems.Add(new EditorMenuItem("Exit", this.Exit, MenuItemType.Destructive));
-
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
+
+            AddMenuItems();
+        }
+
+        private void AddMenuItems()
+        {
+            EditorMenuBar menuBar;
+
+            var fileMenuItems = new List<MenuItem>
+            {
+                new EditorMenuItem("Save", Save, MenuItemType.Highlighted),
+                new EditorMenuItem("Save & Exit", SaveAndExit, MenuItemType.Standard),
+                new EditorMenuItemSpacer(),
+                new EditorMenuItem("Exit", this.Exit, MenuItemType.Destructive),
+            };
+            var editMenuItems = new List<MenuItem>
+            {
+                new EditorMenuItem("Migrate IDs", OpenIDMigrationScreen, MenuItemType.Standard),
+            };
 
             AddInternal(new Container
             {
@@ -72,7 +84,11 @@ namespace GDE.App.Main.Screens.Edit
                         new MenuItem("File")
                         {
                             Items = fileMenuItems
-                        }
+                        },
+                        new MenuItem("Edit")
+                        {
+                            Items = editMenuItems
+                        },
                     }
                 }
             });
@@ -161,5 +177,12 @@ namespace GDE.App.Main.Screens.Edit
             this.Exit();
         }
         private void Save() => editor.Save(database, i);
+
+        private void OpenIDMigrationScreen()
+        {
+            if (IDMigrationScreen != null)
+                return;
+            this.Push(IDMigrationScreen = new IDMigrationScreen(editor));
+        }
     }
 }
