@@ -31,14 +31,6 @@ namespace GDE.App.Main.Screens.Edit.Components
 {
     public class IDMigrationStepList : FillFlowContainer
     {
-        // TODO: Migrate these to Editor and make them public non-static; that information should not belong here
-        private static List<SourceTargetRange> groupRanges = new List<SourceTargetRange>();
-        private static List<SourceTargetRange> colorRanges = new List<SourceTargetRange>();
-        private static List<SourceTargetRange> itemRanges = new List<SourceTargetRange>();
-        private static List<SourceTargetRange> blockRanges = new List<SourceTargetRange>();
-
-        private static IDMigrationTab selectedTab;
-
         private const float CardMargin = 2;
         private const float CardHeight = 25;
 
@@ -134,7 +126,12 @@ namespace GDE.App.Main.Screens.Edit.Components
                 },
             };
 
-            var currentTabRanges = GetCurrentTabRanges();
+            UpdateCurrentTabRanges();
+        }
+
+        public void UpdateCurrentTabRanges()
+        {
+            var currentTabRanges = editor.CurrentlySelectedRanges;
 
             if (currentTabRanges.Count == 0)
                 noSteps.Alpha = 1;
