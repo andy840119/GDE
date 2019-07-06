@@ -1369,7 +1369,7 @@ namespace GDEdit.Application.Editor
         }
         #endregion
 
-        #region Group ID Migration
+        #region ID Migration
         private List<SourceTargetRange> groupRanges = new List<SourceTargetRange>();
         private List<SourceTargetRange> colorRanges = new List<SourceTargetRange>();
         private List<SourceTargetRange> itemRanges = new List<SourceTargetRange>();
@@ -1377,6 +1377,7 @@ namespace GDEdit.Application.Editor
 
         private IDMigrationMode selectedMode;
 
+        /// <summary>Gets or sets the currently selected mode.</summary>
         public IDMigrationMode SelectedMode
         {
             get => selectedMode;
@@ -1402,8 +1403,10 @@ namespace GDEdit.Application.Editor
             }
         }
 
+        /// <summary>Gets the currently selected ID migration steps.</summary>
         public List<SourceTargetRange> CurrentlySelectedIDMigrationSteps { get; private set; }
 
+        /// <summary>Performs the ID migration for the currently selected mode.</summary>
         public void PerformMigration()
         {
             switch (SelectedMode)
@@ -1426,33 +1429,48 @@ namespace GDEdit.Application.Editor
         }
 
         /// <summary>Adds a new ID migration step to the currently selected mode's ranges.</summary>
+        /// <param name="range">The ID migration step to add to the currently selected ID migration.</param>
         public void AddIDMigrationStep(SourceTargetRange range) => CurrentlySelectedIDMigrationSteps.Add(range);
+        /// <summary>Adds a range of new ID migration steps to the currently selected mode's ranges.</summary>
+        /// <param name="ranges">The ID migration steps to add to the currently selected ID migration.</param>
         public void AddIDMigrationSteps(List<SourceTargetRange> ranges) => CurrentlySelectedIDMigrationSteps.AddRange(ranges);
 
         // This was copied from a private feature code of EffectSome
         // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions
+        /// <summary>Performs a group ID migration with the currently loaded ID migration steps for the group mode.</summary>
         public void PerformGroupIDMigration() => PerformBlockIDMigration(groupRanges);
+        /// <summary>Performs a group ID migration given the provided ID migration steps.</summary>
+        /// <param name="ranges">The ID migration steps to execute to perform the group ID migration.</param>
         public void PerformGroupIDMigration(List<SourceTargetRange> ranges)
         {
             foreach (var r in ranges)
                 for (int i = 0; i < Level.LevelObjects.Count; i++)
                     AdjustGroups(Level.LevelObjects[i], r);
         }
+        /// <summary>Performs a color ID migration with the currently loaded ID migration steps for the color mode.</summary>
         public void PerformColorIDMigration() => PerformBlockIDMigration(colorRanges);
+        /// <summary>Performs a color ID migration given the provided ID migration steps.</summary>
+        /// <param name="ranges">The ID migration steps to execute to perform the color ID migration.</param>
         public void PerformColorIDMigration(List<SourceTargetRange> ranges)
         {
             foreach (var r in ranges)
                 for (int i = 0; i < Level.LevelObjects.Count; i++)
                     AdjustColors(Level.LevelObjects[i], r);
         }
+        /// <summary>Performs an item ID migration with the currently loaded ID migration steps for the item mode.</summary>
         public void PerformItemIDMigration() => PerformBlockIDMigration(itemRanges);
+        /// <summary>Performs an item ID migration given the provided ID migration steps.</summary>
+        /// <param name="ranges">The ID migration steps to execute to perform the item ID migration.</param>
         public void PerformItemIDMigration(List<SourceTargetRange> ranges)
         {
             foreach (var r in ranges)
                 for (int i = 0; i < Level.LevelObjects.Count; i++)
                     AdjustItems(Level.LevelObjects[i], r);
         }
+        /// <summary>Performs a block ID migration with the currently loaded ID migration steps for the block mode.</summary>
         public void PerformBlockIDMigration() => PerformBlockIDMigration(blockRanges);
+        /// <summary>Performs a block ID migration given the provided ID migration steps.</summary>
+        /// <param name="ranges">The ID migration steps to execute to perform the block ID migration.</param>
         public void PerformBlockIDMigration(List<SourceTargetRange> ranges)
         {
             foreach (var r in ranges)
