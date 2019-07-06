@@ -511,6 +511,9 @@ namespace GDEdit.Application.Editor
         /// <param name="level">The level to edit.</param>
         public Editor(Level level)
         {
+            // Initialize ID migration stuff
+            CurrentlySelectedIDMigrationSteps = groupRanges;
+
             Level = level;
         }
         #endregion
@@ -1372,9 +1375,34 @@ namespace GDEdit.Application.Editor
         private List<SourceTargetRange> itemRanges = new List<SourceTargetRange>();
         private List<SourceTargetRange> blockRanges = new List<SourceTargetRange>();
 
-        public IDMigrationMode SelectedMode;
+        private IDMigrationMode selectedMode;
 
-        public List<SourceTargetRange> CurrentlySelectedRanges { get; private set; }
+        public IDMigrationMode SelectedMode
+        {
+            get => selectedMode;
+            set
+            {
+                switch (selectedMode = value)
+                {
+                    case IDMigrationMode.Groups:
+                        CurrentlySelectedIDMigrationSteps = groupRanges;
+                        break;
+                    case IDMigrationMode.Colors:
+                        CurrentlySelectedIDMigrationSteps = colorRanges;
+                        break;
+                    case IDMigrationMode.Items:
+                        CurrentlySelectedIDMigrationSteps = itemRanges;
+                        break;
+                    case IDMigrationMode.Blocks:
+                        CurrentlySelectedIDMigrationSteps = blockRanges;
+                        break;
+                    default:
+                        throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
+                }
+            }
+        }
+
+        public List<SourceTargetRange> CurrentlySelectedIDMigrationSteps { get; private set; }
 
         public void PerformMigration()
         {
@@ -1398,7 +1426,8 @@ namespace GDEdit.Application.Editor
         }
 
         /// <summary>Adds a new ID migration step to the currently selected mode's ranges.</summary>
-        public void AddIDMigrationStep(SourceTargetRange range) => CurrentlySelectedRanges.Add(range);
+        public void AddIDMigrationStep(SourceTargetRange range) => CurrentlySelectedIDMigrationSteps.Add(range);
+        public void AddIDMigrationSteps(List<SourceTargetRange> ranges) => CurrentlySelectedIDMigrationSteps.AddRange(ranges);
 
         // This was copied from a private feature code of EffectSome
         // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions

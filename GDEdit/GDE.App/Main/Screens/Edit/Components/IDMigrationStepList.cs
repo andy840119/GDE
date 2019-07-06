@@ -131,7 +131,7 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void UpdateCurrentTabRanges()
         {
-            var currentTabRanges = editor.CurrentlySelectedRanges;
+            var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
 
             if (currentTabRanges.Count == 0)
                 noSteps.Alpha = 1;
@@ -184,7 +184,7 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void AddStep(SourceTargetRange range)
         {
-            stepList.Add(CreateIDMigrationStepCard(range, editor.CurrentlySelectedRanges.Count));
+            stepList.Add(CreateIDMigrationStepCard(range, editor.CurrentlySelectedIDMigrationSteps.Count));
             editor.AddIDMigrationStep(range);
         }
         public void CreateNewStep() => AddStep(new SourceTargetRange(1, 10, 11));
