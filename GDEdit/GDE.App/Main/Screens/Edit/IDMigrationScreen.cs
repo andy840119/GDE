@@ -101,7 +101,7 @@ namespace GDE.App.Main.Screens.Edit
                             Size = new Vector2(220, 32),
                             Text = "Perform Action",
                             BackgroundColour = GDEColors.FromHex("242424"),
-                            Action = stepList.PerformMigration,
+                            Action = editor.PerformMigration,
                         },
                     },
                 }
