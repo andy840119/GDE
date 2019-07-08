@@ -43,6 +43,12 @@ namespace GDE.Tests.Visual.TestCaseEditor
             AddStep("Set SourceFrom to 10", () => card.StepRange.SourceFrom = 10);
             AddAssert("Check SourceFrom is 10", () => card.StepRange.SourceFrom == 10);
             AddAssert("Check TargetTo is 7", () => card.StepRange.TargetTo == 7);
+            AddStep("Set SourceFrom to 3", () => card.StepRange.SourceFrom = 3);
+            AddStep("Set SourceTo to 3", () => card.StepRange.SourceTo = 3);
+            AddAssert("Check SourceFrom is 3", () => card.StepRange.SourceFrom == 3);
+            AddAssert("Check SourceTo is 3", () => card.StepRange.SourceTo == 3);
+            AddAssert("Check TargetFrom is 3", () => card.StepRange.TargetFrom == 3);
+            AddAssert("Check TargetTo is 3", () => card.StepRange.TargetTo == 3);
 
             AddStep("Select", () => card.Selected.Value = true);
             AddWaitStep("Wait for animation to be completed", 1);
