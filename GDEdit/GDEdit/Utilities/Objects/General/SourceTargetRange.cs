@@ -34,8 +34,13 @@ namespace GDEdit.Utilities.Objects.General
         /// <summary>Gets or sets the target's ending value.</summary>
         public int TargetTo
         {
-            get => targetFrom + Range;
-            set => AdjustSourceFrom(value - TargetTo);
+            get => IsAnyValueInvalid() ? -1 : targetFrom + Range;
+            set
+            {
+                if (!IsAnyValueInvalid())
+                    AdjustSourceFrom(value - TargetTo);
+                SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom, value);
+            }
         }
 
         /// <summary>Gets the range of the source.</summary>
@@ -62,6 +67,9 @@ namespace GDEdit.Utilities.Objects.General
         /// <summary>Determines whether a value is within the source's range.</summary>
         /// <param name="value">The value to determine whether it's within the source's range.</param>
         public bool IsWithinSourceRange(int value) => sourceFrom <= value && value <= sourceTo;
+
+        /// <summary>Determines whether any of the source from, source to and target from values is -1.</summary>
+        public bool IsAnyValueInvalid() => sourceFrom == -1 || sourceTo == -1 || targetFrom == -1;
 
         /// <summary>Adjusts the source from property while also being able to maintain the source difference.</summary>
         /// <param name="adjustment">The adjustment to apply to the source from property.</param>
