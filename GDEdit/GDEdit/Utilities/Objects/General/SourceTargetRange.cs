@@ -46,6 +46,8 @@ namespace GDEdit.Utilities.Objects.General
         /// <summary>Raised whenever a property is changed.</summary>
         public event SourceTargetRangeChanged SourceTargetRangeChanged;
 
+        /// <summary>Initializes a new instance of the <seealso cref="SourceTargetRange"/> class. For private usage only.</summary>
+        private SourceTargetRange() : this(0, 0, 0) { }
         /// <summary>Initializes a new instance of the <seealso cref="SourceTargetRange"/> class.</summary>
         /// <param name="sourceStart">The starting value of the source.</param>
         /// <param name="sourceEnd">The ending value of the source.</param>
@@ -70,6 +72,9 @@ namespace GDEdit.Utilities.Objects.General
             if (maintainDifference)
                 sourceTo += adjustment;
         }
+
+        /// <summary>Clones this <seealso cref="SourceTargetRange"/> and returns the cloned object.</summary>
+        public SourceTargetRange Clone() => new SourceTargetRange(SourceFrom, SourceTo, TargetFrom);
 
         /// <summary>Inverts this <seealso cref="SourceTargetRange"/> by inverting the target and the source (the individual ranges remain the same).</summary>
         public SourceTargetRange Invert() => new SourceTargetRange(TargetFrom, TargetTo, SourceFrom);
@@ -114,11 +119,32 @@ namespace GDEdit.Utilities.Objects.General
             return list;
         }
 
+        /// <summary>Gets the common properties of the provided <seealso cref="SourceTargetRange"/>s.</summary>
+        /// <param name="ranges">The list of ranges to get the common range of.</param>
+        public static SourceTargetRange GetCommon(List<SourceTargetRange> ranges)
+        {
+            var result = ranges[0].Clone();
+            for (int i = 0; i < ranges.Count; i++)
+            {
+                // This kind of copy-pasting looks like it can be better, but that's the best you can get
+                GetCommonPropertyComparer(ref result.sourceFrom, ref ranges[i].sourceFrom);
+                GetCommonPropertyComparer(ref result.sourceTo, ref ranges[i].sourceTo);
+                GetCommonPropertyComparer(ref result.targetFrom, ref ranges[i].targetFrom);
+            }
+            return result;
+        }
+
         public override string ToString() => $"{SourceToString()} > {TargetToString()}";
         /// <summary>Returns the string representation of the source.</summary>
         public string SourceToString() => ToString(SourceFrom, SourceTo);
         /// <summary>Returns the string representation of the target.</summary>
         public string TargetToString() => ToString(TargetFrom, TargetTo);
+
+        private static void GetCommonPropertyComparer(ref int result, ref int value)
+        {
+            if (result > -1 && result != value)
+                result = -1;
+        }
 
         private static string ToString(int from, int to) => $"{from}{(to - from > 0 ? $"-{to}" : "")}";
     }
