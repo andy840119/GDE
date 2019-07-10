@@ -226,7 +226,7 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private void OnSelected(ValueChangedEvent<bool> value)
         {
-            var newColor = FromHex(value.OldValue ? "808080" : "00ffb8");
+            var newColor = FromHex(value.OldValue ? "808080" : "00ff80");
             selectionBar.FadeColour(newColor, 200);
             stepIndexContainerBackground.FadeColour(new ColourInfo
             {
