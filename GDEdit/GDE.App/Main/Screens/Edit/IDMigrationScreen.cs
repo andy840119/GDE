@@ -24,22 +24,34 @@ using osuTK;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static GDEdit.Utilities.Objects.General.SourceTargetRange;
+using static GDE.App.Main.Colors.GDEColors;
 
 namespace GDE.App.Main.Screens.Edit
 {
+    // TODO: Consider shrinking this to a popup instead of an entire screen
     public class IDMigrationScreen : Screen
     {
         private NumberTextBox sourceFrom;
         private NumberTextBox sourceTo;
         private NumberTextBox targetFrom;
         private NumberTextBox targetTo;
-        private Button performAction;
 
-        private IDMigrationStepList stepList;
-        private Bindable<SourceTargetRange> range = new Bindable<SourceTargetRange>();
-        private List<IDMigrationStepCard> cards = new List<IDMigrationStepCard>();
+        private Button performAction;
+        private Button createStep;
+        private Button removeSteps;
+        private Button cloneSteps;
+        private Button selectAll;
+        private Button deselectAll;
+        private Button loadSteps;
+        private Button saveSteps;
 
         private Editor editor;
+
+        /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
+        public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
+
+        public IDMigrationStepList StepList;
 
         public IDMigrationScreen(Editor e)
         {
@@ -55,24 +67,24 @@ namespace GDE.App.Main.Screens.Edit
                     Width = 520,
                     Margin = new MarginPadding
                     {
-                        Top = 10,
+                        //Top = 10,
                     },
                     Children = new Drawable[]
                     {
                         new Box
                         {
                             RelativeSizeAxes = Axes.Both,
-                            Colour = GDEColors.FromHex("111111"),
+                            Colour = FromHex("111111"),
                         },
-                        stepList = new IDMigrationStepList(editor)
+                        StepList = new IDMigrationStepList(editor)
                         {
                             RelativeSizeAxes = Axes.Y,
                             Width = 500,
                             Padding = new MarginPadding
                             {
                                 Top = 10,
-                                Left = 10,
-                                Right = 10
+                                //Left = 10,
+                                //Right = 10
                             }
                         },
                     }
@@ -82,7 +94,7 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
                     Spacing = new Vector2(5),
-                    Margin = new MarginPadding { Left = 15, Right = 15 },
+                    Margin = new MarginPadding { Top = 15, Right = 15 },
                     RelativeSizeAxes = Axes.Y,
                     Width = 150,
                     Children = new Drawable[]
@@ -95,42 +107,171 @@ namespace GDE.App.Main.Screens.Edit
                         targetFrom = GetNewNumberTextBox(),
                         GetNewSpriteText("Target To"),
                         targetTo = GetNewNumberTextBox(),
+                    },
+                },
+                new FillFlowContainer
+                {
+                    Anchor = Anchor.BottomRight,
+                    Origin = Anchor.BottomRight,
+                    Direction = FillDirection.Vertical,
+                    Spacing = new Vector2(10),
+                    Margin = new MarginPadding { Bottom = 15, Right = 15 },
+                    RelativeSizeAxes = Axes.Y,
+                    Width = 150,
+                    Children = new Drawable[]
+                    {
                         performAction = new Button
                         {
-                            Origin = Anchor.Centre,
-                            Size = new Vector2(220, 32),
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Margin = new MarginPadding { Top = 25 },
                             Text = "Perform Action",
-                            BackgroundColour = GDEColors.FromHex("242424"),
+                            BackgroundColour = FromHex("242424"),
                             Action = editor.PerformMigration,
                         },
+                        removeSteps = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Remove Steps",
+                            BackgroundColour = FromHex("242424"),
+                            Action = StepList.RemoveSelectedSteps,
+                        },
+                        cloneSteps = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Clone Steps",
+                            BackgroundColour = FromHex("242424"),
+                            Action = StepList.CloneSelectedSteps,
+                        },
+                        deselectAll = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Deselect All",
+                            BackgroundColour = FromHex("242424"),
+                            Action = StepList.DeselectAll,
+                        },
+                        selectAll = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Select All",
+                            BackgroundColour = FromHex("242424"),
+                            Action = StepList.SelectAll,
+                        },
+                        loadSteps = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Load Steps",
+                            BackgroundColour = FromHex("242424"),
+                            //Action = null, // Make this work
+                        },
+                        saveSteps = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Save Steps",
+                            BackgroundColour = FromHex("242424"),
+                            //Action = null, // Make this work
+                        },
+                        createStep = new Button
+                        {
+                            Anchor = Anchor.BottomCentre,
+                            Origin = Anchor.BottomCentre,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 32,
+                            Text = "Create Step",
+                            BackgroundColour = FromHex("242424"),
+                            Action = StepList.CreateNewStep,
+                        },
                     },
-                }
+                },
             });
 
-            stepList.StepSelected = s =>
+            performAction.Enabled.Value = false;
+
+            sourceFrom.NumberChanged += n => CommonIDMigrationStep.Value.SourceFrom = n;
+            sourceTo.NumberChanged += n => CommonIDMigrationStep.Value.SourceTo = n;
+            targetFrom.NumberChanged += n => CommonIDMigrationStep.Value.TargetFrom = n;
+            targetTo.NumberChanged += n => CommonIDMigrationStep.Value.TargetTo = n;
+
+            CommonIDMigrationStep.ValueChanged += v =>
             {
-                range.Value = s.StepRange;
+                var newStep = v.NewValue;
+                if (newStep != null)
+                    newStep.SourceTargetRangeChanged += (sf, st, tf, tt) => UpdateTextBoxes(newStep);
+                UpdateTextBoxes(newStep);
             };
 
-            sourceFrom.NumberChanged += n => range.Value.SourceFrom = n;
-            sourceTo.NumberChanged += n => range.Value.SourceTo = n;
-            targetFrom.NumberChanged += n => range.Value.TargetFrom = n;
-            targetTo.NumberChanged += n => range.Value.TargetTo = n;
+            StepList.StepSelected = HandleStepSelected;
+            StepList.StepDeselected = HandleStepDeselected;
+            StepList.SelectionChanged = HandleSelectionChanged;
         }
 
-        private static NumberTextBox GetNewNumberTextBox() => new NumberTextBox
+        private void HandleStepSelected(IDMigrationStepCard c)
+        {
+            var commonSteps = new List<SourceTargetRange> { c.StepRange };
+            if (CommonIDMigrationStep.Value != null)
+                commonSteps.Add(CommonIDMigrationStep.Value);
+            CommonIDMigrationStep.Value = GetCommon(commonSteps); // Additive logic works
+            UpdateButtonEnabledStates();
+        }
+        private void HandleStepDeselected(IDMigrationStepCard c) => HandleSelectionChanged();
+        private void HandleSelectionChanged()
+        {
+            CommonIDMigrationStep.Value = GetCommon(StepList.SelectedSteps);
+            UpdateButtonEnabledStates();
+        }
+
+        private void UpdateButtonEnabledStates()
+        {
+            removeSteps.Enabled.Value = StepList.SelectedSteps.Count > 0;
+            cloneSteps.Enabled.Value = StepList.SelectedSteps.Count > 0;
+            performAction.Enabled.Value = editor.CurrentlySelectedIDMigrationSteps.Count > 0;
+        }
+
+        private void UpdateTextBoxes(SourceTargetRange range)
+        {
+            UpdateTextBox(sourceFrom, range?.SourceFrom);
+            UpdateTextBox(sourceTo, range?.SourceTo);
+            UpdateTextBox(targetFrom, range?.TargetFrom);
+            UpdateTextBox(targetTo, range?.TargetTo);
+        }
+        private void UpdateTextBox(NumberTextBox textBox, int? newValue)
+        {
+            bool enabled = newValue.HasValue && newValue > -1;
+            textBox.InvokeEvents = false;
+            if (enabled)
+                textBox.Number = newValue.Value;
+            else
+                textBox.Text = "";
+            textBox.InvokeEvents = textBox.Enabled = enabled;
+        }
+
+        private static NumberTextBox GetNewNumberTextBox() => new NumberTextBox(false)
         {
             RelativeSizeAxes = Axes.X,
             Height = 30,
-            Margin = new MarginPadding
-            {
-                Top = 5,
-                Left = 5,
-            },
         };
         private static SpriteText GetNewSpriteText(string text) => new SpriteText
         {
-            Margin = new MarginPadding { Left = 5 },
             Text = text,
         };
     }
