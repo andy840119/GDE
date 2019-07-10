@@ -19,6 +19,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK;
 using static System.Convert;
+using static GDE.App.Main.Colors.GDEColors;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
@@ -45,7 +46,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public readonly SourceTargetRange StepRange;
 
-        public Action<DragEvent> CardDragged;
+        public Action<IDMigrationStepCard, DragEvent> CardDragged;
+        public Action<IDMigrationStepCard, MouseEvent> CardClicked;
 
         public bool MatchingFilter
         {
@@ -59,6 +61,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         public IEnumerable<string> FilterTerms => new List<string>
         {
             StepRange.ToString(),
+            StepRange.ToString(false),
             StepRange.SourceToString(),
             StepRange.TargetToString(),
             StepRange.SourceFrom.ToString(),
@@ -82,7 +85,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 hoverBox = new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("181818")
+                    Colour = FromHex("181818")
                 },
                 new FillFlowContainer
                 {
@@ -95,7 +98,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             RelativeSizeAxes = Axes.Y,
                             Width = 5,
-                            Colour = GDEColors.FromHex("808080"),
+                            Colour = FromHex("808080"),
                             Alpha = 0.5f, // Transparency will allow the background to lighten the container up
                         },
                         stepIndexContainer = new Container
@@ -110,10 +113,10 @@ namespace GDE.App.Main.Screens.Edit.Components
                                     RelativeSizeAxes = Axes.Both,
                                     Colour = new ColourInfo
                                     {
-                                        BottomLeft = GDEColors.FromHex("606060"),
-                                        BottomRight = GDEColors.FromHex("606060"),
-                                        TopLeft = GDEColors.FromHex("606060"),
-                                        TopRight = GDEColors.FromHex("606060"),
+                                        BottomLeft = FromHex("606060"),
+                                        BottomRight = FromHex("606060"),
+                                        TopLeft = FromHex("606060"),
+                                        TopRight = FromHex("606060"),
                                     },
                                     Alpha = 0.5f,
                                 },
@@ -185,7 +188,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     CardDragged = e =>
                     {
                         Position += e.Delta;
-                        CardDragged?.Invoke(e);
+                        CardDragged?.Invoke(this, e);
                     },
                     Size = new Vector2(25, 1),
                 },
@@ -210,34 +213,45 @@ namespace GDE.App.Main.Screens.Edit.Components
                 .MoveToOffset(new Vector2(20, 0), 500, Easing.OutQuint).FadeTo(0.5f, 500, Easing.OutQuint)
                 .Loop(2000);
         }
+        public void StopArrowAnimation()
+        {
+            // TODO: Make it work somehow
+            rightArrow.DelayUntilTransformsFinished();
+        }
+
+        /// <summary>Triggers the selection of this card, causing a visual effect. It does not handle adding the step to the current selection in the container.</summary>
+        public void Select() => Selected.Value = true;
+        /// <summary>Triggers the deselection of this card, causing a visual effect. It does not handle removing the step from the current selection in the container.</summary>
+        public void Deselect() => Selected.Value = false;
 
         private void OnSelected(ValueChangedEvent<bool> value)
         {
-            var newColor = GDEColors.FromHex(value.OldValue ? "808080" : "00ffb8");
+            var newColor = FromHex(value.OldValue ? "808080" : "00ffb8");
             selectionBar.FadeColour(newColor, 200);
             stepIndexContainerBackground.FadeColour(new ColourInfo
             {
                 BottomLeft = newColor.Darken(0.25f),
                 TopLeft = newColor.Darken(0.25f),
-                BottomRight = GDEColors.FromHex("606060"),
-                TopRight = GDEColors.FromHex("606060"),
+                BottomRight = FromHex("606060"),
+                TopRight = FromHex("606060"),
             }, 200);
         }
 
         protected override bool OnHover(HoverEvent e)
         {
-            hoverBox.FadeColour(GDEColors.FromHex("303030"), 500);
+            hoverBox.FadeColour(FromHex("303030"), 500);
             return base.OnHover(e);
         }
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            hoverBox.FadeColour(GDEColors.FromHex("181818"), 500);
+            hoverBox.FadeColour(FromHex("181818"), 500);
             base.OnHoverLost(e);
         }
 
         protected override bool OnClick(ClickEvent e)
         {
-            Selected.Value = !Selected.Value;
+            CardClicked?.Invoke(this, e);
+            // We do not want to handle the click event here, since there may be various ways to handle it on a container level
             return base.OnClick(e);
         }
 
