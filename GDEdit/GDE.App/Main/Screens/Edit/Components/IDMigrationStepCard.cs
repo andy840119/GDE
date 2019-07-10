@@ -223,6 +223,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         public void Select() => Selected.Value = true;
         /// <summary>Triggers the deselection of this card, causing a visual effect. It does not handle removing the step from the current selection in the container.</summary>
         public void Deselect() => Selected.Value = false;
+        /// <summary>Toggles the selected state of this card, causing a visual effect. It does not handle removing the step from the current selection in the container.</summary>
+        public void ToggleSelection() => Selected.Value = !Selected.Value;
 
         private void OnSelected(ValueChangedEvent<bool> value)
         {
