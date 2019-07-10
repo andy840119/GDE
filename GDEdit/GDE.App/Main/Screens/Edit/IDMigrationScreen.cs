@@ -37,14 +37,14 @@ namespace GDE.App.Main.Screens.Edit
         private NumberTextBox targetFrom;
         private NumberTextBox targetTo;
 
-        private Button performAction;
-        private Button createStep;
-        private Button removeSteps;
-        private Button cloneSteps;
-        private Button selectAll;
-        private Button deselectAll;
-        private Button loadSteps;
-        private Button saveSteps;
+        private FadeButton performAction;
+        private FadeButton createStep;
+        private FadeButton removeSteps;
+        private FadeButton cloneSteps;
+        private FadeButton selectAll;
+        private FadeButton deselectAll;
+        private FadeButton loadSteps;
+        private FadeButton saveSteps;
 
         private Editor editor;
 
@@ -120,7 +120,7 @@ namespace GDE.App.Main.Screens.Edit
                     Width = 150,
                     Children = new Drawable[]
                     {
-                        performAction = new Button
+                        performAction = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
@@ -128,77 +128,77 @@ namespace GDE.App.Main.Screens.Edit
                             Height = 32,
                             Margin = new MarginPadding { Top = 25 },
                             Text = "Perform Action",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             Action = editor.PerformMigration,
                         },
-                        removeSteps = new Button
+                        removeSteps = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Remove Steps",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             Action = StepList.RemoveSelectedSteps,
                         },
-                        cloneSteps = new Button
+                        cloneSteps = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Clone Steps",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             Action = StepList.CloneSelectedSteps,
                         },
-                        deselectAll = new Button
+                        deselectAll = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Deselect All",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             Action = StepList.DeselectAll,
                         },
-                        selectAll = new Button
+                        selectAll = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Select All",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             Action = StepList.SelectAll,
                         },
-                        loadSteps = new Button
+                        loadSteps = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Load Steps",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             //Action = null, // Make this work
                         },
-                        saveSteps = new Button
+                        saveSteps = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Save Steps",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             //Action = null, // Make this work
                         },
-                        createStep = new Button
+                        createStep = new FadeButton
                         {
                             Anchor = Anchor.BottomCentre,
                             Origin = Anchor.BottomCentre,
                             RelativeSizeAxes = Axes.X,
                             Height = 32,
                             Text = "Create Step",
-                            BackgroundColour = FromHex("242424"),
+                            EnabledColor = FromHex("242424"),
                             Action = StepList.CreateNewStep,
                         },
                     },
@@ -231,16 +231,16 @@ namespace GDE.App.Main.Screens.Edit
             if (CommonIDMigrationStep.Value != null)
                 commonSteps.Add(CommonIDMigrationStep.Value);
             CommonIDMigrationStep.Value = GetCommon(commonSteps); // Additive logic works
-            UpdateButtonEnabledStates();
+            UpdateFadeButtonEnabledStates();
         }
         private void HandleStepDeselected(IDMigrationStepCard c) => HandleSelectionChanged();
         private void HandleSelectionChanged()
         {
             CommonIDMigrationStep.Value = GetCommon(StepList.SelectedSteps);
-            UpdateButtonEnabledStates();
+            UpdateFadeButtonEnabledStates();
         }
 
-        private void UpdateButtonEnabledStates()
+        private void UpdateFadeButtonEnabledStates()
         {
             removeSteps.Enabled.Value = StepList.SelectedSteps.Count > 0;
             cloneSteps.Enabled.Value = StepList.SelectedSteps.Count > 0;
