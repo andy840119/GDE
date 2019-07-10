@@ -37,7 +37,7 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private bool loaded;
 
-        private SearchContainer stepList;
+        private FadeSearchContainer stepList;
         private TextBox searchQuery;
         private Container stepContainer;
         private FillFlowContainer noSteps;
@@ -175,7 +175,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             addNewStep.Action = CreateNewStep;
         }
 
-        private void UpdateNoStepDialogVisibility(List<SourceTargetRange> currentTabRanges) => noSteps.Alpha = currentTabRanges.Count == 0 ? 1 : 0;
+        private void UpdateNoStepDialogVisibility(List<SourceTargetRange> currentTabRanges) => noSteps.FadeTo(currentTabRanges.Count == 0 ? 1 : 0, 100, Easing.InOutQuint);
 
         public void AddStep(SourceTargetRange range)
         {
