@@ -86,7 +86,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             // Yeah, something needs to be done about the scrolling here
                             RelativeSizeAxes = Axes.Both,
-                            Child = stepList = new SearchContainer
+                            Child = stepList = new FadeSearchContainer
                             {
                                 LayoutDuration = 100,
                                 LayoutEasing = Easing.Out,
