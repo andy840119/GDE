@@ -82,14 +82,17 @@ namespace GDE.App.Main.Screens.Edit.Components
                     },
                     Children = new Drawable[]
                     {
-                        stepList = new SearchContainer
+                        new ScrollContainer
                         {
-                            LayoutDuration = 100,
-                            LayoutEasing = Easing.Out,
-                            Spacing = new Vector2(0, 2),
-                            RelativeSizeAxes = Axes.X,
-                            //AutoSizeAxes = Axes.Y,
-                            //Padding = new MarginPadding(5)
+                            // Yeah, something needs to be done about the scrolling here
+                            RelativeSizeAxes = Axes.Both,
+                            Child = stepList = new SearchContainer
+                            {
+                                LayoutDuration = 100,
+                                LayoutEasing = Easing.Out,
+                                Spacing = new Vector2(0, 2),
+                                RelativeSizeAxes = Axes.X,
+                            },
                         },
                         noSteps = new FillFlowContainer
                         {
