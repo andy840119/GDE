@@ -1,5 +1,6 @@
 ﻿using System;
 using osuTK.Graphics;
+using static System.Convert;
 
 namespace GDE.App.Main.Colors
 {
@@ -16,14 +17,14 @@ namespace GDE.App.Main.Colors
             switch (hex.Length)
             {
                 case 3:
-                    return new Color4((byte)(getByte(0, 1) * 17), (byte)(getByte(1, 1) * 17), (byte)(getByte(2, 1) * 17), 255);
+                    return new Color4((byte)(GetByte(0, 1) * 17), (byte)(GetByte(1, 1) * 17), (byte)(GetByte(2, 1) * 17), 255);
                 case 6:
-                    return new Color4(getByte(0, 2), getByte(2, 2), getByte(4, 2), 255);
+                    return new Color4(GetByte(0, 2), GetByte(2, 2), GetByte(4, 2), 255);
                 default:
                     throw new ArgumentException(@"Invalid hex string length!");
             }
 
-            byte getByte(int n, int k) => Convert.ToByte(hex.Substring(n, k), 16);
+            byte GetByte(int n, int k) => ToByte(hex.Substring(n, k), 16);
         }
 
         // TODO: Add official colors here
