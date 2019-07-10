@@ -53,23 +53,23 @@ namespace GDE.App.Main.Screens.Menu.Components
                 },
                 new ScrollContainer
                 {
-                   RelativeSizeAxes = Axes.Both,
-                   Margin = new MarginPadding
-                   {
-                       Top = 5,
-                   },
-                   Children = new Drawable[]
-                   {
-                       levelList = new FillFlowContainer
-                       {
-                           LayoutDuration = 100,
-                           LayoutEasing = Easing.Out,
-                           Spacing = new Vector2(1, 1),
-                           RelativeSizeAxes = Axes.X,
-                           AutoSizeAxes = Axes.Y,
-                           Padding = new MarginPadding(5)
-                       }
-                   }
+                    RelativeSizeAxes = Axes.Both,
+                    Margin = new MarginPadding
+                    {
+                        Top = 5,
+                    },
+                    Children = new Drawable[]
+                    {
+                        levelList = new FillFlowContainer
+                        {
+                            LayoutDuration = 100,
+                            LayoutEasing = Easing.Out,
+                            Spacing = new Vector2(1, 1),
+                            RelativeSizeAxes = Axes.X,
+                            AutoSizeAxes = Axes.Y,
+                            Padding = new MarginPadding(5)
+                        }
+                    }
                 },
             };
 
