@@ -87,6 +87,19 @@ namespace GDEdit.Utilities.Objects.General
         /// <summary>Inverts this <seealso cref="SourceTargetRange"/> by inverting the target and the source (the individual ranges remain the same).</summary>
         public SourceTargetRange Invert() => new SourceTargetRange(TargetFrom, TargetTo, SourceFrom);
 
+        /// <summary>Determines whether the object has the specified values.</summary>
+        /// <param name="sourceFrom"></param>
+        /// <param name="sourceTo"></param>
+        /// <param name="targetFrom"></param>
+        /// <param name="targetTo"></param>
+        public bool HasValues(int sourceFrom, int sourceTo, int targetFrom, int targetTo)
+        {
+            return sourceFrom == SourceFrom
+                && sourceTo == SourceTo
+                && targetFrom == TargetFrom
+                && targetTo == TargetTo;
+        }
+
         /// <summary>Parses a string of the form "A-B > C-D" into a <seealso cref="SourceTargetRange"/>.</summary>
         /// <param name="str">The string to parse into a <seealso cref="SourceTargetRange"/>. The string must be of the form "A-B > C-D", where A-B can simply be A if A = B and C-D can respectively be C if C = D.</param>
         public static SourceTargetRange Parse(string str)
@@ -131,8 +144,10 @@ namespace GDEdit.Utilities.Objects.General
         /// <param name="ranges">The list of ranges to get the common range of.</param>
         public static SourceTargetRange GetCommon(List<SourceTargetRange> ranges)
         {
+            if (ranges.Count == 0)
+                return null;
             var result = ranges[0].Clone();
-            for (int i = 0; i < ranges.Count; i++)
+            for (int i = 1; i < ranges.Count; i++)
             {
                 // This kind of copy-pasting looks like it can be better, but that's the best you can get
                 GetCommonPropertyComparer(ref result.sourceFrom, ref ranges[i].sourceFrom);
@@ -143,6 +158,9 @@ namespace GDEdit.Utilities.Objects.General
         }
 
         public override string ToString() => $"{SourceToString()} > {TargetToString()}";
+        /// <summary>Returns the string representation of this <seealso cref="SourceTargetRange"/> with the option to include a space between the ranges and the right arrow.</summary>
+        /// <param name="addSpace">Determines whether the spaces will be added or not.</param>
+        public string ToString(bool addSpace) => $"{SourceToString()}{(addSpace ? " " : "")}>{(addSpace ? " " : "")}{TargetToString()}";
         /// <summary>Returns the string representation of the source.</summary>
         public string SourceToString() => ToString(SourceFrom, SourceTo);
         /// <summary>Returns the string representation of the target.</summary>
