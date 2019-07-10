@@ -86,12 +86,17 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             // Yeah, something needs to be done about the scrolling here
                             RelativeSizeAxes = Axes.Both,
+                            Padding = new MarginPadding
+                            {
+                                Bottom = 30, // I have to manually set it to that until a solution is figured out because the container otherwise extends too far down
+                            },
                             Child = stepList = new FadeSearchContainer
                             {
                                 LayoutDuration = 100,
                                 LayoutEasing = Easing.Out,
                                 Spacing = new Vector2(0, 2),
                                 RelativeSizeAxes = Axes.X,
+                                AutoSizeAxes = Axes.Y,
                             },
                         },
                         noSteps = new FillFlowContainer

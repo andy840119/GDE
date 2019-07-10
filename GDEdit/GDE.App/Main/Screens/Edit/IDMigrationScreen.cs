@@ -83,6 +83,7 @@ namespace GDE.App.Main.Screens.Edit
                             Padding = new MarginPadding
                             {
                                 Top = 10,
+                                Bottom = 10,
                                 //Left = 10,
                                 //Right = 10
                             }
