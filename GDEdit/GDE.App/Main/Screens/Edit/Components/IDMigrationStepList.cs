@@ -24,6 +24,7 @@ using osu.Framework.Screens;
 using osuTK;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static System.Char;
 
@@ -31,8 +32,10 @@ namespace GDE.App.Main.Screens.Edit.Components
 {
     public class IDMigrationStepList : FillFlowContainer
     {
-        private const float CardMargin = 2;
-        private const float CardHeight = 25;
+        public const float CardMargin = 2;
+        public const float CardHeight = 25;
+
+        private bool loaded;
 
         private SearchContainer stepList;
         private TextBox searchQuery;
@@ -42,16 +45,24 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private Editor editor;
 
-        public int StepIndex;
+        public SortedSet<int> SelectedStepIndices { get; private set; } = new SortedSet<int>();
+        public List<SourceTargetRange> SelectedSteps { get; private set; } = new List<SourceTargetRange>();
+
         /// <summary>The action to invoke when a step has been selected.</summary>
         public Action<IDMigrationStepCard> StepSelected;
         /// <summary>The action to invoke when a step has been deselected.</summary>
         public Action<IDMigrationStepCard> StepDeselected;
+        /// <summary>The action to invoke when the selection has been changed more complexly.</summary>
+        public Action SelectionChanged;
+
         public List<IDMigrationStepCard> Cards = new List<IDMigrationStepCard>();
 
         public IDMigrationStepList(Editor e)
         {
             editor = e;
+
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
 
             Children = new Drawable[]
             {
@@ -61,12 +72,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                     Origin = Anchor.TopLeft,
                     Height = 30,
                     RelativeSizeAxes = Axes.X,
-                    Margin = new MarginPadding
-                    {
-                        //Top = 10,
-                        Left = 10,
-                        Right = 10,
-                    },
                 },
                 new Container
                 {
@@ -81,10 +86,10 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             LayoutDuration = 100,
                             LayoutEasing = Easing.Out,
-                            Spacing = new Vector2(1, 2),
+                            Spacing = new Vector2(0, 2),
                             RelativeSizeAxes = Axes.X,
                             //AutoSizeAxes = Axes.Y,
-                            Padding = new MarginPadding(5)
+                            //Padding = new MarginPadding(5)
                         },
                         noSteps = new FillFlowContainer
                         {
@@ -129,46 +134,34 @@ namespace GDE.App.Main.Screens.Edit.Components
             UpdateCurrentTabRanges();
         }
 
+        [BackgroundDependencyLoader]
+        private void load()
+        {
+            loaded = true;
+        }
+
         public void UpdateCurrentTabRanges()
         {
             var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
 
-            if (currentTabRanges.Count == 0)
-                noSteps.Alpha = 1;
-            else
+            UpdateNoStepDialogVisibility(currentTabRanges);
+
+            if (currentTabRanges.Count > 0)
             {
                 for (var i = 0; i < currentTabRanges.Count; i++)
                 {
-                    Cards.Add(new IDMigrationStepCard(currentTabRanges[i])
+                    var card = CreateIDMigrationStepCard(currentTabRanges[i], i);
+
+                    stepList.Add(card);
+                    Cards.Add(card);
+                }
+
+                if (loaded)
+                    foreach (var c in Cards)
                     {
-                        RelativeSizeAxes = Axes.X,
-                        Height = CardHeight,
-                        Margin = new MarginPadding(CardMargin),
-                        Index = i,
-                        CardDragged = c => RearrangeCards(i, c)
-                    });
-                }
-
-                foreach (var c in Cards)
-                {
-                    stepList.Add(Cards[c.Index]);
-
-                    Cards[c.Index].Selected.ValueChanged += obj =>
-                    {
-                        if (obj.NewValue)
-                            foreach (var j in Cards)
-                                if (j != Cards[c.Index] && j.Selected.Value)
-                                    j.Selected.Value = false;
-                        StepIndex = obj.NewValue ? c.Index : -1;
-                        StepSelected?.Invoke(StepIndex > -1 ? Cards[StepIndex] : null);
-                    };
-                }
-
-                foreach (var c in Cards)
-                {
-                    c.InitializeArrowAnimation();
-                    Task.Delay(10); // Perhaps 10ms is fine, must test
-                }
+                        c.InitializeArrowAnimation();
+                        Task.Delay(50); // Perhaps 50ms is fine, must test
+                    }
             }
 
             searchQuery.Current.ValueChanged += obj =>
@@ -177,55 +170,142 @@ namespace GDE.App.Main.Screens.Edit.Components
             };
 
             addNewStep.Action = CreateNewStep;
-
-            Anchor = Anchor.Centre;
-            Origin = Anchor.Centre;
         }
+
+        private void UpdateNoStepDialogVisibility(List<SourceTargetRange> currentTabRanges) => noSteps.Alpha = currentTabRanges.Count == 0 ? 1 : 0;
 
         public void AddStep(SourceTargetRange range)
         {
-            stepList.Add(CreateIDMigrationStepCard(range, editor.CurrentlySelectedIDMigrationSteps.Count));
+            var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
+            var newCard = CreateIDMigrationStepCard(range, currentTabRanges.Count);
+            Cards.Add(newCard);
+            stepList.Add(newCard);
             editor.AddIDMigrationStep(range);
+            UpdateNoStepDialogVisibility(currentTabRanges);
         }
         public void CreateNewStep() => AddStep(new SourceTargetRange(1, 10, 11));
         public void CloneSelectedSteps()
         {
-            // TODO: Do thing
+            var oldSelection = SelectedStepIndices;
+            InitializeSelectedSteps();
+            foreach (var i in oldSelection)
+            {
+                var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
+                var card = Cards[i];
+                card.Deselect();
+                AddStep(card.StepRange.Clone());
+                AddSelectedStep(newIndex);
+                Cards[newIndex].Select();
+            }
+            SelectionChanged?.Invoke();
         }
         public void RemoveSelectedSteps()
         {
-            // TODO: Do thing
+            var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
+            int[] indices = new int[SelectedStepIndices.Count];
+            SelectedStepIndices.CopyTo(indices);
+            for (int i = indices.Length - 1; i >= 0; i--)
+            {
+                editor.RemoveIDMigrationStep(Cards[indices[i]].StepRange);
+                stepList.Remove(Cards[indices[i]]);
+                Cards.RemoveAt(indices[i]);
+            }
+            ClearSelectedSteps();
+            SelectionChanged?.Invoke();
+
+            // Fix indices
+            for (int i = 0; i < Cards.Count; i++)
+                Cards[i].Index = i;
+
+            UpdateNoStepDialogVisibility(currentTabRanges);
+        }
+        public void SelectAll()
+        {
+            SelectedSteps.Clear();
+            foreach (var c in Cards)
+            {
+                c.Select();
+                SelectedSteps.Add(c.StepRange);
+            }
+            SelectedStepIndices = new SortedSet<int>(Enumerable.Range(0, Cards.Count));
+            SelectionChanged?.Invoke();
+        }
+        public void DeselectAll()
+        {
+            ClearSelectedSteps();
+            foreach (var c in Cards)
+                c.Deselect();
+            SelectionChanged?.Invoke();
+        }
+
+        public void DeselectStep(int index)
+        {
+            Cards[index].Deselect();
+            RemoveSelectedStep(index);
+            StepDeselected?.Invoke(Cards[index]);
+        }
+        public void SelectStep(int index, bool appendToSelection = false)
+        {
+            if (!appendToSelection)
+            {
+                var oldSelection = SelectedStepIndices;
+                InitializeSelectedSteps();
+                foreach (var i in oldSelection)
+                    Cards[i].Deselect();
+            }
+            Cards[index].Select();
+            AddSelectedStep(index);
+            if (appendToSelection)
+                StepSelected?.Invoke(Cards[index]);
+            else
+                SelectionChanged?.Invoke();
         }
 
         private IDMigrationStepCard CreateIDMigrationStepCard(SourceTargetRange r, int index)
         {
-            var card = new IDMigrationStepCard(r)
+            return new IDMigrationStepCard(r)
             {
-                RelativeSizeAxes = Axes.X,
-                Height = CardHeight,
-                Margin = new MarginPadding(CardMargin),
+                Margin = new MarginPadding { Top = CardMargin },
                 Index = index,
-                CardDragged = c => RearrangeCards(index, c)
+                CardDragged = (c, e) => RearrangeCards(index, e),
+                CardClicked = HandleCardClicked,
             };
-
-            card.Selected.ValueChanged += obj =>
-            {
-                if (obj.NewValue)
-                    foreach (var j in Cards)
-                        if (j != card && j.Selected.Value)
-                            j.Selected.Value = false;
-                StepIndex = obj.NewValue ? card.Index : -1;
-                StepSelected?.Invoke(StepIndex > -1 ? Cards[StepIndex] : null);
-            };
-
-            return card;
         }
 
+        // Helper functions to avoid unwanted bugs
+        private void AddSelectedStep(int index)
+        {
+            SelectedStepIndices.Add(index);
+            SelectedSteps.Add(Cards[index].StepRange);
+        }
+        private void RemoveSelectedStep(int index)
+        {
+            SelectedStepIndices.Remove(index);
+            SelectedSteps.Remove(Cards[index].StepRange);
+        }
+        private void ClearSelectedSteps()
+        {
+            SelectedStepIndices.Clear();
+            SelectedSteps.Clear();
+        }
+        private void InitializeSelectedSteps()
+        {
+            SelectedStepIndices = new SortedSet<int>();
+            SelectedSteps = new List<SourceTargetRange>();
+        }
+
+        private void HandleCardClicked(IDMigrationStepCard c, MouseEvent e)
+        {
+            if (c.Selected.Value)
+                DeselectStep(c.Index);
+            else
+                SelectStep(c.Index, e.ShiftPressed);
+        }
         private void RearrangeCards(int selectedCardIndex, DragEvent e)
         {
             int newIndex = GetCardIndexFromYPosition(Cards[selectedCardIndex].Y);
             Cards.Swap(selectedCardIndex, newIndex);
-            stepList.SetLayoutPosition(Children[selectedCardIndex], newIndex);
+            stepList.SetLayoutPosition(Cards[selectedCardIndex], newIndex);
         }
 
         private static float GetCardYPositionThreshold(int index) => index * (CardHeight + CardMargin) + CardHeight / 2;
