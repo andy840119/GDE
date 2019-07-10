@@ -30,6 +30,7 @@ namespace GDE.Tests.Visual.TestCaseEditor
                 Width = 0.5f,
                 Index = 0,
             };
+            card.CardClicked += (c, e) => c.ToggleSelection();
             Add(card);
 
             AddStep("Set index to 0", () => card.Index = 0);
