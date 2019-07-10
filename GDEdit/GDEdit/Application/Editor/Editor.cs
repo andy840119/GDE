@@ -1434,6 +1434,17 @@ namespace GDEdit.Application.Editor
         /// <summary>Adds a range of new ID migration steps to the currently selected mode's ranges.</summary>
         /// <param name="ranges">The ID migration steps to add to the currently selected ID migration.</param>
         public void AddIDMigrationSteps(List<SourceTargetRange> ranges) => CurrentlySelectedIDMigrationSteps.AddRange(ranges);
+        /// <summary>Removes a new ID migration step from the currently selected mode's ranges.</summary>
+        /// <param name="range">The ID migration step to remove from the currently selected ID migration.</param>
+        public void RemoveIDMigrationStep(SourceTargetRange range) => CurrentlySelectedIDMigrationSteps.Remove(range);
+        /// <summary>Removes a range of new ID migration steps from the currently selected mode's ranges.</summary>
+        /// <param name="ranges">The ID migration steps to remove from the currently selected ID migration.</param>
+        public void RemoveIDMigrationSteps(List<SourceTargetRange> ranges)
+        {
+            foreach (var r in ranges)
+                CurrentlySelectedIDMigrationSteps.Remove(r);
+        }
+        // TODO: Add cloning method
 
         // This was copied from a private feature code of EffectSome
         // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions
