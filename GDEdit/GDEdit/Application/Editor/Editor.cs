@@ -1381,26 +1381,7 @@ namespace GDEdit.Application.Editor
         public IDMigrationMode SelectedMode
         {
             get => selectedMode;
-            set
-            {
-                switch (selectedMode = value)
-                {
-                    case IDMigrationMode.Groups:
-                        CurrentlySelectedIDMigrationSteps = groupRanges;
-                        break;
-                    case IDMigrationMode.Colors:
-                        CurrentlySelectedIDMigrationSteps = colorRanges;
-                        break;
-                    case IDMigrationMode.Items:
-                        CurrentlySelectedIDMigrationSteps = itemRanges;
-                        break;
-                    case IDMigrationMode.Blocks:
-                        CurrentlySelectedIDMigrationSteps = blockRanges;
-                        break;
-                    default:
-                        throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
-                }
-            }
+            set => CurrentlySelectedIDMigrationSteps = GetIDMigrationSteps(selectedMode = value);
         }
 
         /// <summary>Gets the currently selected ID migration steps.</summary>
@@ -1423,6 +1404,24 @@ namespace GDEdit.Application.Editor
                 case IDMigrationMode.Blocks:
                     PerformBlockIDMigration();
                     break;
+                default:
+                    throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
+            }
+        }
+        /// <summary>Gets the ID migration steps for a specified mode.</summary>
+        /// <param name="mode">The mode to get the steps for.</param>
+        public List<SourceTargetRange> GetIDMigrationSteps(IDMigrationMode mode)
+        {
+            switch (mode)
+            {
+                case IDMigrationMode.Groups:
+                    return groupRanges;
+                case IDMigrationMode.Colors:
+                    return colorRanges;
+                case IDMigrationMode.Items:
+                    return itemRanges;
+                case IDMigrationMode.Blocks:
+                    return blockRanges;
                 default:
                     throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
             }

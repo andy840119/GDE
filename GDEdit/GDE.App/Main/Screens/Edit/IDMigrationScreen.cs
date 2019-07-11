@@ -46,6 +46,11 @@ namespace GDE.App.Main.Screens.Edit
         private FadeButton loadSteps;
         private FadeButton saveSteps;
 
+        private IDMigrationStepList groupStepList;
+        private IDMigrationStepList colorStepList;
+        private IDMigrationStepList itemStepList;
+        private IDMigrationStepList blockStepList;
+
         private Editor editor;
 
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
@@ -58,6 +63,11 @@ namespace GDE.App.Main.Screens.Edit
             editor = e;
 
             //Size = new Vector2(0.4f);
+
+            groupStepList = GetNewStepList(editor, IDMigrationMode.Groups);
+            colorStepList = GetNewStepList(editor, IDMigrationMode.Colors);
+            itemStepList = GetNewStepList(editor, IDMigrationMode.Items);
+            blockStepList = GetNewStepList(editor, IDMigrationMode.Blocks);
 
             AddRangeInternal(new Drawable[]
             {
@@ -76,18 +86,7 @@ namespace GDE.App.Main.Screens.Edit
                             RelativeSizeAxes = Axes.Both,
                             Colour = FromHex("111111"),
                         },
-                        StepList = new IDMigrationStepList(editor)
-                        {
-                            RelativeSizeAxes = Axes.Y,
-                            Width = 500,
-                            Padding = new MarginPadding
-                            {
-                                Top = 10,
-                                Bottom = 10,
-                                //Left = 10,
-                                //Right = 10
-                            }
-                        },
+                        StepList = groupStepList
                     }
                 },
                 new FillFlowContainer
@@ -314,6 +313,18 @@ namespace GDE.App.Main.Screens.Edit
         private static SpriteText GetNewSpriteText(string text) => new SpriteText
         {
             Text = text,
+        };
+        private static IDMigrationStepList GetNewStepList(Editor editor, IDMigrationMode mode) => new IDMigrationStepList(editor, mode)
+        {
+            RelativeSizeAxes = Axes.Y,
+            Width = 500,
+            Padding = new MarginPadding
+            {
+                Top = 10,
+                Bottom = 10,
+                //Left = 10,
+                //Right = 10
+            }
         };
     }
 }

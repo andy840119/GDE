@@ -47,6 +47,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private Editor editor;
 
+        public readonly IDMigrationMode IDMigrationMode;
+
         public SortedSet<int> SelectedStepIndices { get; private set; } = new SortedSet<int>();
         public List<SourceTargetRange> SelectedSteps { get; private set; } = new List<SourceTargetRange>();
 
@@ -59,9 +61,10 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public List<IDMigrationStepCard> Cards = new List<IDMigrationStepCard>();
 
-        public IDMigrationStepList(Editor e)
+        public IDMigrationStepList(Editor e, IDMigrationMode mode)
         {
             editor = e;
+            IDMigrationMode = mode;
 
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
@@ -152,15 +155,15 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void UpdateCurrentTabRanges()
         {
-            var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
+            var migrationSteps = editor.GetIDMigrationSteps(IDMigrationMode);
 
-            UpdateNoStepDialogVisibility(currentTabRanges);
+            UpdateNoStepDialogVisibility(migrationSteps);
 
-            if (currentTabRanges.Count > 0)
+            if (migrationSteps.Count > 0)
             {
-                for (var i = 0; i < currentTabRanges.Count; i++)
+                for (var i = 0; i < migrationSteps.Count; i++)
                 {
-                    var card = CreateIDMigrationStepCard(currentTabRanges[i], i);
+                    var card = CreateIDMigrationStepCard(migrationSteps[i], i);
 
                     stepList.Add(card);
                     Cards.Add(card);
@@ -186,12 +189,12 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void AddStep(SourceTargetRange range)
         {
-            var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
-            var newCard = CreateIDMigrationStepCard(range, currentTabRanges.Count);
+            var migrationSteps = editor.GetIDMigrationSteps(IDMigrationMode);
+            var newCard = CreateIDMigrationStepCard(range, migrationSteps.Count);
             Cards.Add(newCard);
             stepList.Add(newCard);
             editor.AddIDMigrationStep(range);
-            UpdateNoStepDialogVisibility(currentTabRanges);
+            UpdateNoStepDialogVisibility(migrationSteps);
         }
         public void CreateNewStep() => AddStep(new SourceTargetRange(1, 10, 11));
         public void CloneSelectedSteps()
@@ -211,7 +214,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         }
         public void RemoveSelectedSteps()
         {
-            var currentTabRanges = editor.CurrentlySelectedIDMigrationSteps;
+            var migrationSteps = editor.GetIDMigrationSteps(IDMigrationMode);
             int[] indices = new int[SelectedStepIndices.Count];
             SelectedStepIndices.CopyTo(indices);
             for (int i = indices.Length - 1; i >= 0; i--)
@@ -227,7 +230,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             for (int i = 0; i < Cards.Count; i++)
                 Cards[i].Index = i;
 
-            UpdateNoStepDialogVisibility(currentTabRanges);
+            UpdateNoStepDialogVisibility(migrationSteps);
         }
         public void SelectAll()
         {
@@ -352,11 +355,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                         SelectStep(c.Index);
                 }
             }
-
-            //if (c.Selected.Value)
-            //    DeselectStep(c.Index);
-            //else
-            //    SelectStep(c.Index, e.ShiftPressed);
         }
         private void RearrangeCards(int selectedCardIndex, DragEvent e)
         {
