@@ -43,6 +43,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         private FillFlowContainer noSteps;
         private Button addNewStep;
 
+        private IDMigrationStepCard lastClickedBeforeShift;
+
         private Editor editor;
 
         public SortedSet<int> SelectedStepIndices { get; private set; } = new SortedSet<int>();
@@ -268,6 +270,13 @@ namespace GDE.App.Main.Screens.Edit.Components
             else
                 SelectionChanged?.Invoke();
         }
+        public void ToggleStepSelection(int index, bool appendToSelection = false)
+        {
+            if (Cards[index].Selected.Value)
+                DeselectStep(index);
+            else
+                SelectStep(index, appendToSelection);
+        }
 
         private IDMigrationStepCard CreateIDMigrationStepCard(SourceTargetRange r, int index)
         {
@@ -304,10 +313,50 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private void HandleCardClicked(IDMigrationStepCard c, MouseEvent e)
         {
-            if (c.Selected.Value)
-                DeselectStep(c.Index);
+            if (!e.ShiftPressed)
+                lastClickedBeforeShift = c;
+
+            // For a card to be clicked, there must be at least one card, therefore this should never throw an exception
+            if (lastClickedBeforeShift == null)
+                lastClickedBeforeShift = Cards[0];
+
+            if (e.ShiftPressed)
+            {
+                DeselectAll();
+
+                int start = lastClickedBeforeShift.Index;
+                int end = c.Index;
+
+                // Swap the indices
+                if (start > end)
+                {
+                    int t = start;
+                    start = end;
+                    end = t;
+                }
+
+                for (int i = start; i <= end; i++)
+                    SelectStep(i, true);
+            }
             else
-                SelectStep(c.Index, e.ShiftPressed);
+            {
+                if (e.ControlPressed)
+                    ToggleStepSelection(c.Index, true);
+                else
+                {
+                    var otherSelectedSteps = SelectedStepIndices.Clone();
+                    otherSelectedSteps.Remove(c.Index);
+                    if (otherSelectedSteps.Count == 0)
+                        ToggleStepSelection(c.Index);
+                    else
+                        SelectStep(c.Index);
+                }
+            }
+
+            //if (c.Selected.Value)
+            //    DeselectStep(c.Index);
+            //else
+            //    SelectStep(c.Index, e.ShiftPressed);
         }
         private void RearrangeCards(int selectedCardIndex, DragEvent e)
         {
