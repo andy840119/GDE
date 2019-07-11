@@ -12,10 +12,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Color trigger.</summary>
     [ObjectID(TriggerType.Color)]
-    public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
+    public class ColorTrigger : Trigger, IHasTargetColorID, IHasCopiedColorID, IHasColor, IHasDuration
     {
         private byte red = 255, green = 255, blue = 255;
-        private short targetColorID = 1;
+        private short targetColorID = 1, copiedColorID;
         private float duration = 0.5f, opacity = 1;
 
         /// <summary>The Object ID of the Color trigger.</summary>
@@ -68,8 +68,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
         {
-            get => TargetColorID;
-            set => TargetColorID = value;
+            get => copiedColorID;
+            set => copiedColorID = (short)value;
         }
         /// <summary>The Blending property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Blending)]
@@ -137,7 +137,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.green = green;
             c.blue = blue;
             c.opacity = opacity;
-            c.CopiedColorID = CopiedColorID;
+            c.copiedColorID = copiedColorID;
             c.HSVAdjustment = HSVAdjustment;
             return base.AddClonedInstanceInformation(c);
         }
@@ -154,7 +154,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && green == z.green
                 && blue == z.blue
                 && opacity == z.opacity
-                && CopiedColorID == z.CopiedColorID
+                && copiedColorID == z.copiedColorID
                 && HSVAdjustment == z.HSVAdjustment;
         }
     }

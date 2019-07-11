@@ -195,6 +195,7 @@
     <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasCopiedColorID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ScaleTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ZoomTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\EndTrigger.cs" />

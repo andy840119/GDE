@@ -12,10 +12,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Pulse trigger.</summary>
     [ObjectID(TriggerType.Pulse)]
-    public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
+    public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasCopiedColorID, IHasColor
     {
         private byte red = 255, green = 255, blue = 255;
-        private short targetGroupID, targetColorID;
+        private short targetGroupID, targetColorID, copiedColorID;
         private float fadeIn, hold, fadeOut;
 
         /// <summary>The Object ID of the Pulse trigger.</summary>
@@ -81,8 +81,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
         {
-            get => TargetColorID;
-            set => TargetColorID = (short)value;
+            get => copiedColorID;
+            set => copiedColorID = (short)value;
         }
         /// <summary>The Pulse Mode of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.PulseMode)]
@@ -143,7 +143,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.fadeIn = fadeIn;
             c.hold = hold;
             c.fadeOut = fadeOut;
-            c.CopiedColorID = CopiedColorID;
+            c.copiedColorID = copiedColorID;
             c.PulseMode = PulseMode;
             c.PulseTargetType = PulseTargetType;
             c.HSVAdjustment = HSVAdjustment;
@@ -164,7 +164,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && fadeIn == z.fadeIn
                 && hold == z.hold
                 && fadeOut == z.fadeOut
-                && CopiedColorID == z.CopiedColorID
+                && copiedColorID == z.copiedColorID
                 && PulseMode == z.PulseMode
                 && PulseTargetType == z.PulseTargetType
                 && HSVAdjustment == z.HSVAdjustment;
