@@ -29,11 +29,12 @@ using static GDE.App.Main.Colors.GDEColors;
 using osu.Framework.Input.Events;
 using osuTK.Input;
 using GDE.App.Main.Containers.KeyBindingContainers;
+using GDE.App.Main.Panels;
 
 namespace GDE.App.Main.Screens.Edit
 {
     // TODO: Consider shrinking this to a popup instead of an entire screen
-    public class IDMigrationScreen : Screen
+    public class IDMigrationScreen : Panel
     {
         private NumberTextBox sourceFrom;
         private NumberTextBox sourceTo;
@@ -75,6 +76,11 @@ namespace GDE.App.Main.Screens.Edit
             // TODO: Use IDMigrationActionContainer
             AddRangeInternal(new Drawable[]
             {
+                new Box
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Colour = FromHex("1A1A1A")
+                },
                 new IDMigrationActionContainer
                 {
                     RelativeSizeAxes = Axes.Both,
