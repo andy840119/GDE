@@ -31,10 +31,20 @@ namespace GDE.App.Main.Panels
         {
             Children = new Drawable[]
             {
-                new Box
+                //To avoid making both Pin and Close disappear
+                new Container
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("151515") 
+                    CornerRadius = 10,
+                    Masking = true,
+                    Children = new Drawable[]
+                    {
+                        new Box
+                        {
+                            RelativeSizeAxes = Axes.Both,
+                            Colour = GDEColors.FromHex("151515")
+                        },
+                    }
                 },
                 new FillFlowContainer
                 {
@@ -120,7 +130,7 @@ namespace GDE.App.Main.Panels
             Position += e.Delta;
             return true;
         }
-        protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
+        protected override bool OnDragStart(DragStartEvent e) => AllowDrag && !LockDrag;
         protected override bool OnDragEnd(DragEndEvent e) => true;
     }
 }
