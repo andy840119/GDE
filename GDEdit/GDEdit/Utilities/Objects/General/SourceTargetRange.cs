@@ -38,7 +38,7 @@ namespace GDEdit.Utilities.Objects.General
             set
             {
                 if (!IsAnyValueInvalid())
-                    AdjustSourceFrom(value - TargetTo);
+                    AdjustSourceTo(value - TargetTo, false);
                 SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom, value);
             }
         }
@@ -71,14 +71,14 @@ namespace GDEdit.Utilities.Objects.General
         /// <summary>Determines whether any of the source from, source to and target from values is -1.</summary>
         public bool IsAnyValueInvalid() => sourceFrom == -1 || sourceTo == -1 || targetFrom == -1;
 
-        /// <summary>Adjusts the source from property while also being able to maintain the source difference.</summary>
-        /// <param name="adjustment">The adjustment to apply to the source from property.</param>
+        /// <summary>Adjusts the source to property while also being able to maintain the source difference.</summary>
+        /// <param name="adjustment">The adjustment to apply to the source to property.</param>
         /// <param name="maintainDifference">Determines whether source difference will be maintained. Defaults to <see langword="true"/>.</param>
-        public void AdjustSourceFrom(int adjustment, bool maintainDifference = true)
+        public void AdjustSourceTo(int adjustment, bool maintainDifference = true)
         {
-            sourceFrom += adjustment;
+            sourceTo += adjustment;
             if (maintainDifference)
-                sourceTo += adjustment;
+                sourceFrom += adjustment;
         }
 
         /// <summary>Clones this <seealso cref="SourceTargetRange"/> and returns the cloned object.</summary>

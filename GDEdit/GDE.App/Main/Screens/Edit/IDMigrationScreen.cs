@@ -215,9 +215,27 @@ namespace GDE.App.Main.Screens.Edit
 
             CommonIDMigrationStep.ValueChanged += v =>
             {
+                // TODO: Maybe revamp the code below since it look terrible
                 var newStep = v.NewValue;
                 if (newStep != null)
-                    newStep.SourceTargetRangeChanged += (sf, st, tf, tt) => UpdateTextBoxes(newStep);
+                {
+                    newStep.SourceTargetRangeChanged += (sf, st, tf, tt) =>
+                    {
+                        UpdateTextBoxes(newStep);
+                        foreach (var s in StepList.SelectedSteps)
+                        {
+                            s.SourceFrom = sf;
+                            s.SourceTo = st;
+                            s.TargetFrom = tf;
+                        }
+                    };
+                    foreach (var s in StepList.SelectedSteps)
+                    {
+                        s.SourceFrom = newStep.SourceFrom;
+                        s.SourceTo = newStep.SourceTo;
+                        s.TargetFrom = newStep.TargetFrom;
+                    }
+                }
                 UpdateTextBoxes(newStep);
             };
 
@@ -263,7 +281,8 @@ namespace GDE.App.Main.Screens.Edit
                 textBox.Number = newValue.Value;
             else
                 textBox.Text = "";
-            textBox.InvokeEvents = textBox.Enabled = enabled;
+            textBox.InvokeEvents = true;
+            textBox.Enabled = enabled;
         }
 
         private static NumberTextBox GetNewNumberTextBox() => new NumberTextBox(false)
