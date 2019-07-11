@@ -208,10 +208,10 @@ namespace GDE.App.Main.Screens.Edit
 
             performAction.Enabled.Value = false;
 
-            sourceFrom.NumberChanged += n => CommonIDMigrationStep.Value.SourceFrom = n;
-            sourceTo.NumberChanged += n => CommonIDMigrationStep.Value.SourceTo = n;
-            targetFrom.NumberChanged += n => CommonIDMigrationStep.Value.TargetFrom = n;
-            targetTo.NumberChanged += n => CommonIDMigrationStep.Value.TargetTo = n;
+            sourceFrom.NumberChanged += HandleSourceFromChanged;
+            sourceTo.NumberChanged += HandleSourceToChanged;
+            targetFrom.NumberChanged += HandleTargetFromChanged;
+            targetTo.NumberChanged += HandleTargetToChanged;
 
             CommonIDMigrationStep.ValueChanged += v =>
             {
@@ -242,6 +242,27 @@ namespace GDE.App.Main.Screens.Edit
             StepList.StepSelected = HandleStepSelected;
             StepList.StepDeselected = HandleStepDeselected;
             StepList.SelectionChanged = HandleSelectionChanged;
+        }
+
+        private void HandleSourceFromChanged(int newValue)
+        {
+            if (newValue > 0)
+                CommonIDMigrationStep.Value.SourceFrom = newValue;
+        }
+        private void HandleSourceToChanged(int newValue)
+        {
+            if (newValue > 0 && newValue >= CommonIDMigrationStep.Value.SourceFrom)
+                CommonIDMigrationStep.Value.SourceTo = newValue;
+        }
+        private void HandleTargetFromChanged(int newValue)
+        {
+            if (newValue > 0)
+                CommonIDMigrationStep.Value.TargetFrom = newValue;
+        }
+        private void HandleTargetToChanged(int newValue)
+        {
+            if (newValue > 0 && newValue >= CommonIDMigrationStep.Value.TargetFrom)
+                CommonIDMigrationStep.Value.TargetTo = newValue;
         }
 
         private void HandleStepSelected(IDMigrationStepCard c)
