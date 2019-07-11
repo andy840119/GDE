@@ -1514,6 +1514,8 @@ namespace GDEdit.Application.Editor
 
             if (o is IHasTargetColorID t && r.IsWithinSourceRange(t.TargetColorID))
                 t.TargetColorID += d;
+            if (o is IHasCopiedColorID c && r.IsWithinSourceRange(c.CopiedColorID))
+                c.CopiedColorID += d;
         }
         private void AdjustItems(GeneralObject o, SourceTargetRange r)
         {
