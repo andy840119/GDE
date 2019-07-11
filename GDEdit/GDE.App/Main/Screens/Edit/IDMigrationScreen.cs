@@ -26,6 +26,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 using static GDE.App.Main.Colors.GDEColors;
+using osu.Framework.Input.Events;
+using osuTK.Input;
+using GDE.App.Main.Containers.KeyBindingContainers;
 
 namespace GDE.App.Main.Screens.Edit
 {
@@ -69,6 +72,7 @@ namespace GDE.App.Main.Screens.Edit
             itemStepList = GetNewStepList(editor, IDMigrationMode.Items);
             blockStepList = GetNewStepList(editor, IDMigrationMode.Blocks);
 
+            // TODO: Use IDMigrationActionContainer
             AddRangeInternal(new Drawable[]
             {
                 new Container
