@@ -37,6 +37,10 @@ namespace GDE.Tests.Visual.TestCaseEditor
             AddAssert("Check index is 0", () => card.Index == 0);
             AddStep("Set index to 3", () => card.Index = 3);
             AddAssert("Check index is 3", () => card.Index == 3);
+            AddStep("Set index to 9999", () => card.Index = 9999); // Something needs to be done so that text does not overflow out of the index box
+            AddAssert("Check index is 9999", () => card.Index == 9999);
+            AddStep("Set index to 69", () => card.Index = 69);
+            AddAssert("Check index is 69", () => card.Index == 69);
 
             AddStep("Set SourceTo to 14", () => card.StepRange.SourceTo = 14);
             AddAssert("Check SourceTo is 14", () => card.StepRange.SourceTo == 14);
