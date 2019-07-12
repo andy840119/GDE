@@ -37,7 +37,7 @@ namespace GDE.App.Main.Screens.Edit
         private Camera camera;
         private EditorTools tools;
 
-        private IDMigrationScreen IDMigrationScreen;
+        private IDMigrationPanel IDMigrationScreen;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -145,7 +145,7 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
-                IDMigrationScreen = new IDMigrationScreen(editor)
+                IDMigrationScreen = new IDMigrationPanel(editor)
                 {
                     RelativeSizeAxes = Axes.Both,
                     Size = new Vector2(0.5f, 0.6f),

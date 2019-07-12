@@ -1,40 +1,22 @@
-﻿using DiscordRPC;
-using GDE.App.Main.Colors;
-using GDE.App.Main.Containers;
-using GDE.App.Main.Overlays;
+﻿using GDE.App.Main.Containers.KeyBindingContainers;
+using GDE.App.Main.Panels;
 using GDE.App.Main.Screens.Edit.Components;
-using GDE.App.Main.Screens.Menu.Components;
-using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
-using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.General;
-using GDEdit.Utilities.Objects.GeometryDash;
-using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Input.Bindings;
-using osu.Framework.Logging;
-using osu.Framework.Screens;
 using osuTK;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 using static GDE.App.Main.Colors.GDEColors;
-using osu.Framework.Input.Events;
-using osuTK.Input;
-using GDE.App.Main.Containers.KeyBindingContainers;
-using GDE.App.Main.Panels;
+using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 
 namespace GDE.App.Main.Screens.Edit
 {
-    // TODO: Consider shrinking this to a popup instead of an entire screen
-    public class IDMigrationScreen : Panel
+    public class IDMigrationPanel : Panel
     {
         private NumberTextBox sourceFrom;
         private NumberTextBox sourceTo;
@@ -62,11 +44,12 @@ namespace GDE.App.Main.Screens.Edit
 
         public IDMigrationStepList StepList;
 
-        public IDMigrationScreen(Editor e)
+        public IDMigrationPanel(Editor e)
         {
             editor = e;
 
-            //Size = new Vector2(0.4f);
+            //RelativeSizeAxes = Axes.Both;
+            Size = new Vector2(700, 650);
 
             groupStepList = GetNewStepList(editor, IDMigrationMode.Groups);
             colorStepList = GetNewStepList(editor, IDMigrationMode.Colors);
