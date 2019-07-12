@@ -84,7 +84,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     RelativeSizeAxes = Axes.Both,
                     Margin = new MarginPadding
                     {
-                        Top = 5,
+                        Top = 10,
                     },
                     Children = new Drawable[]
                     {
@@ -94,7 +94,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                             RelativeSizeAxes = Axes.Both,
                             Padding = new MarginPadding
                             {
-                                Bottom = 30, // I have to manually set it to that until a solution is figured out because the container otherwise extends too far down
+                                Bottom = 40, // I have to manually set it to that until a solution is figured out because the container otherwise extends too far down
                             },
                             Child = stepList = new FadeSearchContainer
                             {
