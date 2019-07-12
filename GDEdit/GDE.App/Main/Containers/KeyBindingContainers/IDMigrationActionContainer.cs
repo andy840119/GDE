@@ -9,7 +9,7 @@ using static osu.Framework.Input.Bindings.SimultaneousBindingMode;
 
 namespace GDE.App.Main.Containers.KeyBindingContainers
 {
-    public class IDMigrationActionContainer : KeyBindingContainer<GlobalAction>
+    public class IDMigrationActionContainer : KeyBindingContainer<IDMigrationAction>
     {
         public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
         {

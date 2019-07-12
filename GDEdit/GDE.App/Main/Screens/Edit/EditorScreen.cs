@@ -66,7 +66,7 @@ namespace GDE.App.Main.Screens.Edit
             };
             var editMenuItems = new List<MenuItem>
             {
-                new EditorMenuItem("Migrate IDs", OpenIDMigrationScreen, MenuItemType.Standard),
+                new EditorMenuItem("Migrate IDs", IDMigrationScreen.ToggleVisibility, MenuItemType.Standard),
             };
 
             AddInternal(new Container
@@ -144,6 +144,14 @@ namespace GDE.App.Main.Screens.Edit
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
+                },
+                IDMigrationScreen = new IDMigrationScreen(editor)
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Size = new Vector2(0.5f, 0.6f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    LockDrag = true
                 }
             });
         }
@@ -177,12 +185,5 @@ namespace GDE.App.Main.Screens.Edit
             this.Exit();
         }
         private void Save() => editor.Save(database, i);
-
-        private void OpenIDMigrationScreen()
-        {
-            if (IDMigrationScreen != null)
-                return;
-            this.Push(IDMigrationScreen = new IDMigrationScreen(editor));
-        }
     }
 }

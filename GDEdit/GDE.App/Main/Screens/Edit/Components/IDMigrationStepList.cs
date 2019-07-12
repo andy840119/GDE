@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Colors;
 using GDE.App.Main.Containers;
+using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
@@ -30,7 +31,7 @@ using static System.Char;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
-    public class IDMigrationStepList : FillFlowContainer
+    public class IDMigrationStepList : FillFlowContainer, IKeyBindingHandler<IDMigrationAction>
     {
         public const float CardMargin = 2;
         public const float CardHeight = 25;
@@ -365,5 +366,40 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private static float GetCardYPositionThreshold(int index) => index * (CardHeight + CardMargin) + CardHeight / 2;
         private static int GetCardIndexFromYPosition(float y) => (int)((y + CardHeight / 2) / (CardHeight + CardMargin));
+
+        public bool OnPressed(IDMigrationAction action)
+        {
+            switch (action)
+            {
+                case IDMigrationAction.SelectAll:
+                    SelectAll();
+                    return true;
+                case IDMigrationAction.DeselectAll:
+                    DeselectAll();
+                    return true;
+                case IDMigrationAction.Cut:
+                    RemoveSelectedSteps();
+                    return true;
+                case IDMigrationAction.Copy:
+                    //TODO: Implement this.
+                    return true;
+                case IDMigrationAction.Paste:
+                    //TODO: Implement this.
+                    return true;
+                case IDMigrationAction.Clone:
+                    CloneSelectedSteps();
+                    return true;
+                case IDMigrationAction.Load:
+                    //TODO: Implement this.
+                    return true;
+                case IDMigrationAction.Save:
+                    //TODO: Implement this.
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool OnReleased(IDMigrationAction action) => true;
     }
 }
