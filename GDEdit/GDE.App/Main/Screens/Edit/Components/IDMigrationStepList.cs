@@ -389,6 +389,9 @@ namespace GDE.App.Main.Screens.Edit.Components
                 case IDMigrationAction.Clone:
                     CloneSelectedSteps();
                     return true;
+                case IDMigrationAction.Remove:
+                    RemoveSelectedSteps();
+                    return true;
                 case IDMigrationAction.Load:
                     //TODO: Implement this.
                     return true;

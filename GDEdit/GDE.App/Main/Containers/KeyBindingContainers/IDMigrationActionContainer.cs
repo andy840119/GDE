@@ -19,6 +19,7 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
             new KeyBinding(new[] { InputKey.Control, InputKey.C }, IDMigrationAction.Copy),
             new KeyBinding(new[] { InputKey.Control, InputKey.V }, IDMigrationAction.Paste),
             new KeyBinding(new[] { InputKey.Control, InputKey.D }, IDMigrationAction.Clone),
+            new KeyBinding(new[] { InputKey.Delete }, IDMigrationAction.Remove),
 
             new KeyBinding(new[] { InputKey.Control, InputKey.L }, IDMigrationAction.Load),
             new KeyBinding(new[] { InputKey.Control, InputKey.S }, IDMigrationAction.Save),
@@ -42,6 +43,8 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
         Paste,
         [Description("Clones the selected ID migration steps")]
         Clone,
+        [Description("Removes the selected ID migration steps")]
+        Remove,
 
         [Description("Loads the ID migration steps to a file")]
         Load,
