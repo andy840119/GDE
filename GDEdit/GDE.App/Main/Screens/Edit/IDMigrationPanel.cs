@@ -241,16 +241,22 @@ namespace GDE.App.Main.Screens.Edit
                         UpdateTextBoxes(newStep);
                         foreach (var s in StepList.SelectedSteps)
                         {
-                            s.SourceFrom = sf;
-                            s.SourceTo = st;
-                            s.TargetFrom = tf;
+                            if (sf > 0)
+                                s.SourceFrom = sf;
+                            if (st > 0)
+                                s.SourceTo = st;
+                            if (tf > 0)
+                                s.TargetFrom = tf;
                         }
                     };
                     foreach (var s in StepList.SelectedSteps)
                     {
-                        s.SourceFrom = newStep.SourceFrom;
-                        s.SourceTo = newStep.SourceTo;
-                        s.TargetFrom = newStep.TargetFrom;
+                        if (newStep.SourceFrom > 0)
+                            s.SourceFrom = newStep.SourceFrom;
+                        if (newStep.SourceTo > 0)
+                            s.SourceTo = newStep.SourceTo;
+                        if (newStep.TargetFrom > 0)
+                            s.TargetFrom = newStep.TargetFrom;
                     }
                 }
                 UpdateTextBoxes(newStep);
