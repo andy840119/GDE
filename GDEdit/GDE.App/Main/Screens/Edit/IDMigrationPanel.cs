@@ -232,32 +232,15 @@ namespace GDE.App.Main.Screens.Edit
 
             CommonIDMigrationStep.ValueChanged += v =>
             {
-                // TODO: Maybe revamp the code below since it look terrible
                 var newStep = v.NewValue;
                 if (newStep != null)
                 {
                     newStep.SourceTargetRangeChanged += (sf, st, tf, tt) =>
                     {
+                        HandleStepChanged(newStep);
                         UpdateTextBoxes(newStep);
-                        foreach (var s in StepList.SelectedSteps)
-                        {
-                            if (sf > 0)
-                                s.SourceFrom = sf;
-                            if (st > 0)
-                                s.SourceTo = st;
-                            if (tf > 0)
-                                s.TargetFrom = tf;
-                        }
                     };
-                    foreach (var s in StepList.SelectedSteps)
-                    {
-                        if (newStep.SourceFrom > 0)
-                            s.SourceFrom = newStep.SourceFrom;
-                        if (newStep.SourceTo > 0)
-                            s.SourceTo = newStep.SourceTo;
-                        if (newStep.TargetFrom > 0)
-                            s.TargetFrom = newStep.TargetFrom;
-                    }
+                    HandleStepChanged(newStep);
                 }
                 UpdateTextBoxes(newStep);
             };
@@ -265,6 +248,19 @@ namespace GDE.App.Main.Screens.Edit
             StepList.StepSelected = HandleStepSelected;
             StepList.StepDeselected = HandleStepDeselected;
             StepList.SelectionChanged = HandleSelectionChanged;
+        }
+
+        private void HandleStepChanged(SourceTargetRange newStep)
+        {
+            foreach (var s in StepList.SelectedSteps)
+            {
+                if (newStep.SourceFrom > 0)
+                    s.SourceFrom = newStep.SourceFrom;
+                if (newStep.SourceTo > 0)
+                    s.SourceTo = newStep.SourceTo;
+                if (newStep.TargetFrom > 0)
+                    s.TargetFrom = newStep.TargetFrom;
+            }
         }
 
         private void HandleSourceFromChanged(int newValue)
