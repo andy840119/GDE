@@ -10,6 +10,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osuTK;
+using osuTK.Graphics;
 using System.Collections.Generic;
 using static GDE.App.Main.Colors.GDEColors;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
@@ -18,6 +19,10 @@ namespace GDE.App.Main.Screens.Edit
 {
     public class IDMigrationPanel : Panel
     {
+        private static Color4 greenEnabledColor = FromHex("246c48");
+        private static Color4 redEnabledColor = FromHex("6c2424");
+        private static Color4 grayEnabledColor = FromHex("242424");
+
         private NumberTextBox sourceFrom;
         private NumberTextBox sourceTo;
         private NumberTextBox targetFrom;
@@ -50,6 +55,8 @@ namespace GDE.App.Main.Screens.Edit
 
             //RelativeSizeAxes = Axes.Both;
             Size = new Vector2(700, 650);
+            Anchor = Anchor.Centre;
+            Origin = Anchor.Centre;
 
             groupStepList = GetNewStepList(editor, IDMigrationMode.Groups);
             colorStepList = GetNewStepList(editor, IDMigrationMode.Colors);
@@ -130,9 +137,9 @@ namespace GDE.App.Main.Screens.Edit
                                             Origin = Anchor.BottomCentre,
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
-                                            Margin = new MarginPadding { Top = 25 },
+                                            Margin = new MarginPadding { Top = 15 },
                                             Text = "Perform Action",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = greenEnabledColor,
                                             Action = editor.PerformMigration,
                                         },
                                         removeSteps = new FadeButton
@@ -142,7 +149,7 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Remove Steps",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = redEnabledColor,
                                             Action = StepList.RemoveSelectedSteps,
                                         },
                                         cloneSteps = new FadeButton
@@ -152,7 +159,7 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Clone Steps",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = grayEnabledColor,
                                             Action = StepList.CloneSelectedSteps,
                                         },
                                         deselectAll = new FadeButton
@@ -162,7 +169,7 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Deselect All",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = grayEnabledColor,
                                             Action = StepList.DeselectAll,
                                         },
                                         selectAll = new FadeButton
@@ -172,7 +179,7 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Select All",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = grayEnabledColor,
                                             Action = StepList.SelectAll,
                                         },
                                         loadSteps = new FadeButton
@@ -182,7 +189,7 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Load Steps",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = grayEnabledColor,
                                             //Action = null, // Make this work
                                         },
                                         saveSteps = new FadeButton
@@ -192,7 +199,7 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Save Steps",
-                                            EnabledColor = FromHex("242424"),
+                                            EnabledColor = grayEnabledColor,
                                             //Action = null, // Make this work
                                         },
                                         createStep = new FadeButton
@@ -202,8 +209,8 @@ namespace GDE.App.Main.Screens.Edit
                                             RelativeSizeAxes = Axes.X,
                                             Height = 32,
                                             Text = "Create Step",
-                                            EnabledColor = FromHex("242424"),
-                                            Action = StepList.CreateNewStep,
+                                            EnabledColor = greenEnabledColor,
+                                            Action = CreateNewStep,
                                         },
                                     },
                                 },
@@ -213,6 +220,9 @@ namespace GDE.App.Main.Screens.Edit
                 }
             });
 
+            deselectAll.Enabled.Value = false;
+            cloneSteps.Enabled.Value = false;
+            removeSteps.Enabled.Value = false;
             performAction.Enabled.Value = false;
 
             sourceFrom.NumberChanged += HandleSourceFromChanged;
@@ -287,8 +297,15 @@ namespace GDE.App.Main.Screens.Edit
             UpdateFadeButtonEnabledStates();
         }
 
+        private void CreateNewStep()
+        {
+            StepList.CreateNewStep();
+            performAction.Enabled.Value = true;
+        }
+
         private void UpdateFadeButtonEnabledStates()
         {
+            deselectAll.Enabled.Value = StepList.SelectedSteps.Count > 0;
             removeSteps.Enabled.Value = StepList.SelectedSteps.Count > 0;
             cloneSteps.Enabled.Value = StepList.SelectedSteps.Count > 0;
             performAction.Enabled.Value = editor.CurrentlySelectedIDMigrationSteps.Count > 0;
