@@ -25,6 +25,7 @@ using osu.Framework.Screens;
 using osuTK;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static System.Char;
@@ -46,9 +47,13 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private IDMigrationStepCard lastClickedBeforeShift;
 
+        private List<SourceTargetRange> clipboard;
+
         private Editor editor;
 
         public readonly IDMigrationMode IDMigrationMode;
+
+        public List<SourceTargetRange> TabRanges => editor.GetIDMigrationSteps(IDMigrationMode);
 
         public SortedSet<int> SelectedStepIndices { get; private set; } = new SortedSet<int>();
         public List<SourceTargetRange> SelectedSteps { get; private set; } = new List<SourceTargetRange>();
@@ -160,15 +165,13 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void UpdateCurrentTabRanges()
         {
-            var migrationSteps = editor.GetIDMigrationSteps(IDMigrationMode);
+            UpdateNoStepDialogVisibility(TabRanges);
 
-            UpdateNoStepDialogVisibility(migrationSteps);
-
-            if (migrationSteps.Count > 0)
+            if (TabRanges.Count > 0)
             {
-                for (var i = 0; i < migrationSteps.Count; i++)
+                for (var i = 0; i < TabRanges.Count; i++)
                 {
-                    var card = CreateIDMigrationStepCard(migrationSteps[i], i);
+                    var card = CreateIDMigrationStepCard(TabRanges[i], i);
 
                     stepList.Add(card);
                     Cards.Add(card);
@@ -194,12 +197,11 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void AddStep(SourceTargetRange range)
         {
-            var migrationSteps = editor.GetIDMigrationSteps(IDMigrationMode);
-            var newCard = CreateIDMigrationStepCard(range, migrationSteps.Count);
+            var newCard = CreateIDMigrationStepCard(range, TabRanges.Count);
             Cards.Add(newCard);
             stepList.Add(newCard);
             editor.AddIDMigrationStep(range);
-            UpdateNoStepDialogVisibility(migrationSteps);
+            UpdateNoStepDialogVisibility(TabRanges);
         }
         public void CreateNewStep() => AddStep(new SourceTargetRange(1, 10, 11));
         public void CloneSelectedSteps()
@@ -219,7 +221,6 @@ namespace GDE.App.Main.Screens.Edit.Components
         }
         public void RemoveSelectedSteps()
         {
-            var migrationSteps = editor.GetIDMigrationSteps(IDMigrationMode);
             int[] indices = new int[SelectedStepIndices.Count];
             SelectedStepIndices.CopyTo(indices);
             for (int i = indices.Length - 1; i >= 0; i--)
@@ -235,7 +236,58 @@ namespace GDE.App.Main.Screens.Edit.Components
             for (int i = 0; i < Cards.Count; i++)
                 Cards[i].Index = i;
 
-            UpdateNoStepDialogVisibility(migrationSteps);
+            UpdateNoStepDialogVisibility(TabRanges);
+        }
+        public void RemoveAllSteps()
+        {
+            SelectAll();
+            RemoveSelectedSteps();
+        }
+        public void CutSelectedSteps()
+        {
+            CopySelectedSteps();
+            RemoveSelectedSteps();
+        }
+        public void CopySelectedSteps()
+        {
+            int[] indices = new int[SelectedStepIndices.Count];
+            SelectedStepIndices.CopyTo(indices);
+            clipboard = new List<SourceTargetRange>(indices.Length);
+            foreach (var i in indices)
+                clipboard.Add(Cards[i].StepRange);
+        }
+        public void PasteSteps()
+        {
+            InitializeSelectedSteps();
+            foreach (var s in clipboard)
+            {
+                var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
+                AddStep(s);
+                AddSelectedStep(newIndex);
+                Cards[newIndex].Select();
+            }
+            SelectionChanged?.Invoke();
+        }
+        public void LoadSteps()
+        {
+            // TODO: Open Shell shit
+            string fileName = ""; // Change that
+            var lines = File.ReadAllLines(fileName);
+            var ranges = SourceTargetRange.LoadRangesFromStringArray(lines);
+            RemoveAllSteps();
+            foreach (var r in ranges)
+            {
+                var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
+                AddStep(r);
+                AddSelectedStep(newIndex);
+                Cards[newIndex].Select();
+            }
+        }
+        public void SaveSteps()
+        {
+            // TODO: Open Shell shit
+            string fileName = ""; // Change that
+            File.WriteAllLines(fileName, SourceTargetRange.ConvertRangesToStringArray(TabRanges));
         }
         public void SelectAll()
         {
@@ -382,13 +434,13 @@ namespace GDE.App.Main.Screens.Edit.Components
                     DeselectAll();
                     return true;
                 case IDMigrationAction.Cut:
-                    RemoveSelectedSteps();
+                    CutSelectedSteps();
                     return true;
                 case IDMigrationAction.Copy:
-                    //TODO: Implement this.
+                    CopySelectedSteps();
                     return true;
                 case IDMigrationAction.Paste:
-                    //TODO: Implement this.
+                    PasteSteps();
                     return true;
                 case IDMigrationAction.Clone:
                     CloneSelectedSteps();
@@ -397,10 +449,10 @@ namespace GDE.App.Main.Screens.Edit.Components
                     RemoveSelectedSteps();
                     return true;
                 case IDMigrationAction.Load:
-                    //TODO: Implement this.
+                    LoadSteps();
                     return true;
                 case IDMigrationAction.Save:
-                    //TODO: Implement this.
+                    SaveSteps();
                     return true;
             }
 

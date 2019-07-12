@@ -129,6 +129,16 @@ namespace GDEdit.Utilities.Objects.General
                     list.Add(Parse(s));
             return list;
         }
+        /// <summary>Loads a number of <seealso cref="SourceTargetRange"/>s from a string array.</summary>
+        /// <param name="lines">The lines to load the <seealso cref="SourceTargetRange"/>s from.</param>
+        /// <param name="ignoreEmptyLines">Determines whether empty lines will be ignored during parsing. There is almost no reason to set that to <see langword="false"/> unless you're a weirdo.</param>
+        public static string[] ConvertRangesToStringArray(List<SourceTargetRange> ranges)
+        {
+            string[] result = new string[ranges.Count];
+            for (int i = 0; i < ranges.Count; i++)
+                result[i] = ranges[i].ToString();
+            return result;
+        }
 
         /// <summary>Inverts the ordering of a provided list of ranges and inverts the individual ranges and returns the resulting list.</summary>
         /// <param name="ranges">The list of ranges to invert.</param>
