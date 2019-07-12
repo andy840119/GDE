@@ -68,7 +68,7 @@ namespace GDE.App.Main.Screens.Edit
                         new Box
                         {
                             RelativeSizeAxes = Axes.Both,
-                            Colour = FromHex("1A1A1A")
+                            Colour = FromHex("1a1a1a")
                         },
                         new IDMigrationActionContainer
                         {
