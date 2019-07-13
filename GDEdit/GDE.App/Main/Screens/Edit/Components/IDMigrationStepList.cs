@@ -76,6 +76,8 @@ namespace GDE.App.Main.Screens.Edit.Components
             editor = e;
             IDMigrationMode = mode;
 
+            AlwaysPresent = true;
+
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
 
@@ -103,7 +105,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                     {
                         new ScrollContainer
                         {
-                            // Yeah, something needs to be done about the scrolling here
                             RelativeSizeAxes = Axes.Both,
                             Padding = new MarginPadding
                             {

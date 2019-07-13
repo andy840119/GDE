@@ -6,6 +6,7 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
+using osuTK;
 using osuTK.Graphics;
 using System;
 
@@ -28,7 +29,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
             {
                 bool old = selected;
                 background.FadeColour((selected = value) ? selectedBackgroundColor : (IsHovered ? hoveredBackgroundColor : backgroundColor), 200);
-                if (!old)
+                if (!old && value)
                     TabSelected?.Invoke(Mode);
             }
         }
@@ -42,23 +43,32 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
         {
             Mode = mode;
 
-            Anchor = Anchor.Centre;
-            Origin = Anchor.Centre;
+            Anchor = Anchor.CentreLeft;
+            Origin = Anchor.CentreLeft;
+
+            Size = new Vector2(80, 50);
 
             CornerRadius = 10;
             Masking = true;
 
             Children = new Drawable[]
             {
-                new SpriteText
-                {
-                    Font = new FontUsage(size: 16),
-                    Text = mode.ToString(),
-                },
                 background = new Box
                 {
+                    RelativeSizeAxes = Axes.Both,
                     Colour = backgroundColor,
-                }
+                },
+                new SpriteText
+                {
+                    Margin = new MarginPadding
+                    {
+                        Top = 5,
+                    },
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopCentre,
+                    Font = new FontUsage(size: 20),
+                    Text = mode.ToString(),
+                },
             };
         }
 
