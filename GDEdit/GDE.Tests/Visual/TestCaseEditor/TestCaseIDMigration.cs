@@ -24,7 +24,7 @@ namespace GDE.Tests.Visual.TestCaseEditor
 
             panel.ToggleVisibility();
 
-            var stepList = panel.StepList;
+            var stepList = panel.CurrentStepList;
 
             AddLabel("Step creation");
             AddAssert("Check whether common step is null", () => panel.CommonIDMigrationStep.Value == null); // Also a dummy to not fuck the tests
