@@ -53,11 +53,14 @@ namespace GDE.App.Main.Screens.Edit
             get => currentStepList;
             set
             {
-                currentStepList.FadeTo(0, 200);
-                currentStepList.StepSelected = null;
-                currentStepList.StepDeselected = null;
-                currentStepList.SelectionChanged = null;
+                var previous = currentStepList;
+
+                previous.FadeTo(0, 200);
+                previous.StepSelected = null;
+                previous.StepDeselected = null;
+                previous.SelectionChanged = null;
                 
+                // Why does this not work?
                 value.FadeTo(1, 200);
                 value.StepSelected = HandleStepSelected;
                 value.StepDeselected = HandleStepDeselected;
@@ -389,7 +392,8 @@ namespace GDE.App.Main.Screens.Edit
                 Bottom = 10,
                 //Left = 10,
                 //Right = 10
-            }
+            },
+            Alpha = 0,
         };
     }
 }
