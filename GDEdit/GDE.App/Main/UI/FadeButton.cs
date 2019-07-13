@@ -1,11 +1,7 @@
 ﻿using osu.Framework.Bindables;
-using osu.Framework.Graphics.Colour;
 using osu.Framework.Extensions.Color4Extensions;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.UserInterface;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static GDE.App.Main.Colors.GDEColors;
 using osuTK.Graphics;
 
 namespace GDE.App.Main.UI
@@ -30,7 +26,7 @@ namespace GDE.App.Main.UI
             Enabled.ValueChanged += EnabledChanged;
         }
 
-        private void EnabledChanged(ValueChangedEvent<bool> v) => BackgroundColour = GetAppropriateColor(v.NewValue);
+        private void EnabledChanged(ValueChangedEvent<bool> v) => this.TransformTo(nameof(BackgroundColour), GetAppropriateColor(v.NewValue), 200);
 
         private Color4 GetAppropriateColor(bool enabled) => EnabledColor.Darken(enabled ? 0 : 0.5f);
     }
