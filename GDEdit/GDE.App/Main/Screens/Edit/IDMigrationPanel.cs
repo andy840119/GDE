@@ -66,6 +66,7 @@ namespace GDE.App.Main.Screens.Edit
                 CommonIDMigrationStep.UnbindAll();
                 CommonIDMigrationStep.BindTo(value.CommonIDMigrationStep);
 
+                editor.SelectedIDMigrationMode = value.IDMigrationMode;
                 currentStepList = value;
 
                 // Since the step list has been changed, technically the selection has changed too; so triggering this is not as hacky as it seems

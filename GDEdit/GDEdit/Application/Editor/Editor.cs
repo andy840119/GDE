@@ -1375,13 +1375,13 @@ namespace GDEdit.Application.Editor
         private List<SourceTargetRange> itemRanges = new List<SourceTargetRange>();
         private List<SourceTargetRange> blockRanges = new List<SourceTargetRange>();
 
-        private IDMigrationMode selectedMode;
+        private IDMigrationMode selectedIDMigrationMode;
 
-        /// <summary>Gets or sets the currently selected mode.</summary>
-        public IDMigrationMode SelectedMode
+        /// <summary>Gets or sets the currently selected ID migration mode.</summary>
+        public IDMigrationMode SelectedIDMigrationMode
         {
-            get => selectedMode;
-            set => CurrentlySelectedIDMigrationSteps = GetIDMigrationSteps(selectedMode = value);
+            get => selectedIDMigrationMode;
+            set => CurrentlySelectedIDMigrationSteps = GetIDMigrationSteps(selectedIDMigrationMode = value);
         }
 
         /// <summary>Gets the currently selected ID migration steps.</summary>
@@ -1390,7 +1390,7 @@ namespace GDEdit.Application.Editor
         /// <summary>Performs the ID migration for the currently selected mode.</summary>
         public void PerformMigration()
         {
-            switch (SelectedMode)
+            switch (SelectedIDMigrationMode)
             {
                 case IDMigrationMode.Groups:
                     PerformGroupIDMigration();
