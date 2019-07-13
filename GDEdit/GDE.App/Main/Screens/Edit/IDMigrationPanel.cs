@@ -229,7 +229,7 @@ namespace GDE.App.Main.Screens.Edit
                                                         Height = 32,
                                                         Text = "Load Steps",
                                                         EnabledColor = grayEnabledColor,
-                                                        //Action = null, // Make this work
+                                                        Action = CurrentStepList.LoadSteps,
                                                     },
                                                     saveSteps = new FadeButton
                                                     {
@@ -239,7 +239,7 @@ namespace GDE.App.Main.Screens.Edit
                                                         Height = 32,
                                                         Text = "Save Steps",
                                                         EnabledColor = grayEnabledColor,
-                                                        //Action = null, // Make this work
+                                                        Action = CurrentStepList.SaveSteps,
                                                     },
                                                     createStep = new FadeButton
                                                     {
