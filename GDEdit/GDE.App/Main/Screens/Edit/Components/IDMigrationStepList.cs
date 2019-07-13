@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 using static System.Char;
 
 namespace GDE.App.Main.Screens.Edit.Components
@@ -57,6 +58,9 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public SortedSet<int> SelectedStepIndices { get; private set; } = new SortedSet<int>();
         public List<SourceTargetRange> SelectedSteps { get; private set; } = new List<SourceTargetRange>();
+
+        /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
+        public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
 
         /// <summary>The action to invoke when a step has been selected.</summary>
         public Action<IDMigrationStepCard> StepSelected;
@@ -217,7 +221,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 AddSelectedStep(newIndex);
                 Cards[newIndex].Select();
             }
-            SelectionChanged?.Invoke();
+            OnSelectionChanged();
         }
         public void RemoveSelectedSteps()
         {
@@ -230,7 +234,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 Cards.RemoveAt(indices[i]);
             }
             ClearSelectedSteps();
-            SelectionChanged?.Invoke();
+            OnSelectionChanged();
 
             // Fix indices
             for (int i = 0; i < Cards.Count; i++)
@@ -266,7 +270,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 AddSelectedStep(newIndex);
                 Cards[newIndex].Select();
             }
-            SelectionChanged?.Invoke();
+            OnSelectionChanged();
         }
         public void LoadSteps()
         {
@@ -298,21 +302,21 @@ namespace GDE.App.Main.Screens.Edit.Components
                 SelectedSteps.Add(c.StepRange);
             }
             SelectedStepIndices = new SortedSet<int>(Enumerable.Range(0, Cards.Count));
-            SelectionChanged?.Invoke();
+            OnSelectionChanged();
         }
         public void DeselectAll()
         {
             ClearSelectedSteps();
             foreach (var c in Cards)
                 c.Deselect();
-            SelectionChanged?.Invoke();
+            OnSelectionChanged();
         }
 
         public void DeselectStep(int index)
         {
             Cards[index].Deselect();
             RemoveSelectedStep(index);
-            StepDeselected?.Invoke(Cards[index]);
+            OnStepDeselected(Cards[index]);
         }
         public void SelectStep(int index, bool appendToSelection = false)
         {
@@ -326,9 +330,9 @@ namespace GDE.App.Main.Screens.Edit.Components
             Cards[index].Select();
             AddSelectedStep(index);
             if (appendToSelection)
-                StepSelected?.Invoke(Cards[index]);
+                OnStepSelected(Cards[index]);
             else
-                SelectionChanged?.Invoke();
+                OnSelectionChanged();
         }
         public void ToggleStepSelection(int index, bool appendToSelection = false)
         {
@@ -336,6 +340,25 @@ namespace GDE.App.Main.Screens.Edit.Components
                 DeselectStep(index);
             else
                 SelectStep(index, appendToSelection);
+        }
+
+        private void OnStepSelected(IDMigrationStepCard card)
+        {
+            var commonSteps = new List<SourceTargetRange> { card.StepRange };
+            if (CommonIDMigrationStep.Value != null)
+                commonSteps.Add(CommonIDMigrationStep.Value);
+            CommonIDMigrationStep.Value = GetCommon(commonSteps); // Additive logic works
+            StepSelected?.Invoke(card);
+        }
+        private void OnStepDeselected(IDMigrationStepCard card)
+        {
+            CommonIDMigrationStep.Value = GetCommon(SelectedSteps);
+            StepDeselected?.Invoke(card);
+        }
+        private void OnSelectionChanged()
+        {
+            CommonIDMigrationStep.Value = GetCommon(SelectedSteps);
+            SelectionChanged?.Invoke();
         }
 
         private IDMigrationStepCard CreateIDMigrationStepCard(SourceTargetRange r, int index)

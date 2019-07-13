@@ -39,16 +39,14 @@ namespace GDE.App.Main.Screens.Edit
         private FadeButton loadSteps;
         private FadeButton saveSteps;
 
-        private IDMigrationStepList[] stepLists = new IDMigrationStepList[4];
-
         private IDMigrationTabControl tabControl;
+        private IDMigrationStepList[] stepLists = new IDMigrationStepList[4];
+        private IDMigrationStepList currentStepList;
 
         private Editor editor;
 
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
-
-        private IDMigrationStepList currentStepList;
 
         public IDMigrationStepList CurrentStepList
         {
@@ -60,12 +58,15 @@ namespace GDE.App.Main.Screens.Edit
                 currentStepList.StepDeselected = null;
                 currentStepList.SelectionChanged = null;
                 
-                currentStepList = value;
+                value.FadeTo(1, 200);
+                value.StepSelected = HandleStepSelected;
+                value.StepDeselected = HandleStepDeselected;
+                value.SelectionChanged = HandleSelectionChanged;
 
-                currentStepList.FadeTo(1, 200);
-                currentStepList.StepSelected = HandleStepSelected;
-                currentStepList.StepDeselected = HandleStepDeselected;
-                currentStepList.SelectionChanged = HandleSelectionChanged;
+                CommonIDMigrationStep.UnbindAll();
+                CommonIDMigrationStep.BindTo(value.CommonIDMigrationStep);
+
+                currentStepList = value;
 
                 // Since the step list has been changed, technically the selection has changed too; so triggering this is not as hacky as it seems
                 HandleSelectionChanged();
@@ -331,20 +332,9 @@ namespace GDE.App.Main.Screens.Edit
                 CommonIDMigrationStep.Value.TargetTo = newValue;
         }
 
-        private void HandleStepSelected(IDMigrationStepCard c)
-        {
-            var commonSteps = new List<SourceTargetRange> { c.StepRange };
-            if (CommonIDMigrationStep.Value != null)
-                commonSteps.Add(CommonIDMigrationStep.Value);
-            CommonIDMigrationStep.Value = GetCommon(commonSteps); // Additive logic works
-            UpdateFadeButtonEnabledStates();
-        }
-        private void HandleStepDeselected(IDMigrationStepCard c) => HandleSelectionChanged();
-        private void HandleSelectionChanged()
-        {
-            CommonIDMigrationStep.Value = GetCommon(CurrentStepList.SelectedSteps);
-            UpdateFadeButtonEnabledStates();
-        }
+        private void HandleStepSelected(IDMigrationStepCard card) => UpdateFadeButtonEnabledStates();
+        private void HandleStepDeselected(IDMigrationStepCard card) => UpdateFadeButtonEnabledStates();
+        private void HandleSelectionChanged() => UpdateFadeButtonEnabledStates();
 
         private void CreateNewStep()
         {
