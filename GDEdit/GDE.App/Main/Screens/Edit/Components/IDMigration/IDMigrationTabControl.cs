@@ -29,8 +29,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
                 };
                 tabItems[i].TabSelected += HandleTabSelected;
             }
-            currentTab = this[IDMigrationMode.Groups];
-            currentTab.Selected = true;
+            this[IDMigrationMode.Groups].Selected = true;
 
             RelativeSizeAxes = Axes.X;
             Height = DefaultHeight;
@@ -53,8 +52,11 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
 
         private void HandleTabSelected(IDMigrationMode newMode)
         {
-            currentTab.MoveToOffset(new Vector2(0, -10), 500, Easing.OutQuint);
-            currentTab.Selected = false;
+            if (currentTab != null)
+            {
+                currentTab.MoveToOffset(new Vector2(0, -10), 500, Easing.OutQuint);
+                currentTab.Selected = false;
+            }
             (currentTab = this[newMode]).MoveToOffset(new Vector2(0, 10), 500, Easing.InQuint);
             TabSelected?.Invoke(newMode);
         }
