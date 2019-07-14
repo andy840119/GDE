@@ -39,6 +39,8 @@ namespace GDE.App.Main.Screens.Edit
         private FadeButton loadSteps;
         private FadeButton saveSteps;
 
+        private Container stepListContainer;
+
         private IDMigrationTabControl tabControl;
         private IDMigrationStepList[] stepLists = new IDMigrationStepList[4];
         private IDMigrationStepList currentStepList;
@@ -55,24 +57,25 @@ namespace GDE.App.Main.Screens.Edit
             {
                 var previous = currentStepList;
 
-                previous.FadeTo(0, 200);
+                previous.FadeTo(0, 200).OnComplete(RemoveOnCompleted);
                 previous.StepSelected = null;
                 previous.StepDeselected = null;
                 previous.SelectionChanged = null;
                 
+                stepListContainer.Add(currentStepList = value);
+
                 // Why does this not work?
-                value.FadeTo(1, 200);
-                value.StepSelected = HandleStepSelected;
-                value.StepDeselected = HandleStepDeselected;
-                value.SelectionChanged = HandleSelectionChanged;
+                currentStepList.FadeTo(1, 200);
+                currentStepList.StepSelected = HandleStepSelected;
+                currentStepList.StepDeselected = HandleStepDeselected;
+                currentStepList.SelectionChanged = HandleSelectionChanged;
 
                 CommonIDMigrationStep.UnbindAll();
-                CommonIDMigrationStep.BindTo(value.CommonIDMigrationStep);
+                CommonIDMigrationStep.BindTo(currentStepList.CommonIDMigrationStep);
                 CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
                 CommonIDMigrationStep.TriggerChange();
 
-                editor.SelectedIDMigrationMode = value.IDMigrationMode;
-                currentStepList = value;
+                editor.SelectedIDMigrationMode = currentStepList.IDMigrationMode;
 
                 // Since the step list has been changed, technically the selection has changed too; so triggering this is not as hacky as it seems
                 HandleSelectionChanged();
@@ -118,7 +121,7 @@ namespace GDE.App.Main.Screens.Edit
                                 RelativeSizeAxes = Axes.Both,
                                 Children = new Drawable[]
                                 {
-                                    new Container
+                                    stepListContainer = new Container
                                     {
                                         RelativeSizeAxes = Axes.Y,
                                         Width = 520,
@@ -271,6 +274,8 @@ namespace GDE.App.Main.Screens.Edit
 
             CurrentStepList = currentStepList; // After everything's loaded, initialize the property for things to work properly
         }
+
+        private void RemoveOnCompleted(IDMigrationStepList toRemove) => stepListContainer.Remove(toRemove);
 
         private void CommonIDMigrationStepChanged(ValueChangedEvent<SourceTargetRange> v)
         {
