@@ -8,6 +8,8 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
 {
     public class IDMigrationTabControl : Container
     {
+        public const int DefaultHeight = 32;
+
         private IDMigrationTabItem[] tabItems = new IDMigrationTabItem[4];
         private IDMigrationTabItem currentTab;
 
@@ -31,7 +33,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
             currentTab.Selected = true;
 
             RelativeSizeAxes = Axes.X;
-            Height = 32;
+            Height = DefaultHeight;
 
             Children = new Drawable[]
             {

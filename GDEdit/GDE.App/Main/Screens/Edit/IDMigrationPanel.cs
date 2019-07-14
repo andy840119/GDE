@@ -97,169 +97,155 @@ namespace GDE.App.Main.Screens.Edit
                 Masking = true,
                 Children = new Drawable[]
                 {
-                    new FillFlowContainer
+                    tabControl = new IDMigrationTabControl(),
+                    new Container
                     {
-                        Direction = FillDirection.Vertical,
-                        RelativeSizeAxes = Axes.Both,
+                        Size = new Vector2(700, 650 - IDMigrationTabControl.DefaultHeight),
+                        Y = IDMigrationTabControl.DefaultHeight,
                         CornerRadius = 10,
                         Masking = true,
-
                         Children = new Drawable[]
                         {
-                            tabControl = new IDMigrationTabControl(),
-                            new Container
+                            new Box
                             {
                                 RelativeSizeAxes = Axes.Both,
-                                CornerRadius = 10,
-                                Masking = true,
+                                Colour = FromHex("1a1a1a")
+                            },
+                            new IDMigrationActionContainer
+                            {
+                                RelativeSizeAxes = Axes.Both,
                                 Children = new Drawable[]
                                 {
-                                    new Box
+                                    new Container
                                     {
-                                        RelativeSizeAxes = Axes.Both,
-                                        Colour = FromHex("1a1a1a")
-                                    },
-                                    new IDMigrationActionContainer
-                                    {
-                                        RelativeSizeAxes = Axes.Both,
-                                        Padding = new MarginPadding
-                                        {
-                                            Bottom = 32,
-                                        },
+                                        RelativeSizeAxes = Axes.Y,
+                                        Width = 520,
+                                        CornerRadius = 10,
+                                        Masking = true,
                                         Children = new Drawable[]
                                         {
-                                            new Container
+                                            new Box
                                             {
-                                                RelativeSizeAxes = Axes.Y,
-                                                Width = 520,
-                                                CornerRadius = 10,
-                                                Masking = true,
-                                                Children = new Drawable[]
-                                                {
-                                                    new Box
-                                                    {
-                                                        RelativeSizeAxes = Axes.Both,
-                                                        Colour = FromHex("111111"),
-                                                    },
-                                                    currentStepList = stepLists[0]
-                                                }
+                                                RelativeSizeAxes = Axes.Both,
+                                                Colour = FromHex("111111"),
                                             },
-                                            new FillFlowContainer
-                                            {
-                                                Anchor = Anchor.TopRight,
-                                                Origin = Anchor.TopRight,
-                                                Spacing = new Vector2(5),
-                                                Margin = new MarginPadding { Top = 5, Left = 10, Right = 10 },
-                                                RelativeSizeAxes = Axes.Y,
-                                                Width = 160,
-                                                Children = new Drawable[]
-                                                {
-                                                    GetNewSpriteText("Source From"),
-                                                    sourceFrom = GetNewNumberTextBox(),
-                                                    GetNewSpriteText("Source To"),
-                                                    sourceTo = GetNewNumberTextBox(),
-                                                    GetNewSpriteText("Target From"),
-                                                    targetFrom = GetNewNumberTextBox(),
-                                                    GetNewSpriteText("Target To"),
-                                                    targetTo = GetNewNumberTextBox(),
-                                                },
-                                            },
-                                            new FillFlowContainer
-                                            {
-                                                Anchor = Anchor.BottomRight,
-                                                Origin = Anchor.BottomRight,
-                                                Direction = FillDirection.Vertical,
-                                                Spacing = new Vector2(10),
-                                                Margin = new MarginPadding { Bottom = 10, Left = 10, Right = 10 },
-                                                RelativeSizeAxes = Axes.Y,
-                                                Width = 160,
-                                                Children = new Drawable[]
-                                                {
-                                                    performAction = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Margin = new MarginPadding { Top = 15 },
-                                                        Text = "Perform Action",
-                                                        EnabledColor = greenEnabledColor,
-                                                        Action = editor.PerformMigration,
-                                                    },
-                                                    removeSteps = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Remove Steps",
-                                                        EnabledColor = redEnabledColor,
-                                                        Action = CurrentStepList.RemoveSelectedSteps,
-                                                    },
-                                                    cloneSteps = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Clone Steps",
-                                                        EnabledColor = grayEnabledColor,
-                                                        Action = CurrentStepList.CloneSelectedSteps,
-                                                    },
-                                                    deselectAll = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Deselect All",
-                                                        EnabledColor = grayEnabledColor,
-                                                        Action = CurrentStepList.DeselectAll,
-                                                    },
-                                                    selectAll = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Select All",
-                                                        EnabledColor = grayEnabledColor,
-                                                        Action = CurrentStepList.SelectAll,
-                                                    },
-                                                    loadSteps = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Load Steps",
-                                                        EnabledColor = grayEnabledColor,
-                                                        Action = CurrentStepList.LoadSteps,
-                                                    },
-                                                    saveSteps = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Save Steps",
-                                                        EnabledColor = grayEnabledColor,
-                                                        Action = CurrentStepList.SaveSteps,
-                                                    },
-                                                    createStep = new FadeButton
-                                                    {
-                                                        Anchor = Anchor.BottomCentre,
-                                                        Origin = Anchor.BottomCentre,
-                                                        RelativeSizeAxes = Axes.X,
-                                                        Height = 32,
-                                                        Text = "Create Step",
-                                                        EnabledColor = greenEnabledColor,
-                                                        Action = CreateNewStep,
-                                                    },
-                                                },
-                                            },
+                                            currentStepList = stepLists[0]
                                         }
-                                    }
+                                    },
+                                    new FillFlowContainer
+                                    {
+                                        Anchor = Anchor.TopRight,
+                                        Origin = Anchor.TopRight,
+                                        Spacing = new Vector2(5),
+                                        Margin = new MarginPadding { Top = 5, Left = 10, Right = 10 },
+                                        RelativeSizeAxes = Axes.Y,
+                                        Width = 160,
+                                        Children = new Drawable[]
+                                        {
+                                            GetNewSpriteText("Source From"),
+                                            sourceFrom = GetNewNumberTextBox(),
+                                            GetNewSpriteText("Source To"),
+                                            sourceTo = GetNewNumberTextBox(),
+                                            GetNewSpriteText("Target From"),
+                                            targetFrom = GetNewNumberTextBox(),
+                                            GetNewSpriteText("Target To"),
+                                            targetTo = GetNewNumberTextBox(),
+                                        },
+                                    },
+                                    new FillFlowContainer
+                                    {
+                                        Anchor = Anchor.BottomRight,
+                                        Origin = Anchor.BottomRight,
+                                        Direction = FillDirection.Vertical,
+                                        Spacing = new Vector2(10),
+                                        Margin = new MarginPadding { Bottom = 10, Left = 10, Right = 10 },
+                                        RelativeSizeAxes = Axes.Y,
+                                        Width = 160,
+                                        Children = new Drawable[]
+                                        {
+                                            performAction = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Margin = new MarginPadding { Top = 15 },
+                                                Text = "Perform Action",
+                                                EnabledColor = greenEnabledColor,
+                                                Action = editor.PerformMigration,
+                                            },
+                                            removeSteps = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Remove Steps",
+                                                EnabledColor = redEnabledColor,
+                                                Action = CurrentStepList.RemoveSelectedSteps,
+                                            },
+                                            cloneSteps = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Clone Steps",
+                                                EnabledColor = grayEnabledColor,
+                                                Action = CurrentStepList.CloneSelectedSteps,
+                                            },
+                                            deselectAll = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Deselect All",
+                                                EnabledColor = grayEnabledColor,
+                                                Action = CurrentStepList.DeselectAll,
+                                            },
+                                            selectAll = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Select All",
+                                                EnabledColor = grayEnabledColor,
+                                                Action = CurrentStepList.SelectAll,
+                                            },
+                                            loadSteps = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Load Steps",
+                                                EnabledColor = grayEnabledColor,
+                                                Action = CurrentStepList.LoadSteps,
+                                            },
+                                            saveSteps = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Save Steps",
+                                                EnabledColor = grayEnabledColor,
+                                                Action = CurrentStepList.SaveSteps,
+                                            },
+                                            createStep = new FadeButton
+                                            {
+                                                Anchor = Anchor.BottomCentre,
+                                                Origin = Anchor.BottomCentre,
+                                                RelativeSizeAxes = Axes.X,
+                                                Height = 32,
+                                                Text = "Create Step",
+                                                EnabledColor = greenEnabledColor,
+                                                Action = CreateNewStep,
+                                            },
+                                        },
+                                    },
                                 }
                             }
                         }
