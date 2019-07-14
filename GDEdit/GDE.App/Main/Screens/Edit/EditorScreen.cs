@@ -147,8 +147,6 @@ namespace GDE.App.Main.Screens.Edit
                 },
                 IDMigrationScreen = new IDMigrationPanel(editor)
                 {
-                    RelativeSizeAxes = Axes.Both,
-                    Size = new Vector2(0.5f, 0.6f),
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     LockDrag = true
