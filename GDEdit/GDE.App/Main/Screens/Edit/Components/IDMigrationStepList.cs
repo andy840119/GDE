@@ -278,7 +278,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             // TODO: Open Shell shit
             string fileName = ""; // Change that
             var lines = File.ReadAllLines(fileName);
-            var ranges = SourceTargetRange.LoadRangesFromStringArray(lines);
+            var ranges = LoadRangesFromStringArray(lines);
             RemoveAllSteps();
             foreach (var r in ranges)
             {
@@ -292,9 +292,10 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             // TODO: Open Shell shit
             string fileName = ""; // Change that
-            File.WriteAllLines(fileName, SourceTargetRange.ConvertRangesToStringArray(TabRanges));
+            File.WriteAllLines(fileName, ConvertRangesToStringArray(TabRanges));
         }
-        public void SelectAll()
+        public void SelectAll() => SelectAll(true);
+        public void SelectAll(bool triggerEvent = true)
         {
             SelectedSteps.Clear();
             foreach (var c in Cards)
@@ -303,23 +304,27 @@ namespace GDE.App.Main.Screens.Edit.Components
                 SelectedSteps.Add(c.StepRange);
             }
             SelectedStepIndices = new SortedSet<int>(Enumerable.Range(0, Cards.Count));
-            OnSelectionChanged();
+            if (triggerEvent)
+                OnSelectionChanged();
         }
-        public void DeselectAll()
+        public void DeselectAll() => DeselectAll(true);
+        public void DeselectAll(bool triggerEvent = true)
         {
             ClearSelectedSteps();
             foreach (var c in Cards)
                 c.Deselect();
-            OnSelectionChanged();
+            if (triggerEvent)
+                OnSelectionChanged();
         }
 
-        public void DeselectStep(int index)
+        public void DeselectStep(int index, bool triggerEvent = true)
         {
             Cards[index].Deselect();
             RemoveSelectedStep(index);
-            OnStepDeselected(Cards[index]);
+            if (triggerEvent)
+                OnStepDeselected(Cards[index]);
         }
-        public void SelectStep(int index, bool appendToSelection = false)
+        public void SelectStep(int index, bool appendToSelection = false, bool triggerEvent = true)
         {
             if (!appendToSelection)
             {
@@ -330,17 +335,19 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
             Cards[index].Select();
             AddSelectedStep(index);
-            if (appendToSelection)
-                OnStepSelected(Cards[index]);
-            else
-                OnSelectionChanged();
+            if (triggerEvent)
+                if (appendToSelection)
+                    OnStepSelected(Cards[index]);
+                else
+                    OnSelectionChanged();
         }
-        public void ToggleStepSelection(int index, bool appendToSelection = false)
+        public void ToggleStepSelection(int index, bool appendToSelection = false, bool triggerEvent = true)
         {
-            if (Cards[index].Selected.Value)
-                DeselectStep(index);
-            else
-                SelectStep(index, appendToSelection);
+            if (triggerEvent)
+                if (Cards[index].Selected.Value)
+                    DeselectStep(index);
+                else
+                    SelectStep(index, appendToSelection);
         }
 
         private void OnStepSelected(IDMigrationStepCard card)
@@ -406,7 +413,7 @@ namespace GDE.App.Main.Screens.Edit.Components
 
             if (e.ShiftPressed)
             {
-                DeselectAll();
+                DeselectAll(false);
 
                 int start = lastClickedBeforeShift.Index;
                 int end = c.Index;
@@ -420,7 +427,9 @@ namespace GDE.App.Main.Screens.Edit.Components
                 }
 
                 for (int i = start; i <= end; i++)
-                    SelectStep(i, true);
+                    SelectStep(i, true, false);
+
+                OnSelectionChanged();
             }
             else
             {
