@@ -42,6 +42,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
                     Origin = Anchor.CentreLeft,
                     Direction = FillDirection.Horizontal,
                     RelativeSizeAxes = Axes.Both,
+                    Spacing = new Vector2(5),
                     Padding = new MarginPadding { Left = 10 },
                     Children = tabItems,
                 }

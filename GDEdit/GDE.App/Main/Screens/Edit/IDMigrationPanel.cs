@@ -68,6 +68,8 @@ namespace GDE.App.Main.Screens.Edit
 
                 CommonIDMigrationStep.UnbindAll();
                 CommonIDMigrationStep.BindTo(value.CommonIDMigrationStep);
+                CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
+                CommonIDMigrationStep.TriggerChange();
 
                 editor.SelectedIDMigrationMode = value.IDMigrationMode;
                 currentStepList = value;
@@ -265,22 +267,24 @@ namespace GDE.App.Main.Screens.Edit
             targetFrom.NumberChanged += HandleTargetFromChanged;
             targetTo.NumberChanged += HandleTargetToChanged;
 
-            CommonIDMigrationStep.ValueChanged += v =>
-            {
-                var newStep = v.NewValue;
-                if (newStep != null)
-                {
-                    newStep.SourceTargetRangeChanged += (sf, st, tf, tt) =>
-                    {
-                        HandleStepChanged(newStep);
-                        UpdateTextBoxes(newStep);
-                    };
-                    HandleStepChanged(newStep);
-                }
-                UpdateTextBoxes(newStep);
-            };
+            CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
 
             CurrentStepList = currentStepList; // After everything's loaded, initialize the property for things to work properly
+        }
+
+        private void CommonIDMigrationStepChanged(ValueChangedEvent<SourceTargetRange> v)
+        {
+            var newStep = v.NewValue;
+            if (newStep != null)
+            {
+                newStep.SourceTargetRangeChanged += (sf, st, tf, tt) =>
+                {
+                    HandleStepChanged(newStep);
+                    UpdateTextBoxes(newStep);
+                };
+                HandleStepChanged(newStep);
+            }
+            UpdateTextBoxes(newStep);
         }
 
         private void TabChanged(IDMigrationMode newMode)
