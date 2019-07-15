@@ -85,14 +85,8 @@ namespace GDE.App.Main.Screens.Edit.Components
                 new Container
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Margin = new MarginPadding
-                    {
-                        Top = 10,
-                    },
-                    Padding = new MarginPadding
-                    {
-                        Bottom = 40,
-                    },
+                    Margin = new MarginPadding { Top = 10 },
+                    Padding = new MarginPadding { Bottom = 40 },
                     Children = new Drawable[]
                     {
                         new ScrollContainer
@@ -177,10 +171,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     }
             }
 
-            searchQuery.Current.ValueChanged += obj =>
-            {
-                stepList.SearchTerm = obj.NewValue;
-            };
+            searchQuery.Current.ValueChanged += obj => stepList.SearchTerm = obj.NewValue;
 
             addNewStep.Action = CreateNewStep;
         }
@@ -467,7 +458,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                 del.Invoke();
             return found;
         }
-
         public bool OnReleased(IDMigrationAction action) => true;
     }
 }

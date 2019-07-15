@@ -60,10 +60,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
                 },
                 new SpriteText
                 {
-                    Margin = new MarginPadding
-                    {
-                        Top = 5,
-                    },
+                    Margin = new MarginPadding { Top = 5 },
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                     Font = new FontUsage(size: 20),

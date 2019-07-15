@@ -142,7 +142,11 @@ namespace GDE.App.Main.Screens.Edit
                                         Anchor = Anchor.TopRight,
                                         Origin = Anchor.TopRight,
                                         Spacing = new Vector2(5),
-                                        Margin = new MarginPadding { Top = 5, Left = 10, Right = 10 },
+                                        Margin = new MarginPadding
+                                        {
+                                            Top = 5,
+                                            Horizontal = 10,
+                                        },
                                         RelativeSizeAxes = Axes.Y,
                                         Width = 160,
                                         Children = new Drawable[]
@@ -163,7 +167,7 @@ namespace GDE.App.Main.Screens.Edit
                                         Origin = Anchor.BottomRight,
                                         Direction = FillDirection.Vertical,
                                         Spacing = new Vector2(10),
-                                        Margin = new MarginPadding { Bottom = 10, Left = 10, Right = 10 },
+                                        Margin = new MarginPadding(10),
                                         RelativeSizeAxes = Axes.Y,
                                         Width = 160,
                                         Children = new Drawable[]
@@ -316,13 +320,7 @@ namespace GDE.App.Main.Screens.Edit
         {
             RelativeSizeAxes = Axes.Y,
             Width = 500,
-            Padding = new MarginPadding
-            {
-                Top = 10,
-                Bottom = 10,
-                //Left = 10,
-                //Right = 10
-            },
+            Padding = new MarginPadding { Vertical = 10 },
             Alpha = 0,
         };
     }
