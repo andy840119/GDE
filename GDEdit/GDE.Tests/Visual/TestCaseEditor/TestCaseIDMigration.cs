@@ -18,7 +18,8 @@ namespace GDE.Tests.Visual.TestCaseEditor
 
         public TestCaseIDMigration()
         {
-            var panel = new IDMigrationPanel(new Editor(new Level()));
+            var editor = new Editor(new Level());
+            var panel = new IDMigrationPanel(editor);
 
             Add(panel);
 
@@ -68,6 +69,20 @@ namespace GDE.Tests.Visual.TestCaseEditor
             AddStep("Clone currently selected steps", () => panel.CurrentStepList.CloneSelectedSteps());
             AddAssert("Match current selection", () => panel.CurrentStepList.SelectedStepIndices.SetEquals(new int[] { 4, 5, 6, 7 }));
             AddAssert("Check common selected values", () => panel.CommonIDMigrationStep.Value.HasValues(1, 5, 15, 19));
+
+            AddLabel("ID migration mode");
+            AddStep("Select color ID migration mode", () => panel.TabControl.SelectIDMigrationMode(IDMigrationMode.Colors));
+            AddAssert("Check current ID migration mode", () => editor.SelectedIDMigrationMode == IDMigrationMode.Colors);
+            AddAssert("Check current mode step count", () => panel.CurrentStepList.Cards.Count == 0);
+            AddStep("Select item ID migration mode", () => panel.TabControl.SelectIDMigrationMode(IDMigrationMode.Items));
+            AddAssert("Check current ID migration mode", () => editor.SelectedIDMigrationMode == IDMigrationMode.Items);
+            AddAssert("Check current mode step count", () => panel.CurrentStepList.Cards.Count == 0);
+            AddStep("Select block ID migration mode", () => panel.TabControl.SelectIDMigrationMode(IDMigrationMode.Blocks));
+            AddAssert("Check current ID migration mode", () => editor.SelectedIDMigrationMode == IDMigrationMode.Blocks);
+            AddAssert("Check current mode step count", () => panel.CurrentStepList.Cards.Count == 0);
+            AddStep("Select group ID migration mode", () => panel.TabControl.SelectIDMigrationMode(IDMigrationMode.Groups));
+            AddAssert("Check current ID migration mode", () => editor.SelectedIDMigrationMode == IDMigrationMode.Groups);
+            AddAssert("Check current mode step count", () => panel.CurrentStepList.Cards.Count == 8);
         }
     }
 }

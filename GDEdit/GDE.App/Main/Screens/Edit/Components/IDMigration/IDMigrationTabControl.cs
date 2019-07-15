@@ -29,7 +29,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
                 };
                 tabItems[i].TabSelected += HandleTabSelected;
             }
-            this[IDMigrationMode.Groups].Selected = true;
+            (currentTab = this[IDMigrationMode.Groups]).Selected = true;
 
             RelativeSizeAxes = Axes.X;
             Height = DefaultHeight;
@@ -49,9 +49,10 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
             };
         }
 
-        private IDMigrationTabItem this[IDMigrationMode mode] => tabItems[(int)mode];
+        public IDMigrationTabItem this[IDMigrationMode mode] => tabItems[(int)mode];
 
-        private void HandleTabSelected(IDMigrationMode newMode)
+        public void SelectIDMigrationMode(IDMigrationMode newMode) => this[newMode].Selected = true;
+        public void HandleTabSelected(IDMigrationMode newMode)
         {
             if (currentTab != null)
             {

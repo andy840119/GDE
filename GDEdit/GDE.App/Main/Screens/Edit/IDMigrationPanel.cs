@@ -41,11 +41,12 @@ namespace GDE.App.Main.Screens.Edit
 
         private Container stepListContainer;
 
-        private IDMigrationTabControl tabControl;
         private IDMigrationStepList[] stepLists = new IDMigrationStepList[4];
         private IDMigrationStepList currentStepList;
 
         private Editor editor;
+
+        public readonly IDMigrationTabControl TabControl;
 
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
@@ -102,7 +103,7 @@ namespace GDE.App.Main.Screens.Edit
                 Masking = true,
                 Children = new Drawable[]
                 {
-                    tabControl = new IDMigrationTabControl(),
+                    TabControl = new IDMigrationTabControl(),
                     new Container
                     {
                         Size = new Vector2(700, 650 - IDMigrationTabControl.DefaultHeight),
@@ -189,7 +190,7 @@ namespace GDE.App.Main.Screens.Edit
                 }
             });
 
-            tabControl.TabSelected += TabChanged;
+            TabControl.TabSelected += TabChanged;
 
             sourceFrom.NumberChanged += HandleSourceFromChanged;
             sourceTo.NumberChanged += HandleSourceToChanged;
