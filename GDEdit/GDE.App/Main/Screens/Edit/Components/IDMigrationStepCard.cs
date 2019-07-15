@@ -136,7 +136,9 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre,
-                            X = -100,
+                            RelativePositionAxes = Axes.X,
+                            X = -0.25f,
+                            Margin = new MarginPadding { Left = 30 },
                             Text = range.SourceToString(),
                             Font = new FontUsage(size: 20),
                         },
@@ -152,7 +154,9 @@ namespace GDE.App.Main.Screens.Edit.Components
                         {
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre,
-                            X = 100,
+                            RelativePositionAxes = Axes.X,
+                            X = 0.25f,
+                            Margin = new MarginPadding { Right = 25 },
                             Text = range.TargetToString(),
                             Font = new FontUsage(size: 20),
                         },
