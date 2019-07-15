@@ -27,6 +27,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         public const float CardMargin = 2;
         public const float CardHeight = 25;
 
+        private Dictionary<IDMigrationAction, Action> actions;
+
         private bool loaded;
 
         private FadeSearchContainer stepList;
@@ -61,6 +63,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public IDMigrationStepList(Editor e, IDMigrationMode mode)
         {
+            InitializeActionDictionary();
+
             editor = e;
             IDMigrationMode = mode;
 
@@ -439,40 +443,29 @@ namespace GDE.App.Main.Screens.Edit.Components
         private static float GetCardYPositionThreshold(int index) => index * (CardHeight + CardMargin) + CardHeight / 2;
         private static int GetCardIndexFromYPosition(float y) => (int)((y + CardHeight / 2) / (CardHeight + CardMargin));
 
+        private void InitializeActionDictionary()
+        {
+            // Capacity is greater than the total actions to allow future improvements without *constantly* having to change the constant
+            actions = new Dictionary<IDMigrationAction, Action>(20)
+            {
+                { IDMigrationAction.SelectAll, SelectAll },
+                { IDMigrationAction.DeselectAll, DeselectAll },
+                { IDMigrationAction.Cut, CutSelectedSteps },
+                { IDMigrationAction.Copy, CopySelectedSteps },
+                { IDMigrationAction.Paste, PasteSteps },
+                { IDMigrationAction.Clone, CloneSelectedSteps },
+                { IDMigrationAction.Remove, RemoveSelectedSteps },
+                { IDMigrationAction.Load, LoadSteps },
+                { IDMigrationAction.Save, SaveSteps },
+            };
+        }
+
         public bool OnPressed(IDMigrationAction action)
         {
-            switch (action)
-            {
-                case IDMigrationAction.SelectAll:
-                    SelectAll();
-                    return true;
-                case IDMigrationAction.DeselectAll:
-                    DeselectAll();
-                    return true;
-                case IDMigrationAction.Cut:
-                    CutSelectedSteps();
-                    return true;
-                case IDMigrationAction.Copy:
-                    CopySelectedSteps();
-                    return true;
-                case IDMigrationAction.Paste:
-                    PasteSteps();
-                    return true;
-                case IDMigrationAction.Clone:
-                    CloneSelectedSteps();
-                    return true;
-                case IDMigrationAction.Remove:
-                    RemoveSelectedSteps();
-                    return true;
-                case IDMigrationAction.Load:
-                    LoadSteps();
-                    return true;
-                case IDMigrationAction.Save:
-                    SaveSteps();
-                    return true;
-            }
-
-            return false;
+            bool found = actions.TryGetValue(action, out var del);
+            if (found)
+                del.Invoke();
+            return found;
         }
 
         public bool OnReleased(IDMigrationAction action) => true;
