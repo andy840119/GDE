@@ -168,87 +168,14 @@ namespace GDE.App.Main.Screens.Edit
                                         Width = 160,
                                         Children = new Drawable[]
                                         {
-                                            performAction = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Margin = new MarginPadding { Top = 15 },
-                                                Text = "Perform Action",
-                                                EnabledColor = greenEnabledColor,
-                                                Action = editor.PerformMigration,
-                                            },
-                                            removeSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Remove Steps",
-                                                EnabledColor = redEnabledColor,
-                                                Action = CurrentStepList.RemoveSelectedSteps,
-                                            },
-                                            cloneSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Clone Steps",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.CloneSelectedSteps,
-                                            },
-                                            deselectAll = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Deselect All",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.DeselectAll,
-                                            },
-                                            selectAll = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Select All",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.SelectAll,
-                                            },
-                                            loadSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Load Steps",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.LoadSteps,
-                                            },
-                                            saveSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Save Steps",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.SaveSteps,
-                                            },
-                                            createStep = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Create Step",
-                                                EnabledColor = greenEnabledColor,
-                                                Action = CreateNewStep,
-                                            },
+                                            performAction = GetNewFadeButton(15, "Perform Action", greenEnabledColor, editor.PerformMigration),
+                                            removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, CurrentStepList.RemoveSelectedSteps),
+                                            cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
+                                            deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
+                                            selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
+                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, CurrentStepList.LoadSteps),
+                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
+                                            createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
                                     },
                                 }
@@ -368,6 +295,17 @@ namespace GDE.App.Main.Screens.Edit
             textBox.Enabled = enabled;
         }
 
+        private static FadeButton GetNewFadeButton(float topMargin, string text, Color4 enabledColor, Action action) => new FadeButton
+        {
+            Anchor = Anchor.BottomCentre,
+            Origin = Anchor.BottomCentre,
+            RelativeSizeAxes = Axes.X,
+            Height = 32,
+            Margin = new MarginPadding { Top = topMargin },
+            Text = text,
+            EnabledColor = enabledColor,
+            Action = action,
+        };
         private static NumberTextBox GetNewNumberTextBox() => new NumberTextBox(false)
         {
             RelativeSizeAxes = Axes.X,

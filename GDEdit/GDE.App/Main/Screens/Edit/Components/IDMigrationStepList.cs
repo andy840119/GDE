@@ -1,27 +1,17 @@
 ﻿using GDE.App.Main.Colors;
-using GDE.App.Main.Containers;
 using GDE.App.Main.Containers.KeyBindingContainers;
-using GDE.App.Main.Overlays;
-using GDE.App.Main.Screens.Menu.Components;
-using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
-using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
-using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.Transforms;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
-using osu.Framework.Logging;
-using osu.Framework.Screens;
 using osuTK;
 using System;
 using System.Collections.Generic;
@@ -29,7 +19,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
-using static System.Char;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
@@ -42,7 +31,6 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private FadeSearchContainer stepList;
         private TextBox searchQuery;
-        private Container stepContainer;
         private FillFlowContainer noSteps;
         private Button addNewStep;
 
@@ -106,10 +94,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                         new ScrollContainer
                         {
                             RelativeSizeAxes = Axes.Both,
-                            Padding = new MarginPadding
-                            {
-                                //Bottom = 10, // I have to manually set it to that until a solution is figured out because the container otherwise extends too far down
-                            },
                             Child = stepList = new FadeSearchContainer
                             {
                                 LayoutDuration = 100,
@@ -140,8 +124,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                                     Anchor = Anchor.Centre,
                                     Origin = Anchor.Centre,
                                     Text = "No migration steps are registered",
-                                    Font = @"OpenSans",
-                                    TextSize = 24,
+                                    Font = new FontUsage("OpenSans", 24),
                                     Colour = GDEColors.FromHex("666666")
                                 },
                                 addNewStep = new Button

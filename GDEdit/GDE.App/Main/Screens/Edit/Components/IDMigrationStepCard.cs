@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GDE.App.Main.Colors;
-using GDEdit.Application;
-using GDEdit.Utilities.Objects.General;
-using GDEdit.Utilities.Objects.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
-using osu.Framework.Allocation;
+﻿using GDEdit.Utilities.Objects.General;
 using osu.Framework.Bindables;
-using osu.Framework.Configuration;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK;
-using static System.Convert;
+using System;
+using System.Collections.Generic;
 using static GDE.App.Main.Colors.GDEColors;
+using static System.Convert;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
@@ -129,7 +121,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                                 },
                             },
                         },
-
                     }
                 },
                 // TODO: Migrate to a class called IDMigrationStepText
@@ -172,6 +163,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     RelativeSizeAxes = Axes.Y,
                     Anchor = Anchor.CentreRight,
                     Origin = Anchor.CentreRight,
+                    Width = 25,
                     Children = new Drawable[]
                     {
                         new SpriteIcon
@@ -190,7 +182,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                         Position += e.Delta;
                         CardDragged?.Invoke(this, e);
                     },
-                    Size = new Vector2(25, 1),
                 },
             };
 
