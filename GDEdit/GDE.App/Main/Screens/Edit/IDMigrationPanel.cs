@@ -187,11 +187,6 @@ namespace GDE.App.Main.Screens.Edit
 
             tabControl.TabSelected += TabChanged;
 
-            deselectAll.Enabled.Value = false;
-            cloneSteps.Enabled.Value = false;
-            removeSteps.Enabled.Value = false;
-            performAction.Enabled.Value = false;
-
             sourceFrom.NumberChanged += HandleSourceFromChanged;
             sourceTo.NumberChanged += HandleSourceToChanged;
             targetFrom.NumberChanged += HandleTargetFromChanged;
@@ -200,6 +195,8 @@ namespace GDE.App.Main.Screens.Edit
             CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
 
             CurrentStepList = currentStepList; // After everything's loaded, initialize the property for things to work properly
+
+            UpdateFadeButtonEnabledStates();
         }
 
         private void RemoveOnCompleted(IDMigrationStepList toRemove) => stepListContainer.Remove(toRemove);
