@@ -39,14 +39,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private readonly string[] testValues =
         {
-            "Computer",
-            "C:",
-            "Users",
-            "Alten",
-            "AppData",
-            "Roaming",
-            "GDE",
-            "Migrations"
+            "yes",
+            "no",
+            "maybe",
+            "penis",
         };
 
         public FileDialog()
@@ -78,10 +74,14 @@ namespace GDE.App.Main.UI.FileDialogComponents
                             {
                                 new SpriteText
                                 {
-                                    Text = $"{FileDialogAction} File"
+                                    Text = $"{FileDialogAction} File",
                                 },
                                 new Container
                                 {
+                                    Padding = new MarginPadding
+                                    {
+                                        Top = 10
+                                    },
                                     RelativeSizeAxes = Axes.X,
                                     Height = 30,
                                     Child = filePathBreadcrumbs = new GDEBreadcrumbNavigation<string>()
@@ -95,14 +95,13 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                 new GDEScrollContainer
                                 {
                                     RelativeSizeAxes = Axes.Both,
-                                    Height = 0.89f,
+                                    Height = 0.88f,
+                                    Margin = new MarginPadding
+                                    {
+                                        Top = 10
+                                    },
                                     Children = new Drawable[]
                                     {
-                                        new Box
-                                        {
-                                            RelativeSizeAxes = Axes.Both,
-                                            Colour = GDEColors.FromHex("404040"),
-                                        },
                                         fileContainer = new FadeSearchContainer
                                         {
                                             RelativeSizeAxes = Axes.X,
@@ -150,10 +149,12 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                         ActionButton = new Button
                                         {
                                             RelativeSizeAxes = Axes.Both,
-                                            Width = 0.15f,
+                                            Width = 0.19f,
                                             BackgroundColour = GDEColors.FromHex("303030"),
                                             Action = ActionButtonAction,
                                             Text = FileDialogAction,
+                                            Anchor = Anchor.CentreLeft,
+                                            Origin = Anchor.CentreLeft,
                                         }
                                     }
                                 }
@@ -164,6 +165,25 @@ namespace GDE.App.Main.UI.FileDialogComponents
             });
 
             filePathBreadcrumbs.Items.AddRange(testValues);
+
+            fileContainer.Add(new FillFlowContainer
+            {
+                Direction = FillDirection.Vertical,
+                Spacing = new Vector2(0, 2.5f),
+                RelativeSizeAxes = Axes.X,
+                AutoSizeAxes = Axes.Y,
+                Children = new Drawable[]
+                {
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                    new DrawableItem { ItemName = "Testing" },
+                }
+            });
         }
     }
 }
