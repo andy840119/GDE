@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.Colors;
 using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.Containers;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
@@ -89,7 +90,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     Padding = new MarginPadding { Bottom = 40 },
                     Children = new Drawable[]
                     {
-                        new ScrollContainer
+                        new GDEScrollContainer
                         {
                             RelativeSizeAxes = Axes.Both,
                             Child = stepList = new FadeSearchContainer

@@ -161,7 +161,7 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     LockDrag = true,
-                    LoadSteps = dialog.ToggleVisibility
+                    OpenFileDialog = dialog.ToggleVisibility
                 },
             });
         }

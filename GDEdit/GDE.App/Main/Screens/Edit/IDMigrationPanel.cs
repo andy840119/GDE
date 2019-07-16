@@ -47,6 +47,7 @@ namespace GDE.App.Main.Screens.Edit
         private Editor editor;
 
         public readonly IDMigrationTabControl TabControl;
+        public Action OpenFileDialog;
 
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
@@ -178,7 +179,11 @@ namespace GDE.App.Main.Screens.Edit
                                             cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
                                             deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
                                             selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
-                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, CurrentStepList.LoadSteps),
+                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, () =>
+                                            {
+                                                OpenFileDialog?.Invoke();
+                                                //currentStepList.LoadSteps();
+                                            }),
                                             saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
                                             createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
