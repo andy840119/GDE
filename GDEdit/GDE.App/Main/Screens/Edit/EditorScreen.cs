@@ -6,6 +6,7 @@ using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.Screens.Edit.Components.Menu;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
@@ -13,6 +14,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
@@ -25,7 +27,7 @@ namespace GDE.App.Main.Screens.Edit
     public class EditorScreen : Screen
     {
         private TextureStore texStore;
-        private Box background;
+        private Sprite background;
         private int i;
 
         private Database database;
@@ -38,6 +40,7 @@ namespace GDE.App.Main.Screens.Edit
         private EditorTools tools;
 
         private IDMigrationPanel IDMigrationScreen;
+        private FileDialog dialog;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -111,7 +114,7 @@ namespace GDE.App.Main.Screens.Edit
 
             AddRangeInternal(new Drawable[]
             {
-                background = new Box
+                background = new Sprite
                 {
                     Origin = Anchor.BottomLeft,
                     Anchor = Anchor.BottomLeft,
@@ -145,12 +148,21 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
+                dialog = new OpenFileDialog
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Size = new Vector2(0.8f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    Depth = -10
+                },
                 IDMigrationScreen = new IDMigrationPanel(editor)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    LockDrag = true
-                }
+                    LockDrag = true,
+                    LoadSteps = dialog.ToggleVisibility
+                },
             });
         }
 

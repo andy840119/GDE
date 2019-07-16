@@ -50,6 +50,8 @@ namespace GDE.App.Main.Screens.Edit
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
 
+        public Action LoadSteps;
+
         public IDMigrationStepList CurrentStepList
         {
             get => currentStepList;
@@ -227,7 +229,7 @@ namespace GDE.App.Main.Screens.Edit
                                                 Height = 32,
                                                 Text = "Load Steps",
                                                 EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.LoadSteps,
+                                                Action = () => LoadSteps?.Invoke()/*CurrentStepList.LoadSteps*/,
                                             },
                                             saveSteps = new FadeButton
                                             {

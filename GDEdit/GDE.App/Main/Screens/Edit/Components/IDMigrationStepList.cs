@@ -5,6 +5,8 @@ using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.Containers;
+using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.Extensions;
@@ -103,7 +105,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     },
                     Children = new Drawable[]
                     {
-                        new ScrollContainer
+                        new GDEScrollContainer
                         {
                             RelativeSizeAxes = Axes.Both,
                             Padding = new MarginPadding
@@ -276,6 +278,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         public void LoadSteps()
         {
             // TODO: Open Shell shit
+
             string fileName = ""; // Change that
             var lines = File.ReadAllLines(fileName);
             var ranges = LoadRangesFromStringArray(lines);

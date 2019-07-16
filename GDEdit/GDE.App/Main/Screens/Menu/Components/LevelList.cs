@@ -4,6 +4,7 @@ using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.Containers;
 using GDEdit.Application;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.GeometryDash;
@@ -51,7 +52,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                         Left = 10
                     }
                 },
-                new ScrollContainer
+                new GDEScrollContainer
                 {
                    RelativeSizeAxes = Axes.Both,
                    Margin = new MarginPadding
