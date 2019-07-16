@@ -41,16 +41,15 @@ namespace GDE.App.Main.Screens.Edit
 
         private Container stepListContainer;
 
-        private IDMigrationTabControl tabControl;
         private IDMigrationStepList[] stepLists = new IDMigrationStepList[4];
         private IDMigrationStepList currentStepList;
 
         private Editor editor;
 
+        public readonly IDMigrationTabControl TabControl;
+
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
-
-        public Action LoadSteps;
 
         public IDMigrationStepList CurrentStepList
         {
@@ -104,7 +103,7 @@ namespace GDE.App.Main.Screens.Edit
                 Masking = true,
                 Children = new Drawable[]
                 {
-                    tabControl = new IDMigrationTabControl(),
+                    TabControl = new IDMigrationTabControl(),
                     new Container
                     {
                         Size = new Vector2(700, 650 - IDMigrationTabControl.DefaultHeight),
@@ -144,7 +143,11 @@ namespace GDE.App.Main.Screens.Edit
                                         Anchor = Anchor.TopRight,
                                         Origin = Anchor.TopRight,
                                         Spacing = new Vector2(5),
-                                        Margin = new MarginPadding { Top = 5, Left = 10, Right = 10 },
+                                        Margin = new MarginPadding
+                                        {
+                                            Top = 5,
+                                            Horizontal = 10,
+                                        },
                                         RelativeSizeAxes = Axes.Y,
                                         Width = 160,
                                         Children = new Drawable[]
@@ -165,92 +168,19 @@ namespace GDE.App.Main.Screens.Edit
                                         Origin = Anchor.BottomRight,
                                         Direction = FillDirection.Vertical,
                                         Spacing = new Vector2(10),
-                                        Margin = new MarginPadding { Bottom = 10, Left = 10, Right = 10 },
+                                        Margin = new MarginPadding(10),
                                         RelativeSizeAxes = Axes.Y,
                                         Width = 160,
                                         Children = new Drawable[]
                                         {
-                                            performAction = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Margin = new MarginPadding { Top = 15 },
-                                                Text = "Perform Action",
-                                                EnabledColor = greenEnabledColor,
-                                                Action = editor.PerformMigration,
-                                            },
-                                            removeSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Remove Steps",
-                                                EnabledColor = redEnabledColor,
-                                                Action = CurrentStepList.RemoveSelectedSteps,
-                                            },
-                                            cloneSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Clone Steps",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.CloneSelectedSteps,
-                                            },
-                                            deselectAll = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Deselect All",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.DeselectAll,
-                                            },
-                                            selectAll = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Select All",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.SelectAll,
-                                            },
-                                            loadSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Load Steps",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = () => LoadSteps?.Invoke()/*CurrentStepList.LoadSteps*/,
-                                            },
-                                            saveSteps = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Save Steps",
-                                                EnabledColor = grayEnabledColor,
-                                                Action = CurrentStepList.SaveSteps,
-                                            },
-                                            createStep = new FadeButton
-                                            {
-                                                Anchor = Anchor.BottomCentre,
-                                                Origin = Anchor.BottomCentre,
-                                                RelativeSizeAxes = Axes.X,
-                                                Height = 32,
-                                                Text = "Create Step",
-                                                EnabledColor = greenEnabledColor,
-                                                Action = CreateNewStep,
-                                            },
+                                            performAction = GetNewFadeButton(15, "Perform Action", greenEnabledColor, editor.PerformMigration),
+                                            removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, CurrentStepList.RemoveSelectedSteps),
+                                            cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
+                                            deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
+                                            selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
+                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, CurrentStepList.LoadSteps),
+                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
+                                            createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
                                     },
                                 }
@@ -260,12 +190,7 @@ namespace GDE.App.Main.Screens.Edit
                 }
             });
 
-            tabControl.TabSelected += TabChanged;
-
-            deselectAll.Enabled.Value = false;
-            cloneSteps.Enabled.Value = false;
-            removeSteps.Enabled.Value = false;
-            performAction.Enabled.Value = false;
+            TabControl.TabSelected += TabChanged;
 
             sourceFrom.NumberChanged += HandleSourceFromChanged;
             sourceTo.NumberChanged += HandleSourceToChanged;
@@ -275,6 +200,8 @@ namespace GDE.App.Main.Screens.Edit
             CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
 
             CurrentStepList = currentStepList; // After everything's loaded, initialize the property for things to work properly
+
+            UpdateFadeButtonEnabledStates();
         }
 
         private void RemoveOnCompleted(IDMigrationStepList toRemove) => stepListContainer.Remove(toRemove);
@@ -370,6 +297,17 @@ namespace GDE.App.Main.Screens.Edit
             textBox.Enabled = enabled;
         }
 
+        private static FadeButton GetNewFadeButton(float topMargin, string text, Color4 enabledColor, Action action) => new FadeButton
+        {
+            Anchor = Anchor.BottomCentre,
+            Origin = Anchor.BottomCentre,
+            RelativeSizeAxes = Axes.X,
+            Height = 32,
+            Margin = new MarginPadding { Top = topMargin },
+            Text = text,
+            EnabledColor = enabledColor,
+            Action = action,
+        };
         private static NumberTextBox GetNewNumberTextBox() => new NumberTextBox(false)
         {
             RelativeSizeAxes = Axes.X,
@@ -383,13 +321,7 @@ namespace GDE.App.Main.Screens.Edit
         {
             RelativeSizeAxes = Axes.Y,
             Width = 500,
-            Padding = new MarginPadding
-            {
-                Top = 10,
-                Bottom = 10,
-                //Left = 10,
-                //Right = 10
-            },
+            Padding = new MarginPadding { Vertical = 10 },
             Alpha = 0,
         };
     }

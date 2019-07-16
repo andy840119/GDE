@@ -1,29 +1,17 @@
 ﻿using GDE.App.Main.Colors;
-using GDE.App.Main.Containers;
 using GDE.App.Main.Containers.KeyBindingContainers;
-using GDE.App.Main.Overlays;
-using GDE.App.Main.Screens.Menu.Components;
-using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
-using GDE.App.Main.UI.Containers;
-using GDE.App.Main.UI.FileDialogComponents;
-using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
-using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.Transforms;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
-using osu.Framework.Logging;
-using osu.Framework.Screens;
 using osuTK;
 using System;
 using System.Collections.Generic;
@@ -31,7 +19,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
-using static System.Char;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
@@ -40,11 +27,12 @@ namespace GDE.App.Main.Screens.Edit.Components
         public const float CardMargin = 2;
         public const float CardHeight = 25;
 
+        private Dictionary<IDMigrationAction, Action> actions;
+
         private bool loaded;
 
         private FadeSearchContainer stepList;
         private TextBox searchQuery;
-        private Container stepContainer;
         private FillFlowContainer noSteps;
         private Button addNewStep;
 
@@ -75,6 +63,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public IDMigrationStepList(Editor e, IDMigrationMode mode)
         {
+            InitializeActionDictionary();
+
             editor = e;
             IDMigrationMode = mode;
 
@@ -95,23 +85,13 @@ namespace GDE.App.Main.Screens.Edit.Components
                 new Container
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Margin = new MarginPadding
-                    {
-                        Top = 10,
-                    },
-                    Padding = new MarginPadding
-                    {
-                        Bottom = 40,
-                    },
+                    Margin = new MarginPadding { Top = 10 },
+                    Padding = new MarginPadding { Bottom = 40 },
                     Children = new Drawable[]
                     {
-                        new GDEScrollContainer
+                        new ScrollContainer
                         {
                             RelativeSizeAxes = Axes.Both,
-                            Padding = new MarginPadding
-                            {
-                                //Bottom = 10, // I have to manually set it to that until a solution is figured out because the container otherwise extends too far down
-                            },
                             Child = stepList = new FadeSearchContainer
                             {
                                 LayoutDuration = 100,
@@ -142,8 +122,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                                     Anchor = Anchor.Centre,
                                     Origin = Anchor.Centre,
                                     Text = "No migration steps are registered",
-                                    Font = @"OpenSans",
-                                    TextSize = 24,
+                                    Font = new FontUsage("OpenSans", 24),
                                     Colour = GDEColors.FromHex("666666")
                                 },
                                 addNewStep = new Button
@@ -192,10 +171,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                     }
             }
 
-            searchQuery.Current.ValueChanged += obj =>
-            {
-                stepList.SearchTerm = obj.NewValue;
-            };
+            searchQuery.Current.ValueChanged += obj => stepList.SearchTerm = obj.NewValue;
 
             addNewStep.Action = CreateNewStep;
         }
@@ -278,7 +254,6 @@ namespace GDE.App.Main.Screens.Edit.Components
         public void LoadSteps()
         {
             // TODO: Open Shell shit
-
             string fileName = ""; // Change that
             var lines = File.ReadAllLines(fileName);
             var ranges = LoadRangesFromStringArray(lines);
@@ -459,42 +434,30 @@ namespace GDE.App.Main.Screens.Edit.Components
         private static float GetCardYPositionThreshold(int index) => index * (CardHeight + CardMargin) + CardHeight / 2;
         private static int GetCardIndexFromYPosition(float y) => (int)((y + CardHeight / 2) / (CardHeight + CardMargin));
 
-        public bool OnPressed(IDMigrationAction action)
+        private void InitializeActionDictionary()
         {
-            switch (action)
+            // Capacity is greater than the total actions to allow future improvements without *constantly* having to change the constant
+            actions = new Dictionary<IDMigrationAction, Action>(20)
             {
-                case IDMigrationAction.SelectAll:
-                    SelectAll();
-                    return true;
-                case IDMigrationAction.DeselectAll:
-                    DeselectAll();
-                    return true;
-                case IDMigrationAction.Cut:
-                    CutSelectedSteps();
-                    return true;
-                case IDMigrationAction.Copy:
-                    CopySelectedSteps();
-                    return true;
-                case IDMigrationAction.Paste:
-                    PasteSteps();
-                    return true;
-                case IDMigrationAction.Clone:
-                    CloneSelectedSteps();
-                    return true;
-                case IDMigrationAction.Remove:
-                    RemoveSelectedSteps();
-                    return true;
-                case IDMigrationAction.Load:
-                    LoadSteps();
-                    return true;
-                case IDMigrationAction.Save:
-                    SaveSteps();
-                    return true;
-            }
-
-            return false;
+                { IDMigrationAction.SelectAll, SelectAll },
+                { IDMigrationAction.DeselectAll, DeselectAll },
+                { IDMigrationAction.Cut, CutSelectedSteps },
+                { IDMigrationAction.Copy, CopySelectedSteps },
+                { IDMigrationAction.Paste, PasteSteps },
+                { IDMigrationAction.Clone, CloneSelectedSteps },
+                { IDMigrationAction.Remove, RemoveSelectedSteps },
+                { IDMigrationAction.Load, LoadSteps },
+                { IDMigrationAction.Save, SaveSteps },
+            };
         }
 
+        public bool OnPressed(IDMigrationAction action)
+        {
+            bool found = actions.TryGetValue(action, out var del);
+            if (found)
+                del.Invoke();
+            return found;
+        }
         public bool OnReleased(IDMigrationAction action) => true;
     }
 }

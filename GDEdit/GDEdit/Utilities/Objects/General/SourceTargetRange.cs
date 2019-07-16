@@ -88,10 +88,10 @@ namespace GDEdit.Utilities.Objects.General
         public SourceTargetRange Invert() => new SourceTargetRange(TargetFrom, TargetTo, SourceFrom);
 
         /// <summary>Determines whether the object has the specified values.</summary>
-        /// <param name="sourceFrom"></param>
-        /// <param name="sourceTo"></param>
-        /// <param name="targetFrom"></param>
-        /// <param name="targetTo"></param>
+        /// <param name="sourceFrom">The desired value of the source from property.</param>
+        /// <param name="sourceTo">The desired value of the source to property.</param>
+        /// <param name="targetFrom">The desired value of the target from property.</param>
+        /// <param name="targetTo">The desired value of the target to property.</param>
         public bool HasValues(int sourceFrom, int sourceTo, int targetFrom, int targetTo)
         {
             return sourceFrom == SourceFrom
