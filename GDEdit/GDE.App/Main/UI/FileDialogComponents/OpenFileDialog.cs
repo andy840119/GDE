@@ -6,6 +6,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
 {
     public class OpenFileDialog : FileDialog
     {
-        protected override string FileDialogAction => "Save";
+        protected override string FileDialogAction => "Open";
     }
 }

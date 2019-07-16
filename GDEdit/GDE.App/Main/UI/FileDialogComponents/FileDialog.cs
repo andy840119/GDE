@@ -39,12 +39,14 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private readonly string[] testValues =
         {
-            "c://",
-            "Windows",
-            "Sytem32",
-            "drivers",
-            "etc",
-            "hosts"
+            "Computer",
+            "C:",
+            "Users",
+            "Alten",
+            "AppData",
+            "Roaming",
+            "GDE",
+            "Migrations"
         };
 
         public FileDialog()
@@ -78,11 +80,17 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                 {
                                     Text = $"{FileDialogAction} File"
                                 },
-                                filePathBreadcrumbs = new GDEBreadcrumbNavigation<string>()
+                                new Container
                                 {
-                                    Height = 20,
-                                    Origin = Anchor.Centre,
-                                    Anchor = Anchor.Centre,
+                                    RelativeSizeAxes = Axes.X,
+                                    Height = 30,
+                                    Child = filePathBreadcrumbs = new GDEBreadcrumbNavigation<string>()
+                                    {
+                                        Height = 30,
+                                        RelativeSizeAxes = Axes.X,
+                                        Origin = Anchor.CentreLeft,
+                                        Anchor = Anchor.CentreLeft,
+                                    }
                                 },
                                 new GDEScrollContainer
                                 {
