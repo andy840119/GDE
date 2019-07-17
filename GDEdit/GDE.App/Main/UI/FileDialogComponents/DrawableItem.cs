@@ -4,6 +4,7 @@ using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Effects;
+using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
@@ -13,21 +14,26 @@ using System.Collections.Generic;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
-    public class DrawableItem : FillFlowContainer, IHasFilterTerms
+    public class DrawableItem : Container, IHasFilterTerms
     {
         private string itemName = "";
 
         private BindableBool selected = new BindableBool(false);
 
-        private Color4 color = Color4.White;
+        private Color4 selectedForegroundColor = GDEColors.FromHex("66ccff");
+        private Color4 deselectedForegroundColor = Color4.White;
+        private Color4 selectedBackgroundColor = GDEColors.FromHex("606060");
+        private Color4 hoveredBackgroundColor = GDEColors.FromHex("404040");
+        private Color4 deselectedBackgroundColor = Color4.Transparent;
 
+        private Box background;
         private SpriteText text;
         private SpriteIcon icon;
 
         private IconUsage itemIcon = FontAwesome.Regular.FileAlt;
 
         public Action Action;
-        public Action Click;
+        public Action OnClicked;
 
         public IconUsage ItemIcon
         {
@@ -49,8 +55,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         public Color4 Color
         {
-            get => color;
-            set => text.Colour = icon.Colour = color = value;
+            get => selectedForegroundColor;
+            set => text.Colour = icon.Colour = selectedForegroundColor = value;
         }
 
         public IEnumerable<string> FilterTerms => new[]
@@ -60,51 +66,75 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         public DrawableItem()
         {
-            Spacing = new Vector2(10, 0);
-            Direction = FillDirection.Horizontal;
-            AutoSizeAxes = Axes.Both;
-            Padding = new MarginPadding
-            {
-                Left = 10
-            };
+            RelativeSizeAxes = Axes.X;
+            Height = 30;
+            CornerRadius = 5;
+            Masking = true;
 
             AddRange(new Drawable[]
             {
-                icon = new SpriteIcon
+                background = new Box
                 {
-                    Icon = itemIcon,
-                    Size = new Vector2(25),
+                    RelativeSizeAxes = Axes.Both,
+                    Colour = deselectedBackgroundColor,
+                },
+                new FillFlowContainer
+                {
+                    Spacing = new Vector2(5, 0),
+                    Direction = FillDirection.Horizontal,
+                    AutoSizeAxes = Axes.Both,
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft,
+                    Padding = new MarginPadding { Left = 5 },
+                    Children = new Drawable[]
+                    {
+                        icon = new SpriteIcon
+                        {
+                            Anchor = Anchor.CentreLeft,
+                            Origin = Anchor.CentreLeft,
+                            Size = new Vector2(25),
+                            Icon = itemIcon,
+                        },
+                        text = new SpriteText
+                        {
+                            Anchor = Anchor.CentreLeft,
+                            Origin = Anchor.CentreLeft,
+                            Text = itemName,
+                        }
+                    }
                 },
-                text = new SpriteText
-                {
-                    Text = itemName,
-                    Anchor = Anchor.CentreLeft,
-                    Origin = Anchor.CentreLeft
-                }
             });
 
             selected.ValueChanged += FadeColour;
         }
 
+        public void ToggleSelection() => selected.Toggle();
+
         private void FadeColour(ValueChangedEvent<bool> value)
         {
-            if (value.NewValue)
-            {
-                icon.FadeColour(GDEColors.FromHex("66ccff"), 500);
-                text.FadeColour(GDEColors.FromHex("66ccff"), 500);
-            }
-            else
-            {
-                icon.FadeColour(color, 500);
-                text.FadeColour(color, 500);
-            }
+            var newColor = value.NewValue ? selectedForegroundColor : deselectedForegroundColor;
+            icon.FadeColour(newColor, 200);
+            text.FadeColour(newColor, 200);
+            background.FadeColour(value.NewValue ? selectedBackgroundColor : deselectedBackgroundColor, 200);
+        }
+
+        protected override bool OnHover(HoverEvent e)
+        {
+            if (!Selected)
+                background.FadeColour(hoveredBackgroundColor, 200);
+            return base.OnHover(e);
+        }
+        protected override void OnHoverLost(HoverLostEvent e)
+        {
+            if (!Selected)
+                background.FadeColour(deselectedBackgroundColor, 200);
+            base.OnHoverLost(e);
         }
 
         protected override bool OnClick(ClickEvent e)
         {
-            Click?.Invoke();
+            ToggleSelection();
+            OnClicked?.Invoke();
             return base.OnClick(e);
         }
         protected override bool OnDoubleClick(DoubleClickEvent e)
