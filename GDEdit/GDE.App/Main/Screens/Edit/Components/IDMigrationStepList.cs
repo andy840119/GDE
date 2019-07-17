@@ -2,6 +2,7 @@
 using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.UI;
 using GDE.App.Main.UI.Containers;
+using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
@@ -130,7 +131,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                                 {
                                     Anchor = Anchor.Centre,
                                     Origin = Anchor.Centre,
-                                    Size = new Vector2(220, 32),
+                                    Width = 200,
                                     Text = "Add a new step",
                                     BackgroundColour = GDEColors.FromHex("242424")
                                 }

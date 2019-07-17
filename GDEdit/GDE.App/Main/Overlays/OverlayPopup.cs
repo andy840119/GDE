@@ -7,6 +7,7 @@ using osu.Framework.Graphics;
 using osuTK;
 using osuTK.Graphics;
 using System;
+using GDE.App.Main.UI;
 
 namespace GDE.App.Main.Overlays
 {

@@ -77,7 +77,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                             Text = "Add Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(1f, 30)
                         },
                         deleteSelectedObjects = new GDEButton
                         {
@@ -96,7 +95,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                             Text = "Delete Selected Objects",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(1f, 30)
                         }
                     }
                 }

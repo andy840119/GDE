@@ -307,7 +307,6 @@ namespace GDE.App.Main.Screens.Edit
             Anchor = Anchor.BottomCentre,
             Origin = Anchor.BottomCentre,
             RelativeSizeAxes = Axes.X,
-            Height = 32,
             Margin = new MarginPadding { Top = topMargin },
             Text = text,
             EnabledColor = enabledColor,

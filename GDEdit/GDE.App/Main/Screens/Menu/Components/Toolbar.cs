@@ -71,7 +71,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Anchor = Anchor.CentreRight,
                             Origin = Anchor.CentreRight,
                             Margin = new MarginPadding(5),
-                            Size = new Vector2(80, 30),
+                            Width = 80,
                             BackgroundColour = GDEColors.FromHex("c6262e"),
                             Text = "Delete",
                             Action = () => Delete?.Invoke()
@@ -81,7 +81,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Anchor = Anchor.CentreRight,
                             Origin = Anchor.CentreRight,
                             Margin = new MarginPadding(5),
-                            Size = new Vector2(80, 30),
+                            Width = 80,
                             BackgroundColour = GDEColors.FromHex("242424"),
                             Text = "Edit",
                             Action = () => Edit?.Invoke()

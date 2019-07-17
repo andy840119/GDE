@@ -124,7 +124,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             {
                                 Anchor = Anchor.Centre,
                                 Origin = Anchor.Centre,
-                                Size = new Vector2(220, 32),
+                                Width = 200,
                                 Text = "Create a new level",
                                 BackgroundColour = GDEColors.FromHex("242424")
                             }
