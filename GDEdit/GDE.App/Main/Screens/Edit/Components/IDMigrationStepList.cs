@@ -253,27 +253,8 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
             OnSelectionChanged();
         }
-        public void LoadSteps()
-        {
-            // TODO: Open Shell shit
-            string fileName = ""; // Change that
-            var lines = File.ReadAllLines(fileName);
-            var ranges = LoadRangesFromStringArray(lines);
-            RemoveAllSteps();
-            foreach (var r in ranges)
-            {
-                var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
-                AddStep(r);
-                AddSelectedStep(newIndex);
-                Cards[newIndex].Select();
-            }
-        }
-        public void SaveSteps()
-        {
-            // TODO: Open Shell shit
-            string fileName = ""; // Change that
-            File.WriteAllLines(fileName, ConvertRangesToStringArray(TabRanges));
-        }
+        public void LoadSteps() => OpenDialog<OpenFileDialog>(OnLoadFile);
+        public void SaveSteps() => OpenDialog<SaveFileDialog>(OnSaveFile);
         public void SelectAll() => SelectAll(true);
         public void SelectAll(bool triggerEvent = true)
         {
@@ -347,6 +328,32 @@ namespace GDE.App.Main.Screens.Edit.Components
         {
             CommonIDMigrationStep.Value = GetCommon(SelectedSteps);
             SelectionChanged?.Invoke();
+        }
+
+        private void OnSaveFile(string fileName)
+        {
+            File.WriteAllLines(fileName, ConvertRangesToStringArray(TabRanges));
+        }
+        private void OnLoadFile(string fileName)
+        {
+            var lines = File.ReadAllLines(fileName);
+            var ranges = LoadRangesFromStringArray(lines);
+            RemoveAllSteps();
+            foreach (var r in ranges)
+            {
+                var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
+                AddStep(r);
+                AddSelectedStep(newIndex);
+                Cards[newIndex].Select();
+            }
+        }
+
+        private void OpenDialog<T>(Action<string> onFileSelected)
+            where T : FileDialog, new()
+        {
+            var dialog = new T();
+            dialog.ToggleVisibility();
+            dialog.OnFileSelected += onFileSelected;
         }
 
         private IDMigrationStepCard CreateIDMigrationStepCard(SourceTargetRange r, int index)
