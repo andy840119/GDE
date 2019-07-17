@@ -20,7 +20,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private FadeSearchContainer fileContainer;
 
         protected virtual string FileDialogAction { get; set; }
-        protected virtual Action ActionButtonAction { get; set; }
 
         /// <summary>The button that performs the file dialog's action.</summary>
         protected Button ActionButton;
@@ -184,6 +183,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
                     new DrawableItem { ItemName = "Testing" },
                 }
             });
+        }
+
+        protected virtual void ActionButtonAction()
+        {
+            OnFileSelected?.Invoke(FileName);
         }
     }
 }
