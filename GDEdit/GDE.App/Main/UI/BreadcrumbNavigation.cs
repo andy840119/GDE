@@ -13,29 +13,27 @@ namespace GDE.App.Main.UI
     public abstract class BreadcrumbNavigation<T> : CompositeDrawable
     {
         private readonly FillFlowContainer<Breadcrumb> fillFlowContainer;
-
         private readonly BindableList<T> items = new BindableList<T>();
 
         protected BreadcrumbNavigation()
         {
             fillFlowContainer = CreateAndAddFillFlowContainer();
 
-            items.ItemsAdded += itemsChanged;
-            items.ItemsRemoved += itemsChanged;
+            items.ItemsAdded += ItemsChanged;
+            items.ItemsRemoved += ItemsChanged;
         }
 
-        private void itemsChanged(IEnumerable<T> changeset)
+        private void ItemsChanged(IEnumerable<T> changeset)
         {
             fillFlowContainer.Clear();
 
-            if (items.Count == 0) return;
+            if (items.Count == 0)
+                return;
 
             fillFlowContainer.AddRange(items.Select(val =>
             {
                 var breadcrumb = CreateBreadcrumb(val);
-
-                breadcrumb.Selected += () => updateItems(fillFlowContainer.Children.ToList().IndexOf(breadcrumb));
-
+                breadcrumb.Selected += () => UpdateItems(fillFlowContainer.Children.ToList().IndexOf(breadcrumb));
                 return breadcrumb;
             }));
 
@@ -71,7 +69,7 @@ namespace GDE.App.Main.UI
         /// Truncates the items down to the parameter newIndex.
         /// </summary>
         /// <param name="newIndex">The index where everything after will get removed</param>
-        private void updateItems(int newIndex)
+        private void UpdateItems(int newIndex)
         {
             if (newIndex > Items.Count - 1)
                 throw new IndexOutOfRangeException($"Could not find an appropriate item for the index {newIndex}");
@@ -98,19 +96,15 @@ namespace GDE.App.Main.UI
 
             public T Value { get; }
 
-            protected Breadcrumb(T value)
-            {
-                Value = value;
-            }
+            public event Action Selected;
+
+            protected Breadcrumb(T value) => Value = value;
 
             protected override bool OnClick(ClickEvent e)
             {
                 Selected?.Invoke();
-
                 return true;
             }
-
-            public event Action Selected;
         }
     }
 }

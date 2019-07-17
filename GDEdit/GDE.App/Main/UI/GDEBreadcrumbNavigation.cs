@@ -54,13 +54,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
             return fillflow;
         }
 
-        protected override Breadcrumb CreateBreadcrumb(T value)
+        protected override Breadcrumb CreateBreadcrumb(T value) => new GDEBreadcrumb(value)
         {
-            return new GDEBreadcrumb(value)
-            {
-                RelativeSizeAxes = Axes.Y,
-            };
-        }
+            RelativeSizeAxes = Axes.Y,
+        };
 
         private class GDEBreadcrumb : Breadcrumb
         {

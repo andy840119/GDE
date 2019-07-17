@@ -57,7 +57,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("1A1A1A")
+                    Colour = GDEColors.FromHex("1a1a1a")
                 },
                 new DrawSizePreservingFillContainer
                 {

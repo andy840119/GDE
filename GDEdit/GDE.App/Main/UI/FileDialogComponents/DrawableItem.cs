@@ -15,6 +15,12 @@ namespace GDE.App.Main.UI.FileDialogComponents
 {
     public class DrawableItem : FillFlowContainer, IHasFilterTerms
     {
+        private string itemName = "";
+
+        private BindableBool selected = new BindableBool(false);
+
+        private Color4 color = Color4.White;
+
         private SpriteText text;
         private SpriteIcon icon;
 
@@ -26,47 +32,25 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public IconUsage ItemIcon
         {
             get => itemIcon;
-            set
-            {
-                itemIcon = value;
-                icon.Icon = ItemIcon;
-            }
+            set => icon.Icon = itemIcon = value;
         }
-
-        private string itemName = string.Empty;
 
         public string ItemName
         {
             get => itemName;
-            set
-            {
-                itemName = value;
-                text.Text = itemName;
-            }
+            set => text.Text = itemName = value;
         }
-
-        private BindableBool selected = new BindableBool(false);
 
         public bool Selected
         {
             get => selected.Value;
-            set
-            {
-                selected.Value = value;
-            }
+            set => selected.Value = value;
         }
-
-        private Color4 color = Color4.White;
 
         public Color4 Color
         {
             get => color;
-            set
-            {
-                color = value;
-                icon.Colour = color;
-                text.Colour = color;
-            }
+            set => text.Colour = icon.Colour = color = value;
         }
 
         public IEnumerable<string> FilterTerms => new[]
@@ -108,8 +92,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
         {
             if (value.NewValue)
             {
-                icon.FadeColour(GDEColors.FromHex("66CCFF"), 500);
-                text.FadeColour(GDEColors.FromHex("66CCFF"), 500);
+                icon.FadeColour(GDEColors.FromHex("66ccff"), 500);
+                text.FadeColour(GDEColors.FromHex("66ccff"), 500);
             }
             else
             {
@@ -123,7 +107,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
             Click?.Invoke();
             return base.OnClick(e);
         }
-
         protected override bool OnDoubleClick(DoubleClickEvent e)
         {
             Action?.Invoke();
