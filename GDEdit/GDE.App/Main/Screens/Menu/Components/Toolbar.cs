@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
@@ -65,7 +66,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]
                     {
-                        new Button
+                        new GDEButton
                         {
                             Anchor = Anchor.CentreRight,
                             Origin = Anchor.CentreRight,
@@ -75,7 +76,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                             Text = "Delete",
                             Action = () => Delete?.Invoke()
                         },
-                        new Button
+                        new GDEButton
                         {
                             Anchor = Anchor.CentreRight,
                             Origin = Anchor.CentreRight,

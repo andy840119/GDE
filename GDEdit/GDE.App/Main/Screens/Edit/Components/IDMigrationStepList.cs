@@ -35,7 +35,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         private FadeSearchContainer stepList;
         private TextBox searchQuery;
         private FillFlowContainer noSteps;
-        private Button addNewStep;
+        private GDEButton addNewStep;
 
         private IDMigrationStepCard lastClickedBeforeShift;
 
@@ -126,7 +126,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                                     Font = new FontUsage("OpenSans", 24),
                                     Colour = GDEColors.FromHex("666666")
                                 },
-                                addNewStep = new Button
+                                addNewStep = new GDEButton
                                 {
                                     Anchor = Anchor.Centre,
                                     Origin = Anchor.Centre,

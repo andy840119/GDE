@@ -9,6 +9,7 @@ using osu.Framework.Graphics.UserInterface;
 using osuTK;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -22,7 +23,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         protected virtual string FileDialogAction { get; set; }
 
         /// <summary>The button that performs the file dialog's action.</summary>
-        protected Button ActionButton;
+        protected GDEButton ActionButton;
 
         public string FileName
         {
@@ -145,7 +146,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                                 },
                                             }
                                         },
-                                        ActionButton = new Button
+                                        ActionButton = new GDEButton
                                         {
                                             RelativeSizeAxes = Axes.Both,
                                             Width = 0.19f,
