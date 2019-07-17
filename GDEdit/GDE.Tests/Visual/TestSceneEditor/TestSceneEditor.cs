@@ -3,11 +3,11 @@ using osu.Framework.Graphics;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
 
-namespace GDE.Tests.Visual.TestCaseEditor
+namespace GDE.Tests.Visual.TestSceneEditor
 {
-    public class TestCaseEditor : TestCase
+    public class TestSceneEditor : TestScene
     {
-        public TestCaseEditor()
+        public TestSceneEditor()
         {
             Add(new ScreenStack(new EditorScreen(0, null))
             {

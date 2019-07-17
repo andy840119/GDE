@@ -14,11 +14,11 @@ using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.General;
 using System.Collections.Generic;
 
-namespace GDE.Tests.Visual.TestCaseLevels
+namespace GDE.Tests.Visual.TestSceneLevels
 {
-    public class TestCaseIDMigrationBackend : TestCase
+    public class TestSceneIDMigrationBackend : TestScene
     {
-        public TestCaseIDMigrationBackend()
+        public TestSceneIDMigrationBackend()
         {
             Children = new Drawable[]
             {

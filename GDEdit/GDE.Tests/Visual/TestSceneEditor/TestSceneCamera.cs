@@ -4,11 +4,11 @@ using osu.Framework.Testing;
 using osu.Framework.Graphics.Shapes;
 using osuTK;
 
-namespace GDE.Tests.Visual.TestCaseEditor
+namespace GDE.Tests.Visual.TestSceneEditor
 {
-    public class TestCaseCamera : TestCase
+    public class TestSceneCamera : TestScene
     {
-        public TestCaseCamera()
+        public TestSceneCamera()
         {
             Children = new Drawable[]
             {

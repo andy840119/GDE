@@ -6,11 +6,11 @@ using osuTK;
 
 namespace GDE.Tests.Visual.TestCaseUserInterface
 {
-    public class TestCaseOverlayPopup : TestCase
+    public class TestSceneOverlayPopup : TestScene
     {
         private OverlayPopup popup;
 
-        public TestCaseOverlayPopup()
+        public TestSceneOverlayPopup()
         {
             Children = new Drawable[]
             {

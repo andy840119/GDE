@@ -3,13 +3,13 @@ using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual.TestCaseUserInterface
+namespace GDE.Tests.Visual.TestSceneUserInterface
 {
-    public class TestCaseToastNotification : TestCase
+    public class TestSceneToastNotification : TestScene
     {
         private ToastNotification toast;
 
-        public TestCaseToastNotification()
+        public TestSceneToastNotification()
         {
             Children = new Drawable[]
             {

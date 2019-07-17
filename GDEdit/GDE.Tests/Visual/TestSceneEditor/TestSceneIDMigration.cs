@@ -12,11 +12,11 @@ using osuTK;
 
 namespace GDE.Tests.Visual.TestCaseEditor
 {
-    public class TestCaseIDMigration : TestCase
+    public class TestSceneIDMigration : TestScene
     {
         public override IReadOnlyList<Type> RequiredTypes => new Type[] { typeof(IDMigrationPanel), typeof(IDMigrationStepCard), typeof(IDMigrationStepList) };
 
-        public TestCaseIDMigration()
+        public TestSceneIDMigration()
         {
             var editor = new Editor(new Level());
             var panel = new IDMigrationPanel(editor);

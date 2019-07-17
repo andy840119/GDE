@@ -13,15 +13,15 @@ using osu.Framework.Testing;
 using osuTK;
 using static GDE.App.Main.Screens.Edit.Components.IDMigrationStepList;
 
-namespace GDE.Tests.Visual.TestCaseEditor
+namespace GDE.Tests.Visual.TestSceneEditor
 {
-    public class TestCaseIDMigrationStepCard : TestCase
+    public class TestSceneIDMigrationStepCard : TestScene
     {
         private IDMigrationStepCard card;
 
         public override IReadOnlyList<Type> RequiredTypes => new Type[] { typeof(IDMigrationStepCard) };
 
-        public TestCaseIDMigrationStepCard()
+        public TestSceneIDMigrationStepCard()
         {
             card = new IDMigrationStepCard(new SourceTargetRange(1, 2, 3))
             {

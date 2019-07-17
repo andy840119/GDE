@@ -5,11 +5,11 @@ using osuTK;
 
 namespace GDE.Tests.Visual.TestCaseUserInterface
 {
-    public class TestCaseNumberTextBox : TestCase
+    public class TestSceneNumberTextBox : TestScene
     {
         private NumberTextBox textBox;
 
-        public TestCaseNumberTextBox()
+        public TestSceneNumberTextBox()
         {
             Children = new Drawable[]
             {
