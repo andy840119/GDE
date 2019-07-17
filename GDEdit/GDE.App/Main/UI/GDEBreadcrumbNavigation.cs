@@ -42,11 +42,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 AutoSizeAxes = Axes.X,
                 Spacing = new Vector2(3, 0),
                 RelativeSizeAxes = Axes.Y,
-                Padding = new MarginPadding
-                {
-                    Horizontal = 10,
-                    Vertical = 3
-                }
+                Padding = new MarginPadding(3)
             };
 
             AddInternal(fillflow);
