@@ -120,7 +120,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                                 TextSize = 24,
                                 Colour = GDEColors.FromHex("666666")
                             },
-                            new Button
+                            new GDEButton
                             {
                                 Anchor = Anchor.Centre,
                                 Origin = Anchor.Centre,

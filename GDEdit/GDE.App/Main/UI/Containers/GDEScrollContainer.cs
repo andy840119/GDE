@@ -12,6 +12,8 @@ namespace GDE.App.Main.UI.Containers
 {
     public class GDEScrollContainer : ScrollContainer<Drawable>
     {
+        private bool mouseScrollBarDragging;
+
         /// <summary>
         /// Allows controlling the scroll bar from any position in the container using the right mouse button.
         /// Uses the value of <see cref="DistanceDecayOnRightMouseScrollbar"/> to smoothly scroll to the dragged location.
@@ -23,12 +25,6 @@ namespace GDE.App.Main.UI.Containers
         /// </summary>
         public double DistanceDecayOnRightMouseScrollbar = 0.02;
 
-        private bool shouldPerformRightMouseScroll(MouseButtonEvent e) => RightMouseScrollbar && e.Button == MouseButton.Right;
-
-        private void scrollToRelative(float value) => ScrollTo(Clamp((value - Scrollbar.DrawSize[ScrollDim] / 2) / Scrollbar.Size[ScrollDim]), true, DistanceDecayOnRightMouseScrollbar);
-
-        private bool mouseScrollBarDragging;
-
         protected override bool IsDragging => base.IsDragging || mouseScrollBarDragging;
 
         public GDEScrollContainer(Direction scrollDirection = Direction.Vertical)
@@ -36,9 +32,9 @@ namespace GDE.App.Main.UI.Containers
 
         protected override bool OnMouseDown(MouseDownEvent e)
         {
-            if (shouldPerformRightMouseScroll(e))
+            if (ShouldPerformRightMouseScroll(e))
             {
-                scrollToRelative(e.MousePosition[ScrollDim]);
+                ScrollToRelative(e.MousePosition[ScrollDim]);
                 return true;
             }
 
@@ -49,16 +45,15 @@ namespace GDE.App.Main.UI.Containers
         {
             if (mouseScrollBarDragging)
             {
-                scrollToRelative(e.MousePosition[ScrollDim]);
+                ScrollToRelative(e.MousePosition[ScrollDim]);
                 return true;
             }
 
             return base.OnDrag(e);
         }
-
         protected override bool OnDragStart(DragStartEvent e)
         {
-            if (shouldPerformRightMouseScroll(e))
+            if (ShouldPerformRightMouseScroll(e))
             {
                 mouseScrollBarDragging = true;
                 return true;
@@ -66,7 +61,6 @@ namespace GDE.App.Main.UI.Containers
 
             return base.OnDragStart(e);
         }
-
         protected override bool OnDragEnd(DragEndEvent e)
         {
             if (mouseScrollBarDragging)
@@ -79,6 +73,10 @@ namespace GDE.App.Main.UI.Containers
         }
 
         protected override ScrollbarContainer CreateScrollbar(Direction direction) => new GDEScrollbar(direction);
+
+        private bool ShouldPerformRightMouseScroll(MouseButtonEvent e) => RightMouseScrollbar && e.Button == MouseButton.Right;
+
+        private void ScrollToRelative(float value) => ScrollTo(Clamp((value - Scrollbar.DrawSize[ScrollDim] / 2) / Scrollbar.Size[ScrollDim]), true, DistanceDecayOnRightMouseScrollbar);
 
         protected class GDEScrollbar : ScrollbarContainer
         {
@@ -101,10 +99,8 @@ namespace GDE.App.Main.UI.Containers
 
                 Margin = new MarginPadding
                 {
-                    Left = scrollDir == Direction.Vertical ? margin : 0,
-                    Right = scrollDir == Direction.Vertical ? margin : 0,
-                    Top = scrollDir == Direction.Horizontal ? margin : 0,
-                    Bottom = scrollDir == Direction.Horizontal ? margin : 0,
+                    Horizontal = scrollDir == Direction.Vertical ? margin : 0,
+                    Vertical = scrollDir == Direction.Horizontal ? margin : 0,
                 };
 
                 Masking = true;
@@ -117,7 +113,7 @@ namespace GDE.App.Main.UI.Containers
             private void load()
             {
                 Colour = defaultColour = GDEColors.FromHex("888");
-                hoverColour = GDEColors.FromHex("FFF");
+                hoverColour = GDEColors.FromHex("fff");
                 highlightColour = GDEColors.FromHex("88b300");
             }
 
@@ -143,19 +139,19 @@ namespace GDE.App.Main.UI.Containers
 
             protected override bool OnMouseDown(MouseDownEvent e)
             {
-                if (!base.OnMouseDown(e)) return false;
-
-                //note that we are changing the colour of the box here as to not interfere with the hover effect.
+                if (!base.OnMouseDown(e))
+                    return false;
+                
                 box.FadeColour(highlightColour, 100);
                 return true;
             }
 
             protected override bool OnMouseUp(MouseUpEvent e)
             {
-                if (e.Button != MouseButton.Left) return false;
+                if (e.Button != MouseButton.Left)
+                    return false;
 
                 box.FadeColour(Color4.White, 100);
-
                 return base.OnMouseUp(e);
             }
         }

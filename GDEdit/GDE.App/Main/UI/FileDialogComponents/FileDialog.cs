@@ -9,6 +9,7 @@ using osu.Framework.Graphics.UserInterface;
 using osuTK;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -20,10 +21,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private FadeSearchContainer fileContainer;
 
         protected virtual string FileDialogAction { get; set; }
-        protected virtual Action ActionButtonAction { get; set; }
 
         /// <summary>The button that performs the file dialog's action.</summary>
-        protected Button ActionButton;
+        protected GDEButton ActionButton;
 
         public string FileName
         {
@@ -57,7 +57,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("1A1A1A")
+                    Colour = GDEColors.FromHex("1a1a1a")
                 },
                 new DrawSizePreservingFillContainer
                 {
@@ -146,7 +146,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                                 },
                                             }
                                         },
-                                        ActionButton = new Button
+                                        ActionButton = new GDEButton
                                         {
                                             RelativeSizeAxes = Axes.Both,
                                             Width = 0.19f,
@@ -184,6 +184,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
                     new DrawableItem { ItemName = "Testing" },
                 }
             });
+        }
+
+        protected virtual void ActionButtonAction()
+        {
+            OnFileSelected?.Invoke(FileName);
         }
     }
 }

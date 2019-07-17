@@ -6,7 +6,7 @@ using osuTK.Graphics;
 
 namespace GDE.App.Main.UI
 {
-    public class FadeButton : Button
+    public class FadeButton : GDEButton
     {
         private Color4 enabledColor;
 

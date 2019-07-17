@@ -14,8 +14,8 @@ namespace GDE.App.Main.Overlays
     {
         private SpriteText header;
         private SpriteText body;
-        private Button button1;
-        private Button button2;
+        private GDEButton button1;
+        private GDEButton button2;
 
         public string HeaderText
         {
@@ -86,7 +86,7 @@ namespace GDE.App.Main.Overlays
                         }
                     }
                 },
-                button1 = new Button
+                button1 = new GDEButton
                 {
                     BackgroundColour = GDEColors.FromHex("1E1E1E"),
                     Size = new Vector2(100, 50),
@@ -95,7 +95,7 @@ namespace GDE.App.Main.Overlays
                     Origin = Anchor.BottomLeft,
                     Margin = new MarginPadding(20)
                 },
-                button2 = new Button
+                button2 = new GDEButton
                 {
                     BackgroundColour = GDEColors.FromHex("1E1E1E"),
                     Size = new Vector2(100, 50),
