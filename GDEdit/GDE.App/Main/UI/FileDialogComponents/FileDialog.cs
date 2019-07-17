@@ -148,13 +148,13 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                         },
                                         ActionButton = new GDEButton
                                         {
+                                            Anchor = Anchor.CentreLeft,
+                                            Origin = Anchor.CentreLeft,
                                             RelativeSizeAxes = Axes.Both,
-                                            Width = 0.19f,
+                                            Size = new Vector2(0.19f, 1),
                                             BackgroundColour = GDEColors.FromHex("303030"),
                                             Action = ActionButtonAction,
                                             Text = FileDialogAction,
-                                            Anchor = Anchor.CentreLeft,
-                                            Origin = Anchor.CentreLeft,
                                         }
                                     }
                                 }
