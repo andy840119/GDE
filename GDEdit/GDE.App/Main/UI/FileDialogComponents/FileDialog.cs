@@ -76,95 +76,109 @@ namespace GDE.App.Main.UI.FileDialogComponents
                     Strategy = DrawSizePreservationStrategy.Minimum,
                     Children = new Drawable[]
                     {
-                        new FillFlowContainer
+                        new SpriteText
+                        {
+                            Text = $"{FileDialogAction} File",
+                        },
+                        new Container
+                        {
+                            RelativeSizeAxes = Axes.X,
+                            Y = 35,
+                            Height = 30,
+                            Child = filePathBreadcrumbs = new GDEBreadcrumbNavigation<string>()
+                            {
+                                Origin = Anchor.CentreLeft,
+                                Anchor = Anchor.CentreLeft,
+                                RelativeSizeAxes = Axes.X,
+                                Height = 30,
+                            }
+                        },
+                        new Container
                         {
                             RelativeSizeAxes = Axes.Both,
-                            Direction = FillDirection.Vertical,
+                            Padding = new MarginPadding
+                            {
+                                Top = 70,
+                                Bottom = 40,
+                            },
                             Children = new Drawable[]
                             {
-                                new SpriteText
-                                {
-                                    Text = $"{FileDialogAction} File",
-                                },
                                 new Container
                                 {
-                                    Padding = new MarginPadding
-                                    {
-                                        Top = 10
-                                    },
-                                    RelativeSizeAxes = Axes.X,
-                                    Height = 30,
-                                    Child = filePathBreadcrumbs = new GDEBreadcrumbNavigation<string>()
-                                    {
-                                        Height = 30,
-                                        RelativeSizeAxes = Axes.X,
-                                        Origin = Anchor.CentreLeft,
-                                        Anchor = Anchor.CentreLeft,
-                                    }
-                                },
-                                new GDEScrollContainer
-                                {
                                     RelativeSizeAxes = Axes.Both,
-                                    Height = 0.88f,
-                                    Margin = new MarginPadding
-                                    {
-                                        Top = 10
-                                    },
+                                    CornerRadius = 5,
+                                    Masking = true,
                                     Children = new Drawable[]
                                     {
-                                        fileContainer = new FadeSearchContainer
+                                        new Box
                                         {
-                                            RelativeSizeAxes = Axes.X,
-                                            AutoSizeAxes = Axes.Y,
-                                            CornerRadius = 10,
-                                            Masking = true,
+                                            RelativeSizeAxes = Axes.Both,
+                                            Colour = FromHex("121212"),
+                                        },
+                                        new Container
+                                        {
+                                            RelativeSizeAxes = Axes.Both,
+                                            Padding = new MarginPadding(10),
+                                            Child = new GDEScrollContainer
+                                            {
+                                                RelativeSizeAxes = Axes.Both,
+                                                Children = new Drawable[]
+                                                {
+                                                    fileContainer = new FadeSearchContainer
+                                                    {
+                                                        RelativeSizeAxes = Axes.X,
+                                                        AutoSizeAxes = Axes.Y,
+                                                    },
+                                                }
+                                            },
                                         },
                                     }
                                 },
+                            }
+                        },
+                        new Container
+                        {
+                            Anchor = Anchor.BottomRight,
+                            Origin = Anchor.BottomRight,
+                            RelativeSizeAxes = Axes.X,
+                            Height = 30,
+                            Children = new Drawable[]
+                            {
                                 new Container
                                 {
-                                    RelativeSizeAxes = Axes.X,
-                                    Height = 30,
-                                    Margin = new MarginPadding { Bottom = 5 },
+                                    Anchor = Anchor.CentreLeft,
+                                    Origin = Anchor.CentreLeft,
+                                    RelativeSizeAxes = Axes.Both,
+                                    Padding = new MarginPadding { Right = 110 },
                                     Children = new Drawable[]
                                     {
-                                        new Container
+                                        search = new TextBox
                                         {
                                             Anchor = Anchor.CentreLeft,
                                             Origin = Anchor.CentreLeft,
                                             RelativeSizeAxes = Axes.Both,
-                                            Padding = new MarginPadding { Right = 110 },
-                                            Children = new Drawable[]
-                                            {
-                                                search = new TextBox
-                                                {
-                                                    Anchor = Anchor.CentreLeft,
-                                                    Origin = Anchor.CentreLeft,
-                                                    RelativeSizeAxes = Axes.Both,
-                                                    PlaceholderText = "Search",
-                                                    OnCommit = (sender, newText) => FileName = sender.Text,
-                                                },
-                                                new SpriteIcon
-                                                {
-                                                    Anchor = Anchor.CentreRight,
-                                                    Origin = Anchor.CentreRight,
-                                                    Size = new Vector2(15),
-                                                    Margin = new MarginPadding { Right = 10 },
-                                                    Icon = FontAwesome.Solid.Search,
-                                                },
-                                            }
+                                            PlaceholderText = "Search",
+                                            OnCommit = (sender, newText) => FileName = sender.Text,
                                         },
-                                        ActionButton = new GDEButton
+                                        new SpriteIcon
                                         {
                                             Anchor = Anchor.CentreRight,
                                             Origin = Anchor.CentreRight,
-                                            Width = 100,
-                                            BackgroundColour = FromHex("303030"),
-                                            Action = ActionButtonAction,
-                                            Text = FileDialogAction,
+                                            Size = new Vector2(15),
+                                            Margin = new MarginPadding { Right = 10 },
+                                            Icon = FontAwesome.Solid.Search,
                                         },
                                     }
-                                }
+                                },
+                                ActionButton = new GDEButton
+                                {
+                                    Anchor = Anchor.CentreRight,
+                                    Origin = Anchor.CentreRight,
+                                    Width = 100,
+                                    BackgroundColour = FromHex("303030"),
+                                    Action = ActionButtonAction,
+                                    Text = FileDialogAction,
+                                },
                             }
                         }
                     }

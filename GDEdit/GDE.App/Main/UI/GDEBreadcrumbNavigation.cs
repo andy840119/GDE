@@ -84,7 +84,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                             background = new Box
                             {
                                 RelativeSizeAxes = Axes.Both,
-                                Colour = GDEColors.FromHex("1A1A1A")
+                                Colour = GDEColors.FromHex("1a1a1a")
                             },
                             text = new SpriteText
                             {
