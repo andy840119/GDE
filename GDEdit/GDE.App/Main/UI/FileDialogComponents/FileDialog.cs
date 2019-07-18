@@ -158,7 +158,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                             Anchor = Anchor.CentreLeft,
                                             Origin = Anchor.CentreLeft,
                                             RelativeSizeAxes = Axes.Both,
-                                            PlaceholderText = "Search",
+                                            PlaceholderText = "Selected Path",
                                             OnCommit = (sender, newText) => FileName = sender.Text,
                                         },
                                         new SpriteIcon
@@ -222,15 +222,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
             var directories = GetDirectories(directory);
             var files = GetFiles(directory);
             foreach (var d in directories)
-                fileFillFlowContainer.Add(new DrawableItem(GetIndividualItemName(d), ItemType.Directory)
-                {
-                    OnSelected = HandleSelection
-                });
+                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), ItemType.Directory));
             foreach (var f in files)
-                fileFillFlowContainer.Add(new DrawableItem(GetIndividualItemName(f))
-                {
-                    OnSelected = HandleSelection
-                });
+                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
         }
 
         protected virtual void ActionButtonAction()
@@ -245,8 +239,31 @@ namespace GDE.App.Main.UI.FileDialogComponents
             currentSelection = selectedItem;
             UpdateSelectedPath(GetCurrentSelectedPath());
         }
+        private void HandleClick(DrawableItem clickedItem)
+        {
+            if (!clickedItem.Selected)
+                currentSelection = null;
+        }
+        private void HandleDoubleClick(DrawableItem doubleClickedItem)
+        {
+            if (doubleClickedItem.ItemType == ItemType.Directory)
+                CurrentDirectory = GetCurrentSelectedPath();
+            else
+            {
+                OnFileSelected?.Invoke(GetCurrentSelectedPath());
+                ToggleVisibility();
+            }
+        }
+
         private string GetCurrentBreadcrumbsDirectory() => filePathBreadcrumbs.Items.Aggregate(AggregateBreadcrumbs);
         private string GetCurrentSelectedPath() => $@"{GetCurrentBreadcrumbsDirectory()}\{currentSelection.ItemName}";
+
+        private DrawableItem GetNewDrawableItem(string name, ItemType type) => new DrawableItem(name, type)
+        {
+            OnSelected = HandleSelection,
+            OnClicked = HandleClick,
+            OnDoubleClicked = HandleDoubleClick,
+        };
 
         private static string AggregateBreadcrumbs(string left, string right) => $@"{left}\{right}";
 

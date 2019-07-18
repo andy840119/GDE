@@ -34,7 +34,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private SpriteText text;
         private SpriteIcon icon;
 
-        public Action Action;
+        public Action<DrawableItem> OnDoubleClicked;
         public Action<DrawableItem> OnClicked;
         public Action<DrawableItem> OnSelected;
 
@@ -117,13 +117,15 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private void HandleSelectionChanged(ValueChangedEvent<bool> value)
         {
-            var newColor = value.NewValue ? selectedForegroundColor : deselectedForegroundColor;
-            icon.FadeColour(newColor, 200);
-            text.FadeColour(newColor, 200);
-            background.FadeColour(value.NewValue ? selectedBackgroundColor : deselectedBackgroundColor, 200);
+            var newForegroundColor = value.NewValue ? selectedForegroundColor : deselectedForegroundColor;
+            icon.FadeColour(newForegroundColor, 200);
+            text.FadeColour(newForegroundColor, 200);
+            background.FadeColour(value.NewValue ? selectedBackgroundColor : GetHoverColor(), 200);
             if (value.NewValue)
                 OnSelected?.Invoke(this);
         }
+
+        private Color4 GetHoverColor() => IsHovered ? hoveredBackgroundColor : deselectedBackgroundColor;
 
         protected override bool OnHover(HoverEvent e)
         {
@@ -146,7 +148,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
         }
         protected override bool OnDoubleClick(DoubleClickEvent e)
         {
-            Action?.Invoke();
+            // This is never invoked, needs to be fixed
+            Selected = true;
+            OnDoubleClicked?.Invoke(this);
             return base.OnDoubleClick(e);
         }
 

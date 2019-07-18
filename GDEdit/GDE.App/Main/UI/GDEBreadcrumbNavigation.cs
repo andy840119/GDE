@@ -91,8 +91,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                 Origin = Anchor.CentreLeft,
                                 Anchor = Anchor.CentreLeft,
                                 Margin = new MarginPadding(3),
-                                Text = value.ToString(),
                                 Padding = new MarginPadding(5),
+                                Text = value.ToString(),
                             }
                         }
                     }
