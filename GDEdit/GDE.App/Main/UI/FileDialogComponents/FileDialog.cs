@@ -222,12 +222,12 @@ namespace GDE.App.Main.UI.FileDialogComponents
             var directories = GetDirectories(directory);
             var files = GetFiles(directory);
             foreach (var d in directories)
-                fileFillFlowContainer.Add(new DrawableItem(d, ItemType.Directory)
+                fileFillFlowContainer.Add(new DrawableItem(GetIndividualItemName(d), ItemType.Directory)
                 {
                     OnSelected = HandleSelection
                 });
             foreach (var f in files)
-                fileFillFlowContainer.Add(new DrawableItem(f)
+                fileFillFlowContainer.Add(new DrawableItem(GetIndividualItemName(f))
                 {
                     OnSelected = HandleSelection
                 });
@@ -249,6 +249,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private string GetCurrentSelectedPath() => $@"{GetCurrentBreadcrumbsDirectory()}\{currentSelection.ItemName}";
 
         private static string AggregateBreadcrumbs(string left, string right) => $@"{left}\{right}";
+
+        private static string GetIndividualItemName(string path) => path.Replace('/', '\\').Split('\\').Last();
 
         private static ItemType DetermineItemType(string path)
         {
