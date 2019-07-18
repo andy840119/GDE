@@ -1,5 +1,4 @@
-﻿using GDE.App.Main.Colors;
-using GDE.App.Main.Panels;
+﻿using GDE.App.Main.Panels;
 using GDE.App.Main.UI.Containers;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -8,19 +7,19 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osuTK;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using static GDE.App.Main.Colors.GDEColors;
-using static System.IO.Path;
+using static System.Environment;
+using static System.Environment.SpecialFolder;
 using static System.IO.Directory;
+using static System.IO.Path;
 using static System.String;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
     public abstract class FileDialog : Panel
     {
-        private string fileName;
+        private string fileName, currentDirectory;
 
         private GDEBreadcrumbNavigation<string> filePathBreadcrumbs;
         private FadeSearchContainer fileContainer;
@@ -44,18 +43,19 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 UpdateSelectedPath(value);
             }
         }
+        public string CurrentDirectory
+        {
+            get => currentDirectory;
+            set
+            {
+                currentDirectory = value;
+                UpdateCurrentDirectory(value);
+            }
+        }
 
         public event Action<string> OnFileSelected;
 
-        private readonly string[] testValues =
-        {
-            "yes",
-            "no",
-            "maybe",
-            "penis",
-        };
-
-        public FileDialog()
+        public FileDialog(string defaultDirectory = null)
         {
             CornerRadius = 10;
             Masking = true;
@@ -171,20 +171,15 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 }
             });
 
-            var drawables = new Drawable[8];
-            for (int i = 0; i < drawables.Length; i++)
-                drawables[i] = GetNewTestDrawableItem(i);
-
-            filePathBreadcrumbs.Items.AddRange(testValues);
-
             fileContainer.Add(fileFillFlowContainer = new FillFlowContainer
             {
                 Direction = FillDirection.Vertical,
                 Spacing = new Vector2(0, 2.5f),
                 RelativeSizeAxes = Axes.X,
                 AutoSizeAxes = Axes.Y,
-                Children = drawables,
             });
+
+            CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
         }
 
         public bool UpdateSelectedPath(string newPath)
@@ -223,11 +218,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
         {
             OnFileSelected?.Invoke(FileName);
         }
-
-        private DrawableItem GetNewTestDrawableItem(int index) => new DrawableItem($"Testing {index}")
-        {
-            OnSelected = HandleSelection
-        };
 
         private void HandleSelection(DrawableItem selectedItem)
         {

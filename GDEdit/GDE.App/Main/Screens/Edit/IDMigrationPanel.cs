@@ -182,7 +182,7 @@ namespace GDE.App.Main.Screens.Edit
                                             loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, () =>
                                             {
                                                 OpenFileDialog?.Invoke();
-                                                //currentStepList.LoadSteps();
+                                                currentStepList.LoadSteps();
                                             }),
                                             saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
                                             createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),

@@ -39,7 +39,7 @@ namespace GDE.App.Main.Screens.Edit
         private Camera camera;
         private EditorTools tools;
 
-        private IDMigrationPanel IDMigrationScreen;
+        private IDMigrationPanel IDMigrationPanel;
         private FileDialog dialog;
 
         [BackgroundDependencyLoader]
@@ -69,7 +69,7 @@ namespace GDE.App.Main.Screens.Edit
             };
             var editMenuItems = new List<MenuItem>
             {
-                new EditorMenuItem("Migrate IDs", IDMigrationScreen.ToggleVisibility, MenuItemType.Standard),
+                new EditorMenuItem("Migrate IDs", IDMigrationPanel.ToggleVisibility, MenuItemType.Standard),
             };
 
             AddInternal(new Container
@@ -156,7 +156,7 @@ namespace GDE.App.Main.Screens.Edit
                     Origin = Anchor.Centre,
                     Depth = -10
                 },
-                IDMigrationScreen = new IDMigrationPanel(editor)
+                IDMigrationPanel = new IDMigrationPanel(editor)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
