@@ -248,10 +248,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
         }
 
-        protected virtual void ActionButtonAction()
-        {
-            OnFileSelected?.Invoke(FileName);
-        }
+        protected virtual void ActionButtonAction() => PerformAction();
 
         private void HandleSelection(DrawableItem selectedItem)
         {
@@ -265,15 +262,21 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!clickedItem.Selected)
                 currentSelection = null;
         }
-        private void HandleDoubleClick(DrawableItem doubleClickedItem)
+        private void HandleDoubleClick(DrawableItem doubleClickedItem) => PerformAction();
+
+        private void PerformAction()
         {
-            if (doubleClickedItem.ItemType == ItemType.Directory)
-                CurrentDirectory = GetCurrentSelectedPath();
+            if (currentSelection.ItemType == ItemType.Directory)
+                NavigateToSelectedDirectory();
             else
-            {
-                OnFileSelected?.Invoke(GetCurrentSelectedPath());
-                ToggleVisibility();
-            }
+                FinalizeSelection();
+        }
+
+        private void NavigateToSelectedDirectory() => CurrentDirectory = GetCurrentSelectedPath();
+        private void FinalizeSelection()
+        {
+            OnFileSelected?.Invoke(FileName);
+            ToggleVisibility();
         }
 
         private string GetCurrentBreadcrumbsDirectory() => filePathBreadcrumbs.Items.Aggregate(AggregateBreadcrumbs);
