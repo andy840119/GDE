@@ -41,7 +41,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
             get => fileName;
             set
             {
-                fileName = value;
                 UpdateCurrentDirectory(GetDirectoryName(value));
                 UpdateSelectedPath(value);
             }
@@ -226,7 +225,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public bool UpdateSelectedPath(string newPath)
         {
             var replaced = newPath.Replace('/', '\\');
-            search.Text = replaced;
+            fileName = search.Text = replaced;
             var file = GetIndividualItemName(replaced);
             var type = DetermineItemType(replaced);
             foreach (DrawableItem item in fileFillFlowContainer)
