@@ -7,6 +7,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osuTK;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static GDE.App.Main.Colors.GDEColors;
 using static System.Environment;
@@ -194,7 +195,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
             });
 
             CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
+
+            filePathBreadcrumbs.BreadcrumbClicked += HandleBreadcrumbClicked;
         }
+
+        private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
 
         public bool UpdateSelectedPath(string newPath)
         {
@@ -238,8 +243,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (currentSelection != null)
                 currentSelection.Selected = false;
             currentSelection = selectedItem;
-            UpdateSelectedPath($@"{filePathBreadcrumbs.Items.Aggregate(AggregateBreadcrumbs)}\{selectedItem.ItemName}");
+            UpdateSelectedPath(GetCurrentSelectedPath());
         }
+        private string GetCurrentBreadcrumbsDirectory() => filePathBreadcrumbs.Items.Aggregate(AggregateBreadcrumbs);
+        private string GetCurrentSelectedPath() => $@"{GetCurrentBreadcrumbsDirectory()}\{currentSelection.ItemName}";
 
         private static string AggregateBreadcrumbs(string left, string right) => $@"{left}\{right}";
 

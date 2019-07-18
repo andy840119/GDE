@@ -15,6 +15,15 @@ namespace GDE.App.Main.UI
         private readonly FillFlowContainer<Breadcrumb> fillFlowContainer;
         private readonly BindableList<T> items = new BindableList<T>();
 
+        /// <summary>The items displayed in the breadcrumb navigation.</summary>
+        public BindableList<T> Items
+        {
+            get => items;
+            set => items.BindTo(value);
+        }
+
+        public event Action<T> BreadcrumbClicked;
+
         protected BreadcrumbNavigation()
         {
             fillFlowContainer = CreateAndAddFillFlowContainer();
@@ -23,7 +32,7 @@ namespace GDE.App.Main.UI
             items.ItemsRemoved += ItemsChanged;
         }
 
-        private void ItemsChanged(IEnumerable<T> changeset)
+        protected virtual void ItemsChanged(IEnumerable<T> changeset)
         {
             fillFlowContainer.Clear();
 
@@ -33,7 +42,7 @@ namespace GDE.App.Main.UI
             fillFlowContainer.AddRange(items.Select(val =>
             {
                 var breadcrumb = CreateBreadcrumb(val);
-                breadcrumb.Selected += () => UpdateItems(fillFlowContainer.Children.ToList().IndexOf(breadcrumb));
+                breadcrumb.Selected += HandleBreadcrumbSelected;
                 return breadcrumb;
             }));
 
@@ -48,27 +57,20 @@ namespace GDE.App.Main.UI
         ///    RelativeSizeAxes = Axes.Y,
         /// </code>
         /// </summary>
-        /// <param name="value">The value that is supposed to be written in the breadcrumb</param>
+        /// <param name="value">The value that is supposed to be written in the breadcrumb.</param>
         protected abstract Breadcrumb CreateBreadcrumb(T value);
 
-        /// <summary>
-        /// The items displayed the breadcrumb navigation.
-        /// </summary>
-        public BindableList<T> Items
-        {
-            get => items;
-            set => items.BindTo(value);
-        }
-
-        /// <summary>
-        /// Creates and adds the fillflow container that contains all breadcrumbs.
-        /// </summary>
+        /// <summary>Creates and adds the FillFlowContainer that contains all breadcrumbs.</summary>
         protected abstract FillFlowContainer<Breadcrumb> CreateAndAddFillFlowContainer();
 
-        /// <summary>
-        /// Truncates the items down to the parameter newIndex.
-        /// </summary>
-        /// <param name="newIndex">The index where everything after will get removed</param>
+        private void HandleBreadcrumbSelected(Breadcrumb breadcrumb)
+        {
+            UpdateItems(fillFlowContainer.Children.ToList().IndexOf(breadcrumb));
+            BreadcrumbClicked?.Invoke(breadcrumb.Value);
+        }
+
+        /// <summary>Truncates the items down to the parameter newIndex.</summary>
+        /// <param name="newIndex">The index where everything after will get removed.</param>
         private void UpdateItems(int newIndex)
         {
             if (newIndex > Items.Count - 1)
@@ -96,13 +98,13 @@ namespace GDE.App.Main.UI
 
             public T Value { get; }
 
-            public event Action Selected;
+            public event Action<Breadcrumb> Selected;
 
             protected Breadcrumb(T value) => Value = value;
 
             protected override bool OnClick(ClickEvent e)
             {
-                Selected?.Invoke();
+                Selected?.Invoke(this);
                 return true;
             }
         }
