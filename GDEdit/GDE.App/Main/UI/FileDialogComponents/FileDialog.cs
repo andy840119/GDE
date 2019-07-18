@@ -5,7 +5,9 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Input.Events;
 using osuTK;
+using osuTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -199,13 +201,33 @@ namespace GDE.App.Main.UI.FileDialogComponents
             filePathBreadcrumbs.BreadcrumbClicked += HandleBreadcrumbClicked;
         }
 
+        protected override bool OnKeyDown(KeyDownEvent e)
+        {
+            if (currentSelection != null)
+            {
+                var index = fileFillFlowContainer.Children.ToList().IndexOf(currentSelection);
+                switch (e.Key)
+                {
+                    case Key.Down:
+                        if (index < fileFillFlowContainer.Children.Count - 1)
+                            UpdateSelectedPath((fileFillFlowContainer.Children[index + 1] as DrawableItem).ItemName);
+                        break;
+                    case Key.Up:
+                        if (index > 0)
+                            UpdateSelectedPath((fileFillFlowContainer.Children[index - 1] as DrawableItem).ItemName);
+                        break;
+                }
+            }
+            return base.OnKeyDown(e);
+        }
+
         private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
 
         public bool UpdateSelectedPath(string newPath)
         {
             var replaced = newPath.Replace('/', '\\');
             search.Text = replaced;
-            var file = GetDirectoryName(replaced);
+            var file = GetIndividualItemName(replaced);
             var type = DetermineItemType(replaced);
             foreach (DrawableItem item in fileFillFlowContainer)
                 if (item.ItemName == file && item.ItemType == type)
