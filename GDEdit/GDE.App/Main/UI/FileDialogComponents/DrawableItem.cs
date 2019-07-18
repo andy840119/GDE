@@ -16,7 +16,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
 {
     public class DrawableItem : Container, IHasFilterTerms
     {
+        private static readonly IconUsage fileIcon = FontAwesome.Regular.FileAlt;
+        private static readonly IconUsage directoryIcon = FontAwesome.Regular.Folder;
+
         private string itemName = "";
+        private ItemType type;
 
         private BindableBool selected = new BindableBool(false);
 
@@ -30,15 +34,14 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private SpriteText text;
         private SpriteIcon icon;
 
-        private IconUsage itemIcon = FontAwesome.Regular.FileAlt;
-
         public Action Action;
-        public Action OnClicked;
+        public Action<DrawableItem> OnClicked;
+        public Action<DrawableItem> OnSelected;
 
-        public IconUsage ItemIcon
+        public ItemType ItemType
         {
-            get => itemIcon;
-            set => icon.Icon = itemIcon = value;
+            get => type;
+            set => icon.Icon = GetIcon(type = value);
         }
 
         public string ItemName
@@ -64,7 +67,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
             itemName
         };
 
-        public DrawableItem()
+        public DrawableItem() : this("") { }
+        public DrawableItem(string itemName, ItemType itemType = ItemType.File)
         {
             RelativeSizeAxes = Axes.X;
             Height = 30;
@@ -93,29 +97,32 @@ namespace GDE.App.Main.UI.FileDialogComponents
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
                             Size = new Vector2(25),
-                            Icon = itemIcon,
                         },
                         text = new SpriteText
                         {
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
-                            Text = itemName,
                         }
                     }
                 },
             });
 
-            selected.ValueChanged += FadeColour;
+            ItemName = itemName;
+            ItemType = itemType;
+
+            selected.ValueChanged += HandleSelectionChanged;
         }
 
         public void ToggleSelection() => selected.Toggle();
 
-        private void FadeColour(ValueChangedEvent<bool> value)
+        private void HandleSelectionChanged(ValueChangedEvent<bool> value)
         {
             var newColor = value.NewValue ? selectedForegroundColor : deselectedForegroundColor;
             icon.FadeColour(newColor, 200);
             text.FadeColour(newColor, 200);
             background.FadeColour(value.NewValue ? selectedBackgroundColor : deselectedBackgroundColor, 200);
+            if (value.NewValue)
+                OnSelected?.Invoke(this);
         }
 
         protected override bool OnHover(HoverEvent e)
@@ -134,7 +141,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         protected override bool OnClick(ClickEvent e)
         {
             ToggleSelection();
-            OnClicked?.Invoke();
+            OnClicked?.Invoke(this);
             return base.OnClick(e);
         }
         protected override bool OnDoubleClick(DoubleClickEvent e)
@@ -142,5 +149,23 @@ namespace GDE.App.Main.UI.FileDialogComponents
             Action?.Invoke();
             return base.OnDoubleClick(e);
         }
+
+        private static IconUsage GetIcon(ItemType itemType)
+        {
+            switch (itemType)
+            {
+                case ItemType.File:
+                    return fileIcon;
+                case ItemType.Directory:
+                    return directoryIcon;
+            }
+            throw new ArgumentException("Invalid item type.");
+        }
+    }
+
+    public enum ItemType
+    {
+        File,
+        Directory
     }
 }

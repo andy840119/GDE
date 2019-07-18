@@ -10,6 +10,11 @@ using osuTK;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using static GDE.App.Main.Colors.GDEColors;
+using static System.IO.Path;
+using static System.IO.Directory;
+using static System.String;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -19,6 +24,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private GDEBreadcrumbNavigation<string> filePathBreadcrumbs;
         private FadeSearchContainer fileContainer;
+        private FillFlowContainer fileFillFlowContainer;
+        private TextBox search;
+
+        private DrawableItem currentSelection;
 
         protected virtual string FileDialogAction { get; set; }
 
@@ -31,7 +40,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
             set
             {
                 fileName = value;
-                // Get the files in the directory that was specified and add update the file container and the file path breadcrumbs accordingly
+                UpdateCurrentDirectory(GetDirectoryName(value));
+                UpdateSelectedPath(value);
             }
         }
 
@@ -57,7 +67,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 new Box
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("1a1a1a")
+                    Colour = FromHex("1a1a1a")
                 },
                 new DrawSizePreservingFillContainer
                 {
@@ -111,51 +121,48 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                         },
                                     }
                                 },
-                                new FillFlowContainer
+                                new Container
                                 {
-                                    RelativeSizeAxes = Axes.Both,
-                                    Height = 0.05f,
-                                    Direction = FillDirection.Horizontal,
-                                    Spacing = new Vector2(10, 0),
-                                    Padding = new MarginPadding
-                                    {
-                                        Vertical = 5
-                                    },
+                                    RelativeSizeAxes = Axes.X,
+                                    Height = 30,
+                                    Margin = new MarginPadding { Bottom = 5 },
                                     Children = new Drawable[]
                                     {
                                         new Container
                                         {
+                                            Anchor = Anchor.CentreLeft,
+                                            Origin = Anchor.CentreLeft,
                                             RelativeSizeAxes = Axes.Both,
-                                            Width = 0.8f,
+                                            Padding = new MarginPadding { Right = 110 },
                                             Children = new Drawable[]
                                             {
-                                                new TextBox
+                                                search = new TextBox
                                                 {
+                                                    Anchor = Anchor.CentreLeft,
+                                                    Origin = Anchor.CentreLeft,
+                                                    RelativeSizeAxes = Axes.Both,
                                                     PlaceholderText = "Search",
                                                     OnCommit = (sender, newText) => FileName = sender.Text,
-                                                    RelativeSizeAxes = Axes.Both,
-                                                    Anchor = Anchor.TopLeft,
-                                                    Origin = Anchor.TopLeft,
                                                 },
                                                 new SpriteIcon
                                                 {
                                                     Anchor = Anchor.CentreRight,
                                                     Origin = Anchor.CentreRight,
                                                     Size = new Vector2(15),
+                                                    Margin = new MarginPadding { Right = 10 },
                                                     Icon = FontAwesome.Solid.Search,
                                                 },
                                             }
                                         },
                                         ActionButton = new GDEButton
                                         {
-                                            Anchor = Anchor.CentreLeft,
-                                            Origin = Anchor.CentreLeft,
-                                            RelativeSizeAxes = Axes.Both,
-                                            Size = new Vector2(0.19f, 1),
-                                            BackgroundColour = GDEColors.FromHex("303030"),
+                                            Anchor = Anchor.CentreRight,
+                                            Origin = Anchor.CentreRight,
+                                            Width = 100,
+                                            BackgroundColour = FromHex("303030"),
                                             Action = ActionButtonAction,
                                             Text = FileDialogAction,
-                                        }
+                                        },
                                     }
                                 }
                             }
@@ -164,31 +171,79 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 }
             });
 
+            var drawables = new Drawable[8];
+            for (int i = 0; i < drawables.Length; i++)
+                drawables[i] = GetNewTestDrawableItem(i);
+
             filePathBreadcrumbs.Items.AddRange(testValues);
 
-            fileContainer.Add(new FillFlowContainer
+            fileContainer.Add(fileFillFlowContainer = new FillFlowContainer
             {
                 Direction = FillDirection.Vertical,
                 Spacing = new Vector2(0, 2.5f),
                 RelativeSizeAxes = Axes.X,
                 AutoSizeAxes = Axes.Y,
-                Children = new Drawable[]
-                {
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                    new DrawableItem { ItemName = "Testing" },
-                }
+                Children = drawables,
             });
+        }
+
+        public bool UpdateSelectedPath(string newPath)
+        {
+            var replaced = newPath.Replace('/', '\\');
+            search.Text = replaced;
+            var file = GetDirectoryName(replaced);
+            var type = DetermineItemType(replaced);
+            foreach (DrawableItem item in fileFillFlowContainer)
+                if (item.ItemName == file && item.ItemType == type)
+                    return item.Selected = true;
+            return false;
+        }
+        public void UpdateCurrentDirectory(string directory)
+        {
+            var dirs = directory.Replace('/', '\\').Split('\\');
+            filePathBreadcrumbs.Items.Clear();
+            filePathBreadcrumbs.Items.AddRange(dirs);
+
+            fileFillFlowContainer.Clear();
+            var directories = GetDirectories(directory);
+            var files = GetFiles(directory);
+            foreach (var d in directories)
+                fileFillFlowContainer.Add(new DrawableItem(d, ItemType.Directory)
+                {
+                    OnSelected = HandleSelection
+                });
+            foreach (var f in files)
+                fileFillFlowContainer.Add(new DrawableItem(f)
+                {
+                    OnSelected = HandleSelection
+                });
         }
 
         protected virtual void ActionButtonAction()
         {
             OnFileSelected?.Invoke(FileName);
+        }
+
+        private DrawableItem GetNewTestDrawableItem(int index) => new DrawableItem($"Testing {index}")
+        {
+            OnSelected = HandleSelection
+        };
+
+        private void HandleSelection(DrawableItem selectedItem)
+        {
+            if (currentSelection != null)
+                currentSelection.Selected = false;
+            currentSelection = selectedItem;
+            UpdateSelectedPath($@"{filePathBreadcrumbs.Items.Aggregate(AggregateBreadcrumbs)}\{selectedItem.ItemName}");
+        }
+
+        private static string AggregateBreadcrumbs(string left, string right) => $@"{left}\{right}";
+
+        private static ItemType DetermineItemType(string path)
+        {
+            if (path.EndsWith('\\') || IsNullOrWhiteSpace(GetExtension(path)))
+                return ItemType.Directory;
+            return ItemType.File;
         }
     }
 }
