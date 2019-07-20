@@ -6,6 +6,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 {
     public class OpenFileDialog : FileDialog
     {
+        protected override bool AllowInexistentFileNames => false;
         protected override string FileDialogAction => "Open";
 
         public OpenFileDialog() : base() { }

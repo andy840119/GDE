@@ -35,6 +35,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private DrawableItem currentSelection;
 
+        protected abstract bool AllowInexistentFileNames { get; }
         protected virtual string FileDialogAction { get; set; }
 
         /// <summary>The button that performs the file dialog's action.</summary>
@@ -65,7 +66,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
             get => currentSelection;
             set
             {
-                ActionButton.Enabled.Value = (currentSelection = value) != null;
+                ActionButton.Enabled.Value = AllowInexistentFileNames || (currentSelection = value) != null;
                 ActionButton.Text = currentSelection?.IsDirectory ?? false ? "Open Folder" : FileDialogAction;
             }
         }

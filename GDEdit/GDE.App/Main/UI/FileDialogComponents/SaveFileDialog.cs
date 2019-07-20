@@ -6,6 +6,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 {
     public class SaveFileDialog : FileDialog
     {
+        protected override bool AllowInexistentFileNames => true;
         protected override string FileDialogAction => "Save";
 
         public SaveFileDialog() : base() { }
