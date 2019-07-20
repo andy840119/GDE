@@ -25,7 +25,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
     {
         public const float ItemSpacing = 2.5f;
 
-        private string selectedPath, currentDirectory;
+        private string selectedItem, selectedPath = "", currentDirectory = "";
 
         private GDEBreadcrumbNavigation<string> filePathBreadcrumbs;
         private GDEScrollContainer scrollContainer;
@@ -40,29 +40,34 @@ namespace GDE.App.Main.UI.FileDialogComponents
         /// <summary>The button that performs the file dialog's action.</summary>
         protected GDEButton ActionButton;
 
-        public string FileName
+        public string SelectedItem
         {
-            get => fileName;
+            get => selectedItem;
+            set => UpdateSelectedItem(value);
+        }
+        public string SelectedPath
+        {
+            get => selectedPath;
             set
             {
-                UpdateCurrentDirectory(GetDirectoryName(value));
+                CurrentDirectory = GetDirectoryName(value) ?? GetDirectoryRoot(value);
                 UpdateSelectedPath(value);
             }
         }
         public string CurrentDirectory
         {
             get => currentDirectory;
-            set
-            {
-                UpdateCurrentDirectory(value);
-                UpdateSelectedPath(value);
-                CurrentSelection = null;
-            }
+            set => UpdateCurrentDirectory(value);
         }
+
         protected DrawableItem CurrentSelection
         {
             get => currentSelection;
-            set => ActionButton.Enabled.Value = (currentSelection = value) != null;
+            set
+            {
+                ActionButton.Enabled.Value = (currentSelection = value) != null;
+                ActionButton.Text = currentSelection?.IsDirectory ?? false ? "Open Folder" : FileDialogAction;
+            }
         }
 
         public event Action<string> OnFileSelected;
@@ -177,7 +182,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                             Origin = Anchor.CentreLeft,
                                             RelativeSizeAxes = Axes.Both,
                                             PlaceholderText = "Selected Path",
-                                            OnCommit = (sender, newText) => FileName = sender.Text,
+                                            OnCommit = (sender, newText) => SelectedItem = sender.Text,
                                         },
                                         new SpriteIcon
                                         {
@@ -241,18 +246,33 @@ namespace GDE.App.Main.UI.FileDialogComponents
             return base.OnKeyDown(e);
         }
 
-        private void NavigateTo(int index) => UpdateSelectedPath((fileFillFlowContainer.Children[index] as DrawableItem).ItemName);
+        private void NavigateTo(int index) => UpdateSelectedItem((fileFillFlowContainer.Children[index] as DrawableItem).ItemName);
 
         private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
 
+        public bool UpdateSelectedItem(string newItem)
+        {
+            selectedItem = search.Text = newItem;
+            if (newItem?.Length > 0)
+            {
+                foreach (DrawableItem item in fileFillFlowContainer)
+                    if (item.ItemName == newItem)
+                    {
+                        scrollContainer.ScrollIntoView(item);
+                        return item.Selected = true;
+                    }
+            }
+            CurrentSelection = null;
+            return false;
+        }
         public bool UpdateSelectedPath(string newPath)
         {
             var replaced = newPath.Replace('/', '\\');
-            fileName = search.Text = replaced;
+            selectedPath = search.Text = replaced;
             var dirs = replaced.Split('\\');
             if (dirs.Length < filePathBreadcrumbs.Items.Count)
             {
-                var file = GetIndividualItemName(replaced);
+                var file = dirs.Last();
                 var type = DetermineItemType(replaced);
                 foreach (DrawableItem item in fileFillFlowContainer)
                     if (item.MatchesNameAndType(file, type))
@@ -265,11 +285,17 @@ namespace GDE.App.Main.UI.FileDialogComponents
         }
         public void UpdateCurrentDirectory(string directory)
         {
+            var previous = currentDirectory;
+            var dir = GetPreviousPathDirectoryInNewPath(previous, directory);
+
             var replaced = directory.Replace('/', '\\');
-            currentDirectory = replaced;
             var dirs = replaced.Split('\\');
             filePathBreadcrumbs.Items.Clear();
             filePathBreadcrumbs.Items.AddRange(dirs);
+
+            if (!replaced.EndsWith('\\'))
+                replaced += '\\';
+            currentDirectory = replaced;
 
             fileFillFlowContainer.Clear();
             var directories = GetDirectories(directory);
@@ -278,6 +304,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), ItemType.Directory));
             foreach (var f in files)
                 fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
+
+            UpdateSelectedItem(dir);
         }
 
         protected virtual void ActionButtonAction() => PerformAction();
@@ -289,7 +317,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (CurrentSelection != null)
                 CurrentSelection.Selected = false;
             CurrentSelection = selectedItem;
-            UpdateSelectedPath(GetCurrentSelectedPath());
+            UpdateSelectedItem(CurrentSelection.ItemName);
         }
         private void HandleClick(DrawableItem clickedItem)
         {
@@ -309,12 +337,12 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private void NavigateToSelectedDirectory() => CurrentDirectory = GetCurrentSelectedPath();
         private void FinalizeSelection()
         {
-            OnFileSelected?.Invoke(FileName);
+            OnFileSelected?.Invoke(SelectedPath);
             ToggleVisibility();
         }
 
-        private string GetCurrentBreadcrumbsDirectory() => filePathBreadcrumbs.Items.Aggregate(AggregateBreadcrumbs);
-        private string GetCurrentSelectedPath() => $@"{GetCurrentBreadcrumbsDirectory()}\{CurrentSelection.ItemName}";
+        private string GetCurrentBreadcrumbsDirectory() => $@"{filePathBreadcrumbs.Items.ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories)}";
+        private string GetCurrentSelectedPath() => $@"{GetCurrentBreadcrumbsDirectory()}{CurrentSelection.GetPathSuffix()}";
 
         private DrawableItem GetNewDrawableItem(string name, ItemType type) => new DrawableItem(name, type)
         {
@@ -323,8 +351,35 @@ namespace GDE.App.Main.UI.FileDialogComponents
             OnDoubleClicked = HandleDoubleClick,
         };
 
-        private static string AggregateBreadcrumbs(string left, string right) => $@"{left}\{right}";
+        private static string AddDirectorySuffix(string name) => $@"{name}\";
+        private static string AggregateDirectories(string left, string right) => $@"{left}{right}";
 
+        private static string[] AnalyzePath(string path) => path.Replace('/', '\\').Split('\\');
+
+        private static string GetCommonDirectory(string pathA, string pathB)
+        {
+            var splitA = AnalyzePath(pathA);
+            var splitB = AnalyzePath(pathB);
+            var result = new List<string>();
+            int min = Min(splitA.Length, splitB.Length);
+            for (int i = 0; i < min; i++)
+                if (splitA[i] == splitB[i])
+                    result.Add(splitA[i]);
+            return result.Aggregate(AggregateDirectories);
+        }
+        private static string GetPreviousPathDirectoryInNewPath(string previousPath, string newPath)
+        {
+            var splitPrevious = AnalyzePath(previousPath);
+            var splitNew = AnalyzePath(newPath);
+            if (splitNew.Length >= splitPrevious.Length)
+                return null;
+            var result = new List<string>();
+            int index = -1;
+            while (++index < splitNew.Length)
+                if (splitPrevious[index] != splitNew[index])
+                    break;
+            return splitPrevious[index];
+        }
         private static string GetIndividualItemName(string path) => path.Replace('/', '\\').Split('\\').Last();
 
         private static ItemType DetermineItemType(string path)

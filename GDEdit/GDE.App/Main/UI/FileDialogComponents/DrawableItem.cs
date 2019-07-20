@@ -120,6 +120,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         public void ToggleSelection() => selected.Toggle();
 
+        public bool MatchesNameAndType(string name, ItemType type) => ItemName == name && ItemType == type;
+
+        public string GetPathSuffix() => $@"{ItemName}{(IsDirectory ? "\\" : "")}";
+
         private void HandleSelectionChanged(ValueChangedEvent<bool> value)
         {
             var newForegroundColor = value.NewValue ? selectedForegroundColor : deselectedForegroundColor;
