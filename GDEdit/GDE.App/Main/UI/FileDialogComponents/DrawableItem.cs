@@ -19,6 +19,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private static readonly IconUsage fileIcon = FontAwesome.Regular.FileAlt;
         private static readonly IconUsage directoryIcon = FontAwesome.Regular.Folder;
 
+        public const float DefaultHeight = 30;
+
         private string itemName = "";
         private ItemType type;
 
@@ -37,6 +39,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public Action<DrawableItem> OnDoubleClicked;
         public Action<DrawableItem> OnClicked;
         public Action<DrawableItem> OnSelected;
+
+        public bool IsFile => ItemType == ItemType.File;
+        public bool IsDirectory => ItemType == ItemType.Directory;
 
         public ItemType ItemType
         {
@@ -71,7 +76,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public DrawableItem(string itemName, ItemType itemType = ItemType.File)
         {
             RelativeSizeAxes = Axes.X;
-            Height = 30;
+            Height = DefaultHeight;
             CornerRadius = 5;
             Masking = true;
 

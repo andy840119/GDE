@@ -16,15 +16,19 @@ using static System.Environment;
 using static System.Environment.SpecialFolder;
 using static System.IO.Directory;
 using static System.IO.Path;
+using static System.Math;
 using static System.String;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
     public abstract class FileDialog : Panel
     {
-        private string fileName, currentDirectory;
+        public const float ItemSpacing = 2.5f;
+
+        private string selectedPath, currentDirectory;
 
         private GDEBreadcrumbNavigation<string> filePathBreadcrumbs;
+        private GDEScrollContainer scrollContainer;
         private FadeSearchContainer fileContainer;
         private FillFlowContainer fileFillFlowContainer;
         private TextBox search;
@@ -127,7 +131,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                         {
                                             RelativeSizeAxes = Axes.Both,
                                             Padding = new MarginPadding(10),
-                                            Child = new GDEScrollContainer
+                                            Child = scrollContainer = new GDEScrollContainer
                                             {
                                                 RelativeSizeAxes = Axes.Both,
                                                 Children = new Drawable[]
@@ -136,6 +140,13 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                                     {
                                                         RelativeSizeAxes = Axes.X,
                                                         AutoSizeAxes = Axes.Y,
+                                                        Child = fileFillFlowContainer = new FillFlowContainer
+                                                        {
+                                                            Direction = FillDirection.Vertical,
+                                                            Spacing = new Vector2(0, ItemSpacing),
+                                                            RelativeSizeAxes = Axes.X,
+                                                            AutoSizeAxes = Axes.Y,
+                                                        }
                                                     },
                                                 }
                                             },
@@ -193,14 +204,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 }
             });
 
-            fileContainer.Add(fileFillFlowContainer = new FillFlowContainer
-            {
-                Direction = FillDirection.Vertical,
-                Spacing = new Vector2(0, 2.5f),
-                RelativeSizeAxes = Axes.X,
-                AutoSizeAxes = Axes.Y,
-            });
-
             CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
 
             filePathBreadcrumbs.BreadcrumbClicked += HandleBreadcrumbClicked;
@@ -215,16 +218,30 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 {
                     case Key.Down:
                         if (index < fileFillFlowContainer.Children.Count - 1)
-                            UpdateSelectedPath((fileFillFlowContainer.Children[index + 1] as DrawableItem).ItemName);
+                            NavigateTo(index + 1);
                         break;
                     case Key.Up:
                         if (index > 0)
-                            UpdateSelectedPath((fileFillFlowContainer.Children[index - 1] as DrawableItem).ItemName);
+                            NavigateTo(index - 1);
+                        break;
+                    case Key.PageUp:
+                        NavigateTo(Max(index - GetItemCountPerPage(), 0));
+                        break;
+                    case Key.PageDown:
+                        NavigateTo(Min(index + GetItemCountPerPage(), fileFillFlowContainer.Count - 1));
+                        break;
+                    case Key.Home:
+                        NavigateTo(0);
+                        break;
+                    case Key.End:
+                        NavigateTo(fileFillFlowContainer.Count - 1);
                         break;
                 }
             }
             return base.OnKeyDown(e);
         }
+
+        private void NavigateTo(int index) => UpdateSelectedPath((fileFillFlowContainer.Children[index] as DrawableItem).ItemName);
 
         private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
 
@@ -238,8 +255,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 var file = GetIndividualItemName(replaced);
                 var type = DetermineItemType(replaced);
                 foreach (DrawableItem item in fileFillFlowContainer)
-                    if (item.ItemName == file && item.ItemType == type)
+                    if (item.MatchesNameAndType(file, type))
+                    {
+                        scrollContainer.ScrollIntoView(item);
                         return item.Selected = true;
+                    }
             }
             return false;
         }
@@ -261,6 +281,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
         }
 
         protected virtual void ActionButtonAction() => PerformAction();
+
+        private int GetItemCountPerPage() => (int)(scrollContainer.DrawHeight / (DrawableItem.DefaultHeight + ItemSpacing) + 0.5);
 
         private void HandleSelection(DrawableItem selectedItem)
         {
