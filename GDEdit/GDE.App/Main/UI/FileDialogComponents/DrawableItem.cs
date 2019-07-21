@@ -30,7 +30,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         private Color4 deselectedForegroundColor = Color4.White;
         private Color4 selectedBackgroundColor = GDEColors.FromHex("606060");
         private Color4 hoveredBackgroundColor = GDEColors.FromHex("404040");
-        private Color4 deselectedBackgroundColor = Color4.Transparent;
+        private Color4 deselectedBackgroundColor = new Color4(0, 0, 0, 0);
 
         private Box background;
         private SpriteText text;
