@@ -6,10 +6,12 @@ using osu.Framework.Graphics.Sprites;
 using osuTK;
 using osuTK.Graphics;
 
-namespace GDE.App.Main.UI.FileDialogComponents
+namespace GDE.App.Main.UI
 {
     public class GDEBreadcrumbNavigation<T> : BreadcrumbNavigation<T>
     {
+        public const int DefaultCornerRadius = 5;
+
         private FillFlowContainer<Breadcrumb> fillflow;
 
         public GDEBreadcrumbNavigation()
@@ -19,7 +21,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 new Container
                 {
                     Masking = true,
-                    CornerRadius = 5,
+                    CornerRadius = DefaultCornerRadius,
                     Depth = 1,
                     Height = 30,
                     RelativeSizeAxes = Axes.X,
