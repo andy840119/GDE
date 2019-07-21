@@ -23,6 +23,12 @@ namespace GDE.App.Main.UI
 
         public event Action<string> OnTextChanged;
 
+        public BindableList<string> Items
+        {
+            get => BreadcrumbNavigation.Items;
+            set => BreadcrumbNavigation.Items.BindTo(value);
+        }
+
         public GDEBreadcrumbNavigationTextBox()
             : base()
         {

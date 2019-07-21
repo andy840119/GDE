@@ -27,7 +27,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private string selectedItem, selectedPath = "", currentDirectory = "";
 
-        private GDEBreadcrumbNavigation<string> filePathBreadcrumbs;
+        private GDEBreadcrumbNavigationTextBox filePathBreadcrumbs;
         private GDEScrollContainer scrollContainer;
         private FadeSearchContainer fileContainer;
         private FillFlowContainer fileFillFlowContainer;
@@ -103,7 +103,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                             RelativeSizeAxes = Axes.X,
                             Y = 35,
                             Height = 30,
-                            Child = filePathBreadcrumbs = new GDEBreadcrumbNavigation<string>()
+                            Child = filePathBreadcrumbs = new GDEBreadcrumbNavigationTextBox
                             {
                                 Origin = Anchor.CentreLeft,
                                 Anchor = Anchor.CentreLeft,
@@ -212,7 +212,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
             CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
 
-            filePathBreadcrumbs.BreadcrumbClicked += HandleBreadcrumbClicked;
+            filePathBreadcrumbs.BreadcrumbNavigation.BreadcrumbClicked += HandleBreadcrumbClicked;
         }
 
         protected override bool OnKeyDown(KeyDownEvent e)
