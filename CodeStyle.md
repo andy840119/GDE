@@ -91,6 +91,7 @@ The ordering of using types is the following:
 - `using <alias> = <type>;`
 
 Usage of `using static` is recommended for the most part. They should be used when it's clear that it feels overwhelming to read the class' name as well. E.g.:
+
 ```csharp
 // Good usage
 using static System.Math;
