@@ -69,7 +69,8 @@ namespace GDE.App.Main.UI.Containers
 
         protected class GDEScrollbar : ScrollbarContainer
         {
-            private const float dim_size = 10;
+            private const float dimSize = 10;
+            private const float margin = 3;
 
             private Color4 hoverColour;
             private Color4 defaultColour;
@@ -83,16 +84,13 @@ namespace GDE.App.Main.UI.Containers
                 Blending = BlendingMode.Additive;
 
                 CornerRadius = 5;
-
-                const float margin = 3;
-
+                Masking = true;
                 Margin = new MarginPadding
                 {
                     Horizontal = scrollDir == Direction.Vertical ? margin : 0,
                     Vertical = scrollDir == Direction.Horizontal ? margin : 0,
                 };
 
-                Masking = true;
                 Child = box = new Box { RelativeSizeAxes = Axes.Both };
 
                 ResizeTo(1);
@@ -108,7 +106,7 @@ namespace GDE.App.Main.UI.Containers
 
             public override void ResizeTo(float val, int duration = 0, Easing easing = Easing.None)
             {
-                Vector2 size = new Vector2(dim_size)
+                Vector2 size = new Vector2(dimSize)
                 {
                     [(int)ScrollDirection] = val
                 };
