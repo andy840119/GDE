@@ -14,15 +14,10 @@ namespace GDE.App.Main.UI.Containers
     {
         private bool mouseScrollBarDragging;
 
-        /// <summary>
-        /// Allows controlling the scroll bar from any position in the container using the right mouse button.
-        /// Uses the value of <see cref="DistanceDecayOnRightMouseScrollbar"/> to smoothly scroll to the dragged location.
-        /// </summary>
+        /// <summary>Allows controlling the scroll bar from any position in the container using the right mouse button. Uses the value of <see cref="DistanceDecayOnRightMouseScrollbar"/> to smoothly scroll to the dragged location.</summary>
         public bool RightMouseScrollbar = false;
 
-        /// <summary>
-        /// Controls the rate with which the target position is approached when performing a relative drag. Default is 0.02.
-        /// </summary>
+        /// <summary>Controls the rate with which the target position is approached when performing a relative drag. Default is 0.02.</summary>
         public double DistanceDecayOnRightMouseScrollbar = 0.02;
 
         protected override bool IsDragging => base.IsDragging || mouseScrollBarDragging;
@@ -54,20 +49,14 @@ namespace GDE.App.Main.UI.Containers
         protected override bool OnDragStart(DragStartEvent e)
         {
             if (ShouldPerformRightMouseScroll(e))
-            {
-                mouseScrollBarDragging = true;
-                return true;
-            }
+                return mouseScrollBarDragging = true;
 
             return base.OnDragStart(e);
         }
         protected override bool OnDragEnd(DragEndEvent e)
         {
             if (mouseScrollBarDragging)
-            {
-                mouseScrollBarDragging = false;
-                return true;
-            }
+                return !(mouseScrollBarDragging = false);
 
             return base.OnDragEnd(e);
         }
