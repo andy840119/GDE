@@ -4,7 +4,7 @@ using osu.Framework.Testing;
 using osuTK;
 using System.IO;
 
-namespace GDE.Tests.Visual.TestCaseUserInterface
+namespace GDE.Tests.Visual.TestSceneUserInterface
 {
     public class TestSceneGDEBreadcrumbNavigationTextBox : TestScene
     {
