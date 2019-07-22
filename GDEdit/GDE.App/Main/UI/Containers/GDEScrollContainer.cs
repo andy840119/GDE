@@ -118,7 +118,6 @@ namespace GDE.App.Main.UI.Containers
                 this.FadeColour(hoverColour, 100);
                 return true;
             }
-
             protected override void OnHoverLost(HoverLostEvent e)
             {
                 this.FadeColour(defaultColour, 100);
@@ -128,11 +127,10 @@ namespace GDE.App.Main.UI.Containers
             {
                 if (!base.OnMouseDown(e))
                     return false;
-                
+
                 box.FadeColour(highlightColour, 100);
                 return true;
             }
-
             protected override bool OnMouseUp(MouseUpEvent e)
             {
                 if (e.Button != MouseButton.Left)
