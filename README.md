@@ -38,8 +38,12 @@ Aside from code performance and functionality, we care about [Code Style](CodeSt
 - Speed control (.50x, .25x, etc)
 - Replace object(s) with other object(s)
 - Linking object data like id's and colours to other objects
-- Proportional editing. Has many falloff types like:
-- Linear, sharp, constant (to move multiple objects at once), sphere and random (https://bit.ly/2z2UQLe)
+- Proportional editing (https://bit.ly/2z2UQLe) with the following types:
+- - Linear
+- - Sharp
+- - Constant (to move multiple objects at once)
+- - Sphere
+- - Random
 - Pivot point dropdown (https://streamable.com/22ouq https://bit.ly/2JhnrRG)
 - Smart Replace (https://bit.ly/2JkafeS)
 
