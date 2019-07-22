@@ -242,9 +242,24 @@ namespace GDE.App.Main.UI.FileDialogComponents
                     case Key.End:
                         NavigateTo(fileFillFlowContainer.Count - 1);
                         break;
+                    case Key.BackSpace:
+                        NavigateToPreviousDirectory();
+                        break;
+                    case Key.Enter:
+                        PerformAction();
+                        break;
                 }
             }
             return base.OnKeyDown(e);
+        }
+
+        private void NavigateToPreviousDirectory()
+        {
+            var dirs = AnalyzePath(CurrentDirectory);
+            if (dirs.Length < 3)
+                return;
+
+            UpdateCurrentDirectory(dirs.SkipLast(2).ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories));
         }
 
         private void NavigateTo(int index) => UpdateSelectedItem((fileFillFlowContainer.Children[index] as DrawableItem).ItemName);
