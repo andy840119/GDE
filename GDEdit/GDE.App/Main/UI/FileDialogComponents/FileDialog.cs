@@ -1,10 +1,13 @@
-﻿using GDE.App.Main.Panels;
+﻿using GDE.App.Main.Containers.KeyBindingContainers;
+using GDE.App.Main.Panels;
 using GDE.App.Main.UI.Containers;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Input;
@@ -25,50 +28,52 @@ namespace GDE.App.Main.UI.FileDialogComponents
     {
         public const float ItemSpacing = 2.5f;
 
-        private string selectedItem, selectedPath = "", currentDirectory = "";
-
         private GDEBreadcrumbNavigationTextBox filePathBreadcrumbs;
         private GDEScrollContainer scrollContainer;
         private FadeSearchContainer fileContainer;
-        private FillFlowContainer fileFillFlowContainer;
         private TextBox search;
+
+        private DirectoryItemContainer itemContainer;
 
         private DrawableItem currentSelection;
 
         protected abstract bool AllowInexistentFileNames { get; }
-        protected virtual string FileDialogAction { get; set; }
+        protected virtual string FileDialogActionName { get; set; }
 
         /// <summary>The button that performs the file dialog's action.</summary>
         protected GDEButton ActionButton;
 
+        public readonly Bindable<DrawableItem> CurrentSelection = new Bindable<DrawableItem>();
+
+        public readonly Bindable<string> SelectedItemBindable = new Bindable<string>();
+        public readonly Bindable<string> SelectedPathBindable = new Bindable<string>("");
+        public readonly Bindable<string> CurrentDirectoryBindable = new Bindable<string>("");
+
         public string SelectedItem
         {
-            get => selectedItem;
-            set => UpdateSelectedItem(value);
+            get => SelectedItemBindable.Value;
+            set => SelectedItemBindable.Value = value;
         }
         public string SelectedPath
         {
-            get => selectedPath;
-            set
-            {
-                CurrentDirectory = GetDirectoryName(value) ?? GetDirectoryRoot(value);
-                UpdateSelectedPath(value);
-            }
+            get => SelectedPathBindable.Value;
+            set => SelectedPathBindable.Value = value;
         }
         public string CurrentDirectory
         {
-            get => currentDirectory;
-            set => UpdateCurrentDirectory(value);
+            get => CurrentDirectoryBindable.Value;
+            set => CurrentDirectoryBindable.Value = FixDirectoryPath(value);
         }
 
-        protected DrawableItem CurrentSelection
+        public DrawableItem CurrentlySelectedItem
         {
-            get => currentSelection;
-            set
-            {
-                ActionButton.Enabled.Value = AllowInexistentFileNames || (currentSelection = value) != null;
-                ActionButton.Text = currentSelection?.IsDirectory ?? false ? "Open Folder" : FileDialogAction;
-            }
+            get => CurrentSelection.Value;
+            set => CurrentSelection.Value = value;
+        }
+        public int CurrentSelectionIndex
+        {
+            get => itemContainer.CurrentSelectionIndex;
+            set => itemContainer.CurrentSelectionIndex = value;
         }
 
         public event Action<string> OnFileSelected;
@@ -96,7 +101,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                     {
                         new SpriteText
                         {
-                            Text = $"{FileDialogAction} File",
+                            Text = $"{FileDialogActionName} File",
                         },
                         new Container
                         {
@@ -111,7 +116,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                 Height = 30,
                             }
                         },
-                        new Container
+                        new FileDialogActionContainer
                         {
                             RelativeSizeAxes = Axes.Both,
                             Padding = new MarginPadding
@@ -119,47 +124,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                 Top = 70,
                                 Bottom = 40,
                             },
-                            Children = new Drawable[]
+                            Child = itemContainer = new DirectoryItemContainer
                             {
-                                new Container
-                                {
-                                    RelativeSizeAxes = Axes.Both,
-                                    CornerRadius = 5,
-                                    Masking = true,
-                                    Children = new Drawable[]
-                                    {
-                                        new Box
-                                        {
-                                            RelativeSizeAxes = Axes.Both,
-                                            Colour = FromHex("121212"),
-                                        },
-                                        new Container
-                                        {
-                                            RelativeSizeAxes = Axes.Both,
-                                            Padding = new MarginPadding(10),
-                                            Child = scrollContainer = new GDEScrollContainer
-                                            {
-                                                RelativeSizeAxes = Axes.Both,
-                                                Children = new Drawable[]
-                                                {
-                                                    fileContainer = new FadeSearchContainer
-                                                    {
-                                                        RelativeSizeAxes = Axes.X,
-                                                        AutoSizeAxes = Axes.Y,
-                                                        Child = fileFillFlowContainer = new FillFlowContainer
-                                                        {
-                                                            Direction = FillDirection.Vertical,
-                                                            Spacing = new Vector2(0, ItemSpacing),
-                                                            RelativeSizeAxes = Axes.X,
-                                                            AutoSizeAxes = Axes.Y,
-                                                        }
-                                                    },
-                                                }
-                                            },
-                                        },
-                                    }
-                                },
-                            }
+                                RelativeSizeAxes = Axes.Both,
+                            },
                         },
                         new Container
                         {
@@ -202,7 +170,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                     Width = 100,
                                     EnabledColor = FromHex("303030"),
                                     Action = ActionButtonAction,
-                                    Text = FileDialogAction,
+                                    Text = FileDialogActionName,
                                 },
                             }
                         }
@@ -210,143 +178,57 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 }
             });
 
-            CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
+            CurrentSelection.BindTo(itemContainer.CurrentSelection);
+            CurrentDirectoryBindable.BindTo(itemContainer.CurrentDirectoryBindable);
+            SelectedItemBindable.BindTo(itemContainer.SelectedItemBindable);
+
+            CurrentSelection.ValueChanged += HandleCurrentSelectionChanged;
+            CurrentDirectoryBindable.ValueChanged += HandleDirectoryChanged;
+            SelectedItemBindable.ValueChanged += HandleItemChanged;
+            SelectedPathBindable.ValueChanged += HandlePathChanged;
+
+            itemContainer.PerformActionRequested += HandlePerformActionRequested;
 
             filePathBreadcrumbs.BreadcrumbNavigation.BreadcrumbClicked += HandleBreadcrumbClicked;
+
+            CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
         }
 
-        protected override bool OnKeyDown(KeyDownEvent e)
+        public void UpdateActionButtonState()
         {
-            if (CurrentSelection != null)
-            {
-                var index = fileFillFlowContainer.Children.ToList().IndexOf(CurrentSelection);
-                switch (e.Key)
-                {
-                    case Key.Down:
-                        if (index < fileFillFlowContainer.Children.Count - 1)
-                            NavigateTo(index + 1);
-                        break;
-                    case Key.Up:
-                        if (index > 0)
-                            NavigateTo(index - 1);
-                        break;
-                    case Key.PageUp:
-                        NavigateTo(Max(index - GetItemCountPerPage(), 0));
-                        break;
-                    case Key.PageDown:
-                        NavigateTo(Min(index + GetItemCountPerPage(), fileFillFlowContainer.Count - 1));
-                        break;
-                    case Key.Home:
-                        NavigateTo(0);
-                        break;
-                    case Key.End:
-                        NavigateTo(fileFillFlowContainer.Count - 1);
-                        break;
-                    case Key.BackSpace:
-                        NavigateToPreviousDirectory();
-                        break;
-                    case Key.Enter:
-                        PerformAction();
-                        break;
-                }
-            }
-            return base.OnKeyDown(e);
+            ActionButton.Enabled.Value = AllowInexistentFileNames || CurrentlySelectedItem != null;
+            ActionButton.Text = currentSelection?.IsDirectory ?? false ? "Open Folder" : FileDialogActionName;
         }
 
-        private void NavigateToPreviousDirectory()
+        public void HandleItemChanged(ValueChangedEvent<string> value)
         {
-            var dirs = AnalyzePath(CurrentDirectory);
-            if (dirs.Length < 3)
-                return;
-
-            UpdateCurrentDirectory(dirs.SkipLast(2).ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories));
+            search.Text = value.NewValue;
         }
-
-        private void NavigateTo(int index) => UpdateSelectedItem((fileFillFlowContainer.Children[index] as DrawableItem).ItemName);
-
-        private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
-
-        public bool UpdateSelectedItem(string newItem)
+        public void HandlePathChanged(ValueChangedEvent<string> value)
         {
-            selectedItem = search.Text = newItem;
-            if (newItem?.Length > 0)
-            {
-                foreach (DrawableItem item in fileFillFlowContainer)
-                    if (item.ItemName == newItem)
-                    {
-                        scrollContainer.ScrollIntoView(item);
-                        return item.Selected = true;
-                    }
-            }
-            CurrentSelection = null;
-            return false;
+            var replaced = FixPath(value.NewValue);
+            search.Text = replaced;
+            CurrentDirectory = GetDirectoryName(replaced) ?? GetDirectoryRoot(replaced);
         }
-        public bool UpdateSelectedPath(string newPath)
+        public void HandleDirectoryChanged(ValueChangedEvent<string> value)
         {
-            var replaced = newPath.Replace('/', '\\');
-            selectedPath = search.Text = replaced;
-            var dirs = replaced.Split('\\');
-            if (dirs.Length < filePathBreadcrumbs.Items.Count)
-            {
-                var file = dirs.Last();
-                var type = DetermineItemType(replaced);
-                foreach (DrawableItem item in fileFillFlowContainer)
-                    if (item.MatchesNameAndType(file, type))
-                    {
-                        scrollContainer.ScrollIntoView(item);
-                        return item.Selected = true;
-                    }
-            }
-            return false;
-        }
-        public void UpdateCurrentDirectory(string directory)
-        {
-            var previous = currentDirectory;
-            var dir = GetPreviousPathDirectoryInNewPath(previous, directory);
-
-            var replaced = directory.Replace('/', '\\');
-            var dirs = replaced.Split('\\');
-            filePathBreadcrumbs.Items.Clear();
-            filePathBreadcrumbs.Items.AddRange(dirs);
-
-            if (!replaced.EndsWith('\\'))
-                replaced += '\\';
-            currentDirectory = replaced;
-
-            fileFillFlowContainer.Clear();
-            var directories = GetDirectories(directory);
-            var files = GetFiles(directory);
-            foreach (var d in directories)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), ItemType.Directory));
-            foreach (var f in files)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
-
-            UpdateSelectedItem(dir);
+            UpdateBreadcrumbs();
         }
 
         protected virtual void ActionButtonAction() => PerformAction();
 
-        private int GetItemCountPerPage() => (int)(scrollContainer.DrawHeight / (DrawableItem.DefaultHeight + ItemSpacing) + 0.5);
+        private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
 
-        private void HandleSelection(DrawableItem selectedItem)
-        {
-            if (CurrentSelection != null)
-                CurrentSelection.Selected = false;
-            CurrentSelection = selectedItem;
-            UpdateSelectedItem(CurrentSelection.ItemName);
-        }
-        private void HandleClick(DrawableItem clickedItem)
-        {
-            if (!clickedItem.Selected)
-                CurrentSelection = null;
-        }
-        private void HandleDoubleClick(DrawableItem doubleClickedItem) => PerformAction();
+        private void HandleDirectoryChanged() => UpdateBreadcrumbs();
+        private void HandlePerformActionRequested() => PerformAction();
+
+        private void HandleCurrentSelectionChanged(ValueChangedEvent<DrawableItem> obj) => UpdateActionButtonState();
 
         private void PerformAction()
         {
-            if (CurrentSelection.ItemType == ItemType.Directory)
+            if (CurrentlySelectedItem?.ItemType == ItemType.Directory)
                 NavigateToSelectedDirectory();
-            else
+            else if (CurrentlySelectedItem != null)
                 FinalizeSelection();
         }
 
@@ -357,20 +239,29 @@ namespace GDE.App.Main.UI.FileDialogComponents
             ToggleVisibility();
         }
 
-        private string GetCurrentBreadcrumbsDirectory() => $@"{filePathBreadcrumbs.Items.ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories)}";
-        private string GetCurrentSelectedPath() => $@"{GetCurrentBreadcrumbsDirectory()}{CurrentSelection.GetPathSuffix()}";
-
-        private DrawableItem GetNewDrawableItem(string name, ItemType type) => new DrawableItem(name, type)
+        private void UpdateBreadcrumbs()
         {
-            OnSelected = HandleSelection,
-            OnClicked = HandleClick,
-            OnDoubleClicked = HandleDoubleClick,
-        };
+            var dirs = AnalyzePath(CurrentDirectory);
+            filePathBreadcrumbs.Items.Clear();
+            filePathBreadcrumbs.Items.AddRange(dirs);
+        }
+
+        private string GetCurrentBreadcrumbsDirectory() => $@"{filePathBreadcrumbs.Items.ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories)}";
+        private string GetCurrentSelectedPath() => $@"{CurrentDirectory}{CurrentlySelectedItem.GetPathSuffix()}";
+
+        private static string FixPath(string dirPath) => dirPath.Replace('/', '\\');
+        private static string FixDirectoryPath(string dirPath)
+        {
+            var result = FixPath(dirPath);
+            if (!result.EndsWith('\\'))
+                result += '\\';
+            return result;
+        }
 
         private static string AddDirectorySuffix(string name) => $@"{name}\";
         private static string AggregateDirectories(string left, string right) => $@"{left}{right}";
 
-        private static string[] AnalyzePath(string path) => path.Replace('/', '\\').Split('\\');
+        private static string[] AnalyzePath(string path) => FixPath(path).Split('\\');
 
         private static string GetCommonDirectory(string pathA, string pathB)
         {
@@ -389,14 +280,14 @@ namespace GDE.App.Main.UI.FileDialogComponents
             var splitNew = AnalyzePath(newPath);
             if (splitNew.Length >= splitPrevious.Length)
                 return null;
-            var result = new List<string>();
+
             int index = -1;
             while (++index < splitNew.Length)
                 if (splitPrevious[index] != splitNew[index])
                     break;
             return splitPrevious[index];
         }
-        private static string GetIndividualItemName(string path) => path.Replace('/', '\\').Split('\\').Last();
+        private static string GetIndividualItemName(string path) => AnalyzePath(path).Last();
 
         private static ItemType DetermineItemType(string path)
         {

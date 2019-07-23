@@ -174,6 +174,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
             }
             throw new ArgumentException("Invalid item type.");
         }
+
+        public override string ToString() => ItemName;
     }
 
     public enum ItemType
