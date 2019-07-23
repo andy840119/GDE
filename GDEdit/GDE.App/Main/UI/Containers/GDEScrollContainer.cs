@@ -20,10 +20,21 @@ namespace GDE.App.Main.UI.Containers
         /// <summary>Controls the rate with which the target position is approached when performing a relative drag. Default is 0.02.</summary>
         public double DistanceDecayOnRightMouseScrollbar = 0.02;
 
+        // Still does not affect Home and End buttons, only a per-framework level would change that
+        public bool ScrollOnKeyDown { get; set; }
+
         protected override bool IsDragging => base.IsDragging || mouseScrollBarDragging;
 
         public GDEScrollContainer(Direction scrollDirection = Direction.Vertical)
             : base(scrollDirection) { }
+
+        protected override bool OnKeyDown(KeyDownEvent e)
+        {
+            if (!ScrollOnKeyDown)
+                return false;
+
+            return base.OnKeyDown(e);
+        }
 
         protected override bool OnMouseDown(MouseDownEvent e)
         {

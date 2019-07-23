@@ -104,7 +104,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
                                             AutoSizeAxes = Axes.Y,
                                         }
                                     },
-                                }
+                                },
+                                ScrollOnKeyDown = false,
                             },
                         },
                     }
