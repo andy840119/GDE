@@ -29,13 +29,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public const float ItemSpacing = 2.5f;
 
         private GDEBreadcrumbNavigationTextBox filePathBreadcrumbs;
-        private GDEScrollContainer scrollContainer;
-        private FadeSearchContainer fileContainer;
         private TextBox search;
 
         private DirectoryItemContainer itemContainer;
-
-        private DrawableItem currentSelection;
 
         protected abstract bool AllowInexistentFileNames { get; }
         protected virtual string FileDialogActionName { get; set; }
@@ -197,7 +193,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public void UpdateActionButtonState()
         {
             ActionButton.Enabled.Value = AllowInexistentFileNames || CurrentlySelectedItem != null;
-            ActionButton.Text = currentSelection?.IsDirectory ?? false ? "Open Folder" : FileDialogActionName;
+            ActionButton.Text = CurrentlySelectedItem?.IsDirectory ?? false ? "Open Folder" : FileDialogActionName;
         }
 
         public void HandleItemChanged(ValueChangedEvent<string> value)
