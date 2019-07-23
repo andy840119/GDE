@@ -22,11 +22,9 @@ using static System.String;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
-    public class DirectoryItemContainer : Container, IKeyBindingHandler<FileDialogAction>
+    public class DirectoryItemContainer : KeyBindingActionContainer<FileDialogAction>
     {
         public const float ItemSpacing = 2.5f;
-
-        private Dictionary<FileDialogAction, Action> actions;
 
         private int? currentSelectionIndex;
 
@@ -69,9 +67,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
         }
 
         public DirectoryItemContainer()
+            : base()
         {
-            InitializeActionDictionary();
-
             Children = new Drawable[]
             {
                 new Container
@@ -199,10 +196,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private int GetItemCountPerPage() => (int)(DrawHeight / (DrawableItem.DefaultHeight + ItemSpacing) + 0.5);
 
-        private void InitializeActionDictionary()
+        protected override void InitializeActionDictionary()
         {
             // Capacity is greater than the total actions to allow future improvements without *constantly* having to change the constant
-            actions = new Dictionary<FileDialogAction, Action>(20)
+            Actions = new Dictionary<FileDialogAction, Action>(20)
             {
                 { FileDialogAction.NavigateUp, NavigateUp },
                 { FileDialogAction.NavigateDown, NavigateDown },
@@ -214,15 +211,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 { FileDialogAction.PerformAction, PerformAction },
             };
         }
-
-        public bool OnPressed(FileDialogAction action)
-        {
-            bool found = actions.TryGetValue(action, out var del);
-            if (found)
-                del.Invoke();
-            return found;
-        }
-        public bool OnReleased(FileDialogAction action) => true;
 
         private DrawableItem GetNewDrawableItem(string name, ItemType type) => new DrawableItem(name, type)
         {
