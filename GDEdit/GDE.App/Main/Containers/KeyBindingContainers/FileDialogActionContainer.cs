@@ -11,6 +11,8 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
 {
     public class FileDialogActionContainer : KeyBindingContainer<FileDialogAction>
     {
+        protected override bool SendRepeats => true;
+
         public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
         {
             new KeyBinding(InputKey.Up, FileDialogAction.NavigateUp),
