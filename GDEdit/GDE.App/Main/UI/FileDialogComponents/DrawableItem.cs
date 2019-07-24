@@ -118,6 +118,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
             selected.ValueChanged += HandleSelectionChanged;
         }
 
+        public void FlashError() => this.FlashColour(Color4.Red, 500, Easing.OutQuint);
+
         public void ToggleSelection() => selected.Toggle();
 
         public bool MatchesNameAndType(string name, ItemType type) => ItemName == name && ItemType == type;
