@@ -11,7 +11,7 @@ using osu.Framework.Screens;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual.TestCaseEditor
+namespace GDE.Tests.Visual.TestSceneEditor
 {
     public class TestSceneIDMigration : TestScene
     {
