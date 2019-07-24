@@ -182,7 +182,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
         {
             scrollContainer.ScrollIntoView(item);
             item.Selected = true;
-
         }
 
         private void UpdateItemList()
