@@ -35,17 +35,17 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
         NavigateUp,
         [Description("Navigates downwards")]
         NavigateDown,
-        [Description("Cuts the selected ID migration steps to the clipboard")]
+        [Description("Navigates to the first item above the currently visible items in the list")]
         NavigatePageUp,
-        [Description("Copies the selected ID migration steps to the clipboard")]
+        [Description("Navigates to the first item below the currently visible items in the list")]
         NavigatePageDown,
-        [Description("Cuts the selected ID migration steps to the clipboard")]
+        [Description("Navigates to the first item in the list")]
         NavigateToStart,
-        [Description("Copies the selected ID migration steps to the clipboard")]
+        [Description("Navigates to the last item in the list")]
         NavigateToEnd,
-        [Description("Pastes the ID migration steps from the clipboard")]
+        [Description("Navigates to the previous directory")]
         NavigateToPreviousDirectory,
-        [Description("Clones the selected ID migration steps")]
+        [Description("Either finalizes the selection of the file or navigates into the selected directory")]
         PerformAction,
     }
 }
