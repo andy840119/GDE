@@ -4,6 +4,7 @@ using GDE.App.Main.UI;
 using GDE.App.Main.UI.Containers;
 using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application.Editor;
+using GDEdit.Utilities.Enumerations;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
 using osu.Framework.Allocation;

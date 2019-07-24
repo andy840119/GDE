@@ -1,4 +1,5 @@
 ﻿using GDEdit.Application.Editor;
+using GDEdit.Utilities.Enumerations;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osuTK;

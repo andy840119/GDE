@@ -5,6 +5,7 @@ using GDE.App.Main.Screens.Edit.Components.IDMigration;
 using GDE.App.Main.UI;
 using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application.Editor;
+using GDEdit.Utilities.Enumerations;
 using GDEdit.Utilities.Objects.General;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;

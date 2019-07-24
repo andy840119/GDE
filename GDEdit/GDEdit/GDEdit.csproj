@@ -84,6 +84,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialBlockType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialObjectType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\TriggerType.cs" />
+    <Compile Include="Utilities\Enumerations\IDMigrationMode.cs" />
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
     <Compile Include="Utilities\Objects\General\BitArray16.cs" />
     <Compile Include="Utilities\Objects\General\Directional.cs" />
+    <Compile Include="Utilities\Objects\General\IDMigration\IDMigrationInfo.cs" />
+    <Compile Include="Utilities\Objects\General\IDMigration\IDMigrationModeInfo.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\General\BitArray8.cs" />
     <Compile Include="Utilities\Objects\General\SourceTargetRange.cs" />

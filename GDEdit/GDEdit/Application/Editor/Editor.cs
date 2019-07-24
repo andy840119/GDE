@@ -1,6 +1,8 @@
-﻿using GDEdit.Utilities.Enumerations.GeometryDash;
+﻿using GDEdit.Utilities.Enumerations;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.General.IDMigration;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
@@ -9,9 +11,11 @@ using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 using static System.Convert;
 using static System.Math;
 
@@ -511,9 +515,6 @@ namespace GDEdit.Application.Editor
         /// <param name="level">The level to edit.</param>
         public Editor(Level level)
         {
-            // Initialize ID migration stuff
-            CurrentlySelectedIDMigrationSteps = groupRanges;
-
             Level = level;
         }
         #endregion
@@ -1370,22 +1371,33 @@ namespace GDEdit.Application.Editor
         #endregion
 
         #region ID Migration
-        private List<SourceTargetRange> groupRanges = new List<SourceTargetRange>();
-        private List<SourceTargetRange> colorRanges = new List<SourceTargetRange>();
-        private List<SourceTargetRange> itemRanges = new List<SourceTargetRange>();
-        private List<SourceTargetRange> blockRanges = new List<SourceTargetRange>();
+        /// <summary>The ID migration info of this editor instance that will be used when performing ID migration operations.</summary>
+        public readonly IDMigrationInfo IDMigrationInfo = new IDMigrationInfo();
 
-        private IDMigrationMode selectedIDMigrationMode;
+        /// <summary>The steps of the Group ID migration mode.</summary>
+        public List<SourceTargetRange> GroupSteps => GetIDMigrationSteps(IDMigrationMode.Groups);
+        /// <summary>The steps of the Color ID migration mode.</summary>
+        public List<SourceTargetRange> ColorSteps => GetIDMigrationSteps(IDMigrationMode.Colors);
+        /// <summary>The steps of the Item ID migration mode.</summary>
+        public List<SourceTargetRange> ItemSteps => GetIDMigrationSteps(IDMigrationMode.Items);
+        /// <summary>The steps of the Block ID migration mode.</summary>
+        public List<SourceTargetRange> BlockSteps => GetIDMigrationSteps(IDMigrationMode.Blocks);
 
         /// <summary>Gets or sets the currently selected ID migration mode.</summary>
         public IDMigrationMode SelectedIDMigrationMode
         {
-            get => selectedIDMigrationMode;
-            set => CurrentlySelectedIDMigrationSteps = GetIDMigrationSteps(selectedIDMigrationMode = value);
+            get => IDMigrationInfo.SelectedIDMigrationMode;
+            set => IDMigrationInfo.SelectedIDMigrationMode = value;
         }
 
-        /// <summary>Gets the currently selected ID migration steps.</summary>
-        public List<SourceTargetRange> CurrentlySelectedIDMigrationSteps { get; private set; }
+        /// <summary>Gets the currently selected mode's <seealso cref="IDMigrationModeInfo"/> object.</summary>
+        public IDMigrationModeInfo CurrentlySelectedIDMigrationModeInfo => IDMigrationInfo.CurrentlySelectedIDMigrationModeInfo;
+        /// <summary>Gets or sets the currently selected ID migration steps.</summary>
+        public List<SourceTargetRange> CurrentlySelectedIDMigrationSteps
+        {
+            get => IDMigrationInfo.CurrentlySelectedIDMigrationSteps;
+            set => IDMigrationInfo.CurrentlySelectedIDMigrationSteps = value;
+        }
 
         /// <summary>Performs the ID migration for the currently selected mode.</summary>
         public void PerformMigration()
@@ -1408,47 +1420,48 @@ namespace GDEdit.Application.Editor
                     throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
             }
         }
+        /// <summary>Gets the <seealso cref="IDMigrationModeInfo"/> object for a specified mode.</summary>
+        /// <param name="mode">The mode to get the <seealso cref="IDMigrationModeInfo"/> object for.</param>
+        public IDMigrationModeInfo GetIDMigrationModeInfo(IDMigrationMode mode) => IDMigrationInfo[mode];
         /// <summary>Gets the ID migration steps for a specified mode.</summary>
         /// <param name="mode">The mode to get the steps for.</param>
-        public List<SourceTargetRange> GetIDMigrationSteps(IDMigrationMode mode)
-        {
-            switch (mode)
-            {
-                case IDMigrationMode.Groups:
-                    return groupRanges;
-                case IDMigrationMode.Colors:
-                    return colorRanges;
-                case IDMigrationMode.Items:
-                    return itemRanges;
-                case IDMigrationMode.Blocks:
-                    return blockRanges;
-                default:
-                    throw new InvalidOperationException("My disappointment is immeasurable and my day is ruined.");
-            }
-        }
+        public List<SourceTargetRange> GetIDMigrationSteps(IDMigrationMode mode) => IDMigrationInfo[mode].Steps;
 
         /// <summary>Adds a new ID migration step to the currently selected mode's ranges.</summary>
         /// <param name="range">The ID migration step to add to the currently selected ID migration.</param>
-        public void AddIDMigrationStep(SourceTargetRange range) => CurrentlySelectedIDMigrationSteps.Add(range);
+        public void AddIDMigrationStep(SourceTargetRange range) => IDMigrationInfo.AddIDMigrationStep(range);
         /// <summary>Adds a range of new ID migration steps to the currently selected mode's ranges.</summary>
         /// <param name="ranges">The ID migration steps to add to the currently selected ID migration.</param>
-        public void AddIDMigrationSteps(List<SourceTargetRange> ranges) => CurrentlySelectedIDMigrationSteps.AddRange(ranges);
+        public void AddIDMigrationSteps(List<SourceTargetRange> ranges) => IDMigrationInfo.AddIDMigrationSteps(ranges);
         /// <summary>Removes a new ID migration step from the currently selected mode's ranges.</summary>
         /// <param name="range">The ID migration step to remove from the currently selected ID migration.</param>
-        public void RemoveIDMigrationStep(SourceTargetRange range) => CurrentlySelectedIDMigrationSteps.Remove(range);
+        public void RemoveIDMigrationStep(SourceTargetRange range) => IDMigrationInfo.RemoveIDMigrationStep(range);
         /// <summary>Removes a range of new ID migration steps from the currently selected mode's ranges.</summary>
         /// <param name="ranges">The ID migration steps to remove from the currently selected ID migration.</param>
-        public void RemoveIDMigrationSteps(List<SourceTargetRange> ranges)
-        {
-            foreach (var r in ranges)
-                CurrentlySelectedIDMigrationSteps.Remove(r);
-        }
+        public void RemoveIDMigrationSteps(List<SourceTargetRange> ranges) => IDMigrationInfo.RemoveIDMigrationSteps(ranges);
         // TODO: Add cloning method
+
+        /// <summary>Saves the current ID migration steps to the associated file, if not <see langword="null"/>.</summary>
+        public void SaveCurrentIDMigrationSteps()
+        {
+            if (CurrentlySelectedIDMigrationModeInfo.FileName != null)
+                SaveCurrentIDMigrationSteps(CurrentlySelectedIDMigrationModeInfo.FileName);
+        }
+        /// <summary>Saves the current ID migration steps to a specified file.</summary>
+        /// <param name="fileName">The name of the file to save the current ID migration steps.</param>
+        public void SaveCurrentIDMigrationSteps(string fileName) => SaveIDMigrationSteps(fileName, CurrentlySelectedIDMigrationSteps);
+        /// <summary>Saves the specified ID migration steps to a specified file.</summary>
+        /// <param name="fileName">The name of the file to save the specified ID migration steps.</param>
+        /// <param name="steps">The steps to save.</param>
+        public void SaveIDMigrationSteps(string fileName, List<SourceTargetRange> steps) => File.WriteAllLines(fileName, ConvertRangesToStringArray(steps));
+        /// <summary>Loads the ID migration steps from a specified file and replaces the currently selected ID migration steps with the loaded ones.</summary>
+        /// <param name="fileName">The name of the file to load the ID migration steps from.</param>
+        public void LoadIDMigrationSteps(string fileName) => CurrentlySelectedIDMigrationSteps = LoadRangesFromStringArray(File.ReadAllLines(fileName));
 
         // This was copied from a private feature code of EffectSome
         // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions
         /// <summary>Performs a group ID migration with the currently loaded ID migration steps for the group mode.</summary>
-        public void PerformGroupIDMigration() => PerformBlockIDMigration(groupRanges);
+        public void PerformGroupIDMigration() => PerformBlockIDMigration(GroupSteps);
         /// <summary>Performs a group ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the group ID migration.</param>
         public void PerformGroupIDMigration(List<SourceTargetRange> ranges)
@@ -1458,7 +1471,7 @@ namespace GDEdit.Application.Editor
                     AdjustGroups(Level.LevelObjects[i], r);
         }
         /// <summary>Performs a color ID migration with the currently loaded ID migration steps for the color mode.</summary>
-        public void PerformColorIDMigration() => PerformBlockIDMigration(colorRanges);
+        public void PerformColorIDMigration() => PerformBlockIDMigration(ColorSteps);
         /// <summary>Performs a color ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the color ID migration.</param>
         public void PerformColorIDMigration(List<SourceTargetRange> ranges)
@@ -1468,7 +1481,7 @@ namespace GDEdit.Application.Editor
                     AdjustColors(Level.LevelObjects[i], r);
         }
         /// <summary>Performs an item ID migration with the currently loaded ID migration steps for the item mode.</summary>
-        public void PerformItemIDMigration() => PerformBlockIDMigration(itemRanges);
+        public void PerformItemIDMigration() => PerformBlockIDMigration(ItemSteps);
         /// <summary>Performs an item ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the item ID migration.</param>
         public void PerformItemIDMigration(List<SourceTargetRange> ranges)
@@ -1478,7 +1491,7 @@ namespace GDEdit.Application.Editor
                     AdjustItems(Level.LevelObjects[i], r);
         }
         /// <summary>Performs a block ID migration with the currently loaded ID migration steps for the block mode.</summary>
-        public void PerformBlockIDMigration() => PerformBlockIDMigration(blockRanges);
+        public void PerformBlockIDMigration() => PerformBlockIDMigration(BlockSteps);
         /// <summary>Performs a block ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the block ID migration.</param>
         public void PerformBlockIDMigration(List<SourceTargetRange> ranges)
@@ -1487,6 +1500,8 @@ namespace GDEdit.Application.Editor
                 for (int i = 0; i < Level.LevelObjects.Count; i++)
                     AdjustBlocks(Level.LevelObjects[i], r);
         }
+
+        // Perhaps experiment with creating a class that performs the adjustment using appropriate interfaces
 
         private void AdjustGroups(GeneralObject o, SourceTargetRange r)
         {
@@ -1498,10 +1513,10 @@ namespace GDEdit.Application.Editor
                     if (r.IsWithinSourceRange(groups[g]))
                         o.AdjustGroupID(g, d);
 
-            if (o is IHasSecondaryGroupID s && r.IsWithinSourceRange(s.SecondaryGroupID))
-                s.SecondaryGroupID += d;
             if (o is IHasTargetGroupID t && r.IsWithinSourceRange(t.TargetGroupID))
                 t.TargetGroupID += d;
+            if (o is IHasSecondaryGroupID s && r.IsWithinSourceRange(s.SecondaryGroupID))
+                s.SecondaryGroupID += d;
         }
         private void AdjustColors(GeneralObject o, SourceTargetRange r)
         {
@@ -1731,14 +1746,6 @@ namespace GDEdit.Application.Editor
             /// <summary>Clears the action list.</summary>
             public void Clear() => actions.Clear();
         }
-    }
-
-    public enum IDMigrationMode
-    {
-        Groups,
-        Colors,
-        Items,
-        Blocks,
     }
 
     #region Delegates

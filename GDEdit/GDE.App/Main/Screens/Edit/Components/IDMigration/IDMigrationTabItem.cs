@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Colors;
 using GDEdit.Application.Editor;
+using GDEdit.Utilities.Enumerations;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;

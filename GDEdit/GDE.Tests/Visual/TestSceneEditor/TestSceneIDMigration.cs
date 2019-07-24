@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDE.App.Main.Screens.Edit;
 using GDE.App.Main.Screens.Edit.Components;
 using GDEdit.Application.Editor;
+using GDEdit.Utilities.Enumerations;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Graphics;
