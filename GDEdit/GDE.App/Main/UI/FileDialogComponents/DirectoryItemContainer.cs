@@ -132,7 +132,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
             CurrentDirectory = dirs.SkipLast(2).ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories);
         }
-        public void NavigateTo(int index) => CurrentSelectionIndex = Clamp(index, 0, fileFillFlowContainer.Count - 1);
+        public void NavigateTo(int index)
+        {
+            if (fileFillFlowContainer.Count > 0)
+                CurrentSelectionIndex = Clamp(index, 0, fileFillFlowContainer.Count - 1);
+        }
 
         public void HandleSelectionChanged(ValueChangedEvent<DrawableItem> value)
         {
