@@ -47,7 +47,8 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
             Anchor = Anchor.CentreLeft;
             Origin = Anchor.CentreLeft;
 
-            Size = new Vector2(80, 50);
+            // Set this to (80, 50) once the Y positioning of the tab items works
+            Size = new Vector2(80, 23);
 
             CornerRadius = 10;
             Masking = true;
@@ -61,7 +62,8 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
                 },
                 new SpriteText
                 {
-                    Margin = new MarginPadding { Top = 5 },
+                    // Set this to Top = 3 once Y positioning of the tab items works
+                    Margin = new MarginPadding { Top = 1 },
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                     Font = new FontUsage(size: 20),
