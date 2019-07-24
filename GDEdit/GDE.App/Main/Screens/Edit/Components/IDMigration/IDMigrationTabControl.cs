@@ -30,7 +30,7 @@ namespace GDE.App.Main.Screens.Edit.Components.IDMigration
                 };
                 tabItems[i].TabSelected += HandleTabSelected;
             }
-            (currentTab = this[IDMigrationMode.Groups]).Selected = true;
+            SelectIDMigrationMode(IDMigrationMode.Groups);
 
             RelativeSizeAxes = Axes.X;
             Height = DefaultHeight;
