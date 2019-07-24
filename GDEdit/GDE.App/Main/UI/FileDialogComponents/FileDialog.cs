@@ -13,6 +13,7 @@ using osuTK;
 using osuTK.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using static GDE.App.Main.Colors.GDEColors;
 using static System.Environment;
@@ -42,8 +43,33 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public readonly Bindable<DrawableItem> CurrentSelection = new Bindable<DrawableItem>();
 
         public readonly Bindable<string> SelectedItemBindable = new Bindable<string>();
-        public readonly Bindable<string> SelectedPathBindable = new Bindable<string>("");
         public readonly Bindable<string> CurrentDirectoryBindable = new Bindable<string>("");
+
+        public bool IsSelectedPathValid
+        {
+            get
+            {
+                if (SelectedPath == null)
+                    return false;
+                if (File.Exists(SelectedPath))
+                    return true;
+
+                // This is hacky as fuck, but the only solution that was quick enough to come up with
+                // And mind you, I'm not planning on staying awake any further
+                try
+                {
+                    File.Create(SelectedPath).Close();
+                    File.Delete(SelectedPath);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool CanFinalizeSelection => (AllowInexistentFileNames && IsSelectedPathValid) || CurrentlySelectedItem != null;
 
         public string SelectedItem
         {
@@ -52,8 +78,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
         }
         public string SelectedPath
         {
-            get => SelectedPathBindable.Value;
-            set => SelectedPathBindable.Value = value;
+            get => GetCurrentSelectedPath();
+            set => UpdatePath(value);
         }
         public string CurrentDirectory
         {
@@ -174,6 +200,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 }
             });
 
+            ActionButton.Enabled.Value = false;
+
             CurrentSelection.BindTo(itemContainer.CurrentSelection);
             CurrentDirectoryBindable.BindTo(itemContainer.CurrentDirectoryBindable);
             SelectedItemBindable.BindTo(itemContainer.SelectedItemBindable);
@@ -181,30 +209,32 @@ namespace GDE.App.Main.UI.FileDialogComponents
             CurrentSelection.ValueChanged += HandleCurrentSelectionChanged;
             CurrentDirectoryBindable.ValueChanged += HandleDirectoryChanged;
             SelectedItemBindable.ValueChanged += HandleItemChanged;
-            SelectedPathBindable.ValueChanged += HandlePathChanged;
 
             itemContainer.PerformActionRequested += HandlePerformActionRequested;
 
-            filePathBreadcrumbs.BreadcrumbNavigation.BreadcrumbClicked += HandleBreadcrumbClicked;
+            filePathBreadcrumbs.OnTextChanged += HandleBreadcrumbsUpdated;
+            filePathBreadcrumbs.BreadcrumbNavigation.BreadcrumbClicked += HandleBreadcrumbsUpdated;
 
             CurrentDirectory = defaultDirectory ?? GetFolderPath(MyDocuments);
         }
 
         public void UpdateActionButtonState()
         {
-            ActionButton.Enabled.Value = AllowInexistentFileNames || CurrentlySelectedItem != null;
+            ActionButton.Enabled.Value = CanFinalizeSelection;
             ActionButton.Text = CurrentlySelectedItem?.IsDirectory ?? false ? "Open Folder" : FileDialogActionName;
+        }
+
+        public void UpdatePath(string newPath)
+        {
+            var replaced = FixPath(newPath);
+            search.Text = replaced;
+            CurrentDirectory = GetDirectoryName(replaced) ?? GetDirectoryRoot(replaced);
         }
 
         public void HandleItemChanged(ValueChangedEvent<string> value)
         {
             search.Text = value.NewValue;
-        }
-        public void HandlePathChanged(ValueChangedEvent<string> value)
-        {
-            var replaced = FixPath(value.NewValue);
-            search.Text = replaced;
-            CurrentDirectory = GetDirectoryName(replaced) ?? GetDirectoryRoot(replaced);
+            UpdateActionButtonState();
         }
         public void HandleDirectoryChanged(ValueChangedEvent<string> value)
         {
@@ -213,7 +243,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         protected virtual void ActionButtonAction() => PerformAction();
 
-        private void HandleBreadcrumbClicked(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
+        private void HandleBreadcrumbsUpdated(string dir) => CurrentDirectory = GetCurrentBreadcrumbsDirectory();
 
         private void HandleDirectoryChanged() => UpdateBreadcrumbs();
         private void HandlePerformActionRequested() => PerformAction();
@@ -224,7 +254,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         {
             if (CurrentlySelectedItem?.ItemType == ItemType.Directory)
                 NavigateToSelectedDirectory();
-            else if (CurrentlySelectedItem != null)
+            else if (CanFinalizeSelection)
                 FinalizeSelection();
         }
 
@@ -243,7 +273,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         }
 
         private string GetCurrentBreadcrumbsDirectory() => $@"{filePathBreadcrumbs.Items.ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories)}";
-        private string GetCurrentSelectedPath() => $@"{CurrentDirectory}{CurrentlySelectedItem.GetPathSuffix()}";
+        private string GetCurrentSelectedPath() => $@"{CurrentDirectory}{CurrentlySelectedItem?.GetPathSuffix() ?? SelectedItem}";
 
         private static string FixPath(string dirPath) => dirPath.Replace('/', '\\');
         private static string FixDirectoryPath(string dirPath)

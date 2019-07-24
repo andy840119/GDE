@@ -43,10 +43,8 @@ namespace GDE.App.Main.UI
 
             TextContainer.Colour = BlackTransparent;
 
-            Current.ValueChanged += HandleTextChanged;
             OnCommit += HandleOnCommit;
         }
-
 
         private void HandleOnCommit(TextBox sender, bool newValue)
         {
@@ -69,19 +67,13 @@ namespace GDE.App.Main.UI
             base.OnFocusLost(e);
         }
 
-        private void HandleTextChanged(ValueChangedEvent<string> value)
-        {
-            if (!HasFocus)
-                UpdateBreadcrumbs();
-        }
-
         private void UpdateBreadcrumbs()
         {
             if (AllowChange?.Invoke(Text) ?? true)
             {
-                OnTextChanged?.Invoke(Text);
                 BreadcrumbNavigation.Items.Clear();
                 BreadcrumbNavigation.Items.AddRange(Text.Split(Separator).ToList());
+                OnTextChanged?.Invoke(Text);
             }
             Text = "";
         }

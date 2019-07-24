@@ -27,6 +27,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public const float ItemSpacing = 2.5f;
 
         private int? currentSelectionIndex;
+        private string currentlyLoadedDirectory;
 
         private GDEScrollContainer scrollContainer;
         private FadeSearchContainer fileContainer;
@@ -138,46 +139,69 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (value.OldValue != null)
                 value.OldValue.Selected = false;
             if (value.NewValue != null)
-                value.NewValue.Selected = true;
+                SelectItem(value.NewValue);
             SelectedItem = value.NewValue?.ItemName;
         }
         public void HandleItemChanged(ValueChangedEvent<string> value)
         {
             var newItem = value.NewValue;
 
-            if (CurrentlySelectedItem != null && fileFillFlowContainer.Contains(CurrentlySelectedItem) && CurrentlySelectedItem.ItemName != newItem && CurrentlySelectedItem.Selected)
+            if (CurrentlySelectedItem != null && fileFillFlowContainer.Contains(CurrentlySelectedItem) && CurrentlySelectedItem.ItemName == newItem && CurrentlySelectedItem.Selected)
                 return;
+
+            currentSelectionIndex = null;
 
             if (newItem?.Length > 0)
             {
                 if (fileFillFlowContainer.Children.ToList().Find(MatchesItem) is DrawableItem item)
                 {
-                    scrollContainer.ScrollIntoView(item);
-                    item.Selected = true;
+                    SelectItem(item);
+                    return;
                 }
             }
-            else
-                CurrentlySelectedItem = null;
 
-            currentSelectionIndex = null;
+            CurrentlySelectedItem = null;
 
             bool MatchesItem(Drawable item) => (item as DrawableItem)?.ItemName == newItem;
         }
         public void HandleDirectoryChanged(ValueChangedEvent<string> value)
         {
-            UpdateItemList();
-            SelectedItem = GetPreviousPathDirectoryInNewPath(value.OldValue, value.NewValue);
+            try
+            {
+                UpdateItemList();
+                SelectedItem = GetPreviousPathDirectoryInNewPath(value.OldValue, value.NewValue);
+            }
+            catch
+            {
+                CurrentDirectory = value.OldValue; // Reset if something goes wrong
+                CurrentlySelectedItem.FlashError();
+            }
+        }
+
+        private void SelectItem(DrawableItem item)
+        {
+            scrollContainer.ScrollIntoView(item);
+            item.Selected = true;
+
         }
 
         private void UpdateItemList()
         {
-            fileFillFlowContainer.Clear();
+            // Mainly to prevent reloading the currently displayed items if the directory is reset on exception
+            if (currentlyLoadedDirectory == CurrentDirectory)
+                return;
+
             var directories = GetDirectories(CurrentDirectory);
             var files = GetFiles(CurrentDirectory);
+
+            fileFillFlowContainer.Clear();
+
             foreach (var d in directories)
                 fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), ItemType.Directory));
             foreach (var f in files)
                 fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
+
+            currentlyLoadedDirectory = CurrentDirectory;
         }
 
         private void HandleSelection(DrawableItem selectedItem)
