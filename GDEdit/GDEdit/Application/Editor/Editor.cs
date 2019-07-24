@@ -1441,15 +1441,23 @@ namespace GDEdit.Application.Editor
         public void RemoveIDMigrationSteps(List<SourceTargetRange> ranges) => IDMigrationInfo.RemoveIDMigrationSteps(ranges);
         // TODO: Add cloning method
 
-        /// <summary>Saves the current ID migration steps to the associated file, if not <see langword="null"/>.</summary>
-        public void SaveCurrentIDMigrationSteps()
+        /// <summary>Saves the current ID migration steps to the associated file, if not <see langword="null"/> and returns whether the steps were saved.</summary>
+        public bool SaveCurrentIDMigrationSteps()
         {
-            if (CurrentlySelectedIDMigrationModeInfo.FileName != null)
-                SaveCurrentIDMigrationSteps(CurrentlySelectedIDMigrationModeInfo.FileName);
+            bool hasAssociatedFile = CurrentlySelectedIDMigrationModeInfo.FileName != null;
+            if (hasAssociatedFile)
+                SaveCurrentIDMigrationSteps(CurrentlySelectedIDMigrationModeInfo.FileName, false);
+            return hasAssociatedFile;
         }
         /// <summary>Saves the current ID migration steps to a specified file.</summary>
         /// <param name="fileName">The name of the file to save the current ID migration steps.</param>
-        public void SaveCurrentIDMigrationSteps(string fileName) => SaveIDMigrationSteps(fileName, CurrentlySelectedIDMigrationSteps);
+        /// <param name="associateFile">Determines whether the file name will be associated with the currently selected ID migration steps.</param>
+        public void SaveCurrentIDMigrationSteps(string fileName, bool associateFile = true)
+        {
+            SaveIDMigrationSteps(fileName, CurrentlySelectedIDMigrationSteps);
+            if (associateFile)
+                CurrentlySelectedIDMigrationModeInfo.FileName = fileName;
+        }
         /// <summary>Saves the specified ID migration steps to a specified file.</summary>
         /// <param name="fileName">The name of the file to save the specified ID migration steps.</param>
         /// <param name="steps">The steps to save.</param>

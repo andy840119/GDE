@@ -184,13 +184,14 @@ namespace GDE.App.Main.Screens.Edit
                                         Width = 160,
                                         Children = new Drawable[]
                                         {
-                                            performAction = GetNewFadeButton(15, "Perform Action", greenEnabledColor, Editor.PerformMigration),
+                                            performAction = GetNewFadeButton(8, "Perform Action", greenEnabledColor, Editor.PerformMigration),
                                             removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, CurrentStepList.RemoveSelectedSteps),
                                             cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
                                             deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
                                             selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
-                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, LoadSteps),
-                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, SaveSteps),
+                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, CurrentStepList.LoadSteps),
+                                            saveSteps = GetNewFadeButton(0, "Save Steps As", grayEnabledColor, CurrentStepList.SaveStepsAs),
+                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
                                             createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
                                     },
@@ -275,16 +276,6 @@ namespace GDE.App.Main.Screens.Edit
         private void HandleStepSelected(IDMigrationStepCard card) => UpdateFadeButtonEnabledStates();
         private void HandleStepDeselected(IDMigrationStepCard card) => UpdateFadeButtonEnabledStates();
         private void HandleSelectionChanged() => UpdateFadeButtonEnabledStates();
-
-        private void SaveSteps()
-        {
-            // TODO: Implement ability to simply save to the currently selected file path, if any (should be primarily handled in the editor)
-            currentStepList.SaveSteps();
-        }
-        private void LoadSteps()
-        {
-            currentStepList.LoadSteps();
-        }
 
         private void CreateNewStep()
         {

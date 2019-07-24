@@ -258,7 +258,12 @@ namespace GDE.App.Main.Screens.Edit.Components
             OnSelectionChanged();
         }
         public void LoadSteps() => OpenDialog(OpenFileDialogBindable, OnLoadFile);
-        public void SaveSteps() => OpenDialog(SaveFileDialogBindable, OnSaveFile);
+        public void SaveSteps()
+        {
+            if (!editor.SaveCurrentIDMigrationSteps())
+                SaveStepsAs();
+        }
+        public void SaveStepsAs() => OpenDialog(SaveFileDialogBindable, OnSaveFile);
         public void SelectAll() => SelectAll(true);
         public void SelectAll(bool triggerEvent = true)
         {
@@ -336,17 +341,19 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private void OnSaveFile(string fileName)
         {
-            File.WriteAllLines(fileName, ConvertRangesToStringArray(TabRanges));
+            editor.SaveCurrentIDMigrationSteps(fileName);
         }
         private void OnLoadFile(string fileName)
         {
-            var lines = File.ReadAllLines(fileName);
-            var ranges = LoadRangesFromStringArray(lines);
+            editor.LoadIDMigrationSteps(fileName);
+            var steps = editor.CurrentlySelectedIDMigrationSteps;
+
+            // Update steps after loading them
             RemoveAllSteps();
-            foreach (var r in ranges)
+            foreach (var s in steps)
             {
                 var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
-                AddStep(r);
+                AddStep(s);
                 AddSelectedStep(newIndex);
                 Cards[newIndex].Select();
             }
