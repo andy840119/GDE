@@ -18,8 +18,9 @@ namespace GDE.Tests.Visual.TestCaseEditor
 
         public TestSceneIDMigration()
         {
-            var editor = new Editor(new Level());
-            var panel = new IDMigrationPanel(editor);
+            var screen = new EditorScreen(0, new Level());
+            var editor = screen.Editor;
+            var panel = new IDMigrationPanel(screen);
 
             Add(panel);
 

@@ -3,6 +3,7 @@ using GDE.App.Main.Panels;
 using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.Screens.Edit.Components.IDMigration;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.General;
 using osu.Framework.Bindables;
@@ -44,13 +45,17 @@ namespace GDE.App.Main.Screens.Edit
         private IDMigrationStepList[] stepLists = new IDMigrationStepList[4];
         private IDMigrationStepList currentStepList;
 
-        private Editor editor;
+        private EditorScreen editorScreen;
+
+        public Editor Editor => editorScreen.Editor;
 
         public readonly IDMigrationTabControl TabControl;
-        public Action OpenFileDialog;
 
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
+
+        public Bindable<OpenFileDialog> OpenFileDialogBindable => editorScreen.OpenFileDialogBindable;
+        public Bindable<SaveFileDialog> SaveFileDialogBindable => editorScreen.SaveFileDialogBindable;
 
         public IDMigrationStepList CurrentStepList
         {
@@ -63,6 +68,8 @@ namespace GDE.App.Main.Screens.Edit
                 previous.StepSelected = null;
                 previous.StepDeselected = null;
                 previous.SelectionChanged = null;
+
+                UnbindFileDialogBindables(previous);
                 
                 stepListContainer.Add(currentStepList = value);
 
@@ -72,21 +79,23 @@ namespace GDE.App.Main.Screens.Edit
                 currentStepList.StepDeselected = HandleStepDeselected;
                 currentStepList.SelectionChanged = HandleSelectionChanged;
 
+                UpdateFileDialogBindables(currentStepList);
+
                 CommonIDMigrationStep.UnbindAll();
                 CommonIDMigrationStep.BindTo(currentStepList.CommonIDMigrationStep);
                 CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
                 CommonIDMigrationStep.TriggerChange();
 
-                editor.SelectedIDMigrationMode = currentStepList.IDMigrationMode;
+                Editor.SelectedIDMigrationMode = currentStepList.IDMigrationMode;
 
                 // Since the step list has been changed, technically the selection has changed too; so triggering this is not as hacky as it seems
                 HandleSelectionChanged();
             }
         }
 
-        public IDMigrationPanel(Editor e)
+        public IDMigrationPanel(EditorScreen e)
         {
-            editor = e;
+            editorScreen = e;
 
             Size = new Vector2(700, 650);
             Anchor = Anchor.Centre;
@@ -95,7 +104,7 @@ namespace GDE.App.Main.Screens.Edit
             Masking = true;
 
             for (int i = 0; i < 4; i++)
-                stepLists[i] = GetNewStepList(editor, (IDMigrationMode)i);
+                stepLists[i] = GetNewStepList(Editor, (IDMigrationMode)i);
 
             AddInternal(new Container
             {
@@ -174,17 +183,13 @@ namespace GDE.App.Main.Screens.Edit
                                         Width = 160,
                                         Children = new Drawable[]
                                         {
-                                            performAction = GetNewFadeButton(15, "Perform Action", greenEnabledColor, editor.PerformMigration),
+                                            performAction = GetNewFadeButton(15, "Perform Action", greenEnabledColor, Editor.PerformMigration),
                                             removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, CurrentStepList.RemoveSelectedSteps),
                                             cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
                                             deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
                                             selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
-                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, () =>
-                                            {
-                                                OpenFileDialog?.Invoke();
-                                                currentStepList.LoadSteps();
-                                            }),
-                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
+                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, LoadSteps),
+                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, SaveSteps),
                                             createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
                                     },
@@ -204,7 +209,8 @@ namespace GDE.App.Main.Screens.Edit
 
             CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
 
-            CurrentStepList = currentStepList; // After everything's loaded, initialize the property for things to work properly
+            // After everything's loaded, initialize the property for things to work properly
+            UpdateFileDialogBindables(CurrentStepList = currentStepList);
 
             UpdateFadeButtonEnabledStates();
         }
@@ -269,10 +275,31 @@ namespace GDE.App.Main.Screens.Edit
         private void HandleStepDeselected(IDMigrationStepCard card) => UpdateFadeButtonEnabledStates();
         private void HandleSelectionChanged() => UpdateFadeButtonEnabledStates();
 
+        private void SaveSteps()
+        {
+            // TODO: Implement ability to simply save to the currently selected file path, if any (should be primarily handled in the editor)
+            currentStepList.SaveSteps();
+        }
+        private void LoadSteps()
+        {
+            currentStepList.LoadSteps();
+        }
+
         private void CreateNewStep()
         {
             CurrentStepList.CreateNewStep();
             performAction.Enabled.Value = true;
+        }
+
+        private void UpdateFileDialogBindables(IDMigrationStepList stepList)
+        {
+            stepList.OpenFileDialogBindable.BindTo(OpenFileDialogBindable);
+            stepList.SaveFileDialogBindable.BindTo(SaveFileDialogBindable);
+        }
+        private void UnbindFileDialogBindables(IDMigrationStepList stepList)
+        {
+            stepList.OpenFileDialogBindable.UnbindAll();
+            stepList.SaveFileDialogBindable.UnbindAll();
         }
 
         private void UpdateFadeButtonEnabledStates()
@@ -280,7 +307,7 @@ namespace GDE.App.Main.Screens.Edit
             deselectAll.Enabled.Value = CurrentStepList.SelectedSteps.Count > 0;
             removeSteps.Enabled.Value = CurrentStepList.SelectedSteps.Count > 0;
             cloneSteps.Enabled.Value = CurrentStepList.SelectedSteps.Count > 0;
-            performAction.Enabled.Value = editor.CurrentlySelectedIDMigrationSteps.Count > 0;
+            performAction.Enabled.Value = Editor.CurrentlySelectedIDMigrationSteps.Count > 0;
         }
 
         private void UpdateTextBoxes(SourceTargetRange range)

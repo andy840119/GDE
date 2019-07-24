@@ -11,6 +11,7 @@ using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -34,13 +35,16 @@ namespace GDE.App.Main.Screens.Edit
         private LevelPreview preview;
         private Level level => database.UserLevels[i];
 
-        private Editor editor;
         private Grid grid;
         private Camera camera;
         private EditorTools tools;
 
         private IDMigrationPanel IDMigrationPanel;
-        private FileDialog dialog;
+
+        public readonly Bindable<OpenFileDialog> OpenFileDialogBindable = new Bindable<OpenFileDialog>();
+        public readonly Bindable<SaveFileDialog> SaveFileDialogBindable = new Bindable<SaveFileDialog>();
+
+        public readonly Editor Editor;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -101,10 +105,10 @@ namespace GDE.App.Main.Screens.Edit
         {
             RelativeSizeAxes = Axes.Both;
 
-            editor = new Editor(level);
+            Editor = new Editor(level);
             // TODO: Inject editor into dependencies to work with the other things
 
-            RPC.UpdatePresence(editor.Level.Name, "Editing a level", new Assets
+            RPC.UpdatePresence(Editor.Level.Name, "Editing a level", new Assets
             {
                 LargeImageKey = "gde",
                 LargeImageText = "GD Edit"
@@ -122,7 +126,7 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                camera = new Camera(editor)
+                camera = new Camera(Editor)
                 {
                     RelativeSizeAxes = Axes.Both,
                     Anchor = Anchor.Centre,
@@ -148,7 +152,7 @@ namespace GDE.App.Main.Screens.Edit
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
                 },
-                dialog = new OpenFileDialog
+                OpenFileDialogBindable.Value = new OpenFileDialog
                 {
                     RelativeSizeAxes = Axes.Both,
                     Size = new Vector2(0.8f),
@@ -156,12 +160,19 @@ namespace GDE.App.Main.Screens.Edit
                     Origin = Anchor.Centre,
                     Depth = -10
                 },
-                IDMigrationPanel = new IDMigrationPanel(editor)
+                SaveFileDialogBindable.Value = new SaveFileDialog
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Size = new Vector2(0.8f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    Depth = -10
+                },
+                IDMigrationPanel = new IDMigrationPanel(this)
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     LockDrag = true,
-                    OpenFileDialog = dialog.ToggleVisibility
                 },
             });
         }
@@ -171,7 +182,7 @@ namespace GDE.App.Main.Screens.Edit
             if (tools.AbleToPlaceBlock.Value)
             {
                 var cloned = camera.GetClonedGhostObjectLevelObject();
-                editor.AddObject(cloned);
+                Editor.AddObject(cloned);
                 preview.Add(new ObjectBase(cloned));
                 return true;
             }
@@ -194,6 +205,6 @@ namespace GDE.App.Main.Screens.Edit
             Save();
             this.Exit();
         }
-        private void Save() => editor.Save(database, i);
+        private void Save() => Editor.Save(database, i);
     }
 }

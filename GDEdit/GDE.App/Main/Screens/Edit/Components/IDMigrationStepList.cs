@@ -54,6 +54,9 @@ namespace GDE.App.Main.Screens.Edit.Components
         /// <summary>The common <seealso cref="SourceTargetRange"/> of the currently selected ID migration steps.</summary>
         public readonly Bindable<SourceTargetRange> CommonIDMigrationStep = new Bindable<SourceTargetRange>();
 
+        public readonly Bindable<OpenFileDialog> OpenFileDialogBindable = new Bindable<OpenFileDialog>();
+        public readonly Bindable<SaveFileDialog> SaveFileDialogBindable = new Bindable<SaveFileDialog>();
+
         /// <summary>The action to invoke when a step has been selected.</summary>
         public Action<IDMigrationStepCard> StepSelected;
         /// <summary>The action to invoke when a step has been deselected.</summary>
@@ -253,8 +256,8 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
             OnSelectionChanged();
         }
-        public void LoadSteps() => OpenDialog<OpenFileDialog>(OnLoadFile);
-        public void SaveSteps() => OpenDialog<SaveFileDialog>(OnSaveFile);
+        public void LoadSteps() => OpenDialog(OpenFileDialogBindable, OnLoadFile);
+        public void SaveSteps() => OpenDialog(SaveFileDialogBindable, OnSaveFile);
         public void SelectAll() => SelectAll(true);
         public void SelectAll(bool triggerEvent = true)
         {
@@ -348,12 +351,11 @@ namespace GDE.App.Main.Screens.Edit.Components
             }
         }
 
-        private void OpenDialog<T>(Action<string> onFileSelected)
-            where T : FileDialog, new()
+        private void OpenDialog<T>(Bindable<T> bindable, Action<string> onFileSelected)
+            where T : FileDialog
         {
-            var dialog = new T();
-            dialog.ToggleVisibility();
-            dialog.OnFileSelected += onFileSelected;
+            bindable.Value.ToggleVisibility();
+            bindable.Value.OnFileSelected += onFileSelected;
         }
 
         private IDMigrationStepCard CreateIDMigrationStepCard(SourceTargetRange r, int index)
