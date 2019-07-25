@@ -5,7 +5,7 @@ using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

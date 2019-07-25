@@ -1,4 +1,4 @@
-﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
+﻿using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Interfaces;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 using System;
 using System.Collections.Generic;

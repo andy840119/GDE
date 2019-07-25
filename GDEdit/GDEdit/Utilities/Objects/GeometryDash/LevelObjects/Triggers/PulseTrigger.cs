@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.General;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.Interfaces;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Interfaces;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
