@@ -174,11 +174,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             addNewStep.Action = CreateNewStep;
         }
 
-        private void RunArrowAnimation()
-        {
-            Task.Run(() => HandleNextAnimation());
-        }
-
+        private void RunArrowAnimation() => Task.Run(() => HandleNextAnimation());
         private void HandleNextAnimation(Task t = null)
         {
             Task.Delay(3000).ContinueWith(HandleNextAnimation);
