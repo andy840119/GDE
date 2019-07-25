@@ -26,12 +26,10 @@ using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
-    public class IDMigrationStepList : FillFlowContainer, IKeyBindingHandler<IDMigrationAction>
+    public class IDMigrationStepList : KeyBindingActionContainer<IDMigrationAction>
     {
         public const float CardMargin = 2;
         public const float CardHeight = 25;
-
-        private Dictionary<IDMigrationAction, Action> actions;
 
         private FadeSearchContainer stepList;
         private TextBox searchQuery;
@@ -73,76 +71,84 @@ namespace GDE.App.Main.Screens.Edit.Components
             editor = e;
             IDMigrationMode = mode;
 
-            AlwaysPresent = true;
-
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
 
-            Children = new Drawable[]
+            Child = new FillFlowContainer
             {
-                searchQuery = new TextBox
+                AlwaysPresent = true,
+
+                RelativeSizeAxes = Axes.Both,
+
+                Anchor = Anchor.Centre,
+                Origin = Anchor.Centre,
+
+                Children = new Drawable[]
                 {
-                    Anchor = Anchor.TopLeft,
-                    Origin = Anchor.TopLeft,
-                    Height = 30,
-                    RelativeSizeAxes = Axes.X,
-                },
-                new Container
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Margin = new MarginPadding { Top = 10 },
-                    Padding = new MarginPadding { Bottom = 40 },
-                    Children = new Drawable[]
+                    searchQuery = new TextBox
                     {
-                        new GDEScrollContainer
+                        Anchor = Anchor.TopLeft,
+                        Origin = Anchor.TopLeft,
+                        Height = 30,
+                        RelativeSizeAxes = Axes.X,
+                    },
+                    new Container
+                    {
+                        RelativeSizeAxes = Axes.Both,
+                        Margin = new MarginPadding { Top = 10 },
+                        Padding = new MarginPadding { Bottom = 40 },
+                        Children = new Drawable[]
                         {
-                            RelativeSizeAxes = Axes.Both,
-                            Child = stepList = new FadeSearchContainer
+                            new GDEScrollContainer
                             {
-                                LayoutDuration = 100,
-                                LayoutEasing = Easing.Out,
-                                Spacing = new Vector2(0, 2),
-                                RelativeSizeAxes = Axes.X,
-                                AutoSizeAxes = Axes.Y,
+                                RelativeSizeAxes = Axes.Both,
+                                Child = stepList = new FadeSearchContainer
+                                {
+                                    LayoutDuration = 100,
+                                    LayoutEasing = Easing.Out,
+                                    Spacing = new Vector2(0, 2),
+                                    RelativeSizeAxes = Axes.X,
+                                    AutoSizeAxes = Axes.Y,
+                                },
                             },
-                        },
-                        noSteps = new FillFlowContainer
-                        {
-                            Direction = FillDirection.Vertical,
-                            Anchor = Anchor.Centre,
-                            Origin = Anchor.Centre,
-                            Spacing = new Vector2(0, 30),
-                            Children = new Drawable[]
+                            noSteps = new FillFlowContainer
                             {
-                                new SpriteIcon
+                                Direction = FillDirection.Vertical,
+                                Anchor = Anchor.Centre,
+                                Origin = Anchor.Centre,
+                                Spacing = new Vector2(0, 30),
+                                Children = new Drawable[]
                                 {
-                                    Anchor = Anchor.Centre,
-                                    Origin = Anchor.Centre,
-                                    Icon = FontAwesome.Solid.Times,
-                                    Size = new Vector2(64),
-                                    Colour = GDEColors.FromHex("666666")
+                                    new SpriteIcon
+                                    {
+                                        Anchor = Anchor.Centre,
+                                        Origin = Anchor.Centre,
+                                        Icon = FontAwesome.Solid.Times,
+                                        Size = new Vector2(64),
+                                        Colour = GDEColors.FromHex("666666")
+                                    },
+                                    new SpriteText
+                                    {
+                                        Anchor = Anchor.Centre,
+                                        Origin = Anchor.Centre,
+                                        Text = "No migration steps are registered",
+                                        Font = new FontUsage("OpenSans", 24),
+                                        Colour = GDEColors.FromHex("666666")
+                                    },
+                                    addNewStep = new GDEButton
+                                    {
+                                        Anchor = Anchor.Centre,
+                                        Origin = Anchor.Centre,
+                                        Width = 200,
+                                        Text = "Add a new step",
+                                        BackgroundColour = GDEColors.FromHex("242424")
+                                    }
                                 },
-                                new SpriteText
-                                {
-                                    Anchor = Anchor.Centre,
-                                    Origin = Anchor.Centre,
-                                    Text = "No migration steps are registered",
-                                    Font = new FontUsage("OpenSans", 24),
-                                    Colour = GDEColors.FromHex("666666")
-                                },
-                                addNewStep = new GDEButton
-                                {
-                                    Anchor = Anchor.Centre,
-                                    Origin = Anchor.Centre,
-                                    Width = 200,
-                                    Text = "Add a new step",
-                                    BackgroundColour = GDEColors.FromHex("242424")
-                                }
-                            },
-                            Alpha = 0,
+                                Alpha = 0,
+                            }
                         }
-                    }
-                },
+                    },
+                }
             };
 
             UpdateCurrentTabRanges();
@@ -456,10 +462,10 @@ namespace GDE.App.Main.Screens.Edit.Components
         private static float GetCardYPositionThreshold(int index) => index * (CardHeight + CardMargin) + CardHeight / 2;
         private static int GetCardIndexFromYPosition(float y) => (int)((y + CardHeight / 2) / (CardHeight + CardMargin));
 
-        private void InitializeActionDictionary()
+        protected override void InitializeActionDictionary()
         {
             // Capacity is greater than the total actions to allow future improvements without *constantly* having to change the constant
-            actions = new Dictionary<IDMigrationAction, Action>(20)
+            Actions = new Dictionary<IDMigrationAction, Action>(20)
             {
                 { IDMigrationAction.SelectAll, SelectAll },
                 { IDMigrationAction.DeselectAll, DeselectAll },
@@ -472,14 +478,5 @@ namespace GDE.App.Main.Screens.Edit.Components
                 { IDMigrationAction.Save, SaveSteps },
             };
         }
-
-        public bool OnPressed(IDMigrationAction action)
-        {
-            bool found = actions.TryGetValue(action, out var del);
-            if (found)
-                del.Invoke();
-            return found;
-        }
-        public bool OnReleased(IDMigrationAction action) => true;
     }
 }
