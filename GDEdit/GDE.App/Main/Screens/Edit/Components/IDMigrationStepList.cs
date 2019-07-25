@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 
@@ -31,8 +32,6 @@ namespace GDE.App.Main.Screens.Edit.Components
         public const float CardHeight = 25;
 
         private Dictionary<IDMigrationAction, Action> actions;
-
-        private bool loaded;
 
         private FadeSearchContainer stepList;
         private TextBox searchQuery;
@@ -152,7 +151,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         [BackgroundDependencyLoader]
         private void load()
         {
-            loaded = true;
+            RunArrowAnimation();
         }
 
         public void UpdateCurrentTabRanges()
@@ -168,18 +167,26 @@ namespace GDE.App.Main.Screens.Edit.Components
                     stepList.Add(card);
                     Cards.Add(card);
                 }
-
-                if (loaded)
-                    foreach (var c in Cards)
-                    {
-                        c.InitializeArrowAnimation();
-                        Task.Delay(50); // Perhaps 50ms is fine, must test
-                    }
             }
 
             searchQuery.Current.ValueChanged += obj => stepList.SearchTerm = obj.NewValue;
 
             addNewStep.Action = CreateNewStep;
+        }
+
+        private void RunArrowAnimation()
+        {
+            Task.Run(() => HandleNextAnimation());
+        }
+
+        private void HandleNextAnimation(Task t = null)
+        {
+            Task.Delay(3000).ContinueWith(HandleNextAnimation);
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                Cards[i].AnimateArrow();
+                Thread.Sleep(75);
+            }
         }
 
         private void UpdateNoStepDialogVisibility(List<SourceTargetRange> currentTabRanges) => noSteps.FadeTo(currentTabRanges.Count == 0 ? 1 : 0, 100, Easing.InOutQuint);

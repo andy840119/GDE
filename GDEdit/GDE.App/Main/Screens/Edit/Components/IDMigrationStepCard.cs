@@ -6,6 +6,7 @@ using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.Transforms;
 using osu.Framework.Input.Events;
 using osuTK;
 using System;
@@ -200,13 +201,16 @@ namespace GDE.App.Main.Screens.Edit.Components
         /// <summary>Initializes the right arrow's animation. This function should be only called once.</summary>
         public void InitializeArrowAnimation()
         {
-            rightArrow
+            AnimateArrow().Loop(2000);
+        }
+        public TransformSequence<SpriteText> AnimateArrow()
+        {
+            return rightArrow
                 .MoveToOffset(new Vector2(20, 0), 500, Easing.InQuint).FadeTo(0, 500, Easing.InQuint)
                 .Then()
                 .MoveToOffset(new Vector2(-40, 0)) // Reset label position
                 .Then()
-                .MoveToOffset(new Vector2(20, 0), 500, Easing.OutQuint).FadeTo(0.5f, 500, Easing.OutQuint)
-                .Loop(2000);
+                .MoveToOffset(new Vector2(20, 0), 500, Easing.OutQuint).FadeTo(0.5f, 500, Easing.OutQuint);
         }
         public void StopArrowAnimation()
         {
