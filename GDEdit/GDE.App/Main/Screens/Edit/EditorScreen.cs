@@ -73,6 +73,10 @@ namespace GDE.App.Main.Screens.Edit
             };
             var editMenuItems = new List<MenuItem>
             {
+                // Undo, redo
+            };
+            var macrosMenuItems = new List<MenuItem>
+            {
                 new EditorMenuItem("Migrate IDs", IDMigrationPanel.ToggleVisibility, MenuItemType.Standard),
             };
 
@@ -95,6 +99,10 @@ namespace GDE.App.Main.Screens.Edit
                         new MenuItem("Edit")
                         {
                             Items = editMenuItems
+                        },
+                        new MenuItem("Macros")
+                        {
+                            Items = macrosMenuItems
                         },
                     }
                 }
