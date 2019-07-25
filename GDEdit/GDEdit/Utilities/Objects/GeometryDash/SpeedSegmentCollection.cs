@@ -57,7 +57,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             return result;
         }
         /// <summary>Converts the provided times into X positions.</summary>
-        /// <param name="time">The times to convert into X positions.</param>
+        /// <param name="times">The times to convert into X positions.</param>
         public List<double> ConvertTimeToX(List<double> times)
         {
             times.Sort();
