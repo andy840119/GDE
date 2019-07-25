@@ -188,10 +188,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
             item.Selected = true;
         }
 
-        private void UpdateItemList()
+        private void ForceUpdateItemList() => UpdateItemList(true);
+        private void UpdateItemList(bool forceUpdate = false)
         {
             // Mainly to prevent reloading the currently displayed items if the directory is reset on exception
-            if (currentlyLoadedDirectory == CurrentDirectory)
+            if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
             var directories = GetDirectories(CurrentDirectory);
@@ -205,6 +206,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
 
             currentlyLoadedDirectory = CurrentDirectory;
+
+            SelectedItemBindable.TriggerChange();
+            // Scrolling to currently selected item fails because the scroll container automatically scrolls to the beginning since the items were updated
         }
 
         private void HandleSelection(DrawableItem selectedItem)
@@ -237,6 +241,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 { FileDialogAction.NavigateToEnd, NavigateToEnd },
                 { FileDialogAction.NavigateToPreviousDirectory, NavigateToPreviousDirectory },
                 { FileDialogAction.PerformAction, PerformAction },
+                { FileDialogAction.Refresh, ForceUpdateItemList },
             };
         }
 

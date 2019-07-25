@@ -23,6 +23,7 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
             new KeyBinding(InputKey.End, FileDialogAction.NavigateToEnd),
             new KeyBinding(InputKey.BackSpace, FileDialogAction.NavigateToPreviousDirectory),
             new KeyBinding(InputKey.Enter, FileDialogAction.PerformAction),
+            new KeyBinding(InputKey.F5, FileDialogAction.Refresh),
         };
 
         public FileDialogActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = Exact, SimultaneousBindingMode simultaneousBindingMode = All)
@@ -47,5 +48,7 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
         NavigateToPreviousDirectory,
         [Description("Either finalizes the selection of the file or navigates into the selected directory")]
         PerformAction,
+        [Description("Refreshes the item list in the selected directory")]
+        Refresh,
     }
 }
