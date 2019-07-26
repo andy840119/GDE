@@ -338,7 +338,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 for (int i = 0; i < properties.Length; i++)
                 {
                     var p = properties[i];
-                    Properties[i] = GetAppropriateGenericA?.Invoke(p.DeclaringType, p.PropertyType, p);
+                    Properties[i] = new PropertyAccessInfo(p);
+                    // TODO: Use the following line instad
+                    //Properties[i] = GetAppropriateGenericA?.Invoke(p.DeclaringType, p.PropertyType, p);
                 }
             }
 
@@ -452,11 +454,18 @@ namespace GDEdit.Special
             }
         }
 
-        private abstract class PropertyAccessInfo
+        // The following TODOs contain instructions to be executed when self-compiling code can be made
+
+        // TODO: Make this abstract
+        private class PropertyAccessInfo
         {
             public PropertyInfo PropertyInfo { get; }
 
             protected Type GenericFunc, GenericAction;
+
+            // TODO: Remove these
+            public Delegate GetMethodDelegate { get; }
+            public Delegate SetMethodDelegate { get; }
 
             public ObjectStringMappableAttribute ObjectStringMappableAttribute { get; }
             public int? Key => ObjectStringMappableAttribute?.Key;
@@ -470,10 +479,15 @@ namespace GDEdit.Special
                 GenericFunc = typeof(Func<,>).MakeGenericType(objectType, propertyType);
                 GenericAction = typeof(Action<,>).MakeGenericType(objectType, propertyType);
                 ObjectStringMappableAttribute = info.GetCustomAttribute<ObjectStringMappableAttribute>();
+
+                // TODO: Remove these
+                GetMethodDelegate = info.GetGetMethod().CreateDelegate(GenericFunc);
+                SetMethodDelegate = info.GetSetMethod()?.CreateDelegate(GenericAction);
             }
 
-            public abstract object Get(object instance);
-            public abstract void Set(object instance, object newValue);
+            // TODO: Make these abstract
+            public virtual object Get(object instance) => GetMethodDelegate?.DynamicInvoke(instance);
+            public virtual void Set(object instance, object newValue) => SetMethodDelegate?.DynamicInvoke(instance, newValue);
         }
         private class PropertyAccessInfo<TObject, TProperty> : PropertyAccessInfo
         {
