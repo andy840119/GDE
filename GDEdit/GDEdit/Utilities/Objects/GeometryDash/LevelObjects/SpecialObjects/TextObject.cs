@@ -28,7 +28,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         }
 
         /// <summary>Represents the Text property of the text object.</summary>
-        public string Text { get; set; }
+        public string Text { get; set; } = "";
 
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
         public TextObject() : base() { }

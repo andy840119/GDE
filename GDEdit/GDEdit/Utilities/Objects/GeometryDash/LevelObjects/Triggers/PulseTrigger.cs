@@ -102,7 +102,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public string HSV => HSVAdjustment.ToString();
 
         /// <summary>The HSV adjustment of the copied color of the trigger.</summary>
-        public HSVAdjustment HSVAdjustment { get; set; }
+        public HSVAdjustment HSVAdjustment { get; set; } = new HSVAdjustment();
 
         /// <summary>Initializes a new instance of the <seealso cref="PulseTrigger"/> class.</summary>
         public PulseTrigger() : base() { }
