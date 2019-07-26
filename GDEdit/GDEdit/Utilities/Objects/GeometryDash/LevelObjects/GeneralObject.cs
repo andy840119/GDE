@@ -519,7 +519,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             foreach (var p in properties)
             {
                 int? key = ((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key;
-                if (key != null)
+                if (key != null && key > 0)
                     s.Append($"{key},{GetAppropriateStringRepresentation(p.GetValue(this))},");
                 // TODO: Prevent writing parameters with values that are default (create DefaultValueAttribute and assign it to all the object properties
             }
