@@ -19,6 +19,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private float fadeIn, hold, fadeOut;
 
         /// <summary>The Object ID of the Pulse trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>

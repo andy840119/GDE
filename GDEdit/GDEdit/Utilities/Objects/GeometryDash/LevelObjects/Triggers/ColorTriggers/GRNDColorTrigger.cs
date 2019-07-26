@@ -13,6 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     public class GRNDColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the GRND Color trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.GRND;
         
         /// <summary>The target Color ID of the trigger.</summary>

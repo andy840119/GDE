@@ -13,6 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     public class ThreeDLColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the 3DL Color trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.ThreeDL;
         
         /// <summary>The target Color ID of the trigger.</summary>

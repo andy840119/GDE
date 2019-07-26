@@ -13,6 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTrigg
     public class Color2ColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the Color 2 Color trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Color2;
         
         /// <summary>The target Color ID of the trigger.</summary>

@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class SpiderPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the spider portal.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)PortalType.Spider;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Spider;

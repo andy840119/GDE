@@ -17,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class TextObject : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the text object.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
@@ -28,7 +29,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         }
 
         /// <summary>Represents the Text property of the text object.</summary>
-        public string Text { get; set; } = "";
+        public string Text { get; set; }// = "";
 
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
         public TextObject() : base() { }

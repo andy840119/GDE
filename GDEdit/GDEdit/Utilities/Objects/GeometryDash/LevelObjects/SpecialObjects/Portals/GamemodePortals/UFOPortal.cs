@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class UFOPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the UFO portal.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)PortalType.UFO;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.UFO;

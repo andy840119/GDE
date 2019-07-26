@@ -16,6 +16,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short targetGroupID, itemID;
 
         /// <summary>The Object ID of the Count trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Count;
 
         /// <summary>The target Group ID of the trigger.</summary>

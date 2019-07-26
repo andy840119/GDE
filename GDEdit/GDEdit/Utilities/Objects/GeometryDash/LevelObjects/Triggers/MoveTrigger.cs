@@ -17,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate, moveX, moveY;
 
         /// <summary>The Object ID of the Move trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
