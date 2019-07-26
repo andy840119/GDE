@@ -22,10 +22,7 @@ namespace GDE.Tests.Visual.TestSceneUserInterface
                     {
                         Bottom = 5
                     },
-                    text =
-                    {
-                        Text = "Hello World!"
-                    }
+                    Text = "Hello World!",
                 }
             };
 
