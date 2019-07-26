@@ -9,14 +9,14 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers
 {
     /// <summary>Represents a Line Color trigger.</summary>
-    [ObjectID(TriggerType.Line)]
+    [ObjectIDs(TriggerType.Line, TriggerType.Line2)]
     public class LineColorTrigger : SpecialColorTrigger
     {
         /// <summary>The Object ID of the Line Color trigger.</summary>
         public override int ObjectID => (int)TriggerType.Line;
         
         /// <summary>The target Color ID of the trigger.</summary>
-        public override int TargetColorID => (int)SpecialColorID.Line;
+        public override int ConstantTargetColorID => (int)SpecialColorID.Line;
 
         /// <summary>Initializes a new instance of the <seealso cref="LineColorTrigger"/> class.</summary>
         public LineColorTrigger() : base() { }
