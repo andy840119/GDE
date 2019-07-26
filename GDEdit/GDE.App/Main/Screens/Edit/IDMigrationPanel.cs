@@ -2,6 +2,7 @@
 using GDE.App.Main.Panels;
 using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.Screens.Edit.Components.IDMigration;
+using GDE.App.Main.Toasts;
 using GDE.App.Main.UI;
 using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application.Editor;
@@ -27,6 +28,8 @@ namespace GDE.App.Main.Screens.Edit
         private static Color4 greenEnabledColor = FromHex("246c48");
         private static Color4 redEnabledColor = FromHex("6c2424");
         private static Color4 grayEnabledColor = FromHex("242424");
+
+        private ToastNotification notification;
 
         private NumberTextBox sourceFrom;
         private NumberTextBox sourceTo;
@@ -203,7 +206,15 @@ namespace GDE.App.Main.Screens.Edit
                                 }
                             }
                         }
-                    }
+                    },
+                    notification = new ToastNotification
+                    {
+                        Anchor = Anchor.BottomCentre,
+                        Origin = Anchor.BottomCentre,
+                        Size = new Vector2(200, 30),
+                        Margin = new MarginPadding { Bottom = 15 },
+                        Text = "Finished Operation",
+                    },
                 }
             });
 
@@ -289,6 +300,7 @@ namespace GDE.App.Main.Screens.Edit
             performMigration.Text = "Perform Migration";
             SetEnabledStateOnFadeButtons(true);
             UpdateFadeButtonEnabledStates();
+            notification.Show();
         }
 
         private void PerformMigration()
