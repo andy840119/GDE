@@ -20,6 +20,12 @@ namespace GDE.App.Main.UI
             }
         }
 
+        public bool EnabledState
+        {
+            get => Enabled.Value;
+            set => Enabled.Value = value;
+        }
+
         public FadeButton()
             : base()
         {

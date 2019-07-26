@@ -16,6 +16,7 @@ using osuTK;
 using osuTK.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using static GDE.App.Main.Colors.GDEColors;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
 
@@ -32,7 +33,7 @@ namespace GDE.App.Main.Screens.Edit
         private NumberTextBox targetFrom;
         private NumberTextBox targetTo;
 
-        private FadeButton performAction;
+        private FadeButton performMigration;
         private FadeButton createStep;
         private FadeButton removeSteps;
         private FadeButton cloneSteps;
@@ -40,6 +41,7 @@ namespace GDE.App.Main.Screens.Edit
         private FadeButton deselectAll;
         private FadeButton loadSteps;
         private FadeButton saveSteps;
+        private FadeButton saveStepsAs;
 
         private Container stepListContainer;
 
@@ -65,16 +67,19 @@ namespace GDE.App.Main.Screens.Edit
             {
                 var previous = currentStepList;
 
+                previous.TabSelected = false;
+
                 previous.FadeTo(0, 200).OnComplete(RemoveOnCompleted);
                 previous.StepSelected = null;
                 previous.StepDeselected = null;
                 previous.SelectionChanged = null;
 
                 UnbindFileDialogBindables(previous);
-                
+
                 stepListContainer.Add(currentStepList = value);
 
-                // Why does this not work?
+                currentStepList.TabSelected = true;
+
                 currentStepList.FadeTo(1, 200);
                 currentStepList.StepSelected = HandleStepSelected;
                 currentStepList.StepDeselected = HandleStepDeselected;
@@ -184,13 +189,13 @@ namespace GDE.App.Main.Screens.Edit
                                         Width = 160,
                                         Children = new Drawable[]
                                         {
-                                            performAction = GetNewFadeButton(8, "Perform Action", greenEnabledColor, Editor.PerformMigration),
+                                            performMigration = GetNewFadeButton(8, "Perform Migration", greenEnabledColor, PerformMigration),
                                             removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, CurrentStepList.RemoveSelectedSteps),
                                             cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
                                             deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
                                             selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
                                             loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, CurrentStepList.LoadSteps),
-                                            saveSteps = GetNewFadeButton(0, "Save Steps As", grayEnabledColor, CurrentStepList.SaveStepsAs),
+                                            saveStepsAs = GetNewFadeButton(0, "Save Steps As", grayEnabledColor, CurrentStepList.SaveStepsAs),
                                             saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
                                             createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
@@ -210,6 +215,8 @@ namespace GDE.App.Main.Screens.Edit
             targetTo.NumberChanged += HandleTargetToChanged;
 
             CommonIDMigrationStep.ValueChanged += CommonIDMigrationStepChanged;
+
+            Editor.IDMigrationOperationCompleted += HandleIDMigrationOperationCompleted;
 
             // After everything's loaded, initialize the property for things to work properly
             UpdateFileDialogBindables(CurrentStepList = currentStepList);
@@ -277,10 +284,23 @@ namespace GDE.App.Main.Screens.Edit
         private void HandleStepDeselected(IDMigrationStepCard card) => UpdateFadeButtonEnabledStates();
         private void HandleSelectionChanged() => UpdateFadeButtonEnabledStates();
 
+        private void HandleIDMigrationOperationCompleted()
+        {
+            performMigration.Text = "Perform Migration";
+            SetEnabledStateOnFadeButtons(true);
+            UpdateFadeButtonEnabledStates();
+        }
+
+        private void PerformMigration()
+        {
+            Task.Run(Editor.PerformMigration);
+            performMigration.Text = "Performing Migration";
+            SetEnabledStateOnFadeButtons(false);
+        }
         private void CreateNewStep()
         {
             CurrentStepList.CreateNewStep();
-            performAction.Enabled.Value = true;
+            performMigration.EnabledState = true;
         }
 
         private void UpdateFileDialogBindables(IDMigrationStepList stepList)
@@ -296,10 +316,14 @@ namespace GDE.App.Main.Screens.Edit
 
         private void UpdateFadeButtonEnabledStates()
         {
-            deselectAll.Enabled.Value = CurrentStepList.SelectedSteps.Count > 0;
-            removeSteps.Enabled.Value = CurrentStepList.SelectedSteps.Count > 0;
-            cloneSteps.Enabled.Value = CurrentStepList.SelectedSteps.Count > 0;
-            performAction.Enabled.Value = Editor.CurrentlySelectedIDMigrationSteps.Count > 0;
+            deselectAll.EnabledState = CurrentStepList.SelectedSteps.Count > 0;
+            removeSteps.EnabledState = CurrentStepList.SelectedSteps.Count > 0;
+            cloneSteps.EnabledState = CurrentStepList.SelectedSteps.Count > 0;
+            performMigration.EnabledState = Editor.CurrentlySelectedIDMigrationSteps.Count > 0;
+        }
+        private void SetEnabledStateOnFadeButtons(bool newState)
+        {
+            performMigration.EnabledState = createStep.EnabledState = saveSteps.EnabledState = saveStepsAs.EnabledState = loadSteps.EnabledState = selectAll.EnabledState = deselectAll.EnabledState = cloneSteps.EnabledState = removeSteps.EnabledState = newState;
         }
 
         private void UpdateTextBoxes(SourceTargetRange range)

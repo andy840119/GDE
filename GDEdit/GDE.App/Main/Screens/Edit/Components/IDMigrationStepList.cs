@@ -64,6 +64,25 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public List<IDMigrationStepCard> Cards = new List<IDMigrationStepCard>();
 
+        public bool TabSelected
+        {
+            set
+            {
+                if (value)
+                {
+                    editor.IDMigrationOperationInitialized += IDMigrationOperationInitialized;
+                    editor.IDMigrationProgressReported += IDMigrationProgressReported;
+                    editor.IDMigrationOperationCompleted += IDMigrationOperationCompleted;
+                }
+                else
+                {
+                    editor.IDMigrationOperationInitialized -= IDMigrationOperationInitialized;
+                    editor.IDMigrationProgressReported -= IDMigrationProgressReported;
+                    editor.IDMigrationOperationCompleted -= IDMigrationOperationCompleted;
+                }
+            }
+        }
+
         public IDMigrationStepList(Editor e, IDMigrationMode mode)
         {
             InitializeActionDictionary();
@@ -151,23 +170,24 @@ namespace GDE.App.Main.Screens.Edit.Components
                 }
             };
 
-            editor.IDMigrationProgressReported += IDMigrationProgressReported;
-
             UpdateCurrentTabRanges();
         }
 
-        private void IDMigrationProgressReported(IDMigrationMode mode, int current, int total)
+        private void IDMigrationOperationInitialized()
         {
-            if (mode != IDMigrationMode)
-                return;
-
+            foreach (var c in Cards)
+                c.IndicateStepPendingRunning();
+        }
+        private void IDMigrationProgressReported(int current, int total)
+        {
             Cards[current - 1].IndicateStepFinishedRunning();
-
-            if (current == total)
-                foreach (var c in Cards)
-                    c.ResetStepRunningState();
-            else
+            if (current < total)
                 Cards[current].IndicateStepRunning();
+        }
+        private void IDMigrationOperationCompleted()
+        {
+            foreach (var c in Cards)
+                c.ResetStepRunningState();
         }
 
         [BackgroundDependencyLoader]

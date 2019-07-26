@@ -12,6 +12,7 @@ using osuTK;
 using osuTK.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using static GDE.App.Main.Colors.GDEColors;
 using static System.Convert;
 
@@ -242,6 +243,10 @@ namespace GDE.App.Main.Screens.Edit.Components
         /// <summary>Toggles the selected state of this card, causing a visual effect. It does not handle removing the step from the current selection in the container.</summary>
         public void ToggleSelection() => Selected.Value = !Selected.Value;
 
+        public void IndicateStepPendingRunning()
+        {
+            FadeLeftSideColor(FromHex("d0d000"), 200);
+        }
         public void IndicateStepRunning()
         {
             // I don't like this code at all, but the framework is the reason behind it
@@ -256,7 +261,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         }
         public void ResetStepRunningState()
         {
-            FadeToCurrentSelectionState(1000);
+            Task.Delay(500).ContinueWith(t => FadeToCurrentSelectionState(500));
         }
 
         public TransformSequence<IDMigrationStepCard> FadeLeftSideColor(Color4 newColor, double duration = 0, Easing easing = Easing.None) => this.TransformTo(nameof(LeftSideColor), newColor, duration, easing);
@@ -266,7 +271,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         private void FadeToPrimaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("d00000"), 1000).OnComplete(FadeToSecondaryStepRunningColor);
         private void FadeToSecondaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("d06800"), 1000).OnComplete(FadeToPrimaryStepRunningColor);
 
-        private void FadeToCurrentSelectionState(double duration = 200) => FadeLeftSideColor(FromHex(Selected.Value ? "00ff80" : "808080"), duration);
+        private TransformSequence<IDMigrationStepCard> FadeToCurrentSelectionState(double duration = 200) => FadeLeftSideColor(FromHex(Selected.Value ? "00ff80" : "808080"), duration);
 
         protected override bool OnHover(HoverEvent e)
         {

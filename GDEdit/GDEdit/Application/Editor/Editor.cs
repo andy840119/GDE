@@ -1374,7 +1374,9 @@ namespace GDEdit.Application.Editor
         /// <summary>The ID migration info of this editor instance that will be used when performing ID migration operations.</summary>
         public readonly IDMigrationInfo IDMigrationInfo = new IDMigrationInfo();
 
-        public event Action<IDMigrationMode, int, int> IDMigrationProgressReported;
+        public event Action IDMigrationOperationInitialized;
+        public event Action<int, int> IDMigrationProgressReported;
+        public event Action IDMigrationOperationCompleted;
 
         /// <summary>The steps of the Group ID migration mode.</summary>
         public List<SourceTargetRange> GroupSteps => GetIDMigrationSteps(IDMigrationMode.Groups);
@@ -1493,12 +1495,14 @@ namespace GDEdit.Application.Editor
 
         private void PerformIDMigration(List<SourceTargetRange> ranges, Action<GeneralObject, SourceTargetRange> adjustmentFunction)
         {
+            IDMigrationOperationInitialized?.Invoke();
             for (int i = 0; i < ranges.Count; i++)
             {
                 for (int j = 0; j < Level.LevelObjects.Count; j++)
                     adjustmentFunction(Level.LevelObjects[j], ranges[i]);
-                IDMigrationProgressReported?.Invoke(SelectedIDMigrationMode, i + 1, ranges.Count);
+                IDMigrationProgressReported?.Invoke(i + 1, ranges.Count);
             }
+            IDMigrationOperationCompleted?.Invoke();
         }
 
         // Perhaps experiment with creating a class that performs the adjustment using appropriate interfaces
