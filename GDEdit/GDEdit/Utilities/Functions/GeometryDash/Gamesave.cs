@@ -148,9 +148,7 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                                             instance.SetParameterWithID(parameterID, objectParameters[i, j]);
                                             break;
                                         case IGenericAttribute<HSVAdjustment> _:
-                                            string[] values = objectParameters[i, j].ToString().Split('a');
-                                            var HSVValues = new HSVAdjustment(ToDouble(values[0]), ToDouble(values[1]), ToDouble(values[2]), (SVAdjustmentMode)ToInt32(values[3]), (SVAdjustmentMode)ToInt32(values[4]));
-                                            instance.SetParameterWithID(parameterID, HSVValues);
+                                            instance.SetParameterWithID(parameterID, HSVAdjustment.Parse(objectParameters[i, j].ToString()));
                                             break;
                                         case IGenericAttribute<int[]> _:
                                             instance.SetParameterWithID(parameterID, objectParameters[i, j].ToString().Split('.').ToInt32Array());
