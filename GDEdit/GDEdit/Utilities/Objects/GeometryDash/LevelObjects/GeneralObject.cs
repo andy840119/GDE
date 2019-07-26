@@ -216,6 +216,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             get => bools[12];
             set => bools[12] = value;
         }
+        /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this parameter, causing infinite performance costs.</summary>
+        [ObjectStringMappable(ObjectParameter.UnknownFeature36)]
+        public bool UnknownFeature36
+        {
+            get => bools[13];
+            set => bools[13] = value;
+        }
         /// <summary>The transformation scaling X property of this object.</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.TransformationScalingX)]
