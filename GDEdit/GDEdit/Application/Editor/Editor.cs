@@ -1374,7 +1374,7 @@ namespace GDEdit.Application.Editor
         /// <summary>The ID migration info of this editor instance that will be used when performing ID migration operations.</summary>
         public readonly IDMigrationInfo IDMigrationInfo = new IDMigrationInfo();
 
-        public event Action<int, int> IDMigrationProgressReported;
+        public event Action<IDMigrationMode, int, int> IDMigrationProgressReported;
 
         /// <summary>The steps of the Group ID migration mode.</summary>
         public List<SourceTargetRange> GroupSteps => GetIDMigrationSteps(IDMigrationMode.Groups);
@@ -1497,7 +1497,7 @@ namespace GDEdit.Application.Editor
             {
                 for (int j = 0; j < Level.LevelObjects.Count; j++)
                     adjustmentFunction(Level.LevelObjects[j], ranges[i]);
-                IDMigrationProgressReported?.Invoke(i, ranges.Count);
+                IDMigrationProgressReported?.Invoke(SelectedIDMigrationMode, i + 1, ranges.Count);
             }
         }
 

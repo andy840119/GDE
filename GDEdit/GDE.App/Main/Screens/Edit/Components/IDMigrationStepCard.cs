@@ -9,6 +9,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Transforms;
 using osu.Framework.Input.Events;
 using osuTK;
+using osuTK.Graphics;
 using System;
 using System.Collections.Generic;
 using static GDE.App.Main.Colors.GDEColors;
@@ -31,16 +32,16 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public readonly Bindable<bool> Selected = new Bindable<bool>(false);
 
+        public readonly SourceTargetRange StepRange;
+
+        public Action<IDMigrationStepCard, DragEvent> CardDragged;
+        public Action<IDMigrationStepCard, MouseEvent> CardClicked;
+
         public int Index
         {
             get => index;
             set => stepIndex.Text = (index = value).ToString();
         }
-
-        public readonly SourceTargetRange StepRange;
-
-        public Action<IDMigrationStepCard, DragEvent> CardDragged;
-        public Action<IDMigrationStepCard, MouseEvent> CardClicked;
 
         public bool MatchingFilter
         {
@@ -49,6 +50,22 @@ namespace GDE.App.Main.Screens.Edit.Components
         public bool FilteringActive
         {
             set => Alpha = ToInt32(!(filteringActive = value) || matchingFilter);
+        }
+
+        public Color4 LeftSideColor
+        {
+            get => selectionBar.Colour;
+            set
+            {
+                selectionBar.Colour = value;
+                stepIndexContainerBackground.Colour = new ColourInfo
+                {
+                    BottomLeft = value.Darken(0.25f),
+                    TopLeft = value.Darken(0.25f),
+                    BottomRight = FromHex("606060"),
+                    TopRight = FromHex("606060"),
+                };
+            }
         }
 
         public IEnumerable<string> FilterTerms => new List<string>
@@ -62,7 +79,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             StepRange.TargetFrom.ToString(),
             StepRange.TargetTo.ToString()
         };
-        
+
         public IDMigrationStepCard(SourceTargetRange range)
         {
             StepRange = range;
@@ -225,18 +242,31 @@ namespace GDE.App.Main.Screens.Edit.Components
         /// <summary>Toggles the selected state of this card, causing a visual effect. It does not handle removing the step from the current selection in the container.</summary>
         public void ToggleSelection() => Selected.Value = !Selected.Value;
 
-        private void OnSelected(ValueChangedEvent<bool> value)
+        public void IndicateStepRunning()
         {
-            var newColor = FromHex(value.OldValue ? "808080" : "00ff80");
-            selectionBar.FadeColour(newColor, 200);
-            stepIndexContainerBackground.FadeColour(new ColourInfo
-            {
-                BottomLeft = newColor.Darken(0.25f),
-                TopLeft = newColor.Darken(0.25f),
-                BottomRight = FromHex("606060"),
-                TopRight = FromHex("606060"),
-            }, 200);
+            // I don't like this code at all, but the framework is the reason behind it
+            // This disallows custom transformation functions to be implemented on a class level
+            // Extensions have to be made to offer .Then().Fade*(...) functionality
+            FadeLeftSideColor(FromHex("d00000"), 200).OnComplete(FadeToPrimaryStepRunningColor);
         }
+        public void IndicateStepFinishedRunning()
+        {
+            FinishTransforms();
+            FadeLeftSideColor(FromHex("68d000"), 200);
+        }
+        public void ResetStepRunningState()
+        {
+            FadeToCurrentSelectionState(1000);
+        }
+
+        public TransformSequence<IDMigrationStepCard> FadeLeftSideColor(Color4 newColor, double duration = 0, Easing easing = Easing.None) => this.TransformTo(nameof(LeftSideColor), newColor, duration, easing);
+
+        private void OnSelected(ValueChangedEvent<bool> value) => FadeToCurrentSelectionState();
+
+        private void FadeToPrimaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("d00000"), 1000).OnComplete(FadeToSecondaryStepRunningColor);
+        private void FadeToSecondaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("d06800"), 1000).OnComplete(FadeToPrimaryStepRunningColor);
+
+        private void FadeToCurrentSelectionState(double duration = 200) => FadeLeftSideColor(FromHex(Selected.Value ? "00ff80" : "808080"), duration);
 
         protected override bool OnHover(HoverEvent e)
         {

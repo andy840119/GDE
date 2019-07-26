@@ -151,7 +151,23 @@ namespace GDE.App.Main.Screens.Edit.Components
                 }
             };
 
+            editor.IDMigrationProgressReported += IDMigrationProgressReported;
+
             UpdateCurrentTabRanges();
+        }
+
+        private void IDMigrationProgressReported(IDMigrationMode mode, int current, int total)
+        {
+            if (mode != IDMigrationMode)
+                return;
+
+            Cards[current - 1].IndicateStepFinishedRunning();
+
+            if (current == total)
+                foreach (var c in Cards)
+                    c.ResetStepRunningState();
+            else
+                Cards[current].IndicateStepRunning();
         }
 
         [BackgroundDependencyLoader]
