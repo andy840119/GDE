@@ -512,10 +512,10 @@ namespace GDEdit.Application.Editor
 
         #region Constructors
         /// <summary>Initializes a new instance of the <seealso cref="Editor"/> class.</summary>
-        /// <param name="level">The level to edit.</param>
+        /// <param name="level">The level to edit. Upon initializing this instance, the level's cached level string data is cleared.</param>
         public Editor(Level level)
         {
-            Level = level;
+            (Level = level)?.ClearCachedLevelStringData();
         }
         #endregion
 
