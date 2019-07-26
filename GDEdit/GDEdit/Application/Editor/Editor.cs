@@ -1473,17 +1473,17 @@ namespace GDEdit.Application.Editor
         // This was copied from a private feature code of EffectSome
         // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions
         /// <summary>Performs a group ID migration with the currently loaded ID migration steps for the group mode.</summary>
-        public void PerformGroupIDMigration() => PerformBlockIDMigration(GroupSteps);
+        public void PerformGroupIDMigration() => PerformGroupIDMigration(GroupSteps);
         /// <summary>Performs a group ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the group ID migration.</param>
         public void PerformGroupIDMigration(List<SourceTargetRange> ranges) => PerformIDMigration(ranges, AdjustGroups);
         /// <summary>Performs a color ID migration with the currently loaded ID migration steps for the color mode.</summary>
-        public void PerformColorIDMigration() => PerformBlockIDMigration(ColorSteps);
+        public void PerformColorIDMigration() => PerformColorIDMigration(ColorSteps);
         /// <summary>Performs a color ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the color ID migration.</param>
         public void PerformColorIDMigration(List<SourceTargetRange> ranges) => PerformIDMigration(ranges, AdjustColors);
         /// <summary>Performs an item ID migration with the currently loaded ID migration steps for the item mode.</summary>
-        public void PerformItemIDMigration() => PerformBlockIDMigration(ItemSteps);
+        public void PerformItemIDMigration() => PerformItemIDMigration(ItemSteps);
         /// <summary>Performs an item ID migration given the provided ID migration steps.</summary>
         /// <param name="ranges">The ID migration steps to execute to perform the item ID migration.</param>
         public void PerformItemIDMigration(List<SourceTargetRange> ranges) => PerformIDMigration(ranges, AdjustItems);
