@@ -111,9 +111,9 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents the opacity value of the trigger.</summary>
         [ObjectParameterDoubleType]
         Opacity = 35,
-        /// <summary>Represents the value for whether the <see cref="LevelObject"/> is a trigger or not. This is not confirmed.</summary>
+        /// <summary>Unknown feature with ID 36. It has been found as true on most special objects, and some general objects. Its usage must be investigated.</summary>
         [ObjectParameterBoolType]
-        IsTrigger = 36,
+        UnknownFeature36 = 36,
         /// <summary>Unknown feature with ID 37.</summary>
         UnknownFeature37 = 37,
         /// <summary>Unknown feature with ID 38.</summary>
