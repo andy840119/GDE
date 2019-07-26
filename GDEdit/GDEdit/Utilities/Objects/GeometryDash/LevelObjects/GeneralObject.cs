@@ -542,6 +542,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     if (s.Length > 0)
                         s.Remove(s.Length - 1, 1);
                     return s.ToString();
+                case Enum _:
+                    return ToInt32(thing).ToString();
                 // Please tell me there are no more things that break
             }
             return thing.ToString();
