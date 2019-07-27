@@ -187,7 +187,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         private void IDMigrationOperationCompleted()
         {
             foreach (var c in Cards)
-                c.ResetStepRunningState();
+                c.ResetStepRunningStateIndicators();
         }
 
         [BackgroundDependencyLoader]

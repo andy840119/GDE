@@ -59,6 +59,14 @@ namespace GDE.Tests.Visual.TestSceneEditor
             AddWaitStep("Wait for animation to be completed", 1);
             AddStep("Deselect", () => card.Selected.Value = false);
             AddWaitStep("Wait for animation to be completed", 1);
+            AddStep("Select", () => card.Selected.Value = true);
+            AddWaitStep("Wait for animation to be completed", 1);
+            AddStep("Indicate step is pending run", card.IndicateStepPendingRunning);
+            AddStep("Indicate step is running", card.IndicateStepRunning);
+            AddWaitStep("Step is running (my ass)", 5);
+            AddStep("Indicate step has finished run", card.IndicateStepFinishedRunning);
+            AddStep("Reset step running state indicators", card.ResetStepRunningStateIndicators);
+            AddWaitStep("Return back to normal state", 2);
         }
 
         [BackgroundDependencyLoader]

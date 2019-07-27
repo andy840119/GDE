@@ -259,7 +259,7 @@ namespace GDE.App.Main.Screens.Edit.Components
             FinishTransforms();
             FadeLeftSideColor(FromHex("80ff00"), 200);
         }
-        public void ResetStepRunningState()
+        public void ResetStepRunningStateIndicators()
         {
             Task.Delay(500).ContinueWith(t => FadeToCurrentSelectionState(500));
         }
