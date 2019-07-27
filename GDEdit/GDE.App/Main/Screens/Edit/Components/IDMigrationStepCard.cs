@@ -245,19 +245,19 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         public void IndicateStepPendingRunning()
         {
-            FadeLeftSideColor(FromHex("d0d000"), 200);
+            FadeLeftSideColor(FromHex("ffff00"), 200);
         }
         public void IndicateStepRunning()
         {
             // I don't like this code at all, but the framework is the reason behind it
             // This disallows custom transformation functions to be implemented on a class level
             // Extensions have to be made to offer .Then().Fade*(...) functionality
-            FadeLeftSideColor(FromHex("d00000"), 200).OnComplete(FadeToPrimaryStepRunningColor);
+            FadeLeftSideColor(FromHex("ff0000"), 200).OnComplete(FadeToSecondaryStepRunningColor);
         }
         public void IndicateStepFinishedRunning()
         {
             FinishTransforms();
-            FadeLeftSideColor(FromHex("68d000"), 200);
+            FadeLeftSideColor(FromHex("80ff00"), 200);
         }
         public void ResetStepRunningState()
         {
@@ -268,8 +268,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private void OnSelected(ValueChangedEvent<bool> value) => FadeToCurrentSelectionState();
 
-        private void FadeToPrimaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("d00000"), 1000).OnComplete(FadeToSecondaryStepRunningColor);
-        private void FadeToSecondaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("d06800"), 1000).OnComplete(FadeToPrimaryStepRunningColor);
+        private void FadeToPrimaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("ff0000"), 1000).OnComplete(FadeToSecondaryStepRunningColor);
+        private void FadeToSecondaryStepRunningColor(IDMigrationStepCard card) => FadeLeftSideColor(FromHex("ff8000"), 1000).OnComplete(FadeToPrimaryStepRunningColor);
 
         private TransformSequence<IDMigrationStepCard> FadeToCurrentSelectionState(double duration = 200) => FadeLeftSideColor(FromHex(Selected.Value ? "00ff80" : "808080"), duration);
 
