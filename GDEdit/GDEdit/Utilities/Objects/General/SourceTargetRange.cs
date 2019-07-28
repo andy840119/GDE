@@ -11,6 +11,9 @@ namespace GDEdit.Utilities.Objects.General
     /// <summary>Represents a source-target range of the form A-B > C-D, where A &lt;= B and C &lt;= D.</summary>
     public class SourceTargetRange
     {
+        /// <summary>The value that determines whether a property is invalid.</summary>
+        public const int InvalidValue = -1;
+
         private int sourceFrom, sourceTo, targetFrom;
 
         /// <summary>Gets or sets the source's starting value.</summary>
@@ -34,14 +37,30 @@ namespace GDEdit.Utilities.Objects.General
         /// <summary>Gets or sets the target's ending value.</summary>
         public int TargetTo
         {
-            get => IsAnyValueInvalid() ? -1 : targetFrom + Range;
+            get => IsAnyValueInvalid() ? InvalidValue : targetFrom + Range;
             set
             {
-                if (!IsAnyValueInvalid())
+                if (!IsTargetFromValid)
+                    return;
+
+                // Assign to fields to avoid invoking the event multiple times
+                if (!IsSourceFromValid && IsSourceToValid)
+                    sourceFrom = sourceTo - (value - targetFrom);
+                else if (IsSourceFromValid && !IsSourceToValid)
+                    sourceTo = sourceFrom + (value - targetFrom);
+                else if (!IsAnyValueInvalid())
                     AdjustSourceTo(value - TargetTo, false);
+
                 SourceTargetRangeChanged?.Invoke(sourceFrom, sourceTo, targetFrom, value);
             }
         }
+
+        /// <summary>Determines whether the source from property is valid (> <seealso cref="InvalidValue"/>).</summary>
+        public bool IsSourceFromValid => sourceFrom > InvalidValue;
+        /// <summary>Determines whether the source to property is valid (> <seealso cref="InvalidValue"/>).</summary>
+        public bool IsSourceToValid => sourceTo > InvalidValue;
+        /// <summary>Determines whether the target from property is valid (> <seealso cref="InvalidValue"/>).</summary>
+        public bool IsTargetFromValid => targetFrom > InvalidValue;
 
         /// <summary>Gets the range of the source.</summary>
         public int Range => sourceTo - sourceFrom;
@@ -68,8 +87,8 @@ namespace GDEdit.Utilities.Objects.General
         /// <param name="value">The value to determine whether it's within the source's range.</param>
         public bool IsWithinSourceRange(int value) => sourceFrom <= value && value <= sourceTo;
 
-        /// <summary>Determines whether any of the source from, source to and target from values is -1.</summary>
-        public bool IsAnyValueInvalid() => sourceFrom == -1 || sourceTo == -1 || targetFrom == -1;
+        /// <summary>Determines whether any of the source from, source to and target from values is equal to <seealso cref="InvalidValue"/>.</summary>
+        public bool IsAnyValueInvalid() => sourceFrom == InvalidValue || sourceTo == InvalidValue || targetFrom == InvalidValue;
 
         /// <summary>Adjusts the source to property while also being able to maintain the source difference.</summary>
         /// <param name="adjustment">The adjustment to apply to the source to property.</param>
@@ -178,8 +197,8 @@ namespace GDEdit.Utilities.Objects.General
 
         private static void GetCommonPropertyComparer(ref int result, ref int value)
         {
-            if (result > -1 && result != value)
-                result = -1;
+            if (result > InvalidValue && result != value)
+                result = InvalidValue;
         }
 
         private static string ToString(int from, int to) => $"{from}{(to - from > 0 ? $"-{to}" : "")}";

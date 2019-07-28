@@ -272,7 +272,7 @@ namespace GDE.App.Main.Screens.Edit
 
         private void HandleSourceFromChanged(int newValue)
         {
-            if (newValue > 0)
+            if (newValue > 0 && newValue <= CommonIDMigrationStep.Value.SourceTo)
                 CommonIDMigrationStep.Value.SourceFrom = newValue;
         }
         private void HandleSourceToChanged(int newValue)
@@ -347,9 +347,10 @@ namespace GDE.App.Main.Screens.Edit
         }
         private void UpdateTextBox(NumberTextBox textBox, int? newValue)
         {
-            bool enabled = newValue.HasValue && newValue > -1;
+            bool enabled = newValue.HasValue;
+            bool isValid = enabled && newValue > InvalidValue;
             textBox.InvokeEvents = false;
-            if (enabled)
+            if (isValid)
                 textBox.Number = newValue.Value;
             else
                 textBox.Text = "";
