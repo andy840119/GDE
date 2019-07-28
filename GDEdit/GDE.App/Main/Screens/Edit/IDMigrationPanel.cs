@@ -193,13 +193,13 @@ namespace GDE.App.Main.Screens.Edit
                                         Children = new Drawable[]
                                         {
                                             performMigration = GetNewFadeButton(8, "Perform Migration", greenEnabledColor, PerformMigration),
-                                            removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, CurrentStepList.RemoveSelectedSteps),
-                                            cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CurrentStepList.CloneSelectedSteps),
-                                            deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, CurrentStepList.DeselectAll),
-                                            selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, CurrentStepList.SelectAll),
-                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, CurrentStepList.LoadSteps),
-                                            saveStepsAs = GetNewFadeButton(0, "Save Steps As", grayEnabledColor, CurrentStepList.SaveStepsAs),
-                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, CurrentStepList.SaveSteps),
+                                            removeSteps = GetNewFadeButton(0, "Remove Steps", redEnabledColor, RemoveSelectedSteps),
+                                            cloneSteps = GetNewFadeButton(0, "Clone Steps", grayEnabledColor, CloneSelectedSteps),
+                                            deselectAll = GetNewFadeButton(0, "Deselect All", grayEnabledColor, DeselectAll),
+                                            selectAll = GetNewFadeButton(0, "Select All", grayEnabledColor, SelectAll),
+                                            loadSteps = GetNewFadeButton(0, "Load Steps", grayEnabledColor, LoadSteps),
+                                            saveStepsAs = GetNewFadeButton(0, "Save Steps As", grayEnabledColor, SaveStepsAs),
+                                            saveSteps = GetNewFadeButton(0, "Save Steps", grayEnabledColor, SaveSteps),
                                             createStep = GetNewFadeButton(0, "Create Step", greenEnabledColor, CreateNewStep),
                                         },
                                     },
@@ -309,6 +309,14 @@ namespace GDE.App.Main.Screens.Edit
             performMigration.Text = "Performing Migration";
             SetEnabledStateOnFadeButtons(false);
         }
+        // These wrapper functions are all made because directly using the current step list functions will only refer to the groups tab
+        private void RemoveSelectedSteps() => currentStepList.RemoveSelectedSteps();
+        private void CloneSelectedSteps() => currentStepList.CloneSelectedSteps();
+        private void DeselectAll() => currentStepList.DeselectAll();
+        private void SelectAll() => currentStepList.SelectAll();
+        private void LoadSteps() => currentStepList.LoadSteps();
+        private void SaveStepsAs() => currentStepList.SaveStepsAs();
+        private void SaveSteps() => currentStepList.SaveSteps();
         private void CreateNewStep()
         {
             CurrentStepList.CreateNewStep();
