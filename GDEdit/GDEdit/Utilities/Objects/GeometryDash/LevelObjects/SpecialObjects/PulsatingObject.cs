@@ -13,6 +13,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a pulsating object.</summary>
     public class PulsatingObject : SpecialObject
     {
+        private float animationSpeed = 1;
+
         /// <summary>The valid object IDs of the special object.</summary>
         protected override int[] ValidObjectIDs => ObjectLists.PulsatingObjectList;
         /// <summary>The name as a string of the special object.</summary>
@@ -20,7 +22,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>The animation speed of the pulsating object as a ratio.</summary>
         [ObjectStringMappable(ObjectParameter.AnimationSpeed)]
-        public float AnimationSpeed { get; set; } = 1;
+        public double AnimationSpeed
+        {
+            get => animationSpeed;
+            set => animationSpeed = (float)value;
+        }
         /// <summary>The Randomize Start property of the pulsating object.</summary>
         [ObjectStringMappable(ObjectParameter.RandomizeStart)]
         public bool RandomizeStart
@@ -59,7 +65,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             var z = other as PulsatingObject;
             return base.EqualsInherited(other)
-                && AnimationSpeed == z.AnimationSpeed;
+                && animationSpeed == z.animationSpeed;
         }
     }
 }
