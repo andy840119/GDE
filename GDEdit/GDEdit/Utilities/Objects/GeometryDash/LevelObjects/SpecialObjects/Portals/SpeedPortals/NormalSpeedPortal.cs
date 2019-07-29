@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class NormalSpeedPortal : SpeedPortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the normal speed portal.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)PortalType.NormalSpeed;
 
         /// <summary>The speed this speed portal sets.</summary>

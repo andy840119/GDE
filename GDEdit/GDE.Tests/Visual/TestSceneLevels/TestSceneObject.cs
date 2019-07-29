@@ -6,13 +6,13 @@ using osu.Framework.Testing;
 using osuTK;
 using osuTK.Graphics;
 
-namespace GDE.Tests.Visual.TestCaseLevel
+namespace GDE.Tests.Visual.TestSceneLevel
 {
-    public class TestCaseObject : TestCase
+    public class TestSceneObject : TestScene
     {
         private ObjectBase obj;
 
-        public TestCaseObject()
+        public TestSceneObject()
         {
             Children = new Drawable[]
             {

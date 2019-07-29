@@ -6,13 +6,16 @@ using GDE.App.Main.Screens.Edit.Components;
 using GDE.App.Main.Screens.Edit.Components.Menu;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.FileDialogComponents;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
@@ -25,17 +28,23 @@ namespace GDE.App.Main.Screens.Edit
     public class EditorScreen : Screen
     {
         private TextureStore texStore;
-        private Box background;
+        private Sprite background;
         private int i;
 
         private Database database;
         private LevelPreview preview;
         private Level level => database.UserLevels[i];
 
-        private Editor editor;
         private Grid grid;
         private Camera camera;
         private EditorTools tools;
+
+        private IDMigrationPanel IDMigrationPanel;
+
+        public readonly Bindable<OpenFileDialog> OpenFileDialogBindable = new Bindable<OpenFileDialog>();
+        public readonly Bindable<SaveFileDialog> SaveFileDialogBindable = new Bindable<SaveFileDialog>();
+
+        public readonly Editor Editor;
 
         [BackgroundDependencyLoader]
         private void load(DatabaseCollection databases, TextureStore ts)
@@ -45,17 +54,31 @@ namespace GDE.App.Main.Screens.Edit
             texStore = ts;
             background.Texture = texStore.Get("Backgrounds/game_bg_01_001-uhd.png");
 
-            EditorMenuBar menuBar;
-
-            var fileMenuItems = new List<MenuItem>();
-
-            fileMenuItems.Add(new EditorMenuItem("Save", Save, MenuItemType.Highlighted));
-            fileMenuItems.Add(new EditorMenuItem("Save & Exit", SaveAndExit, MenuItemType.Standard));
-            fileMenuItems.Add(new EditorMenuItemSpacer());
-            fileMenuItems.Add(new EditorMenuItem("Exit", this.Exit, MenuItemType.Destructive));
-
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
+
+            AddMenuItems();
+        }
+
+        private void AddMenuItems()
+        {
+            EditorMenuBar menuBar;
+
+            var fileMenuItems = new List<MenuItem>
+            {
+                new EditorMenuItem("Save", Save, MenuItemType.Highlighted),
+                new EditorMenuItem("Save & Exit", SaveAndExit, MenuItemType.Standard),
+                new EditorMenuItemSpacer(),
+                new EditorMenuItem("Exit", this.Exit, MenuItemType.Destructive),
+            };
+            var editMenuItems = new List<MenuItem>
+            {
+                // Undo, redo
+            };
+            var macrosMenuItems = new List<MenuItem>
+            {
+                new EditorMenuItem("Migrate IDs", IDMigrationPanel.ToggleVisibility, MenuItemType.Standard),
+            };
 
             AddInternal(new Container
             {
@@ -72,7 +95,15 @@ namespace GDE.App.Main.Screens.Edit
                         new MenuItem("File")
                         {
                             Items = fileMenuItems
-                        }
+                        },
+                        new MenuItem("Edit")
+                        {
+                            Items = editMenuItems
+                        },
+                        new MenuItem("Macros")
+                        {
+                            Items = macrosMenuItems
+                        },
                     }
                 }
             });
@@ -82,10 +113,10 @@ namespace GDE.App.Main.Screens.Edit
         {
             RelativeSizeAxes = Axes.Both;
 
-            editor = new Editor(level);
+            Editor = new Editor(level);
             // TODO: Inject editor into dependencies to work with the other things
 
-            RPC.UpdatePresence(editor.Level.Name, "Editing a level", new Assets
+            RPC.UpdatePresence(Editor.Level.Name, "Editing a level", new Assets
             {
                 LargeImageKey = "gde",
                 LargeImageText = "GD Edit"
@@ -95,7 +126,7 @@ namespace GDE.App.Main.Screens.Edit
 
             AddRangeInternal(new Drawable[]
             {
-                background = new Box
+                background = new Sprite
                 {
                     Origin = Anchor.BottomLeft,
                     Anchor = Anchor.BottomLeft,
@@ -103,7 +134,7 @@ namespace GDE.App.Main.Screens.Edit
                     Colour = GDEColors.FromHex("4f4f4f"),
                     Size = new Vector2(2048, 2048)
                 },
-                camera = new Camera(editor)
+                camera = new Camera(Editor)
                 {
                     RelativeSizeAxes = Axes.Both,
                     Anchor = Anchor.Centre,
@@ -128,7 +159,29 @@ namespace GDE.App.Main.Screens.Edit
                     Size = new Vector2(150, 300),
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft
-                }
+                },
+                OpenFileDialogBindable.Value = new OpenFileDialog
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Size = new Vector2(0.8f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    Depth = -10
+                },
+                SaveFileDialogBindable.Value = new SaveFileDialog
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Size = new Vector2(0.8f),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    Depth = -10
+                },
+                IDMigrationPanel = new IDMigrationPanel(this)
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    LockDrag = true,
+                },
             });
         }
 
@@ -137,7 +190,7 @@ namespace GDE.App.Main.Screens.Edit
             if (tools.AbleToPlaceBlock.Value)
             {
                 var cloned = camera.GetClonedGhostObjectLevelObject();
-                editor.AddObject(cloned);
+                Editor.AddObject(cloned);
                 preview.Add(new ObjectBase(cloned));
                 return true;
             }
@@ -160,6 +213,6 @@ namespace GDE.App.Main.Screens.Edit
             Save();
             this.Exit();
         }
-        private void Save() => editor.Save(database, i);
+        private void Save() => Editor.Save(database, i);
     }
 }

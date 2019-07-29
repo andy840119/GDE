@@ -39,6 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=0.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.4.5.0\lib\net461\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -58,8 +61,11 @@
     <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
     <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
     <Compile Include="Utilities\Attributes\ColorStringMappableAttribute.cs" />
+    <Compile Include="Utilities\Attributes\IGenericAttribute.cs" />
+    <Compile Include="Utilities\Attributes\ObjectIDsAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectIDAttribute.cs" />
     <Compile Include="Utilities\Attributes\LevelStringMappableAttribute.cs" />
+    <Compile Include="Utilities\Attributes\ObjectParameterTypeAttribute.cs" />
     <Compile Include="Utilities\Attributes\SongMetadataStringMappableAttribute.cs" />
     <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleProperty1.cs" />
@@ -84,6 +90,7 @@
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialBlockType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\SpecialObjectType.cs" />
     <Compile Include="Utilities\Enumerations\GeometryDash\TriggerType.cs" />
+    <Compile Include="Utilities\Enumerations\IDMigrationMode.cs" />
     <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
     <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
@@ -107,8 +114,11 @@
     <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
     <Compile Include="Utilities\Objects\General\BitArray16.cs" />
     <Compile Include="Utilities\Objects\General\Directional.cs" />
+    <Compile Include="Utilities\Objects\General\IDMigration\IDMigrationInfo.cs" />
+    <Compile Include="Utilities\Objects\General\IDMigration\IDMigrationModeInfo.cs" />
     <Compile Include="Utilities\Objects\General\Point.cs" />
     <Compile Include="Utilities\Objects\General\BitArray8.cs" />
+    <Compile Include="Utilities\Objects\General\SourceTargetRange.cs" />
     <Compile Include="Utilities\Objects\General\TimeSignature.cs" />
     <Compile Include="Utilities\Objects\General\XMLAnalyzer.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\ColorChannel.cs" />
@@ -194,6 +204,7 @@
     <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
     <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasCopiedColorID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ScaleTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ZoomTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\EndTrigger.cs" />
@@ -272,6 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\Editor\Functions\" />

@@ -42,6 +42,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>Initializes a new instance of the <seealso cref="Trigger"/> class.</summary>
         /// <param name="touchTriggered">The Touch Triggered property of the trigger.</param>
         public Trigger(bool touchTriggered)
+            : base()
         {
             TouchTriggered = touchTriggered;
         }
@@ -49,6 +50,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="spawnTriggered">The Spawn Triggered property of the trigger.</param>
         /// <param name="multiTrigger">The Multi Trigger property of the trigger.</param>
         public Trigger(bool spawnTriggered, bool multiTrigger)
+            : base()
         {
             SpawnTriggered = spawnTriggered;
             MultiTrigger = multiTrigger;

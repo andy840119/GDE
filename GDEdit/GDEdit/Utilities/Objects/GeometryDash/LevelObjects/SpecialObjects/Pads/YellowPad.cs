@@ -15,6 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Pads
     public class YellowPad : Pad
     {
         /// <summary>The object ID of the yellow pad.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)PadType.YellowPad;
 
         /// <summary>Initializes a new instance of the <seealso cref="YellowPad"/> class.</summary>

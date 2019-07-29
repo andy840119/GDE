@@ -33,7 +33,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
         }
@@ -46,7 +46,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, bool flippedHorizontally, bool flippedVertically)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.FlippedHorizontally] = flippedHorizontally;
@@ -60,7 +60,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, double rotation)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.Rotation] = rotation;
@@ -74,7 +74,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, double rotation, double scaling)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.Rotation] = rotation;
@@ -90,7 +90,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, bool flippedHorizontally, bool flippedVertically, double rotation)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.FlippedHorizontally] = flippedHorizontally;
@@ -108,7 +108,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, bool flippedHorizontally, bool flippedVertically, double rotation, double scaling)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.FlippedHorizontally] = flippedHorizontally;
@@ -124,7 +124,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int EL1)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.EL1] = EL1;
@@ -138,7 +138,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int EL1, int EL2)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.EL1] = EL1;
@@ -152,7 +152,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int[] groupIDs)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.GroupIDs] = groupIDs;
@@ -167,7 +167,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int[] groupIDs, int EL1, int EL2)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.GroupIDs] = groupIDs;
@@ -186,7 +186,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.Color1] = mainColor;
@@ -208,7 +208,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2, bool disableGlow)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.Color1] = mainColor;
@@ -233,7 +233,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2, bool disableGlow, int ZOrder, int ZLayer)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.Color1] = mainColor;
@@ -260,7 +260,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public LevelObject(int objID, double x, double y, int mainColor, int detailColor, int[] groupIDs, int EL1, int EL2, bool disableGlow, int ZOrder, ZLayer ZLayer)
         {
             this[ObjectParameter.ID] = objID;
-            this[ObjectParameter.IsTrigger] = ObjectLists.TriggerList.Contains(objID);
+            this[ObjectParameter.UnknownFeature36] = ObjectLists.TriggerList.Contains(objID);
             this[ObjectParameter.X] = x;
             this[ObjectParameter.Y] = y;
             this[ObjectParameter.Color1] = mainColor;

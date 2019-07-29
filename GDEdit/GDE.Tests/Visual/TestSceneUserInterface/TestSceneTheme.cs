@@ -7,15 +7,15 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual.TestCaseUserInterface
+namespace GDE.Tests.Visual.TestSceneUserInterface
 {
-    public class TestCaseTheme : TestCase
+    public class TestSceneTheme : TestScene
     {
         private Bindable<string> hexValue = new Bindable<string>("151515");
         private TextBox hexBox;
         private Box themedBox;
 
-        public TestCaseTheme()
+        public TestSceneTheme()
         {
             Children = new Drawable[]
             {

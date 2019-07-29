@@ -18,6 +18,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate;
 
         /// <summary>The Object ID of the Static Camera trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.StaticCamera;
 
         /// <summary>The duration of the trigger's effect.</summary>

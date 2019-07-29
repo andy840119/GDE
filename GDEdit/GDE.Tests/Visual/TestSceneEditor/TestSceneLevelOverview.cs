@@ -4,13 +4,13 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
 using osuTK.Graphics;
 
-namespace GDE.Tests.Visual.TestCaseEditor
+namespace GDE.Tests.Visual.TestSceneEditor
 {
-    public class TestCaseLevelOverview : TestCase
+    public class TestSceneLevelOverview : TestScene
     {
         private LevelPreview lvlOverview;
 
-        public TestCaseLevelOverview()
+        public TestSceneLevelOverview()
         {
             Children = new Drawable[]
             {

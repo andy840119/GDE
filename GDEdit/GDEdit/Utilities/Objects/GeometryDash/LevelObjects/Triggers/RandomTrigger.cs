@@ -18,6 +18,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private short groupID1, groupID2;
 
         /// <summary>The Object ID of the Random trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Random;
 
         /// <summary>The target Group ID of the trigger.</summary>
@@ -28,7 +29,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => GroupID1 = (short)value;
         }
         /// <summary>The secondary Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         public int SecondaryGroupID
         {
             get => GroupID2;

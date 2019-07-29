@@ -4,6 +4,7 @@ using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
 using GDE.App.Main.UI;
+using GDE.App.Main.UI.Containers;
 using GDEdit.Application;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.GeometryDash;
@@ -51,7 +52,7 @@ namespace GDE.App.Main.Screens.Menu.Components
                         Left = 10
                     }
                 },
-                new ScrollContainer
+                new GDEScrollContainer
                 {
                     RelativeSizeAxes = Axes.Both,
                     Margin = new MarginPadding
@@ -119,11 +120,11 @@ namespace GDE.App.Main.Screens.Menu.Components
                                 TextSize = 24,
                                 Colour = GDEColors.FromHex("666666")
                             },
-                            new Button
+                            new GDEButton
                             {
                                 Anchor = Anchor.Centre,
                                 Origin = Anchor.Centre,
-                                Size = new Vector2(220, 32),
+                                Width = 200,
                                 Text = "Create a new level",
                                 BackgroundColour = GDEColors.FromHex("242424")
                             }
