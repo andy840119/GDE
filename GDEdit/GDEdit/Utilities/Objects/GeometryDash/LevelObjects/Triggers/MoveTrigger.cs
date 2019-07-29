@@ -78,19 +78,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => TriggerBools[4];
             set => TriggerBools[4] = value;
         }
+        /// <summary>The Enable Use Target property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.EnableUseTarget)]
+        public bool EnableUseTarget
+        {
+            get => TriggerBools[5];
+            set => TriggerBools[5] = value;
+        }
         /// <summary>The Lock to Camera X property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToCameraX)]
         public bool LockToCameraX
         {
-            get => TriggerBools[5];
-            set => TriggerBools[5] = value;
+            get => TriggerBools[6];
+            set => TriggerBools[6] = value;
         }
         /// <summary>The Lock to Camera Y property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.LockToCameraY)]
         public bool LockToCameraY
         {
-            get => TriggerBools[6];
-            set => TriggerBools[6] = value;
+            get => TriggerBools[7];
+            set => TriggerBools[7] = value;
         }
         /// <summary>The Target Pos Group ID property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetPosGroupID)]

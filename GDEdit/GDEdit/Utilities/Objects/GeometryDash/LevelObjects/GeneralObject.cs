@@ -3,6 +3,7 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.GeometryDash.General;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using Microsoft.CSharp;
 using System;
@@ -168,53 +169,88 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             get => bools[6];
             set => bools[6] = value;
         }
+
+        /// <summary>Determines whether color 1 HSV is enabled.</summary>
+        [ObjectStringMappable(ObjectParameter.Color1HSVEnabled)]
+        public bool Color1HSVEnabled
+        {
+            get => bools[7];
+            set => bools[7] = value;
+        }
+        /// <summary>The color 1 HSV values of the object (as a string for the gamesave).</summary>
+        [ObjectStringMappable(ObjectParameter.Color1HSVValues)]
+        public string Color1HSV
+        {
+            get => Color1HSVAdjustment.ToString();
+            set => Color1HSVAdjustment = HSVAdjustment.Parse(value);
+        }
+        /// <summary>The color 1 HSV adjustment of the color 1 of the object.</summary>
+        public HSVAdjustment Color1HSVAdjustment { get; set; } = new HSVAdjustment();
+
+        /// <summary>Determines whether color 2 HSV is enabled.</summary>
+        [ObjectStringMappable(ObjectParameter.Color2HSVEnabled)]
+        public bool Color2HSVEnabled
+        {
+            get => bools[8];
+            set => bools[8] = value;
+        }
+        /// <summary>The color 2 HSV values of the object (as a string for the gamesave).</summary>
+        [ObjectStringMappable(ObjectParameter.Color2HSVValues)]
+        public string Color2HSV
+        {
+            get => Color2HSVAdjustment.ToString();
+            set => Color2HSVAdjustment = HSVAdjustment.Parse(value);
+        }
+        /// <summary>The color 2 HSV adjustment of the color 2 of the object.</summary>
+        public HSVAdjustment Color2HSVAdjustment { get; set; } = new HSVAdjustment();
+
         /// <summary>Determines whether this object will have its effects disabled or not.</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.NoEffects)]
         public bool NoEffects
         {
-            get => bools[7];
-            set => bools[7] = value;
+            get => bools[9];
+            set => bools[9] = value;
         }
         /// <summary>The Ice Block property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.IceBlock)]
         public bool IceBlock
         {
-            get => bools[8];
-            set => bools[8] = value;
+            get => bools[10];
+            set => bools[10] = value;
         }
         /// <summary>The Non-Stick property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.NonStick)]
         public bool NonStick
         {
-            get => bools[9];
-            set => bools[9] = value;
+            get => bools[11];
+            set => bools[11] = value;
         }
         /// <summary>The Unstuckable(?) property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.Unstuckable)]
         public bool Unstuckable
         {
-            get => bools[10];
-            set => bools[10] = value;
+            get => bools[12];
+            set => bools[12] = value;
         }
         /// <summary>The [unreadable text 1] property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.UnreadableProperty1)]
         public bool UnreadableProperty1
         {
-            get => bools[11];
-            set => bools[11] = value;
+            get => bools[13];
+            set => bools[13] = value;
         }
         /// <summary>The [unreadable text 2] property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.UnreadableProperty2)]
         public bool UnreadableProperty2
         {
-            get => bools[12];
-            set => bools[12] = value;
+            get => bools[14];
+            set => bools[14] = value;
         }
         /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this parameter, causing infinite performance costs.</summary>
         [ObjectStringMappable(ObjectParameter.UnknownFeature36)]
@@ -338,6 +374,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             cloned.transformationScalingY = transformationScalingY;
             cloned.transformationScalingCenterX = transformationScalingCenterX;
             cloned.transformationScalingCenterY = transformationScalingCenterY;
+            cloned.Color1HSVAdjustment = Color1HSVAdjustment;
+            cloned.Color2HSVAdjustment = Color2HSVAdjustment;
             return cloned;
         }
 
@@ -476,7 +514,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 && scaling == other.scaling
                 && LinkedGroupID == other.LinkedGroupID
                 && zLayer == other.zLayer
-                && ZOrder == other.ZOrder;
+                && ZOrder == other.ZOrder
+                && Color1HSVAdjustment == other.Color1HSVAdjustment
+                && Color2HSVAdjustment == other.Color2HSVAdjustment;
         }
         /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
         /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
