@@ -14,6 +14,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     [ObjectID(TriggerType.Reverse)]
     public class ReverseTrigger : Trigger
     {
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Reverse;
 
         /// <summary>The Reverse property of the trigger.</summary>

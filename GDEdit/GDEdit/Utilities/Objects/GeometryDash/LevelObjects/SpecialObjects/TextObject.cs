@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Convert;
+using static System.Text.Encoding;
 
 namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 {
@@ -15,14 +17,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     public class TextObject : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the text object.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)SpecialObjectType.TextObject;
 
         /// <summary>Represents the Text property of the text object encoded in base 64.</summary>
         [ObjectStringMappable(ObjectParameter.TextObjectText)]
-        public string Base64Text => Convert.ToBase64String(Encoding.UTF8.GetBytes(Text));
+        public string Base64Text
+        {
+            get => ToBase64String(UTF8.GetBytes(Text));
+            set => Text = ASCII.GetString(Base64Decrypt(value));
+        }
 
         /// <summary>Represents the Text property of the text object.</summary>
-        public string Text { get; set; }
+        public string Text { get; set; }// = "";
 
         /// <summary>Initializes a new instance of the <seealso cref="TextObject"/> class.</summary>
         public TextObject() : base() { }
@@ -57,6 +64,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
             var z = other as TextObject;
             return base.EqualsInherited(other)
                 && Text == z.Text;
+        }
+
+        private static byte[] Base64Decrypt(string encodedData)
+        {
+            while (encodedData.Length % 4 != 0)
+                encodedData += "=";
+            byte[] encodedDataAsBytes = FromBase64String(encodedData.Replace('-', '+').Replace('_', '/').Replace("\0", string.Empty));
+            return encodedDataAsBytes;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using GDE.App.Main.UI.Containers;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Extensions.Color4Extensions;
@@ -41,6 +42,8 @@ namespace GDE.App.Main.UI.Toolbar
         }
 
         protected override DrawableMenuItem CreateDrawableMenuItem(MenuItem item) => new DrawableToolbarMenu(item);
+
+        protected override ScrollContainer<Drawable> CreateScrollContainer(Direction direction) => new GDEScrollContainer(direction);
 
         protected override Menu CreateSubMenu() => new ToolbarMenu(Direction.Vertical)
         {

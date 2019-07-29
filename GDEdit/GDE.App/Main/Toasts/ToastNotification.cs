@@ -10,20 +10,27 @@ namespace GDE.App.Main.Toasts
 {
     public class ToastNotification : FocusedOverlayContainer
     {
-        public SpriteText text;
+        private SpriteText text;
         private SpriteIcon toastIcon;
         private Box toastBody;
         private CircularContainer container;
 
+        public string Text
+        {
+            get => text.Text;
+            set => text.Text = value;
+        }
+
         public ToastNotification()
         {
+            // TODO: Implement its appearance better sometime
+
             Children = new Drawable[]
             {
                 container = new CircularContainer
                 {
                     Masking = true,
-                    RelativeSizeAxes = Axes.Y,
-                    AutoSizeAxes = Axes.X,
+                    RelativeSizeAxes = Axes.Both,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     Children = new Drawable[]
@@ -33,23 +40,28 @@ namespace GDE.App.Main.Toasts
                             RelativeSizeAxes = Axes.Both,
                             Colour = GDEColors.FromHex("1c1c1c")
                         },
-                        toastIcon = new SpriteIcon
+                        new FillFlowContainer
                         {
-                            Origin = Anchor.CentreLeft,
-                            Anchor = Anchor.CentreLeft,
-                            Icon = FontAwesome.Solid.ExclamationCircle,
-                            Size = new Vector2(20),
-                        },
-                        text = new SpriteText
-                        {
-                            Text = "filler text",
-                            Origin = Anchor.CentreLeft,
-                            Anchor = Anchor.CentreLeft,
-                            Margin = new MarginPadding
+                            RelativeSizeAxes = Axes.Both,
+                            Spacing = new Vector2(5),
+                            X = 5,
+                            Children = new Drawable[]
                             {
-                                Left = 25
-                            },
-                        }
+                                toastIcon = new SpriteIcon
+                                {
+                                    Origin = Anchor.CentreLeft,
+                                    Anchor = Anchor.CentreLeft,
+                                    Icon = FontAwesome.Solid.ExclamationCircle,
+                                    Size = new Vector2(20),
+                                },
+                                text = new SpriteText
+                                {
+                                    Origin = Anchor.CentreLeft,
+                                    Anchor = Anchor.CentreLeft,
+                                    Text = "filler text",
+                                },
+                            }
+                        },
                     }
                 }
             };
@@ -68,14 +80,13 @@ namespace GDE.App.Main.Toasts
             container.MoveTo(new Vector2(0, 0), 500, Easing.OutExpo);
             container.FadeIn(500, Easing.OutExpo);
 
-            using (BeginDelayedSequence(5000, true)) // 5 seconds
+            using (BeginDelayedSequence(3000, true)) // 3 seconds
             {
-                PopOut();
+                ToggleVisibility();
             }
 
             base.PopIn();
         }
-
         protected override void PopOut()
         {
             container.MoveTo(new Vector2(0, 20), 500, Easing.InExpo);

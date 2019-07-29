@@ -27,6 +27,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         private SymmetricalRange<Color> start, end;
 
         /// <summary>The object ID of the custom particle object.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)SpecialObjectType.CustomParticleObject;
 
         #region Motion

@@ -16,9 +16,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         private short itemID;
 
         /// <summary>The object ID of the count text block.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)SpecialObjectType.CountTextObject;
 
         /// <summary>The Item ID the count text object displays.</summary>
+        [ObjectStringMappable(ObjectParameter.ItemID)]
         public int ItemID
         {
             get => itemID;

@@ -134,6 +134,22 @@ namespace GDEdit.Application
 
         // TODO: Order these appropriately
         #region Functions
+        /// <summary>Opens the first level that matches the specified name for editing, ordered from top to bottom in the list. The level's cached level string data is cleared.</summary>
+        /// <param name="name">The name of the level to open for editing.</param>
+        public Level OpenLevelForEditing(string name) => OpenLevelForEditing(UserLevels.FindIndex(l => l.Name == name));
+        /// <summary>Opens the first level that matches the specified name and revision for editing, ordered from top to bottom in the list. The level's cached level string data is cleared.</summary>
+        /// <param name="name">The name of the level to open for editing.</param>
+        /// <param name="revision">The revision of the level to open for editing.</param>
+        public Level OpenLevelForEditing(string name, int revision) => OpenLevelForEditing(UserLevels.FindIndex(l => l.Name == name && l.Revision == revision));
+        /// <summary>Opens the level at the specified index in the list for editing. The level's cached level string data is cleared.</summary>
+        /// <param name="index">The index of the level to open for editing.</param>
+        public Level OpenLevelForEditing(int index)
+        {
+            var level = index > -1 ? UserLevels[index] : null;
+            level?.ClearCachedLevelStringData();
+            return level;
+        }
+
         /// <summary>Clones a level and adds it to the start of the list.</summary>
         /// <param name="index">The index of the level to clone.</param>
         public void CloneLevel(int index)

@@ -18,6 +18,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f;
 
         /// <summary>The Object ID of the Zoom trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Zoom;
 
         /// <summary>The duration of the trigger's effect.</summary>

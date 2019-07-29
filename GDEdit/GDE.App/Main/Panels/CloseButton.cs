@@ -5,7 +5,7 @@ using osu.Framework.Graphics.UserInterface;
 
 namespace GDE.App.Main.Panels
 {
-    public class CloseButton : Button
+    public class CloseButton : GDEButton
     {
         public CloseButton()
         {

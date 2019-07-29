@@ -13,6 +13,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Spec
     public class JSpecialBlock : SpecialBlock
     {
         /// <summary>The object ID of the J special block.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)SpecialBlockType.J;
 
         /// <summary>Initializes a new instance of the <seealso cref="JSpecialBlock"/> class.</summary>
