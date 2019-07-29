@@ -55,7 +55,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as PulsatingObject;
-            c.AnimationSpeed = AnimationSpeed;
+            c.animationSpeed = animationSpeed;
             return base.AddClonedInstanceInformation(c);
         }
 
