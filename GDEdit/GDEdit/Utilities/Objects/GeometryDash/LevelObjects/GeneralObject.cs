@@ -358,6 +358,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             cloned.transformationScalingY = transformationScalingY;
             cloned.transformationScalingCenterX = transformationScalingCenterX;
             cloned.transformationScalingCenterY = transformationScalingCenterY;
+            cloned.Color1HSVAdjustment = Color1HSVAdjustment;
+            cloned.Color2HSVAdjustment = Color2HSVAdjustment;
             return cloned;
         }
 
