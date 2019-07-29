@@ -357,9 +357,16 @@ namespace GDEdit.Application
             int utilizedCores = Math.Max(1, Cores - 2);
             int nextAvailableLevelIndex = -1;
             for (int i = 0; i < utilizedCores; i++)
-                Task.Run(LoadCurrentLevel).ContinueWith(t => LoadCurrentLevel());
+                Task.Run(LoadCurrentLevel);
 
-            async Task LoadCurrentLevel() => await UserLevels[++nextAvailableLevelIndex].InitializeLoadingLevelString();
+            async Task LoadCurrentLevel()
+            {
+                if (++nextAvailableLevelIndex < UserLevels.Count)
+                {
+                    await UserLevels[nextAvailableLevelIndex].InitializeLoadingLevelString();
+                    await LoadCurrentLevel();
+                }
+            }
         }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
