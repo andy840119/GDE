@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace GDE.Tests.Application
 {
-    public class TestCaseDatabaseMain : TestCase
+    public class TestSceneDatabaseMain : TestScene
     {
         private Database database;
         private LevelCollection levels;
         private SpriteText name, description, revision, version, objectCount, length;
         private bool finishedLoading;
 
-        public TestCaseDatabaseMain()
+        public TestSceneDatabaseMain()
         {
             Children = new[]
             {

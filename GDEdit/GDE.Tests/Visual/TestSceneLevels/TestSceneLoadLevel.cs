@@ -6,16 +6,16 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 using System.Threading.Tasks;
 
-namespace GDE.Tests.Visual.TestCaseLevel
+namespace GDE.Tests.Visual.TestSceneLevel
 {
-    public class TestCaseLoadLevel : TestCase
+    public class TestSceneLoadLevel : TestScene
     {
         private Database database;
         private SpriteText levelName;
         private LevelCollection levels;
         private bool finishedLoading;
 
-        public TestCaseLoadLevel()
+        public TestSceneLoadLevel()
         {
             Children = new Drawable[]
             {

@@ -35,6 +35,8 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         GRND2 = 900,
         /// <summary>Represents the Object ID value of the Move trigger.</summary>
         Move = 901,
+        /// <summary>Represents the Object ID value of the Line Color trigger (again, but this time with ID 915).</summary>
+        Line2 = 915,
         /// <summary>Represents the Object ID value of the Pulse trigger.</summary>
         Pulse = 1006,
         /// <summary>Represents the Object ID value of the Alpha trigger.</summary>

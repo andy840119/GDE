@@ -5,11 +5,11 @@ using osuTK;
 
 namespace GDE.Tests.Visual.TestCaseUserInterface
 {
-    public class TestCasePanel : TestCase
+    public class TestScenePanel : TestScene
     {
         private Panel panel;
 
-        public TestCasePanel()
+        public TestScenePanel()
         {
             Children = new Drawable[]
             {

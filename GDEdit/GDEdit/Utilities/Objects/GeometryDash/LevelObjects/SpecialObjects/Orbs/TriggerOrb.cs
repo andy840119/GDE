@@ -17,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         private short targetGroupID;
 
         /// <summary>The object ID of the trigger orb.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)OrbType.TriggerOrb;
 
         /// <summary>Represents the Target Group ID of the trigger orb.</summary>

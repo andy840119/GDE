@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Spec
     public abstract class SpecialBlock : ConstantIDSpecialObject
     {
         /// <summary>The object ID of the special block.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID { get; }
 
         /// <summary>Initializes a new instance of the <seealso cref="SpecialBlock"/> class.</summary>

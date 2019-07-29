@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using GDE.App.Main.UI;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
@@ -13,7 +14,7 @@ namespace GDE.App.Main.Screens
         private SpriteText AlFas;
         private SpriteText Alten;
         private FillFlowContainer container;
-        private Button exitButton;
+        private GDEButton exitButton;
 
         public Lords()
         {
@@ -43,7 +44,7 @@ namespace GDE.App.Main.Screens
                         }
                     }
                 },
-                exitButton = new Button
+                exitButton = new GDEButton
                 {
                     Text = "Exit",
                     Action = this.Exit,

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace GDE.Tests.Visual
 {
-    public class TestCaseLCDClock : TestCase
+    public class TestSceneLCDClock : TestScene
     {
         public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(LCDClock), typeof(LCDDigitBar), typeof(LCDDigit), typeof(LCDNumber) };
 
@@ -14,7 +14,7 @@ namespace GDE.Tests.Visual
         private LCDNumber number;
         private LCDClock clock;
 
-        public TestCaseLCDClock()
+        public TestSceneLCDClock()
         {
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;

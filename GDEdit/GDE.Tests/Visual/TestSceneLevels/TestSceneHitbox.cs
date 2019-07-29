@@ -11,9 +11,9 @@ using osu.Framework.Testing;
 using osuTK.Graphics;
 using System;
 
-namespace GDE.Tests.Visual.TestCaseLevel
+namespace GDE.Tests.Visual.TestSceneLevel
 {
-    public class TestCaseHitbox : TestCase
+    public class TestSceneHitbox : TestScene
     {
         private Hitbox hitbox;
         private RectangleHitbox rectangle;
@@ -21,7 +21,7 @@ namespace GDE.Tests.Visual.TestCaseLevel
         private SpriteText radius;
         private SpriteText mousePosition;
 
-        public TestCaseHitbox()
+        public TestSceneHitbox()
         {
             hitbox = new Hitbox(new Rectangle(new Point(50), 0, 100, 213));
 

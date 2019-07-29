@@ -3,13 +3,13 @@ using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK;
 
-namespace GDE.Tests.Visual.TestCaseUserInterface
+namespace GDE.Tests.Visual.TestSceneUserInterface
 {
-    public class TestCaseLevelCard : TestCase
+    public class TestSceneLevelCard : TestScene
     {
         private LevelCard card;
 
-        public TestCaseLevelCard()
+        public TestSceneLevelCard()
         {
             Children = new Drawable[]
             {

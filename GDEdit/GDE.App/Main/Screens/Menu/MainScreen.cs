@@ -1,6 +1,7 @@
 ﻿using DiscordRPC;
 using GDE.App.Main.Colors;
 using GDE.App.Main.Containers;
+using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.Overlays;
 using GDE.App.Main.Screens.Menu.Components;
 using GDE.App.Main.Tools;
