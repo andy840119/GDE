@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEdit.Utilities.Attributes;
 using GDEdit.Utilities.Objects.GeometryDash;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 
 namespace GDEdit.Utilities.Enumerations.GeometryDash
@@ -66,10 +67,10 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         UnknownFeature26 = 26,
         /// <summary>Unknown feature with ID 27.</summary>
         UnknownFeature27 = 27,
-        /// <summary>Represents the Move X value of the Move trigger in units.</summary>
-        MoveX = 28,
-        /// <summary>Represents the Move Y value of the Move trigger in units.</summary>
-        MoveY = 29,
+        /// <summary>Represents the Offset X value of the <seealso cref="MoveTrigger"/> and <seealso cref="CameraOffsetTrigger"/> in units.</summary>
+        OffsetX = 28,
+        /// <summary>Represents the Offset Y value of the <seealso cref="MoveTrigger"/> and <seealso cref="CameraOffsetTrigger"/> in units.</summary>
+        OffsetY = 29,
         /// <summary>Represents the Easing mode value of the trigger.</summary>
         Easing = 30,
         /// <summary>Represents the text of the text object encrypted in Base 64.</summary>
@@ -241,15 +242,18 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
 
         // Future-proofing
         #region General
-        /// <summary>Represents whether the player switches direction of the orb <see cref="LevelObject"/>.</summary>
+        /// <summary>Represents the [unrevealed text box feature 115] property of the <seealso cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
-        OrbSwitchPlayerDirection = -100,
+        UnrevealedTextBoxFeature115 = 115,
+        /// <summary>Represents the Switch Player Direction property of the <see cref="OrbPad"/>.</summary>
+        [FutureProofing("2.2")]
+        SwitchPlayerDirection = 117,
         // Due to bad reservation habits, the new sneak peek's parameter IDs are offset starting at -200 for this category
         // However this does not really matter since the values are unused and only serve as future-proof reservations
         // The IDs will end up being discovered and used
         /// <summary>Represents whether the <see cref="LevelObject"/> will have any effects.</summary>
         [FutureProofing("2.2")]
-        NoEffects = -200,
+        NoEffects = 116,
         /// <summary>The Ice Block property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         IceBlock = -201,
@@ -280,39 +284,44 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         #endregion
 
         #region Camera Offset Trigger
-        /// <summary>The Offset X property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
-        [FutureProofing("2.2")]
-        OffsetX = -101,
-        /// <summary>The Offset Y property of the <seealso cref="CameraOffsetTrigger"/>.</summary>
-        [FutureProofing("2.2")]
-        OffsetY = -102,
         #endregion
 
         #region Static Camera Trigger
         /// <summary>The Exit Static property of the <seealso cref="StaticCameraTrigger"/>.</summary>
         [FutureProofing("2.2")]
-        ExitStatic = -103,
+        ExitStatic = 110,
         #endregion
 
         #region End Trigger
         /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
-        Reversed = -104,
+        Reversed = 118,
         /// <summary>The Lock Y property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
-        LockY = -105,
+        LockY = 59, // This does not make sense but ok
         #endregion
 
         #region Random Trigger
         /// <summary>The Chance property of the <seealso cref="RandomTrigger"/>.</summary>
         [FutureProofing("2.2")]
-        Chance = -106,
+        Chance = 10, // You must be kidding; using the duration property as a chance?
+        // New sneak peek, new offset
+        /// <summary>The Chance Lots property of the <seealso cref="RandomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ChanceLots = -300,
+        // There is a small *chance* RobTop actually uses a special way to store the chance lot per group
+        // For instance, just like HSV, which is HaSaVaSCaVC
+        // I would expect something like 1b10.2b20, where . is the separator between groups and b is the separator for the group and the chance lots
+        // In the example above it means group 1 has 10 chance lots and group 2 has 20 chance lots
+        /// <summary>The Chance Lot Groups property of the <seealso cref="RandomTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        ChanceLotGroups = -301,
         #endregion
 
         #region Zoom Trigger
         /// <summary>The Zoom property of the <seealso cref="ZoomTrigger"/>.</summary>
         [FutureProofing("2.2")]
-        Zoom = -107,
+        Zoom = 109,
         #endregion
 
         #region Custom Particle Object
@@ -499,6 +508,15 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>The Only Move Scale property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
         OnlyMoveScale = -167,
+        #endregion
+
+        #region Move Trigger
+        /// <summary>The Lock To Camera X property of the <seealso cref="MoveTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockToCameraX = -302,
+        /// <summary>The Lock To Camera Y property of the <seealso cref="MoveTrigger"/>.</summary>
+        [FutureProofing("2.2")]
+        LockToCameraY = -303,
         #endregion
     }
 }
