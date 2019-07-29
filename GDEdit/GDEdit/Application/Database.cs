@@ -361,9 +361,11 @@ namespace GDEdit.Application
 
             async Task LoadCurrentLevel()
             {
-                if (++nextAvailableLevelIndex < UserLevels.Count)
+                // Avoid potential adjustments made by other threads while evaluating (although virtually impossible)
+                int index = ++nextAvailableLevelIndex;
+                if (index < UserLevels.Count)
                 {
-                    await UserLevels[nextAvailableLevelIndex].InitializeLoadingLevelString();
+                    await UserLevels[index].InitializeLoadingLevelString();
                     await LoadCurrentLevel();
                 }
             }
