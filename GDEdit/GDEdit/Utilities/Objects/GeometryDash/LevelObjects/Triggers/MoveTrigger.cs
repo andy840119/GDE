@@ -51,14 +51,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => easingRate = (float)value;
         }
         /// <summary>The Move X property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MoveX)]
+        [ObjectStringMappable(ObjectParameter.OffsetX)]
         public double MoveX
         {
             get => moveX;
             set => moveX = (float)value;
         }
         /// <summary>The Move Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MoveY)]
+        [ObjectStringMappable(ObjectParameter.OffsetY)]
         public double MoveY
         {
             get => moveY;
