@@ -66,10 +66,18 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         // IMPORTANT: The Player 1 and Player 2 setters are not implemented to avoid unnecessary assignments
         /// <summary>The Player 1 Color property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor1)]
-        public bool Player1Color => CopiedColorID == (int)SpecialColorID.P1;
+        public bool Player1Color
+        {
+            get => CopiedColorID == (int)SpecialColorID.P1;
+            set { }
+        }
         /// <summary>The Player 2 Color property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor2)]
-        public bool Player2Color => CopiedColorID == (int)SpecialColorID.P2;
+        public bool Player2Color
+        {
+            get => CopiedColorID == (int)SpecialColorID.P2;
+            set { }
+        }
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
