@@ -170,7 +170,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The color 1 HSV values of the object (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.Color1HSVValues)]
-        public string Color1HSV => Color1HSVAdjustment.ToString();
+        public string Color1HSV
+        {
+            get => Color1HSVAdjustment.ToString();
+            set => Color1HSVAdjustment = HSVAdjustment.Parse(value);
+        }
         /// <summary>The color 1 HSV adjustment of the color 1 of the object.</summary>
         public HSVAdjustment Color1HSVAdjustment { get; set; } = new HSVAdjustment();
 
@@ -183,7 +187,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         }
         /// <summary>The color 2 HSV values of the object (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.Color2HSVValues)]
-        public string Color2HSV => Color2HSVAdjustment.ToString();
+        public string Color2HSV
+        {
+            get => Color2HSVAdjustment.ToString();
+            set => Color2HSVAdjustment = HSVAdjustment.Parse(value);
+        }
         /// <summary>The color 2 HSV adjustment of the color 2 of the object.</summary>
         public HSVAdjustment Color2HSVAdjustment { get; set; } = new HSVAdjustment();
 
