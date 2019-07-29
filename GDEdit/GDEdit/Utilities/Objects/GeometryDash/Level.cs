@@ -24,7 +24,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         private Task loadLS;
 
-        private string undecryptedLevelString;
+        private string unprocessedLevelString;
         private bool canLoadLevelString;
         private string cachedLevelString;
 
@@ -228,7 +228,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get => cachedLevelString ?? (cachedLevelString = GetLevelString());
             set
             {
-                undecryptedLevelString = value;
+                unprocessedLevelString = value;
                 if (canLoadLevelString)
                     LoadLevelStringData();
             }
@@ -330,8 +330,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         {
             await (loadLS = Task.Run(() =>
             {
-                TryDecryptLevelString(undecryptedLevelString, out var decryptedLevelString);
+                TryDecryptLevelString(unprocessedLevelString, out var decryptedLevelString);
                 GetLevelStringInformation(cachedLevelString = decryptedLevelString);
+                unprocessedLevelString = null; // Free some memory; not too bad
             }));
         }
 
