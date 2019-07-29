@@ -90,7 +90,10 @@ namespace GDE.App.Main.Screens.Menu.Components
         private void load(DatabaseCollection databases)
         {
             database = databases[0];
+        }
 
+        protected override void Update()
+        {
             if (!finishedLoading && (finishedLoading = database.GetLevelsStatus >= TaskStatus.RanToCompletion))
             {
                 if ((levels = database.UserLevels).Count == 0)
