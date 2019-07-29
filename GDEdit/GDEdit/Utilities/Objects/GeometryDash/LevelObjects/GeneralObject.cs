@@ -489,9 +489,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 && zLayer == other.zLayer
                 && ZOrder == other.ZOrder
                 && Color1HSVAdjustment == other.Color1HSVAdjustment
-                && Color2HSVAdjustment == other.Color2HSVAdjustment
-                && Color1HSVEnabled == other.Color1HSVEnabled
-                && Color2HSVEnabled == other.Color2HSVEnabled;
+                && Color2HSVAdjustment == other.Color2HSVAdjustment;
         }
         /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
         /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
