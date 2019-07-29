@@ -63,7 +63,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => opacity;
             set => opacity = (float)value;
         }
-        // IMPORTANT: The Player 1 and Player 2 properties are ignored because the Copied Color ID serves that purpose well
+        // IMPORTANT: The Player 1 and Player 2 setters are not implemented to avoid unnecessary assignments
+        /// <summary>The Player 1 Color property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor1)]
+        public bool Player1Color => CopiedColorID == (int)SpecialColorID.P1;
+        /// <summary>The Player 2 Color property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor2)]
+        public bool Player2Color => CopiedColorID == (int)SpecialColorID.P2;
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
