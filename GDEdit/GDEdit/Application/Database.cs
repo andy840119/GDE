@@ -18,6 +18,8 @@ namespace GDEdit.Application
     /// <summary>Contains information about a database for the game.</summary>
     public class Database
     {
+        private static readonly int Cores = ProcessorCount;
+
         private string decryptedGamesave;
         private string decryptedLevelData;
 
@@ -329,7 +331,19 @@ namespace GDEdit.Application
         private async Task SetDecryptedLevelData(string levelData)
         {
             decryptedLevelData = (await (decryptLevelData = TryDecryptLevelDataAsync(levelData))).Item2;
-            await (getLevels = GetLevels());
+            await (getLevels = GetLevels(false));
+            LoadLevelsInOrder();
+        }
+
+        private void LoadLevelsInOrder()
+        {
+            // Use 2 less cores to let the computer breathe a little while loading
+            int utilizedCores = Math.Max(1, Cores - 2);
+            int nextAvailableLevelIndex = -1;
+            for (int i = 0; i < utilizedCores; i++)
+                Task.Run(LoadCurrentLevel).ContinueWith(t => LoadCurrentLevel());
+
+            async Task LoadCurrentLevel() => await UserLevels[++nextAvailableLevelIndex].InitializeLoadingLevelString();
         }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
@@ -385,16 +399,16 @@ namespace GDEdit.Application
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
-        private async Task GetLevels()
+        private async Task GetLevels(bool initializeBackgroundLevelStringLoading = true)
         {
             UserLevels = new LevelCollection();
             GetKeyIndices();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length)));
+                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length), initializeBackgroundLevelStringLoading));
                 else
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
+                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i]), initializeBackgroundLevelStringLoading));
             }
         }
 
