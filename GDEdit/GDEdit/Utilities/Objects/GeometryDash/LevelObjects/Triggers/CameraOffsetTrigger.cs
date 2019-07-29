@@ -59,8 +59,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public CameraOffsetTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="CameraOffsetTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
-        /// <param name="xOnly">The X Only property of the trigger.</param>
-        /// <param name="yOnly">The Y Only property of the trigger.</param>
         public CameraOffsetTrigger(double duration, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
              : base()
         {
@@ -71,8 +69,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <param name="duration">The duration of the trigger.</param>
         /// <param name="offsetX">The Offset X of the trigger.</param>
         /// <param name="offsetY">The Offset Y of the trigger.</param>
-        /// <param name="xOnly">The X Only property of the trigger.</param>
-        /// <param name="yOnly">The Y Only property of the trigger.</param>
         public CameraOffsetTrigger(double duration, double offsetX, double offsetY, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
             : this(duration, coordinates)
         {

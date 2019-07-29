@@ -12,9 +12,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     /// <summary>Represents a Static Camera trigger.</summary>
     [FutureProofing("2.2")]
     [ObjectID(TriggerType.StaticCamera)]
-    public class StaticCameraTrigger : Trigger, IHasDuration, IHasEasing, IHasTargetGroupID
+    public class StaticCameraTrigger : Trigger, IHasDuration, IHasEasing, IHasSecondaryGroupID
     {
-        private short targetGroupID;
+        private short targetPosGroupID;
         private float duration = 0.5f, easingRate;
 
         /// <summary>The Object ID of the Static Camera trigger.</summary>
@@ -28,12 +28,19 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => duration;
             set => duration = (float)value;
         }
-        /// <summary>The target Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetGroupID)]
-        public int TargetGroupID
+        /// <summary>The secondary Group ID of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
+        public int SecondaryGroupID
         {
-            get => targetGroupID;
-            set => targetGroupID = (short)value;
+            get => TargetPosGroupID;
+            set => TargetPosGroupID = (short)value;
+        }
+        /// <summary>The Target Pos Group ID property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.TargetPosGroupID)]
+        public int TargetPosGroupID
+        {
+            get => targetPosGroupID;
+            set => targetPosGroupID = (short)value;
         }
         /// <summary>The easing of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Easing)]
@@ -60,13 +67,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         public StaticCameraTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="StaticCameraTrigger"/> class.</summary>
         /// <param name="duration">The duration of the trigger.</param>
-        /// <param name="targetGroupID">The target Group ID of the trigger.</param>
+        /// <param name="targetPosGroupID">The Target Pos Group ID of the trigger.</param>
         /// <param name="exitStatic">The Exit Static property of the trigger.</param>
-        public StaticCameraTrigger(double duration, int targetGroupID, bool exitStatic = false, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
+        public StaticCameraTrigger(double duration, int targetPosGroupID, bool exitStatic = false, TargetPosCoordinates coordinates = TargetPosCoordinates.Both)
              : base()
         {
             Duration = duration;
-            TargetGroupID = targetGroupID;
+            TargetPosGroupID = targetPosGroupID;
             ExitStatic = exitStatic;
             TargetPosCoordinates = coordinates;
         }
@@ -79,7 +86,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as StaticCameraTrigger;
-            c.targetGroupID = targetGroupID;
+            c.targetPosGroupID = targetPosGroupID;
             c.duration = duration;
             c.Easing = Easing;
             c.easingRate = easingRate;
@@ -93,7 +100,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             var z = other as StaticCameraTrigger;
             return base.EqualsInherited(other)
-                && targetGroupID == z.targetGroupID
+                && targetPosGroupID == z.targetPosGroupID
                 && duration == z.duration
                 && Easing == z.Easing
                 && easingRate == z.easingRate
