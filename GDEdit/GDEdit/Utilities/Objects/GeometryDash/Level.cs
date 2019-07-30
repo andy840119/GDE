@@ -24,7 +24,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         private Task loadLS;
 
-        private string unprocessedLevelString;
+        private string unprocessedLevelString = DefaultLevelString; // Initialize in case there is no k4 property in the raw level
         private bool canLoadLevelString;
         private string cachedLevelString;
 
@@ -228,7 +228,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get => cachedLevelString ?? (cachedLevelString = GetLevelString());
             set
             {
-                unprocessedLevelString = value;
+                unprocessedLevelString = value ?? DefaultLevelString;
                 if (canLoadLevelString)
                     LoadLevelStringData();
             }
