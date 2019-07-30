@@ -49,10 +49,10 @@ namespace GDE.App.Main.UI.Toolbar
 
         protected class DrawableToolbarMenu : DrawableMenuItem
         {
-            private const int margin_horizontal = 17;
-            private const int text_size = 17;
-            private const int transition_length = 80;
-            public const int MARGIN_VERTICAL = 4;
+            public const int HorizontalMargin = 17;
+            public const int TextSize = 17;
+            public const int TransitionLength = 80;
+            public const int VerticalMargin = 4;
 
             private TextContainer text;
 
@@ -91,15 +91,15 @@ namespace GDE.App.Main.UI.Toolbar
 
             protected override bool OnHover(HoverEvent e)
             {
-                text.BoldText.FadeIn(transition_length, Easing.OutQuint);
-                text.NormalText.FadeOut(transition_length, Easing.OutQuint);
+                text.BoldText.FadeIn(TransitionLength, Easing.OutQuint);
+                text.NormalText.FadeOut(TransitionLength, Easing.OutQuint);
                 return base.OnHover(e);
             }
 
             protected override void OnHoverLost(HoverLostEvent e)
             {
-                text.BoldText.FadeOut(transition_length, Easing.OutQuint);
-                text.NormalText.FadeIn(transition_length, Easing.OutQuint);
+                text.BoldText.FadeOut(TransitionLength, Easing.OutQuint);
+                text.NormalText.FadeIn(TransitionLength, Easing.OutQuint);
                 base.OnHoverLost(e);
             }
 
@@ -134,8 +134,8 @@ namespace GDE.App.Main.UI.Toolbar
                         {
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
-                            Font = new FontUsage(size: text_size),
-                            Margin = new MarginPadding { Horizontal = margin_horizontal, Vertical = MARGIN_VERTICAL },
+                            Font = new FontUsage(size: TextSize),
+                            Margin = new MarginPadding { Horizontal = HorizontalMargin, Vertical = VerticalMargin },
                         },
                         BoldText = new SpriteText
                         {
@@ -143,8 +143,8 @@ namespace GDE.App.Main.UI.Toolbar
                             Alpha = 0,
                             Anchor = Anchor.CentreLeft,
                             Origin = Anchor.CentreLeft,
-                            Font = new FontUsage(size: text_size),
-                            Margin = new MarginPadding { Horizontal = margin_horizontal, Vertical = MARGIN_VERTICAL },
+                            Font = new FontUsage(size: TextSize),
+                            Margin = new MarginPadding { Horizontal = HorizontalMargin, Vertical = VerticalMargin },
                         }
                     };
                 }
