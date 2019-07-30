@@ -91,12 +91,26 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Pulse Target Type of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetType)]
         public PulseTargetType PulseTargetType { get; set; }
+        /// <summary>The Main Only property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.MainOnly)]
+        public bool MainOnly
+        {
+            get => TriggerBools[3];
+            set => TriggerBools[3] = value;
+        }
+        /// <summary>The Detail Only property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.DetailOnly)]
+        public bool DetailOnly
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
         /// <summary>The Exclusive property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Exclusive)]
         public bool Exclusive
         {
-            get => TriggerBools[3];
-            set => TriggerBools[3] = value;
+            get => TriggerBools[5];
+            set => TriggerBools[5] = value;
         }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
