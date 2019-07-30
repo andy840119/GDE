@@ -14,12 +14,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
     public class ShipPortal : GamemodePortal, IHasCheckedProperty
     {
         /// <summary>The object ID of the ship portal.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)PortalType.Ship;
         /// <summary>The gamemode the gamemode portal transforms the player into.</summary>
         public override Gamemode Gamemode => Gamemode.Ship;
 
         /// <summary>The checked property of the ship portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
-        [ObjectStringMappable(ObjectParameter.PortalChecked)]
+        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked)]
         public bool Checked
         {
             get => SpecialObjectBools[0];

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="System" />
+    <PackageReference Include="System.CodeDom" />
     <PackageReference Include="System.Core" />
     <PackageReference Include="System.Xml.Linq" />
     <PackageReference Include="System.Data.DataSetExtensions" />
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
 
   <ItemGroup>

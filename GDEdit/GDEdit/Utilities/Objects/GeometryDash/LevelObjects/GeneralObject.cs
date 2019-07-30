@@ -3,8 +3,11 @@ using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Information.GeometryDash;
 using GDEdit.Utilities.Objects.General;
+using GDEdit.Utilities.Objects.GeometryDash.General;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using Microsoft.CSharp;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,7 +20,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
     /// <summary>Represents a general object.</summary>
     public class GeneralObject
     {
-        private static ObjectTypeInfo[] initializableObjectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => t.GetCustomAttribute<ObjectIDAttribute>() != null).ToList().ConvertAll(t => new ObjectTypeInfo(t)).ToArray();
+        private static Type[] objectTypes;
+        private static ObjectTypeInfo[] initializableObjectTypes;
+
+        static GeneralObject()
+        {
+            objectTypes = typeof(GeneralObject).Assembly.GetTypes().Where(t => typeof(GeneralObject).IsAssignableFrom(t)).ToArray();
+            initializableObjectTypes = objectTypes.Select(t => ObjectTypeInfo.GetInfo(t)).ToArray();
+        }
 
         private short[] groupIDs = new short[0];
         private BitArray16 bools = new BitArray16();
@@ -159,53 +169,95 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             get => bools[6];
             set => bools[6] = value;
         }
+
+        /// <summary>Determines whether color 1 HSV is enabled.</summary>
+        [ObjectStringMappable(ObjectParameter.Color1HSVEnabled)]
+        public bool Color1HSVEnabled
+        {
+            get => bools[7];
+            set => bools[7] = value;
+        }
+        /// <summary>The color 1 HSV values of the object (as a string for the gamesave).</summary>
+        [ObjectStringMappable(ObjectParameter.Color1HSVValues)]
+        public string Color1HSV
+        {
+            get => Color1HSVAdjustment.ToString();
+            set => Color1HSVAdjustment = HSVAdjustment.Parse(value);
+        }
+        /// <summary>The color 1 HSV adjustment of the color 1 of the object.</summary>
+        public HSVAdjustment Color1HSVAdjustment { get; set; } = new HSVAdjustment();
+
+        /// <summary>Determines whether color 2 HSV is enabled.</summary>
+        [ObjectStringMappable(ObjectParameter.Color2HSVEnabled)]
+        public bool Color2HSVEnabled
+        {
+            get => bools[8];
+            set => bools[8] = value;
+        }
+        /// <summary>The color 2 HSV values of the object (as a string for the gamesave).</summary>
+        [ObjectStringMappable(ObjectParameter.Color2HSVValues)]
+        public string Color2HSV
+        {
+            get => Color2HSVAdjustment.ToString();
+            set => Color2HSVAdjustment = HSVAdjustment.Parse(value);
+        }
+        /// <summary>The color 2 HSV adjustment of the color 2 of the object.</summary>
+        public HSVAdjustment Color2HSVAdjustment { get; set; } = new HSVAdjustment();
+
         /// <summary>Determines whether this object will have its effects disabled or not.</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.NoEffects)]
         public bool NoEffects
         {
-            get => bools[7];
-            set => bools[7] = value;
+            get => bools[9];
+            set => bools[9] = value;
         }
         /// <summary>The Ice Block property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.IceBlock)]
         public bool IceBlock
         {
-            get => bools[8];
-            set => bools[8] = value;
+            get => bools[10];
+            set => bools[10] = value;
         }
         /// <summary>The Non-Stick property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.NonStick)]
         public bool NonStick
         {
-            get => bools[9];
-            set => bools[9] = value;
+            get => bools[11];
+            set => bools[11] = value;
         }
         /// <summary>The Unstuckable(?) property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.Unstuckable)]
         public bool Unstuckable
         {
-            get => bools[10];
-            set => bools[10] = value;
+            get => bools[12];
+            set => bools[12] = value;
         }
         /// <summary>The [unreadable text 1] property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.UnreadableProperty1)]
         public bool UnreadableProperty1
         {
-            get => bools[11];
-            set => bools[11] = value;
+            get => bools[13];
+            set => bools[13] = value;
         }
         /// <summary>The [unreadable text 2] property of this object (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
         [ObjectStringMappable(ObjectParameter.UnreadableProperty2)]
         public bool UnreadableProperty2
         {
-            get => bools[12];
-            set => bools[12] = value;
+            get => bools[14];
+            set => bools[14] = value;
+        }
+        /// <summary>Unknown feawture with ID 36. Its only purpose is to avoid throwing exceptions when encountering this parameter, causing infinite performance costs.</summary>
+        [ObjectStringMappable(ObjectParameter.UnknownFeature36)]
+        public bool UnknownFeature36
+        {
+            get => bools[13];
+            set => bools[13] = value;
         }
         /// <summary>The transformation scaling X property of this object.</summary>
         [FutureProofing("2.2")]
@@ -322,27 +374,34 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             cloned.transformationScalingY = transformationScalingY;
             cloned.transformationScalingCenterX = transformationScalingCenterX;
             cloned.transformationScalingCenterY = transformationScalingCenterY;
+            cloned.Color1HSVAdjustment = Color1HSVAdjustment;
+            cloned.Color2HSVAdjustment = Color2HSVAdjustment;
             return cloned;
         }
 
         // Reflection is FUN
         public T GetParameterWithID<T>(int ID)
         {
-            var properties = GetType().GetProperties();
-            foreach (var p in properties)
-                if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key == ID)
-                    return (T)p.GetValue(this);
-            throw new KeyNotFoundException("The requested ID was not found.");
+            var type = GetType();
+            foreach (var t in initializableObjectTypes)
+                if (t.ObjectType == type)
+                    foreach (var p in t.Properties)
+                        if (p.Key == ID)
+                            return (T)p.Get(this);
+            throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID})");
         }
         public void SetParameterWithID<T>(int ID, T newValue)
         {
-            var properties = GetType().GetProperties();
-            foreach (var p in properties)
-                if (((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key == ID)
-                {
-                    p.SetValue(this, newValue);
-                    return;
-                }
+            var type = GetType();
+            foreach (var t in initializableObjectTypes)
+                if (t.ObjectType == type)
+                    foreach (var p in t.Properties)
+                        if (p.Key == ID)
+                        {
+                            p.Set(this, newValue);
+                            return;
+                        }
+            throw new KeyNotFoundException($"The parameter ID {ID} was not found in {type.Name} (ID: {ObjectID}) / Value : {newValue}");
         }
 
         /// <summary>Adds a Group ID to the object's Group IDs if it does not already exist.</summary>
@@ -425,6 +484,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         /// <param name="index">The index of the group ID to set.</param>
         /// <param name="groupID">The group ID to set.</param>
         public void SetGroupID(int index, int groupID) => groupIDs[index] = (short)groupID;
+        /// <summary>Adjusts a group ID of this object. This function exists because `GroupIDs[index] += groupIDAdjustment` will not work.</summary>
+        /// <param name="index">The index of the group ID to adjust.</param>
+        /// <param name="groupIDAdjustment">The group ID adjustment to apply.</param>
+        public void AdjustGroupID(int index, int groupIDAdjustment) => groupIDs[index] += (short)groupIDAdjustment;
 
         /// <summary>Determines whether the object's location is within a rectangle.</summary>
         /// <param name="startingX">The starting X position of the rectangle.</param>
@@ -451,7 +514,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                 && scaling == other.scaling
                 && LinkedGroupID == other.LinkedGroupID
                 && zLayer == other.zLayer
-                && ZOrder == other.ZOrder;
+                && ZOrder == other.ZOrder
+                && Color1HSVAdjustment == other.Color1HSVAdjustment
+                && Color2HSVAdjustment == other.Color2HSVAdjustment;
         }
         /// <summary>Determines whether this <seealso cref="GeneralObject"/> equals another <seealso cref="GeneralObject"/>.</summary>
         /// <param name="other">The other <seealso cref="GeneralObject"/> to check equality against.</param>
@@ -468,7 +533,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
         public static GeneralObject GetNewObjectInstance(int objectID)
         {
             foreach (var t in initializableObjectTypes)
-                if (t.ObjectID == objectID)
+                if (t.IsValidID(objectID))
                 {
                     if (t.NonGeneratableAttribute != null)
                         throw new InvalidOperationException(t.NonGeneratableAttribute.ExceptionMessage);
@@ -494,7 +559,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
             foreach (var p in properties)
             {
                 int? key = ((ObjectStringMappableAttribute)p.GetCustomAttributes(typeof(ObjectStringMappableAttribute), false).FirstOrDefault())?.Key;
-                if (key != null)
+                if (key != null && key > 0)
                     s.Append($"{key},{GetAppropriateStringRepresentation(p.GetValue(this))},");
                 // TODO: Prevent writing parameters with values that are default (create DefaultValueAttribute and assign it to all the object properties
             }
@@ -517,26 +582,205 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects
                     if (s.Length > 0)
                         s.Remove(s.Length - 1, 1);
                     return s.ToString();
+                case Enum _:
+                    return ToInt32(thing).ToString();
                 // Please tell me there are no more things that break
             }
             return thing.ToString();
         }
 
-        private class ObjectTypeInfo
+        private abstract class ObjectTypeInfo
         {
+            private static Func<Type, Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericA;
+            private static Func<Type, PropertyInfo, PropertyAccessInfo> GetAppropriateGenericB;
+
             public Type ObjectType { get; }
 
-            public int? ObjectID { get; }
             public ConstructorInfo Constructor { get; }
             public NonGeneratableAttribute NonGeneratableAttribute { get; }
+            public PropertyAccessInfo[] Properties { get; }
+
+            static ObjectTypeInfo()
+            {
+                //GenerateSelfExecutingCode();
+                // Uncomment this when System.CodeDom is referred
+            }
 
             public ObjectTypeInfo(Type objectType)
             {
                 ObjectType = objectType;
-                ObjectID = objectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
                 Constructor = objectType.GetConstructor(Type.EmptyTypes);
                 NonGeneratableAttribute = objectType.GetCustomAttribute<NonGeneratableAttribute>();
+                var properties = objectType.GetProperties();
+                Properties = new PropertyAccessInfo[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    var p = properties[i];
+                    Properties[i] = new PropertyAccessInfo(p);
+                    // TODO: Use the following line instad
+                    //Properties[i] = GetAppropriateGenericA?.Invoke(p.DeclaringType, p.PropertyType, p);
+                }
             }
+
+            public abstract bool IsValidID(int objectID);
+
+            protected abstract string GetValidObjectIDs();
+
+            public static ObjectTypeInfo GetInfo(Type objectType)
+            {
+                if (objectType.GetCustomAttribute<ObjectIDsAttribute>() != null)
+                    return new MultiObjectIDTypeInfo(objectType);
+                return new SingleObjectIDTypeInfo(objectType);
+            }
+
+            private static void GenerateSelfExecutingCode()
+            {
+                const string className = "PropertyAccessInfoGenerator";
+                const string methodAName = "GetAppropriateGenericA";
+                const string methodBName = "GetAppropriateGenericB";
+
+                var getAppropriateGenericACode = new StringBuilder();
+                var getAppropriateGenericBCode = new StringBuilder();
+
+                // With the current indentation, the produced source is badly formatted, but at least this looks better
+                // In the following code, nameof and constants have been purposefully selectively used for "obvious" reasons
+                var propertyTypes = new HashSet<Type>();
+                foreach (var o in objectTypes)
+                {
+                    var types = o.GetProperties().Select(p => p.PropertyType);
+                    foreach (var t in types)
+                        propertyTypes.Add(t);
+                    var fullName = o.FullName;
+                    getAppropriateGenericACode.Append($@"
+                    if (objectType == typeof({fullName}))
+                        return {methodBName}<{fullName}>(propertyType, info);");
+                }
+                foreach (var p in propertyTypes)
+                {
+                    var fullName = p.FullName;
+                    getAppropriateGenericBCode.Append($@"
+                    if (propertyType == typeof({fullName}))
+                        return new {nameof(PropertyAccessInfo)}<TO, {fullName}>(info);");
+                }
+
+                var allCode =
+$@"
+using System;
+using System.Reflection;
+
+namespace GDEdit.Special
+{{
+    public static partial class {className}
+    {{
+        public static {nameof(PropertyAccessInfo)} {methodAName}(Type objectType, Type propertyType, PropertyInfo info)
+        {{
+            {getAppropriateGenericACode}
+            throw new Exception(); // Don't make compiler sad
+        }}
+        public static {nameof(PropertyAccessInfo)} {methodBName}<TO>(Type propertyType, PropertyInfo info)
+        {{
+            {getAppropriateGenericBCode}
+            throw new Exception();
+        }}
+    }}
+}}
+";
+                // Compile all code
+                var provider = new CSharpCodeProvider();
+                var options = new CompilerParameters(new[] { "mscorlib.dll", "System.Core.dll", "System.dll", "System.CodeDom.dll" });
+                var assembly = provider.CompileAssemblyFromSource(options, allCode).CompiledAssembly;
+                var type = assembly.GetType(className);
+                GetAppropriateGenericA = type.GetMethod(methodAName).CreateDelegate(typeof(Func<Type, Type, PropertyInfo, PropertyAccessInfo>)) as Func<Type, Type, PropertyInfo, PropertyAccessInfo>;
+                GetAppropriateGenericB = type.GetMethod(methodBName).CreateDelegate(typeof(Func<Type, PropertyInfo, PropertyAccessInfo>)) as Func<Type, PropertyInfo, PropertyAccessInfo>; // maybe useless?
+            }
+
+            public override string ToString() => $"{GetValidObjectIDs()} - {ObjectType.Name}";
+        }
+        private class SingleObjectIDTypeInfo : ObjectTypeInfo
+        {
+            public int? ObjectID { get; }
+
+            public SingleObjectIDTypeInfo(Type objectType)
+                : base(objectType)
+            {
+                ObjectID = objectType.GetCustomAttribute<ObjectIDAttribute>()?.ObjectID;
+            }
+
+            public override bool IsValidID(int objectID) => objectID == ObjectID;
+
+            protected override string GetValidObjectIDs() => ObjectID.ToString();
+        }
+        private class MultiObjectIDTypeInfo : ObjectTypeInfo
+        {
+            public int[] ObjectIDs { get; }
+
+            public MultiObjectIDTypeInfo(Type objectType)
+                : base(objectType)
+            {
+                ObjectIDs = objectType.GetCustomAttribute<ObjectIDsAttribute>()?.ObjectIDs;
+            }
+
+            public override bool IsValidID(int objectID) => ObjectIDs?.Contains(objectID) ?? false;
+
+            protected override string GetValidObjectIDs()
+            {
+                var s = new StringBuilder();
+                for (int i = 0; i < ObjectIDs.Length; i++)
+                    s.Append($"{ObjectIDs[i]}, ");
+                s.Remove(s.Length - 2, 2);
+                return s.ToString();
+            }
+        }
+
+        // The following TODOs contain instructions to be executed when self-compiling code can be made
+
+        // TODO: Make this abstract
+        private class PropertyAccessInfo
+        {
+            public PropertyInfo PropertyInfo { get; }
+
+            protected Type GenericFunc, GenericAction;
+
+            // TODO: Remove these
+            public Delegate GetMethodDelegate { get; }
+            public Delegate SetMethodDelegate { get; }
+
+            public ObjectStringMappableAttribute ObjectStringMappableAttribute { get; }
+            public int? Key => ObjectStringMappableAttribute?.Key;
+            
+            public PropertyAccessInfo(PropertyInfo info)
+            {
+                PropertyInfo = info;
+                // You have to be kidding me right now
+                var propertyType = info.PropertyType;
+                var objectType = info.DeclaringType;
+                GenericFunc = typeof(Func<,>).MakeGenericType(objectType, propertyType);
+                GenericAction = typeof(Action<,>).MakeGenericType(objectType, propertyType);
+                ObjectStringMappableAttribute = info.GetCustomAttribute<ObjectStringMappableAttribute>();
+
+                // TODO: Remove these
+                GetMethodDelegate = info.GetGetMethod().CreateDelegate(GenericFunc);
+                SetMethodDelegate = info.GetSetMethod()?.CreateDelegate(GenericAction);
+            }
+
+            // TODO: Make these abstract
+            public virtual object Get(object instance) => GetMethodDelegate?.DynamicInvoke(instance);
+            public virtual void Set(object instance, object newValue) => SetMethodDelegate?.DynamicInvoke(instance, newValue);
+        }
+        private class PropertyAccessInfo<TObject, TProperty> : PropertyAccessInfo
+        {
+            public Func<TObject, TProperty> GetMethod { get; }
+            public Action<TObject, TProperty> SetMethod { get; }
+
+            public PropertyAccessInfo(PropertyInfo info)
+                : base(info)
+            {
+                GetMethod = info.GetGetMethod().CreateDelegate(GenericFunc) as Func<TObject, TProperty>;
+                SetMethod = info.GetSetMethod()?.CreateDelegate(GenericAction) as Action<TObject, TProperty>;
+            }
+
+            public override object Get(object instance) => GetMethod((TObject)instance);
+            public override void Set(object instance, object newValue) => SetMethod?.Invoke((TObject)instance, (TProperty)newValue);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         public abstract Speed Speed { get; }
 
         /// <summary>The checked property of the speed portal that determines whether the speed portal will be taken into account when converting X position to time.</summary>
-        [ObjectStringMappable(ObjectParameter.PortalChecked)]
+        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked)]
         public bool Checked
         {
             get => SpecialObjectBools[0];

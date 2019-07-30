@@ -12,6 +12,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
     /// <summary>Represents a rotating object with rotating properties.</summary>
     public class RotatingObject : SpecialObject
     {
+        private float customRotationSpeed;
+
         /// <summary>The valid object IDs of the special object.</summary>
         protected override int[] ValidObjectIDs => ObjectLists.RotatingObjectList;
         /// <summary>The name as a string of the special object.</summary>
@@ -23,6 +25,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         {
             get => SpecialObjectBools[0];
             set => SpecialObjectBools[0] = value;
+        }
+        /// <summary>Represents the Custom Rotation Speed property of the rotating object.</summary>
+        [ObjectStringMappable(ObjectParameter.CustomRotationSpeed)]
+        public double CustomRotationSpeed
+        {
+            get => customRotationSpeed;
+            set => customRotationSpeed = (float)value;
         }
 
         /// <summary>Initializes a new empty instance of the <seealso cref="RotatingObject"/> class. For internal use only.</summary>
@@ -39,5 +48,23 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
 
         /// <summary>Returns a clone of this <seealso cref="RotatingObject"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new RotatingObject());
+
+        /// <summary>Adds the cloned instance information and returns the cloned instance.</summary>
+        /// <param name="cloned">The cloned instance to add the information to.</param>
+        protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
+        {
+            var c = cloned as RotatingObject;
+            c.customRotationSpeed = customRotationSpeed;
+            return base.AddClonedInstanceInformation(c);
+        }
+
+        /// <summary>Determines whether this object equals another object's properties; has to be <see langword="override"/>n in every object and every <see langword="override"/> should call its parent function first before determining its own <see langword="override"/>n result. That means an <see langword="override"/> should look like <see langword="return"/> <see langword="base"/>.EqualsInherited(<paramref name="other"/>) &amp;&amp; ...;.</summary>
+        /// <param name="other">The other object to check whether it equals this object's properties.</param>
+        protected override bool EqualsInherited(GeneralObject other)
+        {
+            var z = other as RotatingObject;
+            return base.EqualsInherited(other)
+                && customRotationSpeed == z.customRotationSpeed;
+        }
     }
 }

@@ -12,14 +12,24 @@ using GDEdit.Utilities.Objects.GeometryDash;
 using static System.Convert;
 using static System.Environment;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
+using System.Threading;
 
 namespace GDEdit.Application
 {
     /// <summary>Contains information about a database for the game.</summary>
     public class Database
     {
+        private static readonly int Cores = ProcessorCount;
+
         private string decryptedGamesave;
         private string decryptedLevelData;
+
+        private Task[] threadTasks;
+        private CancellationTokenSource[] tokens;
+        private List<int> levelIndicesToLoad;
+        private List<int> currentlyCancelledIndices;
+        private int nextAvailableLevelIndex;
+        private object lockObject = new object();
 
         private Task setDecryptedGamesave;
         private Task setDecryptedLevelData;
@@ -134,6 +144,39 @@ namespace GDEdit.Application
 
         // TODO: Order these appropriately
         #region Functions
+        /// <summary>Opens the first level that matches the specified name for editing, ordered from top to bottom in the list. The level's cached level string data is cleared.</summary>
+        /// <param name="name">The name of the level to open for editing.</param>
+        public Level OpenLevelForEditing(string name) => OpenLevelForEditing(UserLevels.FindIndex(l => l.Name == name));
+        /// <summary>Opens the first level that matches the specified name and revision for editing, ordered from top to bottom in the list. The level's cached level string data is cleared.</summary>
+        /// <param name="name">The name of the level to open for editing.</param>
+        /// <param name="revision">The revision of the level to open for editing.</param>
+        public Level OpenLevelForEditing(string name, int revision) => OpenLevelForEditing(UserLevels.FindIndex(l => l.Name == name && l.Revision == revision));
+        /// <summary>Opens the level at the specified index in the list for editing. The level's cached level string data is cleared.</summary>
+        /// <param name="index">The index of the level to open for editing.</param>
+        public Level OpenLevelForEditing(int index)
+        {
+            var level = index > -1 ? UserLevels[index] : null;
+            level?.ClearCachedLevelStringData();
+            return level;
+        }
+
+        /// <summary>Forces a level at the specified index to be loaded, if there is at least one currently running task to load a non-forced level. If there is no more space left, the level is not force loaded.</summary>
+        /// <param name="index">The index of the level to force loading.</param>
+        public void ForceLevelLoad(int index)
+        {
+            if (currentlyCancelledIndices.Count == currentlyCancelledIndices.Capacity)
+                return;
+
+            for (int i = 0; i < currentlyCancelledIndices.Capacity; i++)
+                if (!currentlyCancelledIndices.Contains(i))
+                {
+                    currentlyCancelledIndices.Add(i);
+                    tokens[i].Cancel();
+                    LoadLevelString(index).ContinueWith(t => AddLevelLoadingTask(i));
+                    break;
+                }
+        }
+
         /// <summary>Clones a level and adds it to the start of the list.</summary>
         /// <param name="index">The index of the level to clone.</param>
         public void CloneLevel(int index)
@@ -329,7 +372,55 @@ namespace GDEdit.Application
         private async Task SetDecryptedLevelData(string levelData)
         {
             decryptedLevelData = (await (decryptLevelData = TryDecryptLevelDataAsync(levelData))).Item2;
-            await (getLevels = GetLevels());
+            await (getLevels = GetLevels(false));
+            LoadLevelsInOrder();
+        }
+
+        private void LoadLevelsInOrder()
+        {
+            // Use 2 less cores to let the computer breathe a little while loading
+            int utilizedCores = Math.Max(1, Cores - 2);
+
+            levelIndicesToLoad = new List<int>(UserLevelCount);
+            for (int i = UserLevelCount - 1; i >= 0; i--)
+                levelIndicesToLoad.Add(i);
+
+            nextAvailableLevelIndex = UserLevelCount;
+
+            tokens = new CancellationTokenSource[utilizedCores];
+            threadTasks = new Task[utilizedCores];
+            for (int i = 0; i < utilizedCores; i++)
+                AddLevelLoadingTask(i);
+
+            currentlyCancelledIndices = new List<int>(utilizedCores);
+        }
+
+        private async Task LoadLevelString(int index) => await UserLevels[index].InitializeLoadingLevelString();
+
+        private void AddLevelLoadingTask(int i)
+        {
+            var t = tokens[i] = new CancellationTokenSource();
+            threadTasks[i] = Task.Run(LoadCurrentLevel, t.Token);
+
+            async Task LoadCurrentLevel()
+            {
+                int index;
+                int? levelIndex = null;
+                lock (lockObject)
+                {
+                    index = --nextAvailableLevelIndex;
+                    if (index < 0)
+                        index = nextAvailableLevelIndex = levelIndicesToLoad.Count - 1;
+                    if (index > -1)
+                        levelIndex = levelIndicesToLoad[index];
+                }
+                if (levelIndex.HasValue)
+                {
+                    await LoadLevelString(levelIndex.Value);
+                    levelIndicesToLoad.Remove(levelIndex.Value);
+                    await LoadCurrentLevel();
+                }
+            }
         }
 
         /// <summary>Gets the next available revision for a level with a specified name.</summary>
@@ -385,16 +476,16 @@ namespace GDEdit.Application
             }
         }
         /// <summary>Gets the levels from the level data. For internal use only.</summary>
-        private async Task GetLevels()
+        private async Task GetLevels(bool initializeBackgroundLevelStringLoading = true)
         {
             UserLevels = new LevelCollection();
             GetKeyIndices();
             for (int i = 0; i < LevelKeyStartIndices.Count; i++)
             {
                 if (i < LevelKeyStartIndices.Count - 1)
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length)));
+                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], LevelKeyStartIndices[i + 1] - LevelKeyStartIndices[i] - $"<k>k_{i + 1}</k>".Length), initializeBackgroundLevelStringLoading));
                 else
-                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i])));
+                    UserLevels.Add(new Level(decryptedLevelData.Substring(LevelKeyStartIndices[i], Math.Max(decryptedLevelData.Find("</d></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 8, decryptedLevelData.Find("<d /></d></d>", LevelKeyStartIndices[i], decryptedLevelData.Length) + 9) - LevelKeyStartIndices[i]), initializeBackgroundLevelStringLoading));
             }
         }
 

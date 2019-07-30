@@ -10,6 +10,7 @@ using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK;
 using GDE.App.Main.Colors;
+using GDE.App.Main.UI.Containers;
 
 namespace GDE.App.Main.UI
 {
@@ -40,6 +41,10 @@ namespace GDE.App.Main.UI
                 this.ResizeWidthTo(newSize.X, 300, Easing.OutQuint);
             }
         }
+
+        protected override DrawableMenuItem CreateDrawableMenuItem(MenuItem item) => new DrawableGDEMenuItem(item);
+
+        protected override ScrollContainer<Drawable> CreateScrollContainer(Direction direction) => new GDEScrollContainer(direction);
 
         protected override Menu CreateSubMenu() => new GDEMenu(Direction.Vertical)
         {

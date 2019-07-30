@@ -12,21 +12,29 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Color trigger.</summary>
     [ObjectID(TriggerType.Color)]
-    public class ColorTrigger : Trigger, IHasTargetColorID, IHasColor, IHasDuration
+    public class ColorTrigger : Trigger, IHasTargetColorID, IHasCopiedColorID, IHasColor, IHasDuration
     {
         private byte red = 255, green = 255, blue = 255;
-        private short targetColorID = 1;
+        private short targetColorID = 1, copiedColorID;
         private float duration = 0.5f, opacity = 1;
 
         /// <summary>The Object ID of the Color trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Color;
+
+        /// <summary>Determines whether this color trigger has a constant target Color ID.</summary>
+        public virtual bool HasConstantTargetColorID => false;
 
         /// <summary>The target Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetColorID)]
         public int TargetColorID
         {
             get => targetColorID;
-            set => targetColorID = (short)value;
+            set
+            {
+                if (!HasConstantTargetColorID)
+                    SetTargetColorID(value);
+            }
         }
         /// <summary>The duration of the trigger's effect.</summary>
         [ObjectStringMappable(ObjectParameter.Duration)]
@@ -63,13 +71,27 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => opacity;
             set => opacity = (float)value;
         }
-        // IMPORTANT: The Player 1 and Player 2 properties are ignored because the Copied Color ID serves that purpose well
+        // IMPORTANT: The Player 1 and Player 2 setters are not implemented to avoid unnecessary assignments
+        /// <summary>The Player 1 Color property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor1)]
+        public bool Player1Color
+        {
+            get => CopiedColorID == (int)SpecialColorID.P1;
+            set { }
+        }
+        /// <summary>The Player 2 Color property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.SetColorToPlayerColor2)]
+        public bool Player2Color
+        {
+            get => CopiedColorID == (int)SpecialColorID.P2;
+            set { }
+        }
         /// <summary>The copied Color ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
         {
-            get => TargetColorID;
-            set => TargetColorID = value;
+            get => copiedColorID;
+            set => copiedColorID = (short)value;
         }
         /// <summary>The Blending property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.Blending)]
@@ -94,10 +116,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
-        public string HSV => HSVAdjustment.ToString();
+        public string HSV
+        {
+            get => HSVAdjustment.ToString();
+            set => HSVAdjustment = HSVAdjustment.Parse(value);
+        }
 
         /// <summary>The HSV adjustment of the copied color of the trigger.</summary>
-        public HSVAdjustment HSVAdjustment { get; set; }
+        public HSVAdjustment HSVAdjustment { get; set; } = new HSVAdjustment();
 
         /// <summary>Initializes a new instance of the <seealso cref="ColorTrigger"/> class.</summary>
         public ColorTrigger() : base() { }
@@ -123,6 +149,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         // Constructors like this are useless, so many fucking parameters are required
 
+        /// <summary>Sets the target Color ID value. This function is <see langword="protected"/> so that special color triggers can initially set the target Color ID.</summary>
+        /// <param name="value">The new value of the target Color ID.</param>
+        protected void SetTargetColorID(int value) => targetColorID = (short)value;
+
         /// <summary>Returns a clone of this <seealso cref="ColorTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new ColorTrigger());
 
@@ -137,7 +167,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.green = green;
             c.blue = blue;
             c.opacity = opacity;
-            c.CopiedColorID = CopiedColorID;
+            c.copiedColorID = copiedColorID;
             c.HSVAdjustment = HSVAdjustment;
             return base.AddClonedInstanceInformation(c);
         }
@@ -154,7 +184,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && green == z.green
                 && blue == z.blue
                 && opacity == z.opacity
-                && CopiedColorID == z.CopiedColorID
+                && copiedColorID == z.copiedColorID
                 && HSVAdjustment == z.HSVAdjustment;
         }
     }

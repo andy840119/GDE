@@ -14,6 +14,7 @@ namespace GDE.App.Main.Panels
         private PinButton pin;
 
         public bool AllowDrag = true;
+        public bool LockDrag = false;
         protected virtual string Name
         {
             get
@@ -30,16 +31,33 @@ namespace GDE.App.Main.Panels
         {
             Children = new Drawable[]
             {
-                new Box
+                //To avoid making both Pin and Close disappear
+                new Container
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("151515") 
+                    CornerRadius = 10,
+                    Masking = true,
+                    Children = new Drawable[]
+                    {
+                        new Box
+                        {
+                            RelativeSizeAxes = Axes.Both,
+                            Colour = GDEColors.FromHex("151515")
+                        },
+                    }
                 },
                 new FillFlowContainer
                 {
+                    Depth = -10,
                     Anchor = Anchor.TopRight,
+                    Origin = Anchor.TopRight,
                     Direction = FillDirection.Horizontal,
-                    Position = new Vector2(-17, 17),
+                    AutoSizeAxes = Axes.Both,
+                    Margin = new MarginPadding
+                    {
+                        Top = 17,
+                        Right = 17
+                    },
                     Children = new Drawable[]
                     {
                         new CloseButton
@@ -66,7 +84,7 @@ namespace GDE.App.Main.Panels
                                 Horizontal = 5,
                                 Vertical = 7
                             },
-                            Action = () => pin.Rotation = (AllowDrag = !AllowDrag) ? 0 : 45
+                            Action = () => { if (!LockDrag) pin.Rotation = (AllowDrag = !AllowDrag) ? 0 : 45; }
                         },
                     }
                 },
@@ -85,6 +103,7 @@ namespace GDE.App.Main.Panels
         protected override void LoadComplete()
         {
             Scale = new Vector2(1, 0);
+            pin.Alpha = LockDrag ? 0 : 1;
             base.LoadComplete();
         }
 
@@ -105,13 +124,13 @@ namespace GDE.App.Main.Panels
 
         protected override bool OnDrag(DragEvent e)
         {
-            if (!AllowDrag)
+            if (!AllowDrag && LockDrag)
                 return false;
 
             Position += e.Delta;
             return true;
         }
-        protected override bool OnDragStart(DragStartEvent e) => AllowDrag;
+        protected override bool OnDragStart(DragStartEvent e) => AllowDrag && !LockDrag;
         protected override bool OnDragEnd(DragEndEvent e) => true;
     }
 }

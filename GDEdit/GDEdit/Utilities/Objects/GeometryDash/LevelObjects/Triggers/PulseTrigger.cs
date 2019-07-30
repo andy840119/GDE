@@ -12,13 +12,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
 {
     /// <summary>Represents a Pulse trigger.</summary>
     [ObjectID(TriggerType.Pulse)]
-    public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasColor
+    public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasCopiedColorID, IHasColor
     {
         private byte red = 255, green = 255, blue = 255;
-        private short targetGroupID, targetColorID;
+        private short targetGroupID, targetColorID, copiedColorID;
         private float fadeIn, hold, fadeOut;
 
         /// <summary>The Object ID of the Pulse trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Pulse;
 
         /// <summary>The target Group ID of the trigger.</summary>
@@ -81,8 +82,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         [ObjectStringMappable(ObjectParameter.CopiedColorID)]
         public int CopiedColorID
         {
-            get => CopiedColorID;
-            set => CopiedColorID = (short)value;
+            get => copiedColorID;
+            set => copiedColorID = (short)value;
         }
         /// <summary>The Pulse Mode of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.PulseMode)]
@@ -90,19 +91,37 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         /// <summary>The Pulse Target Type of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetType)]
         public PulseTargetType PulseTargetType { get; set; }
-        /// <summary>The Exclusive property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.Exclusive)]
-        public bool Exclusive
+        /// <summary>The Main Only property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.MainOnly)]
+        public bool MainOnly
         {
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
+        /// <summary>The Detail Only property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.DetailOnly)]
+        public bool DetailOnly
+        {
+            get => TriggerBools[4];
+            set => TriggerBools[4] = value;
+        }
+        /// <summary>The Exclusive property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.Exclusive)]
+        public bool Exclusive
+        {
+            get => TriggerBools[5];
+            set => TriggerBools[5] = value;
+        }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
-        public string HSV => HSVAdjustment.ToString();
+        public string HSV
+        {
+            get => HSVAdjustment.ToString();
+            set => HSVAdjustment = HSVAdjustment.Parse(value);
+        }
 
         /// <summary>The HSV adjustment of the copied color of the trigger.</summary>
-        public HSVAdjustment HSVAdjustment { get; set; }
+        public HSVAdjustment HSVAdjustment { get; set; } = new HSVAdjustment();
 
         /// <summary>Initializes a new instance of the <seealso cref="PulseTrigger"/> class.</summary>
         public PulseTrigger() : base() { }
@@ -143,7 +162,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             c.fadeIn = fadeIn;
             c.hold = hold;
             c.fadeOut = fadeOut;
-            c.CopiedColorID = CopiedColorID;
+            c.copiedColorID = copiedColorID;
             c.PulseMode = PulseMode;
             c.PulseTargetType = PulseTargetType;
             c.HSVAdjustment = HSVAdjustment;
@@ -164,7 +183,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
                 && fadeIn == z.fadeIn
                 && hold == z.hold
                 && fadeOut == z.fadeOut
-                && CopiedColorID == z.CopiedColorID
+                && copiedColorID == z.copiedColorID
                 && PulseMode == z.PulseMode
                 && PulseTargetType == z.PulseTargetType
                 && HSVAdjustment == z.HSVAdjustment;

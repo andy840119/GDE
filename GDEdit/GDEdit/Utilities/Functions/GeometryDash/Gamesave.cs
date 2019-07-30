@@ -1,4 +1,5 @@
 ﻿using GDEdit.Utilities.Attributes;
+using GDEdit.Utilities.Enumerations.GeometryDash;
 using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Functions.General;
 using GDEdit.Utilities.Objects.GeometryDash;
@@ -121,37 +122,79 @@ namespace GDEdit.Utilities.Functions.GeometryDash
                 int length1 = objectParameters.GetLength(1);
                 for (int i = 0; i < length0; i++)
                 {
-                    objects.Add(new GeneralObject(ToInt16(objectParameters[i, 1]), ToDouble(objectParameters[i, 3]), ToDouble(objectParameters[i, 5]))); // Get IDs of the selected objects
-                    for (int j = 7; j < length1; j += 2)
+                    try
                     {
-                        if (objectParameters[i, j] != null)
+                        var instance = GeneralObject.GetNewObjectInstance(ToInt16(objectParameters[i, 1]));
+                        objects.Add(instance); // Get IDs of the selected objects
+                        for (int j = 3; j < length1; j += 2)
                         {
-                            try
+                            if (objectParameters[i, j] != null)
                             {
-                                int currentParameterID = ToInt32(objectParameters[i, j - 1]);
-                                if (IntParameters.Contains(currentParameterID))
-                                    objects[objects.Count - 1].SetParameterWithID(currentParameterID, ToInt32(objectParameters[i, j]));
-                                else if (DoubleParameters.Contains(currentParameterID))
-                                    objects[objects.Count - 1].SetParameterWithID(currentParameterID, ToDouble(objectParameters[i, j]));
-                                else if (BoolParameters.Contains(currentParameterID))
-                                    objects[objects.Count - 1].SetParameterWithID(currentParameterID, ToBoolean(ToInt32(objectParameters[i, j])));
-                                else if (HSVParameters.Contains(currentParameterID))
+                                try
                                 {
-                                    string[] values = objectParameters[i, j].ToString().Split('a');
-                                    HSVAdjustment HSVValues = new HSVAdjustment(ToDouble(values[0]), ToDouble(values[1]), ToDouble(values[2]), (SVAdjustmentMode)ToInt32(values[3]), (SVAdjustmentMode)ToInt32(values[4]));
-                                    objects[objects.Count - 1].SetParameterWithID(currentParameterID, HSVValues);
+                                    int parameterID = ToInt32(objectParameters[i, j - 1]);
+                                    switch (GetParameterIDAttribute(parameterID))
+                                    {
+                                        case IGenericAttribute<int> _:
+                                            instance.SetParameterWithID(parameterID, ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<bool> _:
+                                            instance.SetParameterWithID(parameterID, ToBoolean(ToInt32(objectParameters[i, j])));
+                                            break;
+                                        case IGenericAttribute<double> _:
+                                            instance.SetParameterWithID(parameterID, ToDouble(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<string> _:
+                                            instance.SetParameterWithID(parameterID, objectParameters[i, j]);
+                                            break;
+                                        case IGenericAttribute<HSVAdjustment> _:
+                                            instance.SetParameterWithID(parameterID, objectParameters[i, j].ToString());
+                                            break;
+                                        case IGenericAttribute<int[]> _:
+                                            instance.SetParameterWithID(parameterID, objectParameters[i, j].ToString().Split('.').ToInt32Array());
+                                            break;
+                                        case IGenericAttribute<Easing> _:
+                                            instance.SetParameterWithID(parameterID, (Easing)ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<InstantCountComparison> _:
+                                            instance.SetParameterWithID(parameterID, (InstantCountComparison)ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<PickupItemPickupMode> _:
+                                            instance.SetParameterWithID(parameterID, (PickupItemPickupMode)ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<PulseMode> _:
+                                            instance.SetParameterWithID(parameterID, (PulseMode)ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<PulseTargetType> _:
+                                            instance.SetParameterWithID(parameterID, (PulseTargetType)ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<TargetPosCoordinates> _:
+                                            instance.SetParameterWithID(parameterID, (TargetPosCoordinates)ToInt32(objectParameters[i, j]));
+                                            break;
+                                        case IGenericAttribute<TouchToggleMode> _:
+                                            instance.SetParameterWithID(parameterID, (TouchToggleMode)ToInt32(objectParameters[i, j]));
+                                            break;
+                                    }
                                 }
-                                else if (currentParameterID == 31)
-                                    objects[objects.Count - 1].SetParameterWithID(currentParameterID, Encoding.ASCII.GetString(Base64Decrypt(objectParameters[i, j])));
-                                else if (IntArrayParameters.Contains(currentParameterID))
-                                    objects[objects.Count - 1].SetParameterWithID(currentParameterID, objectParameters[i, j].ToString().Split('.').ToInt32Array());
+                                catch (FormatException) // If the parameter is not just a number; most likely a Start Pos object
+                                {
+                                    // After logging the exceptions in the console, the exception is ignorable
+                                }
+                                catch (KeyNotFoundException e)
+                                {
+                                    int parameterID = ToInt32(objectParameters[i, j - 1]);
+                                    if (parameterID == 36)
+                                        continue;
+                                    Console.WriteLine(e.Message);
+                                }
                             }
-                            catch (FormatException) // If the parameter is not just a number; most likely a Start Pos object
-                            {
-                                // Something to do, I guess
-                            }
+                            else
+                                break;
                         }
-                        else break;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // So far this only happens when attempting to abstractly create a yellow teleportation portal
                     }
                 }
                 objectParameters = null;
