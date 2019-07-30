@@ -78,26 +78,29 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents the Object ID value of the BG Effect Off trigger.</summary>
         BGEffectOff = 1819,
 
-        /// <summary>Represents the Object ID value of the Static Camera trigger. (Reserved for future use)</summary>
+        /// <summary>Represents the Object ID value of the Random trigger (as found in Subzero; considering the latest sneak peeks the ID might have changed since it has been probably replaced with the new advanced Random trigger).</summary>
         [FutureProofing("2.2")]
-        StaticCamera = -11,
-        /// <summary>Represents the Object ID value of the Zoom trigger. (Reserved for future use)</summary>
+        Random = 1912,
+        /// <summary>Represents the Object ID value of the Zoom trigger.</summary>
         [FutureProofing("2.2")]
-        Zoom = -12,
-        /// <summary>Represents the Object ID value of the Camera Offset trigger. (Reserved for future use)</summary>
+        Zoom = 1913,
+        /// <summary>Represents the Object ID value of the Static Camera trigger.</summary>
         [FutureProofing("2.2")]
-        CameraOffset = -13,
-        /// <summary>Represents the Object ID value of the Random trigger. (Reserved for future use)</summary>
+        StaticCamera = 1914,
+        /// <summary>Represents the Object ID value of the Camera Offset trigger.</summary>
         [FutureProofing("2.2")]
-        Random = -14,
-        /// <summary>Represents the Object ID value of the End trigger. (Reserved for future use)</summary>
+        CameraOffset = 1916,
+        /// <summary>Represents the Object ID value of the Reverse trigger.</summary>
         [FutureProofing("2.2")]
-        End = -15,
-        /// <summary>Represents the Object ID value of the Reverse trigger. (Reserved for future use)</summary>
+        Reverse = 1917,
+        /// <summary>Represents the Object ID value of the End trigger.</summary>
         [FutureProofing("2.2")]
-        Reverse = -16,
+        End = 1931,
+        /// <summary>Represents the Object ID value of a trigger that was included in Subzero but has no properties and its functionality is unknown.</summary>
+        [FutureProofing("2.2")]
+        UnknownSubzero = 1932,
         /// <summary>Represents the Object ID value of the Scale trigger. (Reserved for future use)</summary>
         [FutureProofing("2.2")]
-        Scale = -17,
+        Scale = -11,
     }
 }
