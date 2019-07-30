@@ -24,10 +24,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             get => TriggerBools[3];
             set => TriggerBools[3] = value;
         }
-        
+
+        /// <summary>Initializes a new instance of the <seealso cref="ReverseTrigger"/> class.</summary>
+        public ReverseTrigger() : base() { }
         /// <summary>Initializes a new instance of the <seealso cref="ReverseTrigger"/> class.</summary>
         /// <param name="reverse">The Reverse property of the trigger.</param>
         public ReverseTrigger(bool reverse = false)
+             : base()
         {
             Reverse = reverse;
         }
