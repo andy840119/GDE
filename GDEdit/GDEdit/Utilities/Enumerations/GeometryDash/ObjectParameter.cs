@@ -48,9 +48,9 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         /// <summary>Represents the ID value of the Secret Coin.</summary>
         [ObjectParameterIntType]
         SecretCoinID = 12,
-        /// <summary>Represents the checked property of the portal.</summary>
+        /// <summary>Represents the checked property of the special object.</summary>
         [ObjectParameterBoolType]
-        PortalChecked = 13,
+        SpecialObjectChecked = 13,
         /// <summary>Represents the Tint Ground property of the BG Color trigger (discarded from 2.1 onwards).</summary>
         [ObjectParameterBoolType]
         TintGround = 14,
