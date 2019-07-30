@@ -17,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private float duration = 0.5f, easingRate, moveX, moveY;
 
         /// <summary>The Object ID of the Move trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Move;
 
         /// <summary>The duration of the trigger's effect.</summary>
@@ -34,7 +35,6 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => targetGroupID = (short)value;
         }
         /// <summary>The secondary Group ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.SecondaryGroupID)]
         public int SecondaryGroupID
         {
             get => TargetPosGroupID;
@@ -51,14 +51,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             set => easingRate = (float)value;
         }
         /// <summary>The Move X property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MoveX)]
+        [ObjectStringMappable(ObjectParameter.OffsetX)]
         public double MoveX
         {
             get => moveX;
             set => moveX = (float)value;
         }
         /// <summary>The Move Y property of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.MoveY)]
+        [ObjectStringMappable(ObjectParameter.OffsetY)]
         public double MoveY
         {
             get => moveY;
@@ -77,6 +77,27 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             get => TriggerBools[4];
             set => TriggerBools[4] = value;
+        }
+        /// <summary>The Enable Use Target property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.EnableUseTarget)]
+        public bool EnableUseTarget
+        {
+            get => TriggerBools[5];
+            set => TriggerBools[5] = value;
+        }
+        /// <summary>The Lock to Camera X property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.LockToCameraX)]
+        public bool LockToCameraX
+        {
+            get => TriggerBools[6];
+            set => TriggerBools[6] = value;
+        }
+        /// <summary>The Lock to Camera Y property of the trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.LockToCameraY)]
+        public bool LockToCameraY
+        {
+            get => TriggerBools[7];
+            set => TriggerBools[7] = value;
         }
         /// <summary>The Target Pos Group ID property of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetPosGroupID)]

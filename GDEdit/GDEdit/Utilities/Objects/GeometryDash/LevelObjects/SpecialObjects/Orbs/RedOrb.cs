@@ -15,6 +15,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
     public class RedOrb : Orb
     {
         /// <summary>The object ID of the red orb.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)OrbType.RedOrb;
 
         /// <summary>Initializes a new instance of the <seealso cref="RedOrb"/> class.</summary>

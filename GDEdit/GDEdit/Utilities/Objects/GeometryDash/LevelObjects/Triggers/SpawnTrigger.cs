@@ -17,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         private float delay;
 
         /// <summary>The Object ID of the Spawn trigger.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Spawn;
 
         /// <summary>The target Group ID of the trigger.</summary>

@@ -239,6 +239,9 @@ namespace GDEdit.Utilities.Functions.Extensions
             return false;
         }
 
+        public static HashSet<T> Clone<T>(this HashSet<T> s) => new HashSet<T>(s.ToArray());
+        public static SortedSet<T> Clone<T>(this SortedSet<T> s) => new SortedSet<T>(s.ToArray());
+
         public static int[] GetIndicesOfMatchingValues(this bool[] a, bool value)
         {
             List<int> indices = new List<int>();

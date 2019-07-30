@@ -25,8 +25,8 @@ namespace GDE.App.Main.Screens.Edit.Components
         [Resolved]
         private Editor editor { get; set; }
 
-        private Button addObject;
-        private Button deleteSelectedObjects;
+        private GDEButton addObject;
+        private GDEButton deleteSelectedObjects;
         private ObjectAdditionPanel panel;
         private Database database;
         private Level level => database.UserLevels[0];
@@ -71,15 +71,14 @@ namespace GDE.App.Main.Screens.Edit.Components
                     Padding = new MarginPadding(15),
                     Children = new Drawable[]
                     {
-                        addObject = new Button
+                        addObject = new GDEButton
                         {
                             Action = panel.ToggleVisibility,
                             Text = "Add Object",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(1f, 30)
                         },
-                        deleteSelectedObjects = new Button
+                        deleteSelectedObjects = new GDEButton
                         {
                             Action = () => 
                             {
@@ -96,7 +95,6 @@ namespace GDE.App.Main.Screens.Edit.Components
                             Text = "Delete Selected Objects",
                             BackgroundColour = GDEColors.FromHex("2f2f2f"),
                             RelativeSizeAxes = Axes.X,
-                            Size = new Vector2(1f, 30)
                         }
                     }
                 }

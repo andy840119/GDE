@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
     /// <summary>Rerpesents a speed segment in the level.</summary>
-    public class SpeedSegment
+    public class SpeedSegment : IComparable<SpeedSegment>
     {
         /// <summary>The speed of the segment.</summary>
         public Speed Speed { get; set; }
@@ -23,5 +23,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             Speed = speed;
             X = x;
         }
+
+        /// <summary>Compares this <seealso cref="SpeedSegment"/> object to another based on their X positions.</summary>
+        /// <param name="other">The other <seealso cref="SpeedSegment"/> object to compare this to.</param>
+        public int CompareTo(SpeedSegment other) => X.CompareTo(other.X);
     }
 }

@@ -17,6 +17,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         private short targetGroupID;
 
         /// <summary>The object ID of the trigger orb.</summary>
+        [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)OrbType.TriggerOrb;
 
         /// <summary>Represents the Target Group ID of the trigger orb.</summary>
@@ -30,8 +31,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         [ObjectStringMappable(ObjectParameter.ActivateGroup)]
         public bool ActivateGroup
         {
-            get => SpecialObjectBools[1];
-            set => SpecialObjectBools[1] = value;
+            get => SpecialObjectBools[3];
+            set => SpecialObjectBools[3] = value;
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="TriggerOrb"/> class.</summary>
