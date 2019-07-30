@@ -44,6 +44,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [ObjectParameterDoubleType]
         Duration = 10,
         /// <summary>Represents the Touch Triggered value of the trigger.</summary>
+        [ObjectParameterBoolType]
         TouchTriggered = 11,
         /// <summary>Represents the ID value of the Secret Coin.</summary>
         [ObjectParameterIntType]
@@ -145,6 +146,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [ObjectParameterDoubleType]
         FadeOut = 47,
         /// <summary>Represents the Pulse Mode value of the Pulse trigger.</summary>
+        [ObjectParameterPulseModeType]
         PulseMode = 48,
         /// <summary>Represents the Copied Color HSV values of the trigger.</summary>
         [ObjectParameterHSVAdjustmentType]
@@ -342,42 +344,54 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         #region General
         /// <summary>Represents the [unrevealed text box feature 115] property of the <seealso cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         UnrevealedTextBoxFeature115 = 115,
         /// <summary>Represents the Switch Player Direction property of the <see cref="OrbPad"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         SwitchPlayerDirection = 117,
         // Due to bad reservation habits, the new sneak peek's parameter IDs are offset starting at -200 for this category
         // However this does not really matter since the values are unused and only serve as future-proof reservations
         // The IDs will end up being discovered and used
         /// <summary>Represents whether the <see cref="LevelObject"/> will have any effects.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         NoEffects = 116,
         /// <summary>The Ice Block property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         IceBlock = -201,
         /// <summary>The Non-Stick property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         NonStick = -202,
         /// <summary>The Unstuckable(?) property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         Unstuckable = -203,
         /// <summary>The [unreadable text 1] property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         UnreadableProperty1 = -204,
         /// <summary>The [unreadable text 2] property of the <see cref="LevelObject"/> (probably for adventure mode).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         UnreadableProperty2 = -205,
         /// <summary>The transformation scaling X property of the <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         TransformationScalingX = -206,
         /// <summary>The transformation scaling Y property of the <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         TransformationScalingY = -207,
         /// <summary>The transformation scaling center X property of the <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         TransformationScalingCenterX = -208,
         /// <summary>The transformation scaling center Y property of the <see cref="LevelObject"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         TransformationScalingCenterY = -209,
         #endregion
 
@@ -387,25 +401,30 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         #region Static Camera Trigger
         /// <summary>The Exit Static property of the <seealso cref="StaticCameraTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         ExitStatic = 110,
         #endregion
 
         #region End Trigger
         /// <summary>The Reversed property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         Reversed = 118,
         /// <summary>The Lock Y property of the <seealso cref="EndTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         LockY = 59, // This does not make sense but ok
         #endregion
 
         #region Random Trigger
         /// <summary>The Chance property of the <seealso cref="RandomTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         Chance = 10, // You must be kidding; using the duration property as a chance?
         // New sneak peek, new offset
         /// <summary>The Chance Lots property of the <seealso cref="RandomTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterChancePoolInfoType] // Assumed
         ChanceLots = -300,
         // There is a small *chance* RobTop actually uses a special way to store the chance lot per group
         // For instance, just like HSV, which is HaSaVaSCaVC
@@ -413,207 +432,271 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         // In the example above it means group 1 has 10 chance lots and group 2 has 20 chance lots
         /// <summary>The Chance Lot Groups property of the <seealso cref="RandomTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntArrayType]
         ChanceLotGroups = -301,
         #endregion
 
         #region Zoom Trigger
         /// <summary>The Zoom property of the <seealso cref="ZoomTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         Zoom = 109,
         #endregion
 
         #region Custom Particle Object
         /// <summary>The grouping of the custom particles.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterCustomParticleGroupingType]
         Grouping = -108,
         /// <summary>The property 1 of the custom particles.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterCustomParticleProperty1Type]
         Property1 = -109, // TODO: Figure out what this does
         /// <summary>The maximum number of particles that will be alive simultaneously.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         MaxParticles = -110,
         /// <summary>The duration of the particle creation.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         CustomParticleDuration = -111, // Using already implemented Duration property?
         /// <summary>The lifetime of the particle creation.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         Lifetime = -112,
         /// <summary>The Lifetime +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         LifetimeAdjustment = -113,
         /// <summary>The Emission property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         Emission = -114,
         /// <summary>The angle of the particles and the center.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         Angle = -115,
         /// <summary>The Angle +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         AngleAdjustment = -116,
         /// <summary>The speed at which the particles move.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         CustomParticleSpeed = -117, // Using already implemented Speed property?
         /// <summary>The Speed +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         SpeedAdjustment = -118,
         /// <summary>The PosVarX property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         PosVarX = -119,
         /// <summary>The PosVarY +- property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         PosVarY = -120,
         /// <summary>The GravityX property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         GravityX = -121,
         /// <summary>The GravityY +- property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         GravityY = -122,
         /// <summary>The AccelRad property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         AccelRad = -123,
         /// <summary>The AccelRad +- property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         AccelRadAdjustment = -124,
         /// <summary>The AccelTan property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         AccelTan = -125,
         /// <summary>The AccelTan +- property (unknown functionality).</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         AccelTanAdjustment = -126,
         /// <summary>The size during the start of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         StartSize = -127,
         /// <summary>The StartSize +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         StartSizeAdjustment = -128,
         /// <summary>The size during the end of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         EndSize = -129,
         /// <summary>The EndSize +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         EndSizeAdjustment = -130,
         /// <summary>The rotation during the start of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         StartSpin = -131,
         /// <summary>The StartSpin +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         StartSpinAdjustment = -132,
         /// <summary>The rotation during the end of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         EndSpin = -133,
         /// <summary>The EndSpin +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         EndSpinAdjustment = -134,
         /// <summary>The alpha value of the color during the start of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartA = -135,
         /// <summary>The Start_A +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartAAdjustment = -136,
         /// <summary>The red value of the color during the start of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartR = -137,
         /// <summary>The Start_R +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartRAdjustment = -138,
         /// <summary>The green value of the color during the start of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartG = -139,
         /// <summary>The Start_G +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartGAdjustment = -140,
         /// <summary>The blue value of the color during the start of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartB = -141,
         /// <summary>The Start_B +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         StartBAdjustment = -142,
         /// <summary>The alpha value of the color during the end of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndA = -143,
         /// <summary>The End_A +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndAAdjustment = -144,
         /// <summary>The red value of the color during the end of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndR = -145,
         /// <summary>The End_R +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndRAdjustment = -146,
         /// <summary>The green value of the color during the end of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndG = -147,
         /// <summary>The End_G +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndGAdjustment = -148,
         /// <summary>The blue value of the color during the end of the particle's life.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndB = -149,
         /// <summary>The End_B +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         EndBAdjustment = -150,
         /// <summary>The Fade In property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         CustomParticleFadeIn = -151, // Using already implemented FadeIn property?
         /// <summary>The Fade In +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         FadeInAdjustment = -152,
         /// <summary>The Fade Out property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         CustomParticleFadeOut = -153, // Using already implemented FadeOut property?
         /// <summary>The Fade Out +- property.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         FadeOutAdjustment = -154,
         /// <summary>Represents the Additive property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         Additive = -155,
         /// <summary>Represents the Start Size = End property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         StartSizeEqualsEnd = -156,
         /// <summary>Represents the Start Spin = End property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         StartSpinEqualsEnd = -157,
         /// <summary>Represents the Start Radius = End property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         StartRadiusEqualsEnd = -158,
         /// <summary>Represents the Start Rotation Is Dir property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         StartRotationIsDir = -159,
         /// <summary>Represents the Dynamic Rotation property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         DynamicRotation = -160,
         /// <summary>Represents the Use Object Color property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         UseObjectColor = -161,
         /// <summary>Represents the Uniform Object Color property of the custom particle object.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         UniformObjectColor = -162,
         /// <summary>The texture of the particles.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterIntType]
         Texture = -163,
         #endregion
 
         #region Scale Trigger
         /// <summary>The Scale X property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         ScaleX = -164,
         /// <summary>The Scale Y property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterDoubleType]
         ScaleY = -165,
         /// <summary>The Lock Object Scale property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         LockObjectScale = -166,
         /// <summary>The Only Move Scale property of the <seealso cref="ScaleTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         OnlyMoveScale = -167,
         #endregion
 
         #region Move Trigger
         /// <summary>The Lock To Camera X property of the <seealso cref="MoveTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         LockToCameraX = -302,
         /// <summary>The Lock To Camera Y property of the <seealso cref="MoveTrigger"/>.</summary>
         [FutureProofing("2.2")]
+        [ObjectParameterBoolType]
         LockToCameraY = -303,
         #endregion
     }

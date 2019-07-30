@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.RandomTrigger;
 
 namespace GDEdit.Utilities.Attributes
 {
@@ -62,6 +63,16 @@ namespace GDEdit.Utilities.Attributes
     public class ObjectParameterHSVAdjustmentTypeAttribute : ObjectParameterTypeAttribute, IGenericAttribute<HSVAdjustment>
     {
         private static Type type = typeof(HSVAdjustment);
+        /// <summary>The type of the object parameter.</summary>
+        public override Type Type => type;
+        /// <summary>The name of the type of the object parameter.</summary>
+        public override string TypeName => type.Name;
+    }
+    /// <summary>Declares the object parameter's data type.</summary>
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
+    public class ObjectParameterChancePoolInfoTypeAttribute : ObjectParameterTypeAttribute, IGenericAttribute<ChancePoolInfo>
+    {
+        private static Type type = typeof(ChancePoolInfo);
         /// <summary>The type of the object parameter.</summary>
         public override Type Type => type;
         /// <summary>The name of the type of the object parameter.</summary>
@@ -143,6 +154,26 @@ namespace GDEdit.Utilities.Attributes
     public class ObjectParameterTouchToggleModeTypeAttribute : ObjectParameterTypeAttribute, IGenericAttribute<TouchToggleMode>
     {
         private static Type type = typeof(TouchToggleMode);
+        /// <summary>The type of the object parameter.</summary>
+        public override Type Type => type;
+        /// <summary>The name of the type of the object parameter.</summary>
+        public override string TypeName => type.Name;
+    }
+    /// <summary>Declares the object parameter's data type.</summary>
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
+    public class ObjectParameterCustomParticleGroupingTypeAttribute : ObjectParameterTypeAttribute, IGenericAttribute<CustomParticleGrouping>
+    {
+        private static Type type = typeof(CustomParticleGrouping);
+        /// <summary>The type of the object parameter.</summary>
+        public override Type Type => type;
+        /// <summary>The name of the type of the object parameter.</summary>
+        public override string TypeName => type.Name;
+    }
+    /// <summary>Declares the object parameter's data type.</summary>
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
+    public class ObjectParameterCustomParticleProperty1TypeAttribute : ObjectParameterTypeAttribute, IGenericAttribute<CustomParticleProperty1>
+    {
+        private static Type type = typeof(CustomParticleProperty1);
         /// <summary>The type of the object parameter.</summary>
         public override Type Type => type;
         /// <summary>The name of the type of the object parameter.</summary>
