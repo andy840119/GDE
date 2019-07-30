@@ -17,8 +17,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Orbs
         [ObjectStringMappable(ObjectParameter.MultiActivate)]
         public bool MultiActivate
         {
-            get => SpecialObjectBools[1];
-            set => SpecialObjectBools[1] = value;
+            get => SpecialObjectBools[2];
+            set => SpecialObjectBools[2] = value;
         }
 
         /// <summary>Initializes a new instance of the <seealso cref="Orb"/> class.</summary>

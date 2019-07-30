@@ -20,7 +20,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects.Port
         public override Gamemode Gamemode => Gamemode.Wave;
 
         /// <summary>The checked property of the wave portal that determines whether the borders of the player's gamemode will be shown or not.</summary>
-        [ObjectStringMappable(ObjectParameter.PortalChecked)]
+        [ObjectStringMappable(ObjectParameter.SpecialObjectChecked)]
         public bool Checked
         {
             get => SpecialObjectBools[0];

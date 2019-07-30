@@ -180,7 +180,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueMirrorPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowMirrorPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowGravityPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\IHasCheckedProperty.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\IHasCheckedProperty.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\SpiderPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\RobotPortal.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\WavePortal.cs" />
@@ -207,6 +207,7 @@
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Interfaces\IHasCopiedColorID.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ScaleTrigger.cs" />
+    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\UnknownSubzeroTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ZoomTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\EndTrigger.cs" />
     <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\CameraOffsetTrigger.cs" />
