@@ -19,6 +19,8 @@ namespace GDE.App.Main
     {
         private const string mainResourceFile = "GDE.Resources.dll";
 
+        private static int allowableExceptions = DebugUtils.IsDebugBuild ? 0 : 1;
+
         private DependencyContainer dependencies;
         private Storage storage;
 
@@ -53,13 +55,11 @@ namespace GDE.App.Main
             host.ExceptionThrown += ExceptionHandler;
         }
 
-        private static int allowableExceptions = DebugUtils.IsDebugBuild ? 0 : 1;
-
         protected virtual bool ExceptionHandler(Exception arg)
         {
             bool continueExecution = Interlocked.Decrement(ref allowableExceptions) >= 0;
 
-            Logger.Log($"Unhandled exception has been {(continueExecution ? $"allowed with {allowableExceptions} more allowable exceptions" : "denied")} .");
+            Logger.Log($"Unhandled exception has been {(continueExecution ? $"allowed with {allowableExceptions} more allowable exceptions" : "denied")}.");
             Task.Delay(1000).ContinueWith(_ => Interlocked.Increment(ref allowableExceptions));
 
             return continueExecution;

@@ -23,7 +23,8 @@ namespace GDE.App.Main.Tools
         {
             Logger.NewEntry += entry =>
             {
-                if (entry.Level < LogLevel.Verbose) return;
+                if (entry.Level < LogLevel.Verbose)
+                    return;
 
                 var exception = entry.Exception;
 
@@ -57,7 +58,6 @@ namespace GDE.App.Main.Tools
         }
 
         #region Disposal
-
         ~RavenLogger()
         {
             Dispose(false);
@@ -77,10 +77,9 @@ namespace GDE.App.Main.Tools
                 return;
 
             isDisposed = true;
-            lock 
-                (tasks) Task.WaitAll(tasks.ToArray(), 5000);
+            lock (tasks)
+                Task.WaitAll(tasks.ToArray(), 5000);
         }
-
         #endregion
     }
 }
