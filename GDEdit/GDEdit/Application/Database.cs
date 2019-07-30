@@ -405,15 +405,19 @@ namespace GDEdit.Application
             async Task LoadCurrentLevel()
             {
                 int index;
+                int? levelIndex = null;
                 lock (lockObject)
                 {
                     index = --nextAvailableLevelIndex;
                     if (index < 0)
                         index = nextAvailableLevelIndex = levelIndicesToLoad.Count - 1;
+                    if (index > -1)
+                        levelIndex = levelIndicesToLoad[index];
                 }
-                if (index > -1)
+                if (levelIndex.HasValue)
                 {
-                    await LoadLevelString(levelIndicesToLoad[index]);
+                    await LoadLevelString(levelIndex.Value);
+                    levelIndicesToLoad.Remove(levelIndex.Value);
                     await LoadCurrentLevel();
                 }
             }
