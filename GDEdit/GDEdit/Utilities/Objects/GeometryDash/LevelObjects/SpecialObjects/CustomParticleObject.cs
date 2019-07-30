@@ -40,7 +40,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public int MaxParticles
         {
             get => maxParticles;
-            set => maxParticles = (byte)value;
+            set => UpdateLinkedProperties(ref emission, maxParticles = (byte)value);
         }
         /// <summary>The duration of the particle creation.</summary>
         [ObjectStringMappable(ObjectParameter.CustomParticleDuration)]
@@ -68,7 +68,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
         public int Emission
         {
             get => emission;
-            set => emission = (byte)value;
+            set => UpdateLinkedProperties(ref maxParticles, emission = (byte)value);
         }
         /// <summary>The angle of the particles and the center.</summary>
         [ObjectStringMappable(ObjectParameter.Angle)]
@@ -483,6 +483,13 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects
                 && AreEqual(fadeOut, z.fadeOut)
                 && AreEqual(start, z.start)
                 && AreEqual(end, z.end);
+        }
+
+        // Updates the linked properties Max Particles and Emission
+        private void UpdateLinkedProperties(ref byte assigned, byte value)
+        {
+            if (maxParticles < emission)
+                assigned = value;
         }
     }
 }
