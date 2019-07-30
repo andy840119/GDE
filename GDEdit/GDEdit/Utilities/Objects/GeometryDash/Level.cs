@@ -24,6 +24,8 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         private Task loadLS;
 
+        private string unprocessedLevelString;
+        private bool canLoadLevelString;
         private string cachedLevelString;
 
         /// <summary>Indicates if the entire level has been successfully loaded.</summary>
@@ -226,11 +228,9 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get => cachedLevelString ?? (cachedLevelString = GetLevelString());
             set
             {
-                loadLS = Task.Run(() =>
-                {
-                    TryDecryptLevelString(value, out var decryptedLevelString);
-                    GetLevelStringInformation(cachedLevelString = decryptedLevelString);
-                });
+                unprocessedLevelString = value;
+                if (canLoadLevelString)
+                    LoadLevelStringData();
             }
         }
         /// <summary>The raw form of the level as found in the gamesave.</summary>
@@ -246,8 +246,10 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public Level() { }
         /// <summary>Creates a new instance of the <see cref="Level"/> class from a raw string containing a level and gets its info.</summary>
         /// <param name="level">The raw string containing the level.</param>
-        public Level(string level)
+        /// <param name="initializeBackgroundLoading">Determines whether loading the infromation from the level string will be initialized on the background.</param>
+        public Level(string level, bool initializeBackgroundLevelStringLoading = true)
         {
+            canLoadLevelString = initializeBackgroundLevelStringLoading;
             RawLevel = level;
         }
         /// <summary>Creates a new instance of the <see cref="Level"/> class from a specified name, description, level string, revision and the creator's name.</summary>
@@ -264,6 +266,14 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         #endregion
 
         #region Functions
+        /// <summary>Initializes the process of loading the level string data. If this has already happened, no task is run.</summary>
+        public async Task InitializeLoadingLevelString()
+        {
+            canLoadLevelString = true;
+            if (loadLS == null || loadLS.Status == TaskStatus.Created)
+                await LoadLevelStringData();
+        }
+
         /// <summary>Returns the metadata of the song, given the song metadata collection found in the database.</summary>
         /// <param name="metadata">The song metadata collection of the database, based on which the song metadata is retrieved.</param>
         public SongMetadata GetSongMetadata(SongMetadataCollection metadata) => CustomSongID == 0 ? OfficialSongMetadata[OfficialSongID] : metadata.Find(s => s.ID == CustomSongID);
@@ -316,6 +326,16 @@ namespace GDEdit.Utilities.Objects.GeometryDash
         public override string ToString() => RawLevel;
 
         #region Private stuff
+        private async Task LoadLevelStringData()
+        {
+            await (loadLS = Task.Run(() =>
+            {
+                TryDecryptLevelString(unprocessedLevelString, out var decryptedLevelString);
+                GetLevelStringInformation(cachedLevelString = decryptedLevelString);
+                unprocessedLevelString = null; // Free some memory; not too bad
+            }));
+        }
+
         private void GetLevelStringInformation(string levelString)
         {
             string infoString = levelString.Substring(0, levelString.IndexOf(';'));
