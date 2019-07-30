@@ -56,16 +56,16 @@ namespace GDE.App.Main.Levels
                 if (i.State == SelectionState.Selected)
                     switch (action)
                     {
-                        case GlobalAction.ObjMoveRight:
+                        case GlobalAction.ObjectsMoveRight:
                             i.ObjectX += val;
                             break;
-                        case GlobalAction.ObjMoveLeft:
+                        case GlobalAction.ObjectsMoveLeft:
                             i.ObjectX -= val;
                             break;
-                        case GlobalAction.ObjMoveUp:
+                        case GlobalAction.ObjectsMoveUp:
                             i.ObjectY += val;
                             break;
-                        case GlobalAction.ObjMoveDown:
+                        case GlobalAction.ObjectsMoveDown:
                             i.ObjectY -= val;
                             break;
                     }
@@ -73,7 +73,7 @@ namespace GDE.App.Main.Levels
 
             switch (action)
             {
-                case GlobalAction.ObjMoveModifier:
+                case GlobalAction.ObjectsMoveModifier:
                     modifier = !modifier;
                     break;
             }
