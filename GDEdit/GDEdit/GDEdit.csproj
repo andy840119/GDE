@@ -1,294 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EB8A7023-4F5A-4994-877B-B7D293570727}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>GDEdit</RootNamespace>
     <AssemblyName>GDEdit</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <SignAssembly>false</SignAssembly>
     <LangVersion>7.3</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.CodeDom, Version=0.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.CodeDom.4.5.0\lib\net461\System.CodeDom.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Drawing" />
+    <Compile Remove="Main\Panels\ObjSelection\**" />
+    <EmbeddedResource Remove="Main\Panels\ObjSelection\**" />
+    <None Remove="Main\Panels\ObjSelection\**" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Application\Database.cs" />
-    <Compile Include="Application\DatabaseCollection.cs" />
-    <Compile Include="Application\Editor\Editor.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Attributes\CommonMergedPropertyAttribute.cs" />
-    <Compile Include="Utilities\Attributes\FutureProofingAttribute.cs" />
-    <Compile Include="Utilities\Attributes\ColorStringMappableAttribute.cs" />
-    <Compile Include="Utilities\Attributes\IGenericAttribute.cs" />
-    <Compile Include="Utilities\Attributes\ObjectIDsAttribute.cs" />
-    <Compile Include="Utilities\Attributes\ObjectIDAttribute.cs" />
-    <Compile Include="Utilities\Attributes\LevelStringMappableAttribute.cs" />
-    <Compile Include="Utilities\Attributes\ObjectParameterTypeAttribute.cs" />
-    <Compile Include="Utilities\Attributes\SongMetadataStringMappableAttribute.cs" />
-    <Compile Include="Utilities\Attributes\ObjectStringMappableAttribute.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleProperty1.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\CustomParticleGrouping.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\EasingType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\ColorChannelPlayerColor.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\Easing.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\InstantCountComparison.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\PadType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\OrbType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\PlayerSize.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\PortalType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\TargetPosCoordinates.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\ObjectParameter.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\PickupItemPickupMode.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\PulseMode.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\PulseTargetType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\TouchToggleMode.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\ZLayer.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\LevelLength.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\SpecialColorID.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\SpecialBlockType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\SpecialObjectType.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\TriggerType.cs" />
-    <Compile Include="Utilities\Enumerations\IDMigrationMode.cs" />
-    <Compile Include="Utilities\Functions\Extensions\CharExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\GenericArrayExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\GenericICollectionExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\GenericListExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\IntArrayExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\StringExtensions.cs" />
-    <Compile Include="Utilities\Functions\Extensions\Extensions.cs" />
-    <Compile Include="Utilities\Functions\General\UsefulFunctions.cs" />
-    <Compile Include="Utilities\Functions\GeometryDash\ColorTriggerTypes.cs" />
-    <Compile Include="Utilities\Functions\GeometryDash\Easing.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\Gamemode.cs" />
-    <Compile Include="Utilities\Functions\GeometryDash\Gamesave.cs" />
-    <Compile Include="Utilities\Enumerations\GeometryDash\Speed.cs" />
-    <Compile Include="Utilities\Functions\GeometryDash\LevelLengthConversion.cs" />
-    <Compile Include="Utilities\Information\GeometryDash\LevelLengths.cs" />
-    <Compile Include="Utilities\Information\GeometryDash\LevelObjectInformation.cs" />
-    <Compile Include="Utilities\Information\GeometryDash\ObjectLists.cs" />
-    <Compile Include="Utilities\Information\GeometryDash\PreviousVersions.cs" />
-    <Compile Include="Utilities\Information\GeometryDash\SongInformation.cs" />
-    <Compile Include="Utilities\Information\GeometryDash\Speeds.cs" />
-    <Compile Include="Utilities\Objects\General\BitArray16.cs" />
-    <Compile Include="Utilities\Objects\General\Directional.cs" />
-    <Compile Include="Utilities\Objects\General\IDMigration\IDMigrationInfo.cs" />
-    <Compile Include="Utilities\Objects\General\IDMigration\IDMigrationModeInfo.cs" />
-    <Compile Include="Utilities\Objects\General\Point.cs" />
-    <Compile Include="Utilities\Objects\General\BitArray8.cs" />
-    <Compile Include="Utilities\Objects\General\SourceTargetRange.cs" />
-    <Compile Include="Utilities\Objects\General\TimeSignature.cs" />
-    <Compile Include="Utilities\Objects\General\XMLAnalyzer.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\ColorChannel.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\OutlineCreationHelperInformation.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\BaseCreationHelperInformation.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\EditorHelper\EdgeCreationHelperInformation.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\FolderNameCollection.cs" />
-    <Compile Include="Utilities\Objects\General\Color.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\General\HSVDifference.cs" />
-    <Compile Include="Utilities\Objects\General\SymmetricalRange.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Guideline.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ColorChannels\LevelColorChannels.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\GuidelineCollection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\CustomLevelObjectCollection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\GeneralObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\LevelObjectCollection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\ConstantIDSpecialObject.cs" />
-    <Compile Include="Utilities\Attributes\NonGeneratableAttribute.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\OrbPad.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PulsatingObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CollisionBlock.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CountTextObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\MagentaDashOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\GreenDashOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\BlackOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\BlueOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\GreenOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\MagentaOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\YellowOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\RedOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\TriggerOrb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Orbs\Orb.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\MagentaPad.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\BluePad.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\RedPad.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\YellowPad.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Pads\Pad.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\AnimatedObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\CustomParticleObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\HSpecialBlock.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\JSpecialBlock.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\SSpecialBlock.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\SpecialBlock.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialBlocks\DSpecialBlock.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\TextObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowDualPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueDualPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\MagentaSizePortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GreenSizePortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowTeleportationPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueTeleportationPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\FastestSpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\FasterSpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\FastSpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\NormalSpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\SlowSpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueGravityPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\BlueMirrorPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowMirrorPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\YellowGravityPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\IHasCheckedProperty.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\SpiderPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\RobotPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\WavePortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\UFOPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\BallPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\ShipPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\CubePortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\GamemodePortals\GamemodePortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\Portal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\Portals\SpeedPortals\SpeedPortal.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\PickupItem.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\RotatingObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\SpecialObjects\SpecialObject.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\Shape.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\Circle.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\IHasHeight.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\IHasWidth.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\IHasRadius.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\HorizontalLine.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\Line.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\VerticalLine.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\Rectangle.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\Slope.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\ConstantIDObject.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasCopiedColorID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ScaleTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\UnknownSubzeroTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ZoomTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\EndTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\CameraOffsetTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\StaticCameraTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ReverseTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\RandomTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\SpecialColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\Hitbox.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AlphaTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color4ColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color3ColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color2ColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\LineColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\Color1ColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\ThreeDLColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\ObjColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\GRND2ColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\GRNDColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ColorTriggers\BGColorTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ShakeTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\InstantCountTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\CountTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\StopTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\AnimateTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PickupTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\OnDeathTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\TouchTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\ToggleTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\SpawnTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\CollisionTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\FollowPlayerYTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasColor.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasEasing.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasSecondaryBlockID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasPrimaryBlockID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasSecondaryGroupID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasPrimaryItemID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasTargetItemID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasTargetGroupID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasTargetColorID.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Interfaces\IHasDuration.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\FollowTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\RotateTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\PulseTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\MoveTrigger.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObjects\Triggers\Trigger.cs" />
-    <Compile Include="Utilities\Objects\General\Shapes\WidthHeightShape.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\ObjectHitboxDefinition.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectHitboxes\ObjectHitboxDefinitionDictionary.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectGrid.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSet.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\ObjectSets\ObjectSetPointDictionary.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\SongMetadata.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelCollection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\SongMetadataCollection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\SpeedSegment.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\SpeedSegmentCollection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ISingleSelection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\IMultiSelection.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbarTab.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbarTabPage.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTabItem.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTabPage.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbarTabPage.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbarTab.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\SingleObjectSelectionToolbar.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\MultiObjectSelectionToolbar.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbar.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Toolbars\ObjectSelectionToolbarTab.cs" />
-    <Compile Include="Utilities\Objects\Presets\GuidelineEditorPreset.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\Level.cs" />
-    <Compile Include="Utilities\Objects\GeometryDash\LevelObject.cs" />
-    <Compile Include="Utilities\Objects\Presets\GuidelineEditorPresetMeasure.cs" />
+    <PackageReference Include="System" />
+    <PackageReference Include="System.CodeDom" />
+    <PackageReference Include="System.Core" />
+    <PackageReference Include="System.Xml.Linq" />
+    <PackageReference Include="System.Data.DataSetExtensions" />
+    <PackageReference Include="Microsoft.CSharp" />
+    <PackageReference Include="System.Net.Http" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+
   <ItemGroup>
     <Folder Include="Application\Editor\Functions\" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
