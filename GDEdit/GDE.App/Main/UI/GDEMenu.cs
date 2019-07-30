@@ -61,10 +61,10 @@ namespace GDE.App.Main.UI
                 BackgroundColour = Color4.Transparent;
                 BackgroundColourHover = GDEColors.FromHex(@"172023");
 
-                updateTextColour();
+                UpdateTextColor();
             }
 
-            private void updateTextColour()
+            private void UpdateTextColor()
             {
                 switch ((Item as GDEMenuItem)?.Type)
                 {

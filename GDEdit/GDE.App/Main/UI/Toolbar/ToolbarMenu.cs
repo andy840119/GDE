@@ -67,22 +67,24 @@ namespace GDE.App.Main.UI.Toolbar
                 BackgroundColour = Color4.Transparent;
                 BackgroundColourHover = GDEColors.FromHex(@"172023");
 
-                updateTextColour();
+                UpdateTextColor();
             }
 
-            private void updateTextColour()
+            private void UpdateTextColor()
             {
                 switch ((Item as ToolbarMenuItem)?.Type)
                 {
+                    default:
+                    case MenuItemType.Standard:
+                        text.Colour = Color4.White;
+                        break;
+
                     case MenuItemType.Destructive:
                         text.Colour = Color4.Red;
                         break;
+
                     case MenuItemType.Highlighted:
                         text.Colour = GDEColors.FromHex(@"ffcc22");
-                        break;
-                    case MenuItemType.Standard:
-                    default:
-                        text.Colour = Color4.White;
                         break;
                 }
             }

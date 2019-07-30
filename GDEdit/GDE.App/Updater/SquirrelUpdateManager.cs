@@ -26,11 +26,11 @@ namespace GDE.App.Updater
         [BackgroundDependencyLoader]
         private void load()
         {
-            Schedule(() => Task.Run(() => checkForUpdateAsync()));
+            Schedule(() => Task.Run(() => CheckForUpdateAsync()));
             Logger.Log("Called \"checkForUpdateAsync()\"");
         }
 
-        private async void checkForUpdateAsync(bool useDeltaPatching = true)
+        private async void CheckForUpdateAsync(bool useDeltaPatching = true)
         {
             bool scheduleRetry = true;
             try
@@ -55,7 +55,7 @@ namespace GDE.App.Updater
                     {
                         Logger.Error(e, @"delta patching failed!");
 
-                        checkForUpdateAsync(false);
+                        CheckForUpdateAsync(false);
                         scheduleRetry = false;
                     }
                     else
@@ -66,7 +66,7 @@ namespace GDE.App.Updater
             finally
             {
                 if (scheduleRetry)
-                    Scheduler.AddDelayed(() => checkForUpdateAsync(), 6000 * 30);
+                    Scheduler.AddDelayed(() => CheckForUpdateAsync(), 6000 * 30);
             }
         }
 
