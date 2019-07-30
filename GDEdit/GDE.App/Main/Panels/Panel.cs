@@ -14,15 +14,10 @@ namespace GDE.App.Main.Panels
         private PinButton pin;
 
         public bool AllowDrag = true;
+
         protected virtual string Name
         {
-            get
-            {
-                if (text != null)
-                    return text.Text;
-
-                return "";
-            }
+            get => (string)text?.Text ?? "";
             set => text.Text = value;
         }
 
