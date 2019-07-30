@@ -100,7 +100,11 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         }
         /// <summary>The HSV of the trigger (as a string for the gamesave).</summary>
         [ObjectStringMappable(ObjectParameter.CopiedColorHSVValues)]
-        public string HSV => HSVAdjustment.ToString();
+        public string HSV
+        {
+            get => HSVAdjustment.ToString();
+            set => HSVAdjustment = HSVAdjustment.Parse(value);
+        }
 
         /// <summary>The HSV adjustment of the copied color of the trigger.</summary>
         public HSVAdjustment HSVAdjustment { get; set; } = new HSVAdjustment();
