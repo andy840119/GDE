@@ -178,7 +178,7 @@ namespace GDEdit.Utilities.Enumerations.GeometryDash
         [ObjectParameterBoolType]
         LockToPlayerY = 59,
         /// <summary>Represents the Copy Opacity property of the trigger.</summary>
-        [ObjectParameterDoubleType]
+        [ObjectParameterBoolType]
         CopyOpacity = 60,
         /// <summary>Represents the Editor Layer 2 value of the <see cref="LevelObject"/>.</summary>
         [ObjectParameterIntType]

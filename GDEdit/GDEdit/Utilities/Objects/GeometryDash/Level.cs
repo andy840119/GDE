@@ -24,7 +24,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
     {
         private Task loadLS;
 
-        private string unprocessedLevelString;
+        private string unprocessedLevelString = DefaultLevelString; // Initialize in case there is no k4 property in the raw level
         private bool canLoadLevelString;
         private string cachedLevelString;
 
@@ -228,7 +228,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash
             get => cachedLevelString ?? (cachedLevelString = GetLevelString());
             set
             {
-                unprocessedLevelString = value;
+                unprocessedLevelString = value ?? DefaultLevelString;
                 if (canLoadLevelString)
                     LoadLevelStringData();
             }
@@ -276,7 +276,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash
 
         /// <summary>Returns the metadata of the song, given the song metadata collection found in the database.</summary>
         /// <param name="metadata">The song metadata collection of the database, based on which the song metadata is retrieved.</param>
-        public SongMetadata GetSongMetadata(SongMetadataCollection metadata) => CustomSongID == 0 ? OfficialSongMetadata[OfficialSongID] : metadata.Find(s => s.ID == CustomSongID);
+        public SongMetadata GetSongMetadata(SongMetadataCollection metadata)
+        {
+            if (CustomSongID == 0)
+                if (OfficialSongID >= 0 && OfficialSongID < OfficialSongMetadata.Length)
+                    return OfficialSongMetadata[OfficialSongID];
+                else
+                    return SongMetadata.Unknown;
+            return metadata.Find(s => s.ID == CustomSongID);
+        }
         /// <summary>Clones this level and returns the cloned result.</summary>
         public Level Clone() => new Level(RawLevel.Substring(0));
         /// <summary>Returns the level string of this <seealso cref="Level"/>.</summary>

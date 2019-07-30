@@ -10,9 +10,18 @@ using static System.Convert;
 
 namespace GDEdit.Utilities.Objects.GeometryDash
 {
+    // TODO: Consider making it a struct?
     /// <summary>Contains the metadata of a song.</summary>
     public class SongMetadata
     {
+        /// <summary>Returns a <seealso cref="SongMetadata"/> that indicates an unknown song.</summary>
+        public static SongMetadata Unknown => new SongMetadata
+        {
+            ID = -1,
+            Title = "Unknown",
+            Artist = "Unknown",
+        };
+
         /// <summary>The ID of the song.</summary>
         [SongMetadataStringMappable(1)]
         public int ID { get; set; }
