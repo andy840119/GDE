@@ -12,6 +12,7 @@ using GDEdit.Utilities.Objects.GeometryDash;
 using static System.Convert;
 using static System.Environment;
 using static GDEdit.Utilities.Functions.GeometryDash.Gamesave;
+using System.Threading;
 
 namespace GDEdit.Application
 {
@@ -22,6 +23,13 @@ namespace GDEdit.Application
 
         private string decryptedGamesave;
         private string decryptedLevelData;
+
+        private Task[] threadTasks;
+        private CancellationTokenSource[] tokens;
+        private List<int> levelIndicesToLoad;
+        private List<int> currentlyCancelledIndices;
+        private int nextAvailableLevelIndex;
+        private object lockObject = new object();
 
         private Task setDecryptedGamesave;
         private Task setDecryptedLevelData;
@@ -150,6 +158,23 @@ namespace GDEdit.Application
             var level = index > -1 ? UserLevels[index] : null;
             level?.ClearCachedLevelStringData();
             return level;
+        }
+
+        /// <summary>Forces a level at the specified index to be loaded, if there is at least one currently running task to load a non-forced level. If there is no more space left, the level is not force loaded.</summary>
+        /// <param name="index">The index of the level to force loading.</param>
+        public void ForceLevelLoad(int index)
+        {
+            if (currentlyCancelledIndices.Count == currentlyCancelledIndices.Capacity)
+                return;
+
+            for (int i = 0; i < currentlyCancelledIndices.Capacity; i++)
+                if (!currentlyCancelledIndices.Contains(i))
+                {
+                    currentlyCancelledIndices.Add(i);
+                    tokens[i].Cancel();
+                    LoadLevelString(index).ContinueWith(t => AddLevelLoadingTask(i));
+                    break;
+                }
         }
 
         /// <summary>Clones a level and adds it to the start of the list.</summary>
@@ -355,17 +380,40 @@ namespace GDEdit.Application
         {
             // Use 2 less cores to let the computer breathe a little while loading
             int utilizedCores = Math.Max(1, Cores - 2);
-            int nextAvailableLevelIndex = -1;
+
+            levelIndicesToLoad = new List<int>(UserLevelCount);
+            for (int i = UserLevelCount - 1; i >= 0; i--)
+                levelIndicesToLoad.Add(i);
+
+            nextAvailableLevelIndex = UserLevelCount;
+
+            tokens = new CancellationTokenSource[utilizedCores];
+            threadTasks = new Task[utilizedCores];
             for (int i = 0; i < utilizedCores; i++)
-                Task.Run(LoadCurrentLevel);
+                AddLevelLoadingTask(i);
+
+            currentlyCancelledIndices = new List<int>(utilizedCores);
+        }
+
+        private async Task LoadLevelString(int index) => await UserLevels[index].InitializeLoadingLevelString();
+
+        private void AddLevelLoadingTask(int i)
+        {
+            var t = tokens[i] = new CancellationTokenSource();
+            threadTasks[i] = Task.Run(LoadCurrentLevel, t.Token);
 
             async Task LoadCurrentLevel()
             {
-                // Avoid potential adjustments made by other threads while evaluating (although virtually impossible)
-                int index = ++nextAvailableLevelIndex;
-                if (index < UserLevels.Count)
+                int index;
+                lock (lockObject)
                 {
-                    await UserLevels[index].InitializeLoadingLevelString();
+                    index = --nextAvailableLevelIndex;
+                    if (index < 0)
+                        index = nextAvailableLevelIndex = levelIndicesToLoad.Count - 1;
+                }
+                if (index > -1)
+                {
+                    await LoadLevelString(levelIndicesToLoad[index]);
                     await LoadCurrentLevel();
                 }
             }
