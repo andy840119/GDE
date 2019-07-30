@@ -10,8 +10,11 @@ namespace GDE.App.Main.Tools
 {
     public class RavenLogger : IDisposable
     {
-        private readonly RavenClient raven = new RavenClient("https://5668996964374ccd8a5e288cc08567c5@sentry.io/1362706");
+        // disk full exceptions, see https://stackoverflow.com/a/9294382
+        public const int HandleDiskFullError = unchecked((int)0x80070027);
+        public const int DiskFullError = unchecked((int)0x80070070);
 
+        private readonly RavenClient raven = new RavenClient("https://5668996964374ccd8a5e288cc08567c5@sentry.io/1362706");
         private readonly List<Task> tasks = new List<Task>();
 
         private Exception lastException;
@@ -20,21 +23,16 @@ namespace GDE.App.Main.Tools
         {
             Logger.NewEntry += entry =>
             {
-                if (entry.Level < LogLevel.Verbose) return;
+                if (entry.Level < LogLevel.Verbose)
+                    return;
 
                 var exception = entry.Exception;
 
                 if (exception != null)
                 {
                     if (exception is IOException ioe)
-                    {
-                        // disk full exceptions, see https://stackoverflow.com/a/9294382
-                        const int hr_error_handle_disk_full = unchecked((int)0x80070027);
-                        const int hr_error_disk_full = unchecked((int)0x80070070);
-
-                        if (ioe.HResult == hr_error_handle_disk_full || ioe.HResult == hr_error_disk_full)
+                        if (ioe.HResult == HandleDiskFullError || ioe.HResult == DiskFullError)
                             return;
-                    }
 
                     // since we let unhandled exceptions go ignored at times, we want to ensure they don't get submitted on subsequent reports.
                     if (lastException != null && lastException.Message == exception.Message && exception.StackTrace.StartsWith(lastException.StackTrace))
@@ -60,7 +58,6 @@ namespace GDE.App.Main.Tools
         }
 
         #region Disposal
-
         ~RavenLogger()
         {
             Dispose(false);
@@ -80,10 +77,9 @@ namespace GDE.App.Main.Tools
                 return;
 
             isDisposed = true;
-            lock 
-                (tasks) Task.WaitAll(tasks.ToArray(), 5000);
+            lock (tasks)
+                Task.WaitAll(tasks.ToArray(), 5000);
         }
-
         #endregion
     }
 }

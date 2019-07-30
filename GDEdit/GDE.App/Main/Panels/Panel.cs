@@ -15,15 +15,10 @@ namespace GDE.App.Main.Panels
 
         public bool AllowDrag = true;
         public bool LockDrag = false;
+
         protected virtual string Name
         {
-            get
-            {
-                if (text != null)
-                    return text.Text;
-
-                return "";
-            }
+            get => (string)text?.Text ?? "";
             set => text.Text = value;
         }
 
