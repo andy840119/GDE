@@ -23,6 +23,7 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
 
             new KeyBinding(new[] { InputKey.Control, InputKey.L }, IDMigrationAction.Load),
             new KeyBinding(new[] { InputKey.Control, InputKey.S }, IDMigrationAction.Save),
+            new KeyBinding(new[] { InputKey.Control, InputKey.Shift, InputKey.S }, IDMigrationAction.SaveAs),
         };
 
         public IDMigrationActionContainer(KeyCombinationMatchingMode keyCombinationMatchingMode = Exact, SimultaneousBindingMode simultaneousBindingMode = All)
@@ -48,7 +49,9 @@ namespace GDE.App.Main.Containers.KeyBindingContainers
 
         [Description("Loads the ID migration steps to a file")]
         Load,
-        [Description("Saves the ID migration steps to a file")]
+        [Description("Saves the ID migration steps to the currently associated file")]
         Save,
+        [Description("Saves the ID migration steps to a file")]
+        SaveAs,
     }
 }
