@@ -229,12 +229,13 @@ namespace GDE.App.Main.Screens.Edit.Components
 
         private void UpdateNoStepDialogVisibility(List<SourceTargetRange> currentTabRanges) => noSteps.FadeTo(currentTabRanges.Count == 0 ? 1 : 0, 100, Easing.InOutQuint);
 
-        public void AddStep(SourceTargetRange range)
+        public void AddStep(SourceTargetRange range, bool addToEditor = true, int? newIndex = null)
         {
-            var newCard = CreateIDMigrationStepCard(range, TabRanges.Count);
+            var newCard = CreateIDMigrationStepCard(range, newIndex ?? TabRanges.Count);
             Cards.Add(newCard);
             stepList.Add(newCard);
-            editor.AddIDMigrationStep(range);
+            if (addToEditor)
+                editor.AddIDMigrationStep(range);
             UpdateNoStepDialogVisibility(TabRanges);
         }
         public void CreateNewStep() => AddStep(new SourceTargetRange(1, 10, 11));
@@ -395,13 +396,8 @@ namespace GDE.App.Main.Screens.Edit.Components
 
             // Update steps after loading them
             RemoveAllSteps();
-            foreach (var s in steps)
-            {
-                var newIndex = Cards.Count; // Hacky way in foreach loop to avoid using extra variable
-                AddStep(s);
-                AddSelectedStep(newIndex);
-                Cards[newIndex].Select();
-            }
+            for (int i = 0; i < steps.Count; i++)
+                AddStep(steps[i], false, i);
         }
 
         private void OpenDialog<T>(Bindable<T> bindable, Action<string> onFileSelected)
