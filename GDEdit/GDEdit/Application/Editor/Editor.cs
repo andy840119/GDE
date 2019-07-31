@@ -1468,7 +1468,11 @@ namespace GDEdit.Application.Editor
         public void SaveIDMigrationSteps(string fileName, List<SourceTargetRange> steps) => File.WriteAllLines(fileName, ConvertRangesToStringArray(steps));
         /// <summary>Loads the ID migration steps from a specified file and replaces the currently selected ID migration steps with the loaded ones.</summary>
         /// <param name="fileName">The name of the file to load the ID migration steps from.</param>
-        public void LoadIDMigrationSteps(string fileName) => CurrentlySelectedIDMigrationSteps = LoadRangesFromStringArray(File.ReadAllLines(fileName));
+        public void LoadIDMigrationSteps(string fileName)
+        {
+            CurrentlySelectedIDMigrationSteps = LoadRangesFromStringArray(File.ReadAllLines(fileName));
+            IDMigrationInfo.CurrentlySelectedIDMigrationModeInfo.FileName = fileName;
+        }
 
         // This was copied from a private feature code of EffectSome
         // TODO: Add undo/redo action after reworking the undo/redo system to use classes instead of functions
