@@ -15,26 +15,35 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
     public class PulseTrigger : Trigger, IHasTargetGroupID, IHasTargetColorID, IHasCopiedColorID, IHasColor
     {
         private byte red = 255, green = 255, blue = 255;
-        private short targetGroupID, targetColorID, copiedColorID;
+        private short targetID, copiedColorID;
         private float fadeIn, hold, fadeOut;
 
         /// <summary>The Object ID of the Pulse trigger.</summary>
         [ObjectStringMappable(ObjectParameter.ID)]
         public override int ObjectID => (int)TriggerType.Pulse;
 
-        /// <summary>The target Group ID of the trigger.</summary>
+        /// <summary>Determines whether this Pulse trigger is targeting a color channel.</summary>
+        public bool IsTargetingColorChannel => PulseTargetType == PulseTargetType.ColorChannel;
+        public bool IsTargetingGroup => PulseTargetType == PulseTargetType.Group;
+
+        /// <summary>The target ID of the trigger.</summary>
         [ObjectStringMappable(ObjectParameter.TargetGroupID)]
+        public int TargetID
+        {
+            get => targetID;
+            set => targetID = (short)value;
+        }
+        /// <summary>The target Group ID of the trigger.</summary>
         public int TargetGroupID
         {
-            get => targetGroupID;
-            set => targetGroupID = (short)value;
+            get => IsTargetingGroup ? targetID : 0;
+            set => SetTargetID(PulseTargetType.Group, value);
         }
         /// <summary>The target Color ID of the trigger.</summary>
-        [ObjectStringMappable(ObjectParameter.TargetColorID)]
         public int TargetColorID
         {
-            get => targetColorID;
-            set => targetColorID = (short)value;
+            get => IsTargetingColorChannel ? targetID : 0;
+            set => SetTargetID(PulseTargetType.ColorChannel, value);
         }
         /// <summary>The red part of the color.</summary>
         [ObjectStringMappable(ObjectParameter.Red)]
@@ -146,6 +155,15 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
             PulseMode = pulseMode;
         }
 
+        /// <summary>Sets the target ID to the value if the current Pulse trigger is targeting the specified target type.</summary>
+        /// <param name="type">The target type this Pulse trigger must be targeting for the target ID to be changed.</param>
+        /// <param name="value">The value to set as target ID.</param>
+        public void SetTargetID(PulseTargetType type, int value)
+        {
+            if (PulseTargetType == type)
+                targetID = (short)value;
+        }
+
         /// <summary>Returns a clone of this <seealso cref="PulseTrigger"/>.</summary>
         public override GeneralObject Clone() => AddClonedInstanceInformation(new PulseTrigger());
 
@@ -154,8 +172,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         protected override GeneralObject AddClonedInstanceInformation(GeneralObject cloned)
         {
             var c = cloned as PulseTrigger;
-            c.targetGroupID = targetGroupID;
-            c.targetColorID = targetColorID;
+            c.targetID = targetID;
             c.red = red;
             c.green = green;
             c.blue = blue;
@@ -175,8 +192,7 @@ namespace GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers
         {
             var z = other as PulseTrigger;
             return base.EqualsInherited(other)
-                && targetGroupID == z.targetGroupID
-                && targetColorID == z.targetColorID
+                && targetID == z.targetID
                 && red == z.red
                 && green == z.green
                 && blue == z.blue
