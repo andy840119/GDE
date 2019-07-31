@@ -512,6 +512,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                 { IDMigrationAction.Remove, RemoveSelectedSteps },
                 { IDMigrationAction.Load, LoadSteps },
                 { IDMigrationAction.Save, SaveSteps },
+                { IDMigrationAction.SaveAs, SaveStepsAs },
             };
         }
     }
