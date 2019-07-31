@@ -222,7 +222,11 @@ namespace GDE.App.Main.Screens.Edit.Components
             Task.Delay(3000).ContinueWith(HandleNextAnimation);
             for (int i = 0; i < Cards.Count; i++)
             {
-                Cards[i].AnimateArrow();
+                try
+                {
+                    Cards[i].AnimateArrow();
+                }
+                catch { } // SHUT THE FUCK UP WITH THESE EXCEPTIONS
                 Thread.Sleep(75);
             }
         }
