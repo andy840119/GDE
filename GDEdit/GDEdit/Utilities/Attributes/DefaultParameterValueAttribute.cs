@@ -11,7 +11,7 @@ namespace GDEdit.Utilities.Attributes
         /// <summary>The default value of the parameter.</summary>
         public virtual object DefaultValue { get; }
 
-        /// <summary>Initializes a new instance of the <seealso cref="DefaultParameterValueAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <seealso cref="DefaultParameterValueAttribute"/> attribute.</summary>
         /// <param name="defaultValue">The default value of the parameter.</param>
         public DefaultParameterValueAttribute(object defaultValue)
         {
