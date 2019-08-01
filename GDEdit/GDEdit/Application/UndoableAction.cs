@@ -7,37 +7,33 @@ namespace GDEdit.Application
     /// <summary>Contains information about an action that can be undone.</summary>
     public class UndoableAction
     {
-        private readonly List<Action> undos = new List<Action>();
-        private readonly List<Action> actions = new List<Action>();
+        private readonly List<UndoableLinkedAction> links = new List<UndoableLinkedAction>();
 
         /// <summary>The description of the undoable action.</summary>
         public string Description { get; set; }
 
-        public UndoableAction() { }
-        public UndoableAction(string description) => Description = description;
+        /// <summary>Initializes a new instance of the <seealso cref="UndoableAction"/> class.</summary>
+        /// <param name="description">The description to set for this action. Defaults to <see langword="null"/>.</param>
+        public UndoableAction(string description = null) => Description = description;
 
         /// <summary>Adds an undoable action to the action list.</summary>
         /// <param name="action">The action to add to the list.</param>
         /// <param name="undo">The undo action to add to the list.</param>
-        public void Add(Action action, Action undo)
-        {
-            actions.Add(action);
-            undos.Add(undo);
-        }
+        public void Add(Action action, Action undo) => links.Add(new UndoableLinkedAction(action, undo));
 
         /// <summary>Undoes all the actions in the list.</summary>
         public void Undo()
         {
-            foreach (var u in undos)
-                u.Invoke();
+            for (int i = links.Count - 1; i >= 0; i--)
+                links[i].Undo.Invoke();
         }
         /// <summary>Redoes all the actions in the list.</summary>
         public void Redo()
         {
-            foreach (var a in actions)
-                a.Invoke();
+            for (int i = 0; i < links.Count - 1; i++)
+                links[i].Action.Invoke();
         }
         /// <summary>Clears the action list.</summary>
-        public void Clear() => actions.Clear();
+        public void Clear() => links.Clear();
     }
 }
