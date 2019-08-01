@@ -7,9 +7,22 @@ namespace GDEdit.Application
     /// <summary>A system that allows handling undoing and redoing undoable actions.</summary>
     public class UndoRedoSystem
     {
+        private bool multipleActionToggle;
+
         // I know, the naming is terrible on this one (hence the documentation), we need to find a better name
-        /// <summary>Determines whether multiple actions will be logged in the undo stack.</summary>
-        public bool MultipleActionToggle;
+        /// <summary>Determines whether multiple actions will be logged in the undo stack. Setting this to <see langword="false"/> will register all actions.</summary>
+        public bool MultipleActionToggle
+        {
+            get => multipleActionToggle;
+            set
+            {
+                if (!(multipleActionToggle = value) && TemporaryUndoableAction.Count > 0)
+                    RegisterActions(DefaultDescription);
+            }
+        }
+
+        /// <summary>The default description for the undoable actions.</summary>
+        public string DefaultDescription;
 
         /// <summary>The temporarily stored undoable action that is to be registered upon completing an operation.</summary>
         public UndoableAction TemporaryUndoableAction = new UndoableAction();
@@ -18,17 +31,21 @@ namespace GDEdit.Application
         /// <summary>The stack that contains all actions that are to be redone.</summary>
         public readonly Stack<UndoableAction> RedoStack = new Stack<UndoableAction>();
 
+        /// <summary>Initializes a new instance of the <seealso cref="UndoRedoSystem"/> class.</summary>
+        /// <param name="defaultDescription">The default description for the undoable actions.</param>
+        public UndoRedoSystem(string defaultDescription = "") => DefaultDescription = defaultDescription;
+
         /// <summary>Registers all the actions.</summary>
-        /// <param name="description"></param>
-        public void RegisterActions(string description)
+        /// <param name="description">The description to use for the registered actions. If the description is <see langword="null"/>, the default description is used instead.</param>
+        public void RegisterActions(string description = null)
         {
-            TemporaryUndoableAction.Description = description;
+            TemporaryUndoableAction.Description = description ?? DefaultDescription;
             UndoStack.Push(TemporaryUndoableAction);
             TemporaryUndoableAction = new UndoableAction();
             RedoStack.Clear();
         }
         /// <summary>Adds a temporary action to the temporary action object and registers the undoable action if the multiple action toggle is <see langword="false"/>.</summary>
-        /// <param name="description">The description of the actions.</param>
+        /// <param name="description">The description of the actions. If the description is <see langword="null"/>, the default description is used instead.</param>
         /// <param name="action">The action. It must only perform the changes the action performs without invoking the respective events.</param>
         /// <param name="undo">The inverse action. It must only perform the changes the inverse action performs without invoking the respective events.</param>
         public void AddTemporaryAction(string description, Action action, Action undo)

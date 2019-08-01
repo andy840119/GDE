@@ -12,6 +12,9 @@ namespace GDEdit.Application
         /// <summary>The description of the undoable action.</summary>
         public string Description { get; set; }
 
+        /// <summary>Gets the count of actions that are registered in this undoable action.</summary>
+        public int Count => links.Count;
+
         /// <summary>Initializes a new instance of the <seealso cref="UndoableAction"/> class.</summary>
         /// <param name="description">The description to set for this action. Defaults to <see langword="null"/>.</param>
         public UndoableAction(string description = null) => Description = description;
