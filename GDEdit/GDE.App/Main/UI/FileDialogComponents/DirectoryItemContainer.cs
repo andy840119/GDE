@@ -189,17 +189,27 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
-            var info = new DirectoryInfo(CurrentDirectory);
+            if (CurrentDirectory.Length > 0)
+            {
+                var info = new DirectoryInfo(CurrentDirectory);
 
-            var directories = info.GetDirectories();
-            var files = info.GetFiles();
+                var directories = info.GetDirectories();
+                var files = info.GetFiles();
 
-            fileFillFlowContainer.Clear();
+                fileFillFlowContainer.Clear();
 
-            foreach (var d in directories)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name), PathItemType.Directory));
-            foreach (var f in files)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f.Name), PathItemType.File));
+                foreach (var d in directories)
+                    fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name), PathItemType.Directory));
+                foreach (var f in files)
+                    fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f.Name), PathItemType.File));
+            }
+            else
+            {
+                var drives = DriveInfo.GetDrives();
+
+                foreach (var d in drives)
+                    fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name.Remove(d.Name.Length - 1)), PathItemType.Volume));
+            }
 
             currentlyLoadedDirectory = CurrentDirectory;
 
