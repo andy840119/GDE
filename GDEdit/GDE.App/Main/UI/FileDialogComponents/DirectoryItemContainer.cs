@@ -1,26 +1,18 @@
 ﻿using GDE.App.Main.Containers.KeyBindingContainers;
-using GDE.App.Main.Panels;
 using GDE.App.Main.UI.Containers;
 using GDEdit.Utilities.Enumerations;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Input.Bindings;
-using osu.Framework.Input.Events;
 using osuTK;
-using osuTK.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using static GDE.App.Main.Colors.GDEColors;
-using static System.IO.Directory;
-using static System.IO.Path;
-using static System.Math;
-using static System.String;
 using static GDEdit.Utilities.Functions.General.PathExpansionPack;
+using static System.Math;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -197,15 +189,17 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
-            var directories = GetDirectories(CurrentDirectory);
-            var files = GetFiles(CurrentDirectory);
+            var info = new DirectoryInfo(CurrentDirectory);
+
+            var directories = info.GetDirectories();
+            var files = info.GetFiles();
 
             fileFillFlowContainer.Clear();
 
             foreach (var d in directories)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), PathItemType.Directory));
+                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name), PathItemType.Directory));
             foreach (var f in files)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), PathItemType.File));
+                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f.Name), PathItemType.File));
 
             currentlyLoadedDirectory = CurrentDirectory;
 
