@@ -1,4 +1,5 @@
 ﻿using GDE.App.Main.Colors;
+using GDEdit.Utilities.Enumerations;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
@@ -11,6 +12,7 @@ using osuTK;
 using osuTK.Graphics;
 using System;
 using System.Collections.Generic;
+using static System.IO.Path;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -22,7 +24,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public const float DefaultHeight = 30;
 
         private string itemName = "";
-        private ItemType type;
+        private PathItemType type;
 
         private BindableBool selected = new BindableBool(false);
 
@@ -40,10 +42,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public Action<DrawableItem> OnClicked;
         public Action<DrawableItem> OnSelected;
 
-        public bool IsFile => ItemType == ItemType.File;
-        public bool IsDirectory => ItemType == ItemType.Directory;
+        public bool IsFile => ItemType == PathItemType.File;
+        public bool IsDirectory => ItemType == PathItemType.Directory;
 
-        public ItemType ItemType
+        public PathItemType ItemType
         {
             get => type;
             set => icon.Icon = GetIcon(type = value);
@@ -73,7 +75,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         };
 
         public DrawableItem() : this("") { }
-        public DrawableItem(string itemName, ItemType itemType = ItemType.File)
+        public DrawableItem(string itemName, PathItemType itemType = PathItemType.File)
         {
             RelativeSizeAxes = Axes.X;
             Height = DefaultHeight;
@@ -122,9 +124,19 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         public void ToggleSelection() => selected.Toggle();
 
-        public bool MatchesNameAndType(string name, ItemType type) => ItemName == name && ItemType == type;
+        public bool MatchesNameAndType(string name, PathItemType type) => ItemName == name && ItemType == type;
 
-        public string GetPathSuffix() => $@"{ItemName}{(IsDirectory ? "\\" : "")}";
+        public string GetPathSuffix() => $@"{ItemName}{GetPathSuffixCharacter()}";
+
+        private char GetPathSuffixCharacter()
+        {
+            switch (ItemType)
+            {
+                case PathItemType.Directory:
+                    return DirectorySeparatorChar;
+            }
+            return '\0';
+        }
 
         private void HandleSelectionChanged(ValueChangedEvent<bool> value)
         {
@@ -165,24 +177,18 @@ namespace GDE.App.Main.UI.FileDialogComponents
             return base.OnDoubleClick(e);
         }
 
-        private static IconUsage GetIcon(ItemType itemType)
+        private static IconUsage GetIcon(PathItemType itemType)
         {
             switch (itemType)
             {
-                case ItemType.File:
+                case PathItemType.File:
                     return fileIcon;
-                case ItemType.Directory:
+                case PathItemType.Directory:
                     return directoryIcon;
             }
             throw new ArgumentException("Invalid item type.");
         }
 
         public override string ToString() => ItemName;
-    }
-
-    public enum ItemType
-    {
-        File,
-        Directory
     }
 }

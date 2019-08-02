@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.Panels;
 using GDE.App.Main.UI.Containers;
+using GDEdit.Utilities.Enumerations;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -22,6 +23,7 @@ using static System.IO.Directory;
 using static System.IO.Path;
 using static System.Math;
 using static System.String;
+using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -252,7 +254,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private void PerformAction()
         {
-            if (CurrentlySelectedItem?.ItemType == ItemType.Directory)
+            if (CurrentlySelectedItem?.ItemType == PathItemType.Directory)
                 NavigateToSelectedDirectory();
             else if (CanFinalizeSelection)
                 FinalizeSelection();
@@ -274,52 +276,5 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private string GetCurrentBreadcrumbsDirectory() => $@"{filePathBreadcrumbs.Items.ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories)}";
         private string GetCurrentSelectedPath() => $@"{CurrentDirectory}{CurrentlySelectedItem?.GetPathSuffix() ?? SelectedItem}";
-
-        private static string FixPath(string dirPath) => dirPath.Replace('/', '\\');
-        private static string FixDirectoryPath(string dirPath)
-        {
-            var result = FixPath(dirPath);
-            if (!result.EndsWith('\\'))
-                result += '\\';
-            return result;
-        }
-
-        private static string AddDirectorySuffix(string name) => $@"{name}\";
-        private static string AggregateDirectories(string left, string right) => $@"{left}{right}";
-
-        private static string[] AnalyzePath(string path) => FixPath(path).Split('\\');
-
-        private static string GetCommonDirectory(string pathA, string pathB)
-        {
-            var splitA = AnalyzePath(pathA);
-            var splitB = AnalyzePath(pathB);
-            var result = new List<string>();
-            int min = Min(splitA.Length, splitB.Length);
-            for (int i = 0; i < min; i++)
-                if (splitA[i] == splitB[i])
-                    result.Add(splitA[i]);
-            return result.Aggregate(AggregateDirectories);
-        }
-        private static string GetPreviousPathDirectoryInNewPath(string previousPath, string newPath)
-        {
-            var splitPrevious = AnalyzePath(previousPath);
-            var splitNew = AnalyzePath(newPath);
-            if (splitNew.Length >= splitPrevious.Length)
-                return null;
-
-            int index = -1;
-            while (++index < splitNew.Length)
-                if (splitPrevious[index] != splitNew[index])
-                    break;
-            return splitPrevious[index];
-        }
-        private static string GetIndividualItemName(string path) => AnalyzePath(path).Last();
-
-        private static ItemType DetermineItemType(string path)
-        {
-            if (path.EndsWith('\\') || IsNullOrWhiteSpace(GetExtension(path)))
-                return ItemType.Directory;
-            return ItemType.File;
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.Panels;
 using GDE.App.Main.UI.Containers;
+using GDEdit.Utilities.Enumerations;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -19,6 +20,7 @@ using static System.IO.Directory;
 using static System.IO.Path;
 using static System.Math;
 using static System.String;
+using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -201,9 +203,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
             fileFillFlowContainer.Clear();
 
             foreach (var d in directories)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), ItemType.Directory));
+                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), PathItemType.Directory));
             foreach (var f in files)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
+                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), PathItemType.File));
 
             currentlyLoadedDirectory = CurrentDirectory;
 
@@ -245,58 +247,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
             };
         }
 
-        private DrawableItem GetNewDrawableItem(string name, ItemType type) => new DrawableItem(name, type)
+        private DrawableItem GetNewDrawableItem(string name, PathItemType type) => new DrawableItem(name, type)
         {
             OnSelected = HandleSelection,
             OnClicked = HandleClick,
             OnDoubleClicked = HandleDoubleClick,
         };
-
-        // TODO: Move those to a class, since they're copy-pasted
-        private static string AddDirectorySuffix(string name) => $@"{name}\";
-        private static string AggregateDirectories(string left, string right) => $@"{left}{right}";
-
-        private static string[] AnalyzePath(string path) => path.Replace('/', '\\').Split('\\');
-
-        private static string FixDirectoryPath(string dirPath)
-        {
-            var result = dirPath.Replace('/', '\\');
-            if (!result.EndsWith('\\'))
-                result += '\\';
-            return result;
-        }
-
-        private static string GetCommonDirectory(string pathA, string pathB)
-        {
-            var splitA = AnalyzePath(pathA);
-            var splitB = AnalyzePath(pathB);
-            var result = new List<string>();
-            int min = Min(splitA.Length, splitB.Length);
-            for (int i = 0; i < min; i++)
-                if (splitA[i] == splitB[i])
-                    result.Add(splitA[i]);
-            return result.Aggregate(AggregateDirectories);
-        }
-        private static string GetPreviousPathDirectoryInNewPath(string previousPath, string newPath)
-        {
-            var splitPrevious = AnalyzePath(previousPath);
-            var splitNew = AnalyzePath(newPath);
-            if (splitNew.Length >= splitPrevious.Length)
-                return null;
-            var result = new List<string>();
-            int index = -1;
-            while (++index < splitNew.Length)
-                if (splitPrevious[index] != splitNew[index])
-                    break;
-            return splitPrevious[index];
-        }
-        private static string GetIndividualItemName(string path) => path.Replace('/', '\\').Split('\\').Last();
-
-        private static ItemType DetermineItemType(string path)
-        {
-            if (path.EndsWith('\\') || IsNullOrWhiteSpace(GetExtension(path)))
-                return ItemType.Directory;
-            return ItemType.File;
-        }
     }
 }
