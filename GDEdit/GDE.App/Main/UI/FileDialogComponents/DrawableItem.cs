@@ -20,6 +20,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
     {
         private static readonly IconUsage fileIcon = FontAwesome.Regular.FileAlt;
         private static readonly IconUsage directoryIcon = FontAwesome.Regular.Folder;
+        private static readonly IconUsage volumeIcon = FontAwesome.Solid.Database;
 
         public const float DefaultHeight = 30;
 
@@ -44,6 +45,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         public bool IsFile => ItemType == PathItemType.File;
         public bool IsDirectory => ItemType == PathItemType.Directory;
+        public bool IsVolume => ItemType == PathItemType.Volume;
 
         public PathItemType ItemType
         {
@@ -134,6 +136,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
             {
                 case PathItemType.Directory:
                     return DirectorySeparatorChar;
+                case PathItemType.Volume:
+                    return VolumeSeparatorChar;
             }
             return '\0';
         }
@@ -185,6 +189,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
                     return fileIcon;
                 case PathItemType.Directory:
                     return directoryIcon;
+                case PathItemType.Volume:
+                    return volumeIcon;
             }
             throw new ArgumentException("Invalid item type.");
         }

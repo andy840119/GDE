@@ -11,5 +11,7 @@ namespace GDEdit.Utilities.Enumerations
         File,
         /// <summary>Represents a directory.</summary>
         Directory,
+        /// <summary>Represents a volume.</summary>
+        Volume,
     }
 }

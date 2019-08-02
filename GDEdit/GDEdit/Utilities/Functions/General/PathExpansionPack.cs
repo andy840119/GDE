@@ -76,6 +76,8 @@ namespace GDEdit.Utilities.Functions.General
         /// <param name="path">The path to determine its path item type.</param>
         public static PathItemType DeterminePathItemType(string path)
         {
+            if (EndsWithVolumeSeparator(path) || EndsWithVolumeSeparator(path.Remove(path.Length - 1)))
+                return PathItemType.Volume;
             if (EndsWithDirectorySeparator(path) || IsNullOrWhiteSpace(GetExtension(path)))
                 return PathItemType.Directory;
             return PathItemType.File;
@@ -84,5 +86,8 @@ namespace GDEdit.Utilities.Functions.General
         /// <summary>Determines whether a path ends with the platform-specific directory separator character.</summary>
         /// <param name="path">The path to determine whether it ends with the platform-specific directory separator.</param>
         public static bool EndsWithDirectorySeparator(string path) => path.EndsWith(DirectorySeparatorChar.ToString());
+        /// <summary>Determines whether a path ends with the platform-specific volume separator character.</summary>
+        /// <param name="path">The path to determine whether it ends with the platform-specific volume separator.</param>
+        public static bool EndsWithVolumeSeparator(string path) => path.EndsWith(VolumeSeparatorChar.ToString());
     }
 }
