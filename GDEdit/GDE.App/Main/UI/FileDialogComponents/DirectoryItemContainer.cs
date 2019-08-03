@@ -121,10 +121,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public void NavigateToPreviousDirectory()
         {
             var dirs = AnalyzePath(CurrentDirectory);
-            if (dirs.Length < 3)
+            if (dirs.Length < 2)
                 return;
 
-            CurrentDirectory = dirs.SkipLast(2).ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories);
+            CurrentDirectory = ConcatenateDirectoryPath(dirs.SkipLast(2).ToList());
         }
         public void NavigateTo(int index)
         {
@@ -189,14 +189,14 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
+            fileFillFlowContainer.Clear();
+
             if (CurrentDirectory.Length > 0)
             {
                 var info = new DirectoryInfo(CurrentDirectory);
 
                 var directories = info.GetDirectories();
                 var files = info.GetFiles();
-
-                fileFillFlowContainer.Clear();
 
                 foreach (var d in directories)
                     fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name), PathItemType.Directory));
@@ -208,13 +208,13 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 var drives = DriveInfo.GetDrives();
 
                 foreach (var d in drives)
-                    fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name.Remove(d.Name.Length - 1)), PathItemType.Volume));
+                    if (d.IsReady)
+                        fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name.Remove(d.Name.Length - 1)), PathItemType.Volume));
             }
 
             currentlyLoadedDirectory = CurrentDirectory;
 
             SelectedItemBindable.TriggerChange();
-            // Scrolling to currently selected item fails because the scroll container automatically scrolls to the beginning since the items were updated
         }
 
         private void HandleSelection(DrawableItem selectedItem)
