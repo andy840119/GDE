@@ -60,7 +60,7 @@ namespace GDE.Tests.Visual.TestSceneLevel
                     },
                 },
             };
-            
+
             AddSliderStep("Rotation", 0d, 360d, 0d, v => rectangle.HitboxRotation = v);
         }
 

@@ -10,7 +10,6 @@ using osu.Framework.Graphics.Cursor;
 using osu.Framework.Input;
 using osu.Framework.Input.Events;
 using osuTK;
-using System;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
@@ -40,7 +39,7 @@ namespace GDE.App.Main.Screens.Edit.Components
         protected override bool OnDrag(DragEvent e)
         {
             cameraOffsetBindable.Value += e.Delta;
-            
+
             foreach (var child in Children)
             {
                 if (child is IDraggable draggable)

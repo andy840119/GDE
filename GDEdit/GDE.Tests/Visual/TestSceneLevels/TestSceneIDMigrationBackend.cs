@@ -1,18 +1,14 @@
-﻿using GDEdit.Application;
+﻿using GDEdit.Application.Editor;
+using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers.ColorTriggers;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
-using osu.Framework.Allocation;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
-using System.Threading.Tasks;
-using System.Linq;
-using GDEdit.Application.Editor;
-using GDEdit.Utilities.Objects.General;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GDE.Tests.Visual.TestSceneLevels
 {

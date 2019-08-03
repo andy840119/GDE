@@ -1,10 +1,8 @@
 ﻿using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.General.Shapes;
 using GDEdit.Utilities.Objects.GeometryDash.ObjectHitboxes;
-using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Textures;
 using osuTK;
 using osuTK.Graphics;
 

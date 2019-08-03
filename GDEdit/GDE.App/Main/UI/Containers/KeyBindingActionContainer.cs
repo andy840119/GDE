@@ -2,7 +2,6 @@
 using osu.Framework.Input.Bindings;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GDE.App.Main.UI.Containers
 {
