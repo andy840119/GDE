@@ -1,30 +1,21 @@
 ﻿using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.Panels;
-using GDE.App.Main.UI.Containers;
 using GDEdit.Utilities.Enumerations;
-using GDEdit.Utilities.Functions.Extensions;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Input.Bindings;
-using osu.Framework.Input.Events;
 using osuTK;
-using osuTK.Input;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using static GDE.App.Main.Colors.GDEColors;
+using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 using static System.Environment;
 using static System.Environment.SpecialFolder;
 using static System.IO.Directory;
 using static System.IO.Path;
-using static System.Math;
-using static System.String;
-using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {

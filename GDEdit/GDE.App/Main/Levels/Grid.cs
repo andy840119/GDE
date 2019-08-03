@@ -1,11 +1,9 @@
-﻿using osu.Framework.Extensions.Color4Extensions;
-using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
+﻿using GDE.App.Main.Screens.Edit.Components;
+using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
-using osuTK.Graphics;
+using osu.Framework.Graphics.Containers;
 using osuTK;
-using GDE.App.Main.Screens.Edit.Components;
-using GDEdit.Utilities.Objects.GeometryDash;
+using osuTK.Graphics;
 
 namespace GDE.App.Main.Levels
 {

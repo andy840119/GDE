@@ -16,7 +16,6 @@ using osu.Framework.Graphics.Sprites;
 using osuTK;
 using osuTK.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using static GDE.App.Main.Colors.GDEColors;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;

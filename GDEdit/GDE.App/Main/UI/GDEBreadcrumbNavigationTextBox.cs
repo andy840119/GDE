@@ -1,12 +1,9 @@
-﻿using GDEdit.Utilities.Functions.Extensions;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK.Graphics;
 using System;
-using System.Linq;
 using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 
 namespace GDE.App.Main.UI

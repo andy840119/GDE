@@ -3,7 +3,6 @@ using GDE.App.Main.UI;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Screens;
 using osuTK;
 
@@ -56,7 +55,7 @@ namespace GDE.App.Main.Screens
                 }
             };
         }
-        
+
         public override void OnEntering(IScreen last)
         {
             SpriteText welc;
