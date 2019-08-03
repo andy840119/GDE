@@ -189,7 +189,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
-
             if (CurrentDirectory.Length > 0)
             {
                 var info = new DirectoryInfo(CurrentDirectory);
