@@ -7,6 +7,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
+using osuTK.Input;
 
 namespace GDE.App.Main.UI
 {
@@ -42,7 +43,8 @@ namespace GDE.App.Main.UI
             fillFlowContainer.AddRange(items.Select(val =>
             {
                 var breadcrumb = CreateBreadcrumb(val);
-                breadcrumb.Selected += HandleBreadcrumbSelected;
+                breadcrumb.Clicked += HandleBreadcrumbClicked;
+                breadcrumb.RightClicked += HandleBreadcrumbRightClicked;
                 return breadcrumb;
             }));
 
@@ -63,9 +65,14 @@ namespace GDE.App.Main.UI
         /// <summary>Creates and adds the FillFlowContainer that contains all breadcrumbs.</summary>
         protected abstract FillFlowContainer<Breadcrumb> CreateAndAddFillFlowContainer();
 
-        private void HandleBreadcrumbSelected(Breadcrumb breadcrumb)
+        private void HandleBreadcrumbClicked(Breadcrumb breadcrumb)
         {
             UpdateItems(fillFlowContainer.Children.ToList().IndexOf(breadcrumb));
+            BreadcrumbClicked?.Invoke(breadcrumb.Value);
+        }
+        private void HandleBreadcrumbRightClicked(Breadcrumb breadcrumb)
+        {
+            UpdateItems(fillFlowContainer.Children.ToList().IndexOf(breadcrumb) - 1);
             BreadcrumbClicked?.Invoke(breadcrumb.Value);
         }
 
@@ -75,8 +82,8 @@ namespace GDE.App.Main.UI
         {
             if (newIndex > Items.Count - 1)
                 throw new IndexOutOfRangeException($"Could not find an appropriate item for the index {newIndex}");
-            if (newIndex < 0)
-                throw new IndexOutOfRangeException("The index can not be below 0.");
+            if (newIndex < -1)
+                throw new IndexOutOfRangeException("The index can not be below -1.");
 
             if (newIndex + 1 == Items.Count)
                 return;
@@ -98,13 +105,17 @@ namespace GDE.App.Main.UI
 
             public T Value { get; }
 
-            public event Action<Breadcrumb> Selected;
+            public event Action<Breadcrumb> Clicked;
+            public event Action<Breadcrumb> RightClicked;
 
             protected Breadcrumb(T value) => Value = value;
 
             protected override bool OnClick(ClickEvent e)
             {
-                Selected?.Invoke(this);
+                if (e.Button == MouseButton.Right)
+                    RightClicked?.Invoke(this);
+                else
+                    Clicked?.Invoke(this);
                 return true;
             }
         }
