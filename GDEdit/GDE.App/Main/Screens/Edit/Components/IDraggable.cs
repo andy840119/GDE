@@ -1,6 +1,6 @@
 ﻿namespace GDE.App.Main.Screens.Edit.Components
 {
-    internal interface IDraggable
+    interface IDraggable
     {
         bool Draggable { get; }
     }
