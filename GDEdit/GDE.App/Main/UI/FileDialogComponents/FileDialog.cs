@@ -269,12 +269,12 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private void UpdateBreadcrumbs()
         {
-            var dirs = AnalyzePath(CurrentDirectory);
+            var dirs = AnalyzePath(CurrentDirectory).RemoveEmptyElements();
             filePathBreadcrumbs.Items.Clear();
             filePathBreadcrumbs.Items.AddRange(dirs);
         }
 
-        private string GetCurrentBreadcrumbsDirectory() => $@"{filePathBreadcrumbs.Items.ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories)}";
+        private string GetCurrentBreadcrumbsDirectory() => ConcatenateDirectoryPath(filePathBreadcrumbs.Items);
         private string GetCurrentSelectedPath() => $@"{CurrentDirectory}{CurrentlySelectedItem?.GetPathSuffix() ?? SelectedItem}";
     }
 }

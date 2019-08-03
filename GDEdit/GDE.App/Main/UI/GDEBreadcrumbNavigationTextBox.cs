@@ -1,13 +1,12 @@
-﻿using GDE.App.Main.UI.FileDialogComponents;
+﻿using GDEdit.Utilities.Functions.Extensions;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 
 namespace GDE.App.Main.UI
 {
@@ -55,7 +54,7 @@ namespace GDE.App.Main.UI
         {
             BreadcrumbNavigation.FadeTo(0, 200, Easing.OutQuint);
             if (BreadcrumbNavigation.Items.Count > 0)
-                Text = BreadcrumbNavigation.Items.Aggregate(AggregateStrings);
+                Text = ConcatenateDirectoryPath(BreadcrumbNavigation.Items);
             TextContainer.FadeColour(Color4.White, 200, Easing.InQuint);
             base.OnFocus(e);
         }
@@ -72,12 +71,10 @@ namespace GDE.App.Main.UI
             if (AllowChange?.Invoke(Text) ?? true)
             {
                 BreadcrumbNavigation.Items.Clear();
-                BreadcrumbNavigation.Items.AddRange(Text.Split(Separator).ToList());
+                BreadcrumbNavigation.Items.AddRange(Text.Split(Separator).ToList().RemoveEmptyElements());
                 OnTextChanged?.Invoke(Text);
             }
             Text = "";
         }
-
-        private string AggregateStrings(string left, string right) => $"{left}{Separator}{right}";
     }
 }
