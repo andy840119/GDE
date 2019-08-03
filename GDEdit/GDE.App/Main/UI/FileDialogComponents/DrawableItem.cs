@@ -46,6 +46,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public bool IsFile => ItemType == PathItemType.File;
         public bool IsDirectory => ItemType == PathItemType.Directory;
         public bool IsVolume => ItemType == PathItemType.Volume;
+        public bool IsDirectoryOrVolume => ItemType >= PathItemType.Directory;
 
         public PathItemType ItemType
         {
@@ -128,19 +129,9 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         public bool MatchesNameAndType(string name, PathItemType type) => ItemName == name && ItemType == type;
 
-        public string GetPathSuffix() => $@"{ItemName}{GetPathSuffixCharacter()}";
+        public string GetPathSuffix() => $@"{ItemName}{GetPathSuffixString()}";
 
-        private char GetPathSuffixCharacter()
-        {
-            switch (ItemType)
-            {
-                case PathItemType.Directory:
-                    return DirectorySeparatorChar;
-                case PathItemType.Volume:
-                    return VolumeSeparatorChar;
-            }
-            return '\0';
-        }
+        private string GetPathSuffixString() => IsDirectoryOrVolume ? DirectorySeparatorChar.ToString() : "";
 
         private void HandleSelectionChanged(ValueChangedEvent<bool> value)
         {
