@@ -189,7 +189,6 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
-            fileFillFlowContainer.Clear();
 
             if (CurrentDirectory.Length > 0)
             {
@@ -197,6 +196,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
                 var directories = info.GetDirectories();
                 var files = info.GetFiles();
+
+                fileFillFlowContainer.Clear();
 
                 foreach (var d in directories)
                     fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name), PathItemType.Directory));
@@ -206,6 +207,8 @@ namespace GDE.App.Main.UI.FileDialogComponents
             else
             {
                 var drives = DriveInfo.GetDrives();
+
+                fileFillFlowContainer.Clear();
 
                 foreach (var d in drives)
                     if (d.IsReady)
