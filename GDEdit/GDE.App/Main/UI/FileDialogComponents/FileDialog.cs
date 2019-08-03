@@ -2,6 +2,7 @@
 using GDE.App.Main.Panels;
 using GDE.App.Main.UI.Containers;
 using GDEdit.Utilities.Enumerations;
+using GDEdit.Utilities.Functions.Extensions;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -223,7 +224,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public void UpdateActionButtonState()
         {
             ActionButton.Enabled.Value = CanFinalizeSelection;
-            ActionButton.Text = CurrentlySelectedItem?.IsDirectory ?? false ? "Open Folder" : FileDialogActionName;
+            ActionButton.Text = CurrentlySelectedItem?.IsDirectoryOrVolume ?? false ? $"Open {GetUserFriendlyItemName(CurrentlySelectedItem.ItemType)}" : FileDialogActionName;
         }
 
         public void UpdatePath(string newPath)
@@ -254,7 +255,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private void PerformAction()
         {
-            if (CurrentlySelectedItem?.ItemType == PathItemType.Directory)
+            if (CurrentlySelectedItem?.IsDirectoryOrVolume ?? false)
                 NavigateToSelectedDirectory();
             else if (CanFinalizeSelection)
                 FinalizeSelection();
@@ -276,5 +277,19 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private string GetCurrentBreadcrumbsDirectory() => ConcatenateDirectoryPath(filePathBreadcrumbs.Items);
         private string GetCurrentSelectedPath() => $@"{CurrentDirectory}{CurrentlySelectedItem?.GetPathSuffix() ?? SelectedItem}";
+
+        private static string GetUserFriendlyItemName(PathItemType itemType)
+        {
+            switch (itemType)
+            {
+                case PathItemType.Directory:
+                    return "Folder";
+                case PathItemType.Volume:
+                    return "Disk";
+                case PathItemType.File:
+                    return "File";
+            }
+            throw new ArgumentException("Invalid item type.");
+        }
     }
 }
