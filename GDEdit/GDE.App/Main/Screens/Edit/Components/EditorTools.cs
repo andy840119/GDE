@@ -5,18 +5,13 @@ using GDE.App.Main.UI;
 using GDEdit.Application;
 using GDEdit.Application.Editor;
 using GDEdit.Utilities.Objects.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Graphics;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GDE.App.Main.Screens.Edit.Components
 {
@@ -80,7 +75,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                         },
                         deleteSelectedObjects = new GDEButton
                         {
-                            Action = () => 
+                            Action = () =>
                             {
                                 //Always defaults to 0, so fix that
                                 foreach (var o in ObjectBase.DrawableSelectedObjects)

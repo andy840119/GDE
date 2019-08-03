@@ -1,13 +1,12 @@
 ﻿using GDE.App.Main.Colors;
+using GDE.App.Main.UI;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Graphics;
 using osuTK;
 using osuTK.Graphics;
 using System;
-using GDE.App.Main.UI;
 
 namespace GDE.App.Main.Overlays
 {

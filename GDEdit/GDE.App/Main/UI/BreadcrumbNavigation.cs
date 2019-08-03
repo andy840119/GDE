@@ -1,12 +1,12 @@
 ﻿//Code copied from https://github.com/ppy/osu-framework/pull/2255
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GDE.App.Main.UI
 {

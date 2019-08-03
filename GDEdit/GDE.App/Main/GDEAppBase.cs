@@ -7,9 +7,7 @@ using osu.Framework.Development;
 using osu.Framework.IO.Stores;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
-using osuTK;
 using System;
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 

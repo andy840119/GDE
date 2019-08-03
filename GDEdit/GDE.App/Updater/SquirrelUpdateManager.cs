@@ -1,23 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Colour;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Logging;
-using osuTK;
-using osuTK.Graphics;
 using Squirrel;
-using static Splat.LogLevel;
+using System;
+using System.Threading.Tasks;
 
 namespace GDE.App.Updater
 {
     public class SquirrelUpdateManager : Component
     {
         private UpdateManager updateManager;
-        
+
         public void PrepareUpdate()
         {
             UpdateManager.RestartAppWhenExited().Wait();
