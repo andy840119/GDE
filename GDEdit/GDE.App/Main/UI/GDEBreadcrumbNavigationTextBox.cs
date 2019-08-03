@@ -1,6 +1,7 @@
 ﻿using GDEdit.Utilities.Functions.Extensions;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK.Graphics;
@@ -28,6 +29,16 @@ namespace GDE.App.Main.UI
             set => BreadcrumbNavigation.Items.BindTo(value);
         }
 
+        protected Color4 TextBoxColor
+        {
+            get => TextContainer.Colour;
+            set
+            {
+                TextContainer.Colour = value;
+                Background.Colour = value;
+            }
+        }
+
         public GDEBreadcrumbNavigationTextBox()
             : base()
         {
@@ -40,7 +51,7 @@ namespace GDE.App.Main.UI
                 RelativeSizeAxes = Axes.Both,
             });
 
-            TextContainer.Colour = BlackTransparent;
+            TextBoxColor = BlackTransparent;
 
             OnCommit += HandleOnCommit;
         }
@@ -55,14 +66,14 @@ namespace GDE.App.Main.UI
             BreadcrumbNavigation.FadeTo(0, 200, Easing.OutQuint);
             if (BreadcrumbNavigation.Items.Count > 0)
                 Text = ConcatenateDirectoryPath(BreadcrumbNavigation.Items);
-            TextContainer.FadeColour(Color4.White, 200, Easing.InQuint);
+            this.TransformTo(nameof(TextBoxColor), Color4.White, 200, Easing.InQuint);
             base.OnFocus(e);
         }
         protected override void OnFocusLost(FocusLostEvent e)
         {
             BreadcrumbNavigation.FadeTo(1, 200, Easing.InQuint);
             Text = "";
-            TextContainer.FadeColour(BlackTransparent, 200, Easing.OutQuint);
+            this.TransformTo(nameof(TextBoxColor), BlackTransparent, 200, Easing.OutQuint);
             base.OnFocusLost(e);
         }
 

@@ -90,7 +90,8 @@ namespace GDE.App.Main.UI
 
             Items.RemoveRange(newIndex + 1, Items.Count - newIndex - 1);
 
-            fillFlowContainer.Children.Last().Current.Value = true;
+            if (fillFlowContainer.Count > 0)
+                fillFlowContainer.Children.Last().Current.Value = true;
         }
 
         protected abstract class Breadcrumb : CompositeDrawable, IHasCurrentValue<bool>
@@ -110,7 +111,8 @@ namespace GDE.App.Main.UI
 
             protected Breadcrumb(T value) => Value = value;
 
-            protected override bool OnClick(ClickEvent e)
+            protected override bool OnMouseDown(MouseDownEvent e) => true;
+            protected override bool OnMouseUp(MouseUpEvent e)
             {
                 if (e.Button == MouseButton.Right)
                     RightClicked?.Invoke(this);
@@ -118,6 +120,7 @@ namespace GDE.App.Main.UI
                     Clicked?.Invoke(this);
                 return true;
             }
+            protected override bool OnClick(ClickEvent e) => true;
         }
     }
 }
