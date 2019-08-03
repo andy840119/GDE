@@ -270,7 +270,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
 
         private void UpdateBreadcrumbs()
         {
-            var dirs = AnalyzePath(CurrentDirectory).RemoveEmptyElements();
+            var dirs = AnalyzePath(CurrentDirectory);
             filePathBreadcrumbs.Items.Clear();
             filePathBreadcrumbs.Items.AddRange(dirs);
         }

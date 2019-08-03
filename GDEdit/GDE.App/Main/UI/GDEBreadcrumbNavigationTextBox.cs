@@ -71,7 +71,7 @@ namespace GDE.App.Main.UI
             if (AllowChange?.Invoke(Text) ?? true)
             {
                 BreadcrumbNavigation.Items.Clear();
-                BreadcrumbNavigation.Items.AddRange(Text.Split(Separator).ToList().RemoveEmptyElements());
+                BreadcrumbNavigation.Items.AddRange(AnalyzePath(Text));
                 OnTextChanged?.Invoke(Text);
             }
             Text = "";
