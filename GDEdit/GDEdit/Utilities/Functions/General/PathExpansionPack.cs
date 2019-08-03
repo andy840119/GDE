@@ -1,4 +1,6 @@
 ﻿using GDEdit.Utilities.Enumerations;
+using GDEdit.Utilities.Functions.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.IO.Path;
@@ -19,6 +21,8 @@ namespace GDEdit.Utilities.Functions.General
         /// <param name="dirPath">The directory path to fix.</param>
         public static string FixDirectoryPath(string dirPath)
         {
+            if (dirPath.Length == 0)
+                return dirPath;
             var result = FixPath(dirPath);
             if (!result.EndsWith(DirectorySeparatorChar.ToString())) 
                 result += DirectorySeparatorChar;
@@ -36,6 +40,9 @@ namespace GDEdit.Utilities.Functions.General
         /// <summary>Analyzes the provided path by splitting the individual item names by the directory separator character and returns the array of the names that form the path. The path is automatically converted to its appropriate platform-specific form.</summary>
         /// <param name="path">The path to analyze.</param>
         public static string[] AnalyzePath(string path) => FixPath(path).Split(DirectorySeparatorChar);
+        /// <summary>Returns a concatenated string version of the provided directory collection including the directory separator character.</summary>
+        /// <param name="directories">The directories to concatenate.</param>
+        public static string ConcatenateDirectoryPath(IEnumerable<string> directories) => $@"{directories.ToList().ConvertAll(AddDirectorySuffix).AggregateIfContains(AggregateDirectories)}";
 
         /// <summary>Gets the deepest common directory path between two paths.</summary>
         /// <param name="pathA">The first path to get the deepest common directory of.</param>
