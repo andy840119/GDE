@@ -14,8 +14,41 @@
 
 ---
 
+# Getting your hands onto the current unpublished version
+
+You will need to compile the project in order to run the current version of the branch you're looking at. In other words, we do not always have an executable version of the project packed along with everything else. So, it's up to you to do some extra work in order to reach that point.
+
+## Beginner-friendly solution
+
+- Download GitHub for Desktop, an application that allows you to handle repositories in a user-friendly way.
+- Clone this repository on your computer by clicking on the Clone or download button on the top right side of the screen, then clicking on Open in Desktop.
+- Specify the folder at which you want the project to be cloned at.
+- Download Visual Studio (most preferably Community 2019, **NOT** Visual Studio Code). The following versions will be compatible with this project: any (Community, Professional or Enterprise) 2015, 2017, 2019. You may also choose JetBrains Rider.
+- Open the GDEdit.sln file on <folder you specified>/GDEdit, which will automatically open Visual Studio.
+- (For Visual Studio:) On the top side toolbar, on the left side of the "play" button, change "Debug" to "Release" and "GDE.<whatever>" to "GDE.App".
+- Start the application by clicking on the "play" button (you need to wait for the project to be built).
+
+*It is recommended to parallelize your downloads to save time, there won't be any conflicts while downloading the required software.*
+
+## Hardcore madman solution
+
+- Download Git
+- Open Git Bash on the directory you wish the project to be cloned into
+- Do `git clone https://github.com/gd-edit/GDE`
+- Open `GDEdit.sln` on the IDE of your choice
+- Set the target build type to Release, and the target project to run to GDE.App
+- Run
+
+## Already experienced programmer solution
+
+- Clone project, open solution, run.
+
 # Contributing
 
 Aside from code performance and functionality, we care about [Code Style](CodeStyle.md) as well, it's important that you check it out, as during PR approvals abiding to those rules is also taken into consideration. Refusing to comply with those will result in forced pushes from project admins.
+
+# Officialities and such
+
+GDEdit is not endorsed by RobTop. Geometry Dash is a registered trademark of RobTop Games AB.
 
 # [Features to be added](FeaturesToBeAdded.md)
