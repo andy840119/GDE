@@ -34,7 +34,7 @@ You will need to compile the project in order to run the current version of the 
 
 - Download Git
 - Open Git Bash on the directory you wish the project to be cloned into
-- Do `git clone https://github.com/gd-edit/GDE`
+- Do `git clone https://github.com/gd-edit/GDE.git`
 - Open `GDEdit.sln` on the IDE of your choice
 - Set the target build type to Release, and the target project to run to GDE.App
 - Run
