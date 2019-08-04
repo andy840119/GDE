@@ -8,91 +8,47 @@
 [![GitHub issues](https://img.shields.io/github/issues/gd-edit/GDE.svg?style=flat-square)](https://github.com/gd-edit/GDE/issues)
 </div>
 
+<div align="center">
+    <a href="https://discord.gg/cq2FKbb"><img src="https://canary.discordapp.com/api/guilds/467885469108142100/widget.png?style=banner2" alt="Join Discord Server"/></a>
+</div>
+
 ---
+
+# Getting your hands onto the current unpublished version
+
+You will need to compile the project in order to run the current version of the branch you're looking at. In other words, we do not always have an executable version of the project packed along with everything else. So, it's up to you to do some extra work in order to reach that point.
+
+## Beginner-friendly solution
+
+- Download GitHub for Desktop, an application that allows you to handle repositories in a user-friendly way.
+- Clone this repository on your computer by clicking on the Clone or download button on the top right side of the screen, then clicking on Open in Desktop.
+- Specify the folder at which you want the project to be cloned at.
+- Download Visual Studio (most preferably Community 2019, **NOT** Visual Studio Code). The following versions will be compatible with this project: any (Community, Professional or Enterprise) 2015, 2017, 2019. You may also choose JetBrains Rider.
+- Open the GDEdit.sln file on <folder you specified>/GDEdit, which will automatically open Visual Studio.
+- (For Visual Studio:) On the top side toolbar, on the left side of the "play" button, change "Debug" to "Release" and "GDE.<whatever>" to "GDE.App".
+- Start the application by clicking on the "play" button (you need to wait for the project to be built).
+
+*It is recommended to parallelize your downloads to save time, there won't be any conflicts while downloading the required software.*
+
+## Hardcore madman solution
+
+- Download Git
+- Open Git Bash on the directory you wish the project to be cloned into
+- Do `git clone https://github.com/gd-edit/GDE.git`
+- Open `GDEdit.sln` on the IDE of your choice
+- Set the target build type to Release, and the target project to run to GDE.App
+- Run
+
+## Already experienced programmer solution
+
+- Clone project, open solution, run.
 
 # Contributing
 
 Aside from code performance and functionality, we care about [Code Style](CodeStyle.md) as well, it's important that you check it out, as during PR approvals abiding to those rules is also taken into consideration. Refusing to comply with those will result in forced pushes from project admins.
 
-# Features to be added:
+# Officialities and such
 
-## General
+GDEdit is not endorsed by RobTop. Geometry Dash is a registered trademark of RobTop Games AB.
 
-- Basic editor functionality
-- Edit common properties of all objects
-- Custom files for the editor; allows creators to have features specific to this tool saved
-- Autosave
-- Unlimited custom objects
-- The program warns but doesn't limit going above the object limit (applies for both 40,000 and 80,000)
-- Add-ons and custom scripts
-- In game timer / time in editor
-- Next free layer button
-
-## Functions
-
-- Some sort of 'for loop'-like thing to place/edit/delete a lot of the same action over and over with different groups (probably even within triggers), colors, etc.
-- Automatic block variation
-- Looping trigger module
-- Option for randomised block rotation and scale for placing objects
-- Scattering objects or object groups randomly over a specified area
-- Speed control (.50x, .25x, etc)
-- Replace object(s) with other object(s)
-- Linking object data like id's and colours to other objects
-- Proportional editing (https://bit.ly/2z2UQLe) with the following types:
-- - Linear
-- - Sharp
-- - Constant (to move multiple objects at once)
-- - Sphere
-- - Random
-- Pivot point dropdown (https://streamable.com/22ouq https://bit.ly/2JhnrRG)
-- Smart Replace (https://bit.ly/2JkafeS)
-
-## User Interface
-
-- RGBA/HEX color selector with the ability to type in the specific numbers
-- Color trigger easing preset
-- Newgrounds song browser
-- Better trigger organization
-- Ability to open a trigger menu as a window from the properties panel
-- Ability to add notes inside the level
-
-## Scene view
-
-- Camera indicator when playtesting. Moves like the in-game camera. Different options for monitor resolutions and styles: corner indicators, white border, hide outside (Covers everything but what the player would be able to see)
-
-## Settings
-
-- Ability to customize keybindings
-- Dark mode
-- Automatic updates
-
-## Selection
-
-- Filters for editing, deleting, selecting and visibility (by group, object type etc.)
-- Selecting objects that belong in the currently selected triggers' target group IDs
-- Selecting an object and choosing select linked. This pops up a menu that allows you to select everything of the same type (color, group, rotation, editor layer, actual layer, object type)
-- Randomized selection over an area
-
-## Triggers
-
-- Snap triggers to guidelines
-
-## Interaction
-
-- Scroll -> vertical scroll
-- Shift+Scroll -> horizontal scroll
-- Ctrl+Scroll -> zoom
-- Middle Click Down -> moving the scene ?
-- When you perform an action such as scale(s) or rotate(r) with their keyboard shortcuts, you can type the rotation or scale value in.
-- Right Click -> Delete
-
-## Scripts
-
-- Automatic circle generator
-- Custom scripting (currently planning for C# and *miniC#*)
-
-### And a whole lot more
-
-<div align="center">
-    <a href="https://discord.gg/cq2FKbb"><img src="https://canary.discordapp.com/api/guilds/467885469108142100/widget.png?style=banner2" alt="Join Discord Server"/></a>
-</div>
+# [Features to be added](FeaturesToBeAdded.md)
