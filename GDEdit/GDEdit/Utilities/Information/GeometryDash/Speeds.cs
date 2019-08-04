@@ -13,6 +13,7 @@ namespace GDEdit.Utilities.Information.GeometryDash
         /// <summary>The units the player moves per second with a 1.0 speed multiplier.</summary>
         public const double UnitsPerSecond = 360;
 
+        // These are no longer valid by a standard UnitsPerSecond * *SpeedMultiplier calculation; please verify.
         /// <summary>The speed multiplier for the slow speed (&lt;).</summary>
         public const double SlowSpeedMultiplier = 0.7;
         /// <summary>The speed multiplier for the normal speed (&gt;).</summary>
@@ -24,12 +25,12 @@ namespace GDEdit.Utilities.Information.GeometryDash
         /// <summary>The speed multiplier for the very faster speed (&gt;&gt;&gt;&gt;).</summary>
         public const double VeryFasterSpeedMultiplier = 1.6;
 
-        /// <summary>The (ESTIMATED) speed in units per second of the slow speed (&lt;).</summary>
-        public const double SlowSpeed = 251.3;
-        /// <summary>The (ESTIMATED) speed in units per second of the normal speed (&gt;).</summary>
-        public const double NormalSpeed = 311.6;
-        /// <summary>The (ESTIMATED) speed in units per second of the fast speed (&gt;&gt;).</summary>
-        public const double FastSpeed = 387.4;
+        /// <summary>The speed in units per second of the slow speed (&lt;).</summary>
+        public const double SlowSpeed = 251.16;
+        /// <summary>The speed in units per second of the normal speed (&gt;).</summary>
+        public const double NormalSpeed = 311.58;
+        /// <summary>The speed in units per second of the fast speed (&gt;&gt;).</summary>
+        public const double FastSpeed = 387.42;
         /// <summary>The speed in units per second of the faster speed (&gt;&gt;&gt;).</summary>
         public const double FasterSpeed = 468;
         /// <summary>The speed in units per second of the very faster speed (&gt;&gt;&gt;&gt;).</summary>
