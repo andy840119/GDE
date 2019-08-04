@@ -25,6 +25,17 @@ namespace GDEdit.Utilities.Information.GeometryDash
         /// <summary>The speed multiplier for the very faster speed (&gt;&gt;&gt;&gt;).</summary>
         public const double VeryFasterSpeedMultiplier = 1.6;
 
+        /// <summary>The ACTUAL speed multiplier for the slow speed (&lt;) (concluded by dividing the actual speeds in units per second with UnitsPerSecond).</summary>
+        public const double ActualSlowSpeedMultiplier = 0.697 + 2 / 3000; // To avoid doing 666666666666666
+        /// <summary>The ACTUAL speed multiplier for the normal speed (&gt;) (concluded by dividing the actual speeds in units per second with UnitsPerSecond).</summary>
+        public const double ActualNormalSpeedMultiplier = 0.8655;
+        /// <summary>The ACTUAL speed multiplier for the fast speed (&gt;&gt;) (concluded by dividing the actual speeds in units per second with UnitsPerSecond).</summary>
+        public const double ActualFastSpeedMultiplier = 1.0761 + 2 / 30000;
+        /// <summary>The ACTUAL speed multiplier for the faster speed (&gt;&gt;&gt;) (concluded by dividing the actual speeds in units per second with UnitsPerSecond).</summary>
+        public const double ActualFasterSpeedMultiplier = 1.3;
+        /// <summary>The ACTUAL speed multiplier for the very faster speed (&gt;&gt;&gt;&gt;) (concluded by dividing the actual speeds in units per second with UnitsPerSecond).</summary>
+        public const double ActualVeryFasterSpeedMultiplier = 1.6;
+
         /// <summary>The speed in units per second of the slow speed (&lt;).</summary>
         public const double SlowSpeed = 251.16;
         /// <summary>The speed in units per second of the normal speed (&gt;).</summary>
