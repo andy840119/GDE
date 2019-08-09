@@ -104,7 +104,7 @@ namespace GDE.App.Main.UI
                 set => current.BindTo(value);
             }
 
-            //Fixes last breadcrumb acting as it is not there
+            // Fixes last breadcrumb acting as it is not there
             public override bool AcceptsFocus => true;
 
             public T Value { get; }
