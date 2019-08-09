@@ -48,7 +48,7 @@ namespace GDE.App.Main.UI
                 return breadcrumb;
             }));
 
-            fillFlowContainer.Children.Last().Current.Value = true;
+            //fillFlowContainer.Children.Last().Current.Value = true;
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace GDE.App.Main.UI
 
             Items.RemoveRange(newIndex + 1, Items.Count - newIndex - 1);
 
-            if (fillFlowContainer.Count > 0)
-                fillFlowContainer.Children.Last().Current.Value = true;
+            //if (fillFlowContainer.Count > 0)
+            //    fillFlowContainer.Children.Last().Current.Value = true;
         }
 
         protected abstract class Breadcrumb : CompositeDrawable, IHasCurrentValue<bool>
@@ -103,6 +103,9 @@ namespace GDE.App.Main.UI
                 get => current;
                 set => current.BindTo(value);
             }
+
+            //Fixes last breadcrumb acting as it is not there
+            public override bool AcceptsFocus => true;
 
             public T Value { get; }
 
