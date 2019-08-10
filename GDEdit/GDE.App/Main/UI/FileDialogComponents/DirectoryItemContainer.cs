@@ -1,5 +1,6 @@
 ﻿using GDE.App.Main.Containers.KeyBindingContainers;
 using GDE.App.Main.UI.Containers;
+using GDEdit.Utilities.Enumerations;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -7,12 +8,11 @@ using osu.Framework.Graphics.Shapes;
 using osuTK;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using static GDE.App.Main.Colors.GDEColors;
-using static System.IO.Directory;
-using static System.IO.Path;
+using static GDEdit.Utilities.Functions.General.PathExpansionPack;
 using static System.Math;
-using static System.String;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
@@ -121,10 +121,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
         public void NavigateToPreviousDirectory()
         {
             var dirs = AnalyzePath(CurrentDirectory);
-            if (dirs.Length < 3)
+            if (dirs.Length < 2)
                 return;
 
-            CurrentDirectory = dirs.SkipLast(2).ToList().ConvertAll(AddDirectorySuffix).Aggregate(AggregateDirectories);
+            CurrentDirectory = ConcatenateDirectoryPath(dirs.SkipLast(2).ToList());
         }
         public void NavigateTo(int index)
         {
@@ -189,20 +189,34 @@ namespace GDE.App.Main.UI.FileDialogComponents
             if (!forceUpdate && currentlyLoadedDirectory == CurrentDirectory)
                 return;
 
-            var directories = GetDirectories(CurrentDirectory);
-            var files = GetFiles(CurrentDirectory);
+            if (CurrentDirectory.Length > 0)
+            {
+                var info = new DirectoryInfo(CurrentDirectory);
 
-            fileFillFlowContainer.Clear();
+                var directories = info.GetDirectories();
+                var files = info.GetFiles();
 
-            foreach (var d in directories)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d), ItemType.Directory));
-            foreach (var f in files)
-                fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f), ItemType.File));
+                fileFillFlowContainer.Clear();
+
+                foreach (var d in directories)
+                    fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name), PathItemType.Directory));
+                foreach (var f in files)
+                    fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(f.Name), PathItemType.File));
+            }
+            else
+            {
+                var drives = DriveInfo.GetDrives();
+
+                fileFillFlowContainer.Clear();
+
+                foreach (var d in drives)
+                    if (d.IsReady)
+                        fileFillFlowContainer.Add(GetNewDrawableItem(GetIndividualItemName(d.Name.Remove(d.Name.Length - 1)), PathItemType.Volume));
+            }
 
             currentlyLoadedDirectory = CurrentDirectory;
 
             SelectedItemBindable.TriggerChange();
-            // Scrolling to currently selected item fails because the scroll container automatically scrolls to the beginning since the items were updated
         }
 
         private void HandleSelection(DrawableItem selectedItem)
@@ -239,58 +253,11 @@ namespace GDE.App.Main.UI.FileDialogComponents
             };
         }
 
-        private DrawableItem GetNewDrawableItem(string name, ItemType type) => new DrawableItem(name, type)
+        private DrawableItem GetNewDrawableItem(string name, PathItemType type) => new DrawableItem(name, type)
         {
             OnSelected = HandleSelection,
             OnClicked = HandleClick,
             OnDoubleClicked = HandleDoubleClick,
         };
-
-        // TODO: Move those to a class, since they're copy-pasted
-        private static string AddDirectorySuffix(string name) => $@"{name}\";
-        private static string AggregateDirectories(string left, string right) => $@"{left}{right}";
-
-        private static string[] AnalyzePath(string path) => path.Replace('/', '\\').Split('\\');
-
-        private static string FixDirectoryPath(string dirPath)
-        {
-            var result = dirPath.Replace('/', '\\');
-            if (!result.EndsWith('\\'))
-                result += '\\';
-            return result;
-        }
-
-        private static string GetCommonDirectory(string pathA, string pathB)
-        {
-            var splitA = AnalyzePath(pathA);
-            var splitB = AnalyzePath(pathB);
-            var result = new List<string>();
-            int min = Min(splitA.Length, splitB.Length);
-            for (int i = 0; i < min; i++)
-                if (splitA[i] == splitB[i])
-                    result.Add(splitA[i]);
-            return result.Aggregate(AggregateDirectories);
-        }
-        private static string GetPreviousPathDirectoryInNewPath(string previousPath, string newPath)
-        {
-            var splitPrevious = AnalyzePath(previousPath);
-            var splitNew = AnalyzePath(newPath);
-            if (splitNew.Length >= splitPrevious.Length)
-                return null;
-            var result = new List<string>();
-            int index = -1;
-            while (++index < splitNew.Length)
-                if (splitPrevious[index] != splitNew[index])
-                    break;
-            return splitPrevious[index];
-        }
-        private static string GetIndividualItemName(string path) => path.Replace('/', '\\').Split('\\').Last();
-
-        private static ItemType DetermineItemType(string path)
-        {
-            if (path.EndsWith('\\') || IsNullOrWhiteSpace(GetExtension(path)))
-                return ItemType.Directory;
-            return ItemType.File;
-        }
     }
 }
