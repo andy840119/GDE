@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GDEdit.Application.Editor.Actions;
+using System;
 using System.Collections.Generic;
 using static System.Math;
 
@@ -45,14 +46,12 @@ namespace GDEdit.Application
             RedoStack.Clear();
         }
         /// <summary>Adds a temporary action to the temporary action object and registers the undoable action if the multiple action toggle is <see langword="false"/>.</summary>
-        /// <param name="description">The description of the actions. If the description is <see langword="null"/>, the default description is used instead.</param>
-        /// <param name="action">The action. It must only perform the changes the action performs without invoking the respective events.</param>
-        /// <param name="undo">The inverse action. It must only perform the changes the inverse action performs without invoking the respective events.</param>
-        public void AddTemporaryAction(string description, Action action, Action undo)
+        /// <param name="action">The editor action.</param>
+        public void AddTemporaryAction(GeneralEditorAction action)
         {
-            TemporaryUndoableAction.Add(action, undo);
+            TemporaryUndoableAction.Add(action);
             if (!MultipleActionToggle)
-                RegisterActions(description);
+                RegisterActions(action.Description);
         }
 
         /// <summary>Undoes a number of actions. If the specified count is greater than the available actions to undo, all actions are undone.</summary>
