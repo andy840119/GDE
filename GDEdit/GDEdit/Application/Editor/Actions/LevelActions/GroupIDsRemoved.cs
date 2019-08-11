@@ -11,7 +11,7 @@ namespace GDEdit.Application.Editor.Actions.LevelActions
         /// <summary>Initializes a new instance of the <seealso cref="GroupIDsRemoved"/> class.</summary>
         /// <param name="affectedObjects">The objects that this action will affect.</param>
         /// <param name="action">The function that rotates the specified objects.</param>
-        public GroupIDsRemoved(LevelObjectCollection affectedObjects, IEnumerable<int> groupIDs, ObjectPropertySetter<IEnumerable<int>> action, , ObjectPropertySetter<IEnumerable<int>> inverse)
+        public GroupIDsRemoved(LevelObjectCollection affectedObjects, IEnumerable<int> groupIDs, ObjectPropertySetter<IEnumerable<int>> action, ObjectPropertySetter<IEnumerable<int>> inverse)
             : base(affectedObjects, groupIDs, action, inverse) { }
 
         /// <summary>Generates the description of the action.</summary>
