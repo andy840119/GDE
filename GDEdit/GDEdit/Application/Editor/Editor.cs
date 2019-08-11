@@ -1,22 +1,22 @@
-﻿using GDEdit.Utilities.Enumerations;
+﻿using GDEdit.Application.Editor.Actions;
+using GDEdit.Application.Editor.Actions.EditorActions;
+using GDEdit.Application.Editor.Actions.LevelActions;
+using GDEdit.Application.Editor.Delegates;
+using GDEdit.Utilities.Enumerations;
 using GDEdit.Utilities.Enumerations.GeometryDash;
-using GDEdit.Utilities.Functions.Extensions;
 using GDEdit.Utilities.Objects.General;
 using GDEdit.Utilities.Objects.General.IDMigration;
 using GDEdit.Utilities.Objects.GeometryDash;
 using GDEdit.Utilities.Objects.GeometryDash.ColorChannels;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
+using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Interfaces;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
 using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static GDEdit.Utilities.Objects.General.SourceTargetRange;
-using static System.Convert;
 using static System.Math;
 
 namespace GDEdit.Application.Editor
@@ -174,11 +174,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnSwipeChanged(bool value, bool registerUndoable = true)
         {
-            void Action() => SetSwipe(value, false);
-            void Undo() => SetSwipe(!value, false);
-            string description = $"Set Swipe to {value}";
             if (registerUndoable)
-                editorActions.AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(new SwipeChanged(value, SetSwipe));
             SwipeChanged?.Invoke(value);
         }
         /// <summary>Triggers the <seealso cref="GridSnapChanged"/> event.</summary>
@@ -186,11 +183,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnGridSnapChanged(bool value, bool registerUndoable = true)
         {
-            void Action() => SetGridSnap(value, false);
-            void Undo() => SetGridSnap(!value, false);
-            string description = $"Set Grid Snap to {value}";
             if (registerUndoable)
-                editorActions.AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(new GridSnapChanged(value, SetGridSnap));
             GridSnapChanged?.Invoke(value);
         }
         /// <summary>Triggers the <seealso cref="FreeMoveChanged"/> event.</summary>
@@ -198,11 +192,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnFreeMoveChanged(bool value, bool registerUndoable = true)
         {
-            void Action() => SetDualLayerMode(value, false);
-            void Undo() => SetDualLayerMode(!value, false);
-            string description = $"Set Free Move to {value}";
             if (registerUndoable)
-                editorActions.AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(new FreeMoveChanged(value, SetFreeMove));
             FreeMoveChanged?.Invoke(value);
         }
         /// <summary>Triggers the <seealso cref="ZoomChanged"/> event.</summary>
@@ -211,11 +202,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnZoomChanged(double oldValue, double newValue, bool registerUndoable = true)
         {
-            void Action() => SetZoom(newValue, false);
-            void Undo() => SetZoom(oldValue, false);
-            string description = $"Set Zoom to {oldValue}x";
             if (registerUndoable)
-                editorActions.AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(new ZoomChanged(newValue, oldValue, SetZoom));
             ZoomChanged?.Invoke(oldValue, newValue);
         }
         /// <summary>Triggers the <seealso cref="GridSizeChanged"/> event.</summary>
@@ -224,11 +212,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnGridSizeChanged(double oldValue, double newValue, bool registerUndoable = true)
         {
-            void Action() => SetGridSize(newValue, false);
-            void Undo() => SetGridSize(oldValue, false);
-            string description = $"Set Grid Size to {oldValue}x";
             if (registerUndoable)
-                editorActions.AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(new GridSizeChanged(newValue, oldValue, SetGridSize));
             GridSizeChanged?.Invoke(oldValue, newValue);
         }
         /// <summary>Triggers the <seealso cref="DualLayerModeChanged"/> event.</summary>
@@ -236,11 +221,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnDualLayerModeChanged(bool value, bool registerUndoable = true)
         {
-            void Action() => SetDualLayerMode(value, false);
-            void Undo() => SetDualLayerMode(!value, false);
-            string description = $"Set Dual Layer Mode to {value}";
             if (registerUndoable)
-                editorActions.AddTemporaryAction(description, Action, Undo);
+                editorActions.AddTemporaryAction(new DualLayerModeChanged(value, SetFreeMove));
             DualLayerModeChanged?.Invoke(value);
         }
         #endregion
@@ -251,11 +233,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnSelectedObjectsAdded(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            void Action() => SelectObjects(objects, false);
-            void Undo() => DeselectObjects(objects, false);
-            string description = $"Add {GetAppropriateForm(objects.Count, "object")} to selection";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new SelectedObjectsAdded(objects, SelectObjects, DeselectObjects));
             SelectedObjectsAdded?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="SelectedObjectsRemoved"/> event.</summary>
@@ -263,11 +242,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnSelectedObjectsRemoved(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            void Action() => DeselectObjects(objects, false);
-            void Undo() => SelectObjects(objects, false);
-            string description = $"Remove {GetAppropriateForm(objects.Count, "object")} from selection";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new SelectedObjectsRemoved(objects, DeselectObjects, SelectObjects));
             SelectedObjectsRemoved?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="AllObjectsDeselected"/> event.</summary>
@@ -275,11 +251,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnAllObjectsDeselected(LevelObjectCollection previousSelection, bool registerUndoable = true)
         {
-            void Action() => DeselectAll(false);
-            void Undo() => SelectObjects(previousSelection, false);
-            string description = $"Clear selection";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new AllObjectsDeselected(previousSelection, DeselectAll, SelectObjects));
             AllObjectsDeselected?.Invoke(previousSelection);
         }
         /// <summary>Triggers the <seealso cref="ObjectsCreated"/> event.</summary>
@@ -287,11 +260,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsCreated(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            void Action() => AddObjects(objects, false);
-            void Undo() => RemoveObjects(objects, false);
-            string description = $"Add {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsCreated(objects, AddObjects, RemoveObjects));
             ObjectsCreated?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="ObjectsDeleted"/> event.</summary>
@@ -299,11 +269,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsDeleted(LevelObjectCollection objects, bool registerUndoable = true)
         {
-            void Action() => RemoveObjects(objects, false);
-            void Undo() => AddObjects(objects, false);
-            string description = $"Remove {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsDeleted(objects, RemoveObjects, AddObjects));
             ObjectsDeleted?.Invoke(objects);
         }
         /// <summary>Triggers the <seealso cref="ObjectsMoved"/> event.</summary>
@@ -312,11 +279,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsMoved(LevelObjectCollection objects, Point offset, bool registerUndoable = true)
         {
-            void Action() => Move(objects, offset, false);
-            void Undo() => Move(objects, -offset, false);
-            string description = $"Move {GetAppropriateForm(objects.Count, "object")} by {offset}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsMoved(objects, offset, Move));
             ObjectsMoved?.Invoke(objects, offset);
         }
         /// <summary>Triggers the <seealso cref="ObjectsRotated"/> event.</summary>
@@ -326,11 +290,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsRotated(LevelObjectCollection objects, double offset, Point? centralPoint, bool registerUndoable = true)
         {
-            void Action() => Rotate(objects, offset, centralPoint, false);
-            void Undo() => Rotate(objects, -offset, centralPoint, false);
-            string description = $"Rotate {GetAppropriateForm(objects.Count, "object")} by {offset}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsRotated(objects, offset, centralPoint, Rotate));
             ObjectsRotated?.Invoke(objects, offset, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsScaled"/> event.</summary>
@@ -340,11 +301,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsScaled(LevelObjectCollection objects, double scaling, Point? centralPoint, bool registerUndoable = true)
         {
-            void Action() => Scale(objects, scaling, centralPoint, false);
-            void Undo() => Scale(objects, 1 / scaling, centralPoint, false);
-            string description = $"Scale {GetAppropriateForm(objects.Count, "object")} by {scaling}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsRotated(objects, scaling, centralPoint, Scale));
             ObjectsScaled?.Invoke(objects, scaling, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsFlippedHorizontally"/> event.</summary>
@@ -353,13 +311,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsFlippedHorizontally(LevelObjectCollection objects, Point? centralPoint, bool registerUndoable = true)
         {
-            // Both functions have the same exact effect, however for consistency we keep that
-            // Consider this function inheriting a function interface where it demands the implementation of the functions `void Action()` and `void Undo()`
-            void Action() => FlipHorizontally(objects, centralPoint, false);
-            void Undo() => FlipHorizontally(objects, centralPoint, false);
-            string description = $"Flip {GetAppropriateForm(objects.Count, "object")} horizontally";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsFlippedHorizontally(objects, centralPoint, FlipHorizontally));
             ObjectsFlippedHorizontally?.Invoke(objects, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsFlippedVertically"/> event.</summary>
@@ -368,11 +321,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsFlippedVertically(LevelObjectCollection objects, Point? centralPoint, bool registerUndoable = true)
         {
-            void Action() => FlipVertically(objects, centralPoint, false);
-            void Undo() => FlipVertically(objects, centralPoint, false);
-            string description = $"Flip {GetAppropriateForm(objects.Count, "object")} vertically";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsFlippedVertically(objects, centralPoint, FlipHorizontally));
             ObjectsFlippedVertically?.Invoke(objects, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsCopied"/> event.</summary>
@@ -381,11 +331,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsCopied(LevelObjectCollection newObjects, LevelObjectCollection oldObjects, bool registerUndoable = true)
         {
-            void Action() => Copy(newObjects, false);
-            void Undo() => Copy(oldObjects, false);
-            string description = $"Copy {GetAppropriateForm(newObjects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsCopied(newObjects, oldObjects, Copy));
             ObjectsCopied?.Invoke(newObjects, oldObjects);
         }
         /// <summary>Triggers the <seealso cref="ObjectsPasted"/> event.</summary>
@@ -394,13 +341,10 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsPasted(LevelObjectCollection objects, Point centralPoint, bool registerUndoable = true)
         {
-            void Action() => Paste(objects, centralPoint, false);
-            void Undo() => RemoveObjects(objects, false);
             // This will not select the previously selected objects, if any; a workaround must be implemented
             // Preferably the workaround involves implementing something that registers both the deselection and the pasting using the multiple action toggle
-            string description = $"Paste {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsPasted(objects, centralPoint, Paste, RemoveObjects));
             ObjectsPasted?.Invoke(objects, centralPoint);
         }
         /// <summary>Triggers the <seealso cref="ObjectsCopyPasted"/> event.</summary>
@@ -409,15 +353,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnObjectsCopyPasted(LevelObjectCollection newObjects, LevelObjectCollection oldObjects, bool registerUndoable = true)
         {
-            void Action() => CopyPaste(newObjects, false);
-            void Undo()
-            {
-                RemoveObjects(newObjects, false);
-                SelectObjects(oldObjects, false);
-            }
-            string description = $"Copy-paste {GetAppropriateForm(newObjects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ObjectsCopyPasted(newObjects, oldObjects, CopyPaste, UndoCopyPaste));
             ObjectsCopyPasted?.Invoke(newObjects, oldObjects);
         }
 
@@ -430,11 +367,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnColorChanged(LevelObjectCollection affectedObjects, int colorID, Color oldColor, Color newColor, ColorChannel colorChannel, bool registerUndoable = true)
         {
-            void Action() => ChangeColorChannelColor(colorID, newColor, false);
-            void Undo() => ChangeColorChannelColor(colorID, oldColor, false);
-            string description = $"Change color ID {colorID}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new ColorChanged(colorID, newColor, oldColor, ChangeColorChannelColor));
             ColorChanged?.Invoke(affectedObjects, colorID, oldColor, newColor, colorChannel);
         }
         /// <summary>Triggers the <seealso cref="BlendingChanged"/> event.</summary>
@@ -444,11 +378,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnBlendingChanged(LevelObjectCollection affectedObjects, int colorID, ColorChannel colorChannel, bool registerUndoable = true)
         {
-            void Action() => ChangeColorChannelBlending(colorID, false);
-            void Undo() => ChangeColorChannelBlending(colorID, false);
-            string description = $"Toggle Blending color ID {colorID}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new BlendingChanged(colorID, ChangeColorChannelBlending));
             BlendingChanged?.Invoke(affectedObjects, colorID, colorChannel);
         }
 
@@ -458,11 +389,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnGroupIDsAdded(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
         {
-            void Action() => AddGroupIDs(objects, groupIDs, false);
-            void Undo() => RemoveGroupIDs(objects, groupIDs, false);
-            string description = $"Add group IDs to {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new GroupIDsAdded(objects, groupIDs, AddGroupIDs, RemoveGroupIDs));
             GroupIDsAdded?.Invoke(objects, groupIDs);
         }
         /// <summary>Triggers the <seealso cref="GroupIDsRemoved"/> event.</summary>
@@ -471,11 +399,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnGroupIDsRemoved(LevelObjectCollection objects, IEnumerable<int> groupIDs, bool registerUndoable = true)
         {
-            void Action() => RemoveGroupIDs(objects, groupIDs, false);
-            void Undo() => AddGroupIDs(objects, groupIDs, false);
-            string description = $"Remove group IDs from {GetAppropriateForm(objects.Count, "object")}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new GroupIDsAdded(objects, groupIDs, RemoveGroupIDs, AddGroupIDs));
             GroupIDsRemoved?.Invoke(objects, groupIDs);
         }
 
@@ -486,11 +411,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnMainColorIDsChanged(LevelObjectCollection objects, int colorIDDifference, ColorChannel colorChannel, bool registerUndoable = true)
         {
-            void Action() => ChangeMainColorID(objects, colorIDDifference, false);
-            void Undo() => ChangeMainColorID(objects, colorIDDifference, false);
-            string description = $"Set main color ID to {colorChannel.ColorChannelID}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new MainColorIDsChanged(objects, colorIDDifference, colorChannel.ColorChannelID, ChangeMainColorID));
             MainColorIDsChanged?.Invoke(objects, colorIDDifference, colorChannel);
         }
         /// <summary>Triggers the <seealso cref="DetailColorIDsChanged"/> event.</summary>
@@ -500,11 +422,8 @@ namespace GDEdit.Application.Editor
         /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
         public void OnDetailColorIDsChanged(LevelObjectCollection objects, int colorIDDifference, ColorChannel colorChannel, bool registerUndoable = true)
         {
-            void Action() => ChangeDetailColorID(objects, colorIDDifference, false);
-            void Undo() => ChangeDetailColorID(objects, colorIDDifference, false);
-            string description = $"Set detail color ID to {colorChannel.ColorChannelID}";
             if (registerUndoable)
-                levelActions.AddTemporaryAction(description, Action, Undo);
+                levelActions.AddTemporaryAction(new DetailColorIDsChanged(objects, colorIDDifference, colorChannel.ColorChannelID, ChangeMainColorID));
             DetailColorIDsChanged?.Invoke(objects, colorIDDifference, colorChannel);
         }
         #endregion
@@ -1128,6 +1047,15 @@ namespace GDEdit.Application.Editor
             Level.LevelObjects.AddRange(cloned);
             OnObjectsCopyPasted(cloned, SelectedObjects, registerUndoable);
         }
+        /// <summary>Undoes the ViPriNization and selects the previously selected objects.</summary>
+        /// <param name="newObjects">The objects that were ViPriNized.</param>
+        /// <param name="newObjects">The previous selection before the ViPriNization.</param>
+        /// <param name="registerUndoable">Determines whether the events will be invoked. Defaults to <see langword="true"/> and must be set to <see langword="false"/> during undo/redo to avoid endless invocation.</param>
+        private void UndoCopyPaste(LevelObjectCollection newObjects, LevelObjectCollection oldObjects, bool registerUndoable = true)
+        {
+            RemoveObjects(newObjects, registerUndoable);
+            SelectObjects(oldObjects, registerUndoable);
+        }
 
         /// <summary>Changes a color channel's color.</summary>
         /// <param name="colorChannelID">The color channel ID to change the color of.</param>
@@ -1642,13 +1570,13 @@ namespace GDEdit.Application.Editor
         private void Undo(UndoRedoSystem system, int count = 1) => system.Undo(count);
         private void Redo(UndoRedoSystem system, int count = 1) => system.Redo(count);
 
-        private void Set(ref bool field, bool value, BoolValueChangedHandler handler, bool registerUndoable = true)
+        private void Set(ref bool field, bool value, ValueChangedHandler<bool> handler, bool registerUndoable = true)
         {
             if (value == field)
                 return;
             handler(field = value, registerUndoable);
         }
-        private void Set(ref double field, double value, OldNewDoubleValueChangedHandler handler, bool registerUndoable = true)
+        private void Set(ref double field, double value, OldNewValueChangedHandler<double> handler, bool registerUndoable = true)
         {
             if (value == field)
                 return;
@@ -1661,16 +1589,6 @@ namespace GDEdit.Application.Editor
     }
 
     #region Delegates
-    #region Templates
-    /// <summary>Represents a function that contains information about changing a <see langword="bool"/> field, including its current value.</summary>
-    /// <param name="value">The new value of the field.</param>
-    public delegate void BoolValueChangedHandler(bool value, bool registerUndoable);
-    /// <summary>Represents a function that contains information about changing a <see langword="double"/> field, including its current and its previous values.</summary>
-    /// <param name="oldValue">The old value of the field.</param>
-    /// <param name="newValue">The new value of the field.</param>
-    public delegate void OldNewDoubleValueChangedHandler(double oldValue, double newValue, bool registerUndoable);
-    #endregion
-
     #region Editor Actions
     /// <summary>Represents a function that contains information about changing the state of Swipe.</summary>
     /// <param name="value">The new value of the Dual Layer Mode.</param>
