@@ -1,8 +1,8 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019 Preview
 environment:
   WEBHOOK_URL:
-    secure: iGW1I2Gs3o0hzHyPPRhbvnbfhMY1qIjcCMVUeBguWgAj3Dd7hKO3doEj8Q07J8e0doAPBCJUBwlUbt0ECxyLN+fMK5VYU3RxS6vgh66hisQkdgVSegWM76pfzV3mE32BNewsJlW6ngxOZ2GIaRWUOetw/HWWbBIDOE5CEMAJoTg=
+    secure: q6z83eHG/HIyVlXuoMdKwaOi8CvPXSB8/KeUwJwGF3MvR/VSRRv8x7r8A7mSFuCVweJMwaRx7Q+BBlANmCGCBfDuWa8gnTd7pBE2RHcxKtOOUzxnNiEHAWP8/wl8yYdj2oqaaH997kP++qhp94j2vLPbw2XmnVFSb181AXNzdo5yCD5KRJ0+iid4o1C+PKtp
 before_build:
 - ps: cd GDEdit; dotnet restore
 build:
@@ -13,13 +13,11 @@ build:
   publish_core_console: true
   parallel: true
   verbosity: minimal
-on_success:
-- ps: >-
-    Invoke-RestMethod https://raw.githubusercontent.com/AltenGD/appveyor-discord-webhook/master/send.ps1 -o send.ps1
-
-    ./send.ps1 success $env:WEBHOOK_URL
 on_failure:
 - ps: >-
     Invoke-RestMethod https://raw.githubusercontent.com/AltenGD/appveyor-discord-webhook/master/send.ps1 -o send.ps1
-
-    ./send.ps1 failure $env:WEBHOOK_URL
+        ./send.ps1 failure $env:WEBHOOK_URL
+on_finish:
+- ps: >-
+    Invoke-RestMethod https://raw.githubusercontent.com/AltenGD/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+        ./send.ps1 success $env:WEBHOOK_URL
