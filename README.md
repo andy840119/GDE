@@ -10,7 +10,12 @@
 
 <div align="center">
     <a href="https://discord.gg/cq2FKbb"><img src="https://canary.discordapp.com/api/guilds/467885469108142100/widget.png?style=banner2" alt="Join Discord Server"/></a>
-</div>
+    <p><a href="https://github.com/gd-edit/GDE/releases/tag/20190731.387-2.2S">Latest Release</a> - <a href="https://youtu.be/upNMba3ToS4">Video Showcase</a></p>
+</div>      
+
+
+
+
 
 ---
 
