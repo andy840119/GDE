@@ -1,9 +1,9 @@
-﻿using GDEdit.Application.Editor;
-using GDEdit.Utilities.Objects.General;
-using GDEdit.Utilities.Objects.GeometryDash;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
-using GDEdit.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
+﻿using GDAPI.Application.Editor;
+using GDAPI.Utilities.Objects.General;
+using GDAPI.Utilities.Objects.GeometryDash;
+using GDAPI.Utilities.Objects.GeometryDash.LevelObjects;
+using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.SpecialObjects;
+using GDAPI.Utilities.Objects.GeometryDash.LevelObjects.Triggers;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
