@@ -1,4 +1,5 @@
-﻿using GDE.App.Main.Colors;
+﻿using System;
+using GDE.App.Main.Colors;
 using GDE.App.Main.UI;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -6,16 +7,79 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osuTK;
 using osuTK.Graphics;
-using System;
 
 namespace GDE.App.Main.Overlays
 {
     public class OverlayPopup : FocusedOverlayContainer
     {
-        private SpriteText header;
-        private SpriteText body;
-        private GDEButton button1;
-        private GDEButton button2;
+        private readonly SpriteText body;
+        private readonly GDEButton button1;
+        private readonly GDEButton button2;
+        private readonly SpriteText header;
+
+        public Action ConfirmAction;
+
+        public OverlayPopup()
+        {
+            Padding = new MarginPadding(10);
+
+            Children = new Drawable[]
+            {
+                new Box
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Colour = GDEColors.FromHex("191919")
+                },
+                new FillFlowContainer
+                {
+                    Direction = FillDirection.Vertical,
+                    RelativeSizeAxes = Axes.Both,
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopCentre,
+                    Padding = new MarginPadding
+                    {
+                        Top = 40
+                    },
+                    Children = new Drawable[]
+                    {
+                        header = new SpriteText
+                        {
+                            Anchor = Anchor.TopCentre,
+                            Origin = Anchor.TopCentre,
+                            Font = new FontUsage(size: 70)
+                        },
+                        body = new SpriteText
+                        {
+                            Anchor = Anchor.TopCentre,
+                            Origin = Anchor.TopCentre,
+                            Font = new FontUsage(size: 40)
+                        }
+                    }
+                },
+                button1 = new GDEButton
+                {
+                    BackgroundColour = GDEColors.FromHex("1E1E1E"),
+                    Size = new Vector2(100, 50),
+                    Action = ToggleVisibility,
+                    Anchor = Anchor.BottomLeft,
+                    Origin = Anchor.BottomLeft,
+                    Margin = new MarginPadding(20)
+                },
+                button2 = new GDEButton
+                {
+                    BackgroundColour = GDEColors.FromHex("1E1E1E"),
+                    Size = new Vector2(100, 50),
+                    Action = () => ConfirmAction?.Invoke(),
+                    Anchor = Anchor.BottomRight,
+                    Origin = Anchor.BottomRight,
+                    Margin = new MarginPadding(20)
+                }
+            };
+
+            Rotation = -25;
+            Alpha = 0;
+            Scale = new Vector2(0.5f);
+        }
 
         public string HeaderText
         {
@@ -45,70 +109,6 @@ namespace GDE.App.Main.Overlays
         {
             get => button2.BackgroundColour;
             set => button2.BackgroundColour = value;
-        }
-
-        public Action ConfirmAction;
-
-        public OverlayPopup()
-        {
-            Padding = new MarginPadding(10);
-
-            Children = new Drawable[]
-            {
-                new Box
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Colour = GDEColors.FromHex("191919")
-                },
-                new FillFlowContainer
-                {
-                    Direction = FillDirection.Vertical,
-                    RelativeSizeAxes = Axes.Both,
-                    Anchor = Anchor.TopCentre,
-                    Origin = Anchor.TopCentre,
-                    Padding = new MarginPadding
-                    {
-                        Top = 40
-                    },
-                    Children = new Drawable[]
-                    {
-                        header = new SpriteText
-                        {
-                            TextSize = 70,
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.TopCentre,
-                        },
-                        body = new SpriteText
-                        {
-                            TextSize = 40,
-                            Anchor = Anchor.TopCentre,
-                            Origin = Anchor.TopCentre,
-                        }
-                    }
-                },
-                button1 = new GDEButton
-                {
-                    BackgroundColour = GDEColors.FromHex("1E1E1E"),
-                    Size = new Vector2(100, 50),
-                    Action = ToggleVisibility,
-                    Anchor = Anchor.BottomLeft,
-                    Origin = Anchor.BottomLeft,
-                    Margin = new MarginPadding(20)
-                },
-                button2 = new GDEButton
-                {
-                    BackgroundColour = GDEColors.FromHex("1E1E1E"),
-                    Size = new Vector2(100, 50),
-                    Action = () => ConfirmAction?.Invoke(),
-                    Anchor = Anchor.BottomRight,
-                    Origin = Anchor.BottomRight,
-                    Margin = new MarginPadding(20)
-                }
-            };
-
-            Rotation = -25;
-            Alpha = 0;
-            Scale = new Vector2(0.5f);
         }
 
         protected override void PopIn()

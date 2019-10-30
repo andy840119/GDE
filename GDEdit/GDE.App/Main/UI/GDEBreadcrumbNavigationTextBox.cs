@@ -1,24 +1,38 @@
+﻿using System;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osuTK.Graphics;
-using System;
-using static GDAPI.Utilities.Functions.General.PathExpansionPack;
+using static GDAPI.Functions.General.PathExpansionPack;
 
 namespace GDE.App.Main.UI
 {
     public class GDEBreadcrumbNavigationTextBox : TextBox
     {
-        private static Color4 BlackTransparent = new Color4(0, 0, 0, 0);
-
-        public string Separator = @"\";
-
-        public GDEBreadcrumbNavigation<string> BreadcrumbNavigation;
+        private static readonly Color4 BlackTransparent = new Color4(0, 0, 0, 0);
 
         public Predicate<string> AllowChange;
 
-        public event Action<string> OnTextChanged;
+        public GDEBreadcrumbNavigation<string> BreadcrumbNavigation;
+
+        public string Separator = @"\";
+
+        public GDEBreadcrumbNavigationTextBox()
+        {
+            CornerRadius = GDEBreadcrumbNavigation<string>.DefaultCornerRadius;
+
+            AddInternal(BreadcrumbNavigation = new GDEBreadcrumbNavigation<string>
+            {
+                Origin = Anchor.Centre,
+                Anchor = Anchor.Centre,
+                RelativeSizeAxes = Axes.Both
+            });
+
+            TextBoxColor = BlackTransparent;
+
+            OnCommit += HandleOnCommit;
+        }
 
         public BindableList<string> Items
         {
@@ -36,22 +50,7 @@ namespace GDE.App.Main.UI
             }
         }
 
-        public GDEBreadcrumbNavigationTextBox()
-            : base()
-        {
-            CornerRadius = GDEBreadcrumbNavigation<string>.DefaultCornerRadius;
-
-            AddInternal(BreadcrumbNavigation = new GDEBreadcrumbNavigation<string>
-            {
-                Origin = Anchor.Centre,
-                Anchor = Anchor.Centre,
-                RelativeSizeAxes = Axes.Both,
-            });
-
-            TextBoxColor = BlackTransparent;
-
-            OnCommit += HandleOnCommit;
-        }
+        public event Action<string> OnTextChanged;
 
         private void HandleOnCommit(TextBox sender, bool newValue)
         {
@@ -66,6 +65,7 @@ namespace GDE.App.Main.UI
             this.TransformTo(nameof(TextBoxColor), Color4.White, 200, Easing.InQuint);
             base.OnFocus(e);
         }
+
         protected override void OnFocusLost(FocusLostEvent e)
         {
             BreadcrumbNavigation.FadeTo(1, 200, Easing.InQuint);
@@ -82,6 +82,7 @@ namespace GDE.App.Main.UI
                 BreadcrumbNavigation.Items.AddRange(AnalyzePath(Text));
                 OnTextChanged?.Invoke(Text);
             }
+
             Text = "";
         }
     }

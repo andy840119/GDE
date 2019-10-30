@@ -10,10 +10,10 @@ namespace GDE.App.Main.Screens
 {
     public class Lords : Screen
     {
+        private readonly FillFlowContainer container;
+        private readonly GDEButton exitButton;
         private SpriteText AlFas;
         private SpriteText Alten;
-        private FillFlowContainer container;
-        private GDEButton exitButton;
 
         public Lords()
         {
@@ -30,14 +30,14 @@ namespace GDE.App.Main.Screens
                         AlFas = new SpriteText
                         {
                             Text = "AlFas",
-                            TextSize = 170,
+                            Font = new FontUsage(size: 170),
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
                         },
                         Alten = new SpriteText
                         {
                             Text = "Alten",
-                            TextSize = 170,
+                            Font = new FontUsage(size: 170),
                             Origin = Anchor.Centre,
                             Anchor = Anchor.Centre
                         }
@@ -51,7 +51,7 @@ namespace GDE.App.Main.Screens
                     Anchor = Anchor.BottomLeft,
                     Origin = Anchor.BottomLeft,
                     BackgroundColour = GDEColors.FromHex("191919"),
-                    Alpha = 0,
+                    Alpha = 0
                 }
             };
         }
@@ -66,7 +66,7 @@ namespace GDE.App.Main.Screens
             AddInternal(welc = new SpriteText
             {
                 Text = "Welcome...",
-                TextSize = 70,
+                Font = new FontUsage(size: 70),
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre
             });
@@ -74,7 +74,7 @@ namespace GDE.App.Main.Screens
             AddInternal(praise = new SpriteText
             {
                 Text = "Now come and praise us",
-                TextSize = 70,
+                Font = new FontUsage(size: 70),
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 Alpha = 0f

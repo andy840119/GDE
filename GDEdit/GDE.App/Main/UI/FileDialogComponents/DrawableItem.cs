@@ -1,5 +1,7 @@
-﻿using GDE.App.Main.Colors;
-using GDAPI.Utilities.Enumerations;
+﻿using System;
+using System.Collections.Generic;
+using GDAPI.Enumerations;
+using GDE.App.Main.Colors;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -8,38 +10,84 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK;
 using osuTK.Graphics;
-using System;
-using System.Collections.Generic;
 using static System.IO.Path;
 
 namespace GDE.App.Main.UI.FileDialogComponents
 {
     public class DrawableItem : Container, IHasFilterTerms
     {
+        public const float DefaultHeight = 30;
         private static readonly IconUsage fileIcon = FontAwesome.Regular.FileAlt;
         private static readonly IconUsage directoryIcon = FontAwesome.Regular.Folder;
         private static readonly IconUsage volumeIcon = FontAwesome.Solid.Database;
 
-        public const float DefaultHeight = 30;
+        private readonly Box background;
+        private readonly Color4 deselectedBackgroundColor = new Color4(0, 0, 0, 0);
+        private readonly Color4 deselectedForegroundColor = Color4.White;
+        private readonly Color4 hoveredBackgroundColor = GDEColors.FromHex("404040");
+        private readonly SpriteIcon icon;
+
+        private readonly BindableBool selected = new BindableBool();
+        private readonly Color4 selectedBackgroundColor = GDEColors.FromHex("606060");
+        private readonly SpriteText text;
 
         private string itemName = "";
-        private PathItemType type;
-
-        private BindableBool selected = new BindableBool(false);
-
-        private Color4 selectedForegroundColor = GDEColors.FromHex("66ccff");
-        private Color4 deselectedForegroundColor = Color4.White;
-        private Color4 selectedBackgroundColor = GDEColors.FromHex("606060");
-        private Color4 hoveredBackgroundColor = GDEColors.FromHex("404040");
-        private Color4 deselectedBackgroundColor = new Color4(0, 0, 0, 0);
-
-        private Box background;
-        private SpriteText text;
-        private SpriteIcon icon;
+        public Action<DrawableItem> OnClicked;
 
         public Action<DrawableItem> OnDoubleClicked;
-        public Action<DrawableItem> OnClicked;
         public Action<DrawableItem> OnSelected;
+
+        private Color4 selectedForegroundColor = GDEColors.FromHex("66ccff");
+        private PathItemType type;
+
+        public DrawableItem() : this("")
+        {
+        }
+
+        public DrawableItem(string itemName, PathItemType itemType = PathItemType.File)
+        {
+            RelativeSizeAxes = Axes.X;
+            Height = DefaultHeight;
+            CornerRadius = 5;
+            Masking = true;
+
+            AddRange(new Drawable[]
+            {
+                background = new Box
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Colour = deselectedBackgroundColor
+                },
+                new FillFlowContainer
+                {
+                    Spacing = new Vector2(5, 0),
+                    Direction = FillDirection.Horizontal,
+                    AutoSizeAxes = Axes.Both,
+                    Anchor = Anchor.CentreLeft,
+                    Origin = Anchor.CentreLeft,
+                    Padding = new MarginPadding {Left = 5},
+                    Children = new Drawable[]
+                    {
+                        icon = new SpriteIcon
+                        {
+                            Anchor = Anchor.CentreLeft,
+                            Origin = Anchor.CentreLeft,
+                            Size = new Vector2(25)
+                        },
+                        text = new SpriteText
+                        {
+                            Anchor = Anchor.CentreLeft,
+                            Origin = Anchor.CentreLeft
+                        }
+                    }
+                }
+            });
+
+            ItemName = itemName;
+            ItemType = itemType;
+
+            selected.ValueChanged += HandleSelectionChanged;
+        }
 
         public bool IsFile => ItemType == PathItemType.File;
         public bool IsDirectory => ItemType == PathItemType.Directory;
@@ -75,61 +123,30 @@ namespace GDE.App.Main.UI.FileDialogComponents
             itemName
         };
 
-        public DrawableItem() : this("") { }
-        public DrawableItem(string itemName, PathItemType itemType = PathItemType.File)
+        public void FlashError()
         {
-            RelativeSizeAxes = Axes.X;
-            Height = DefaultHeight;
-            CornerRadius = 5;
-            Masking = true;
-
-            AddRange(new Drawable[]
-            {
-                background = new Box
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Colour = deselectedBackgroundColor,
-                },
-                new FillFlowContainer
-                {
-                    Spacing = new Vector2(5, 0),
-                    Direction = FillDirection.Horizontal,
-                    AutoSizeAxes = Axes.Both,
-                    Anchor = Anchor.CentreLeft,
-                    Origin = Anchor.CentreLeft,
-                    Padding = new MarginPadding { Left = 5 },
-                    Children = new Drawable[]
-                    {
-                        icon = new SpriteIcon
-                        {
-                            Anchor = Anchor.CentreLeft,
-                            Origin = Anchor.CentreLeft,
-                            Size = new Vector2(25),
-                        },
-                        text = new SpriteText
-                        {
-                            Anchor = Anchor.CentreLeft,
-                            Origin = Anchor.CentreLeft,
-                        }
-                    }
-                },
-            });
-
-            ItemName = itemName;
-            ItemType = itemType;
-
-            selected.ValueChanged += HandleSelectionChanged;
+            this.FlashColour(Color4.Red, 500, Easing.OutQuint);
         }
 
-        public void FlashError() => this.FlashColour(Color4.Red, 500, Easing.OutQuint);
+        public void ToggleSelection()
+        {
+            selected.Toggle();
+        }
 
-        public void ToggleSelection() => selected.Toggle();
+        public bool MatchesNameAndType(string name, PathItemType type)
+        {
+            return ItemName == name && ItemType == type;
+        }
 
-        public bool MatchesNameAndType(string name, PathItemType type) => ItemName == name && ItemType == type;
+        public string GetPathSuffix()
+        {
+            return $@"{ItemName}{GetPathSuffixString()}";
+        }
 
-        public string GetPathSuffix() => $@"{ItemName}{GetPathSuffixString()}";
-
-        private string GetPathSuffixString() => IsDirectoryOrVolume ? DirectorySeparatorChar.ToString() : "";
+        private string GetPathSuffixString()
+        {
+            return IsDirectoryOrVolume ? DirectorySeparatorChar.ToString() : "";
+        }
 
         private void HandleSelectionChanged(ValueChangedEvent<bool> value)
         {
@@ -141,7 +158,10 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 OnSelected?.Invoke(this);
         }
 
-        private Color4 GetHoverColor() => IsHovered ? hoveredBackgroundColor : deselectedBackgroundColor;
+        private Color4 GetHoverColor()
+        {
+            return IsHovered ? hoveredBackgroundColor : deselectedBackgroundColor;
+        }
 
         protected override bool OnHover(HoverEvent e)
         {
@@ -149,6 +169,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 background.FadeColour(hoveredBackgroundColor, 200);
             return base.OnHover(e);
         }
+
         protected override void OnHoverLost(HoverLostEvent e)
         {
             if (!Selected)
@@ -162,6 +183,7 @@ namespace GDE.App.Main.UI.FileDialogComponents
             OnClicked?.Invoke(this);
             return base.OnClick(e);
         }
+
         protected override bool OnDoubleClick(DoubleClickEvent e)
         {
             // This is never invoked, needs to be fixed
@@ -181,9 +203,13 @@ namespace GDE.App.Main.UI.FileDialogComponents
                 case PathItemType.Volume:
                     return volumeIcon;
             }
+
             throw new ArgumentException("Invalid item type.");
         }
 
-        public override string ToString() => ItemName;
+        public override string ToString()
+        {
+            return ItemName;
+        }
     }
 }
