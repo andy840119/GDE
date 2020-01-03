@@ -91,8 +91,8 @@ namespace GDE.App.Main.Screens.Menu
                                     ? levelList.Cards[levelList.LevelIndex].Level.Value
                                     : null;
 
-                                //if (selectedLevel != null)
-                                //database. delete level here
+                                if (selectedLevel != null)
+                                    database.UserLevels.Remove(selectedLevel);
 
                                 levelList.Remove(levelList.Cards[levelList.LevelIndex]);
                             }
@@ -113,14 +113,14 @@ namespace GDE.App.Main.Screens.Menu
 
             levelList.LevelSelected = () =>
             {
-                var selectedLevel =
-                    levelList.LevelIndex > -1 ? levelList.Cards[levelList.LevelIndex].Level.Value : null;
+                int selectedIndex = levelList.LevelIndex;
+                var selectedLevel = selectedIndex > -1 ? levelList.Cards[selectedIndex].Level.Value : null;
+
                 level.Value = selectedLevel;
-                toolbar.Level.TriggerChange(); // Fuck why is this necessary?
-                toolbar.Edit = levelList.LevelIndex > -1
-                    ? (Action) (() => this.Push(new EditorScreen(levelList.LevelIndex, selectedLevel)))
-                    : null;
-                popUp.ConfirmAction = () => database.UserLevels.Remove(selectedLevel);
+                toolbar.Level.TriggerChange();
+                toolbar.Edit = selectedIndex > -1 ? EditAction : (Action)null;
+
+                void EditAction() => this.Push(new EditorScreen(selectedIndex, selectedLevel));
             };
 
             levelList.CompletedLoading = () => loadWarning.Text = null;
