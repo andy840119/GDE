@@ -116,6 +116,9 @@ namespace GDE.App.Main.Screens.Menu
                 int selectedIndex = levelList.LevelIndex;
                 var selectedLevel = selectedIndex > -1 ? levelList.Cards[selectedIndex].Level.Value : null;
 
+                if (selectedIndex > -1)
+                    database.LoadLevel(selectedIndex);
+
                 level.Value = selectedLevel;
                 toolbar.Level.TriggerChange();
                 toolbar.Edit = selectedIndex > -1 ? EditAction : (Action)null;
