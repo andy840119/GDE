@@ -65,7 +65,7 @@ namespace GDE.App.Main.Screens.Edit.Components
                         -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X,
                         -GetCoordinate(cameraOffsetBindable.Value.Y) + cameraOffsetBindable.Value.Y);
 
-                if(child is GridOrigin gridOrigin)
+                if (child is GridOrigin gridOrigin)
                     gridOrigin.GridOriginPosition = new Vector2(
                         -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X,
                         -GetCoordinate(cameraOffsetBindable.Value.Y) + cameraOffsetBindable.Value.Y);

@@ -12,8 +12,6 @@ namespace GDE.App.Main.Levels
     {
         private Vector2 position;
 
-        private Container gridOriginContainer;
-
         public Vector2 GridOriginPosition
         {
             get => position;
@@ -25,29 +23,15 @@ namespace GDE.App.Main.Levels
         }
         public Bindable<Vector2> CameraOffset { get; set; } = new Bindable<Vector2>();
 
-
         public GridOrigin()
         {
             RelativeSizeAxes = Axes.Both;
-
-            Children = new Drawable[]
-            {
-                gridOriginContainer = new Container
-                {
-                    BorderThickness = 2,
-                    Masking = true,
-                    RelativeSizeAxes = Axes.Both,
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre
-                }
-            };
-
             UpdateOriginGridLines();
         }
 
         private void UpdateOriginGridLines()
         {
-            gridOriginContainer.Children = new Drawable[]
+            Children = new Drawable[]
             {
                 new HorizontalGridLine(CameraOffset.Value.Y)
                 {
