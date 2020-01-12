@@ -26,6 +26,13 @@ namespace GDE.App.Main.Screens.Edit.Components
             Origin = Anchor.Centre;
         }
 
+        public void PostInit()
+        {
+            foreach (var child in Children)
+                if (child is GridOrigin gridOrigin)
+                    gridOrigin.CameraOffset.BindTo(cameraOffsetBindable);
+        }
+
         [BackgroundDependencyLoader]
         private void load()
         {
@@ -55,6 +62,11 @@ namespace GDE.App.Main.Screens.Edit.Components
 
                 if (child is Grid grid)
                     grid.Position = new Vector2(
+                        -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X,
+                        -GetCoordinate(cameraOffsetBindable.Value.Y) + cameraOffsetBindable.Value.Y);
+
+                if(child is GridOrigin gridOrigin)
+                    gridOrigin.GridOriginPosition = new Vector2(
                         -GetCoordinate(cameraOffsetBindable.Value.X) + cameraOffsetBindable.Value.X,
                         -GetCoordinate(cameraOffsetBindable.Value.Y) + cameraOffsetBindable.Value.Y);
             }

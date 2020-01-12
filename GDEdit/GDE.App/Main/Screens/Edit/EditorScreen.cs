@@ -81,6 +81,12 @@ namespace GDE.App.Main.Screens.Edit
                             Anchor = Anchor.Centre,
                             Origin = Anchor.Centre
                         },
+                        new GridOrigin
+                        {
+                            Size = new Vector2(1.1f),
+                            Anchor = Anchor.Centre,
+                            Origin = Anchor.Centre
+                        },
                         preview = new LevelPreview(this, index)
                         {
                             Anchor = Anchor.Centre,
@@ -117,6 +123,7 @@ namespace GDE.App.Main.Screens.Edit
                     LockDrag = true
                 }
             });
+            camera.PostInit();
         }
 
         private Level level => database.UserLevels[i];
