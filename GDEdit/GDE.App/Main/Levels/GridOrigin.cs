@@ -1,4 +1,4 @@
-﻿using GDE.App.Main.Screens.Edit.Components;
+using GDE.App.Main.Screens.Edit.Components;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
@@ -21,6 +21,7 @@ namespace GDE.App.Main.Levels
                 position = value;
             }
         }
+        
         public Bindable<Vector2> CameraOffset { get; set; } = new Bindable<Vector2>();
 
         public GridOrigin()
@@ -28,7 +29,7 @@ namespace GDE.App.Main.Levels
             RelativeSizeAxes = Axes.Both;
             UpdateOriginGridLines();
         }
-
+        
         private void UpdateOriginGridLines()
         {
             Children = new Drawable[]
