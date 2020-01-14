@@ -123,6 +123,7 @@ namespace GDE.App.Main.Screens.Edit
                     LockDrag = true
                 }
             });
+            
             camera.PostInit();
         }
 
